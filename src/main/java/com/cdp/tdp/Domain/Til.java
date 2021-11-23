@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 public class Til extends Timestamped {
 
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Long id;
 
@@ -25,29 +25,30 @@ public class Til extends Timestamped {
     @Column(nullable = false)
     private String til_content;
 
-    @Column(nullable = false)
-    private int like;
-
-    @Column(nullable = false)
-    private String til_user;
 
     @Column(nullable = false)
     private boolean til_view;
 
-    @OneToMany
-    private List<Comment> commentList;
+    @Column(nullable = false)
+    private Long til_like;
 
-    @OneToOne
-    private List<Like> likeList;
+//
+//    @JoinColumn(nullable = false)
+//    @OneToMany
+//    private Til user_id;
+
 
     @Builder
     public Til(TilRequestDto tilRequestDto) {
         this.til_title = tilRequestDto.getTil_title();
         this.til_content = tilRequestDto.getTil_content();
-        this.til_user = tilRequestDto.getTil_user();
         this.til_view = tilRequestDto.isTil_view();
-
+        this.til_like =tilRequestDto.getTil_like();
     }
 
+    public void updateMyTil(TilRequestDto tilRequestDto){
+        this.til_title= tilRequestDto.getTil_title();
+        this.til_content=tilRequestDto.getTil_content();
+    }
 
 }
