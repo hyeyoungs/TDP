@@ -1,4 +1,4 @@
-package com.cdp.tdp.Domain;
+package com.cdp.tdp.domain;
 
 public class Timestamped {
 }

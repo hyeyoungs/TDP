@@ -1,8 +1,8 @@
-package com.cdp.tdp.Service;
+package com.cdp.tdp.service;
 
-import com.cdp.tdp.Domain.Til;
-import com.cdp.tdp.Dto.TilRequestDto;
-import com.cdp.tdp.Repository.TilRepository;
+import com.cdp.tdp.domain.Til;
+import com.cdp.tdp.dto.TilRequestDto;
+import com.cdp.tdp.repository.TilRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
