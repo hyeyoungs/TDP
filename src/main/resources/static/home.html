@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+
+   <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <!-- cookie -->
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+    <title>Title | TIL.D.P</title>
+</head>
+<style>
+    .navbar-brand {
+        margin-left: 70px;
+    }
+
+    .nav-link {
+
+        margin-left: 150px;
+    }
+
+    .rankingzone {
+        position: center;
+        float: right;
+        margin-right: 80px;
+    }
+
+    .left_write {
+        margin-left: 70px;
+    }
+
+    .board-main {
+        margin-left: 20px;
+    }
+
+    .test {
+        float: left;
+        width: 200px;
+        height: 200px;
+        background-color: yellow;
+        display: block;
+    }
+
+</style>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/main_page">TIL.D.P</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div id="navbar-nav" class="navbar-nav">
+                <a class="nav-link " href="./til_board">Write TIL</a>
+                <a class="nav-link" href="./mytil_page">My TIL</a>
+                <a class="nav-link" href="https://github.com/">Github</a>
+                <a class="nav-link" href="./my_page">myPage</a>
+                <a class="nav-link" onclick="sign_out()">logout</a>
+            </div>
+        </div>
+    </div>
+</nav>
+<br><br>
+<div class="rankingzone">
+    <h1> 랭킹존 </h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Team</th>
+            <th>Points</th>
+            <th>+/-</th>
+        </tr>
+        </thead>
+        <tbody id="ranker-box">
+
+        </tbody>
+    </table>
+</div>
+<div class="left_write">
+    <br><br>
+    <div class="test rounded-circle"></div>
+    <br>
+    <h1>당신의 TIL 작성을</h1><br>
+</div>
+<h1>관리해주는</h1><br>
+
+<h1>TIL 관리 서비스</h1>
+<br>
+<br><br><br>
+<div class="row row-cols-3 row-cols-md-5 g-3 board-main" id="board-main">
+</div>
+</body>
+</html>

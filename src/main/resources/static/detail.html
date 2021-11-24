@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Title | TIL.D.P</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap tags -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+          crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet"
+          id="bootstrap-css">
+    <!-- Bulma CSS 링크 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- cookie -->
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+
+    <style>
+        body {
+            background-color: #eeeeee;
+        }
+
+        .h7 {
+            font-size: 0.8rem;
+        }
+
+        .gedf-wrapper {
+            margin-top: 0.97rem;
+        }
+
+        @media (min-width: 992px) {
+            .gedf-main {
+                padding-left: 4rem;
+                padding-right: 4rem;
+            }
+
+            .gedf-card {
+                margin-bottom: 2.77rem;
+            }
+        }
+
+        .navbar-brand {
+            margin-left: 50px;
+        }
+
+        .nav-link {
+
+            margin-left: 100px;
+        }
+
+        /* Reset Bootstrap */
+        .dropdown-toggle::after {
+            content: none;
+            display: none;
+        }
+
+        .section {
+            float: right;
+        }
+
+        .two-button {
+            float: right;
+        }
+
+        .like {
+            float: right;
+        }
+
+        .new-content {
+            border-style: solid;
+            border-width: 2px;
+            padding: 12px;
+            word-break: break-all;
+            border-color: LightGray;
+            background-color: rgba(211, 211, 211, 0.2)
+        }
+
+        }
+        .new-box {
+            border-color: DodgerBlue;
+            background-color: rgba(30, 144, 255, 0.2);
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .navbar-brand {
+            margin-left: 50px;
+        }
+
+        .nav-link {
+
+            margin-left: 100px;
+        }
+
+        .level-left {
+            padding-left: 400px;
+            float: bottom;
+        }
+
+        .til-title {
+            font-size: xx-large;
+            margin: 30px auto;
+        }
+
+        .content-box {
+            text-align: center;
+            border-color: #37474F;
+        }
+
+        .hr6 {
+            border: none;
+            border: 5px;
+            double orange;
+        }
+
+    </style>
+</head>
+<body>
+
+
+<!-- navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/main_page">TIL.D.P</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div id="navbar-nav" class="navbar-nav">
+                <a class="nav-link " href="./til_board">Write TIL</a>
+                <a class="nav-link" href="./mytil_page">My TIL</a>
+                <a class="nav-link" href="https://github.com/">Github</a>
+                <a class="nav-link" href="./my_page">myPage</a>
+                <a class="nav-link" onclick="sign_out()">logout</a>
+                <a class="nav-link" onclick="goback()">Back</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container-fluid gedf-wrapper">
+    <!-- container -->
+    <div class="row">
+        <!-- User Profile -->
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <span>닉네임</span>
+                    <div id="user-nickname" class="h5">user_nickname 내용</div>
+                    <span>user_introduce</span>
+                    <div id="user-pfofile" class="h7 text-muted">user_introduce 내용</div>
+                    <span>github_id</span>
+                    <div id="user-githhub_id" class="h7 text-muted">github_id 내용</div>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <div class="h6 text-muted">Followers</div>
+                        <div class="h5"></div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="h6 text-muted">Followings</div>
+                        <div class="h5"></div>
+                    </li>
+                    <li class="list-group-item">Sparta Coding</li>
+                </ul>
+            </div>
+        </div>
+        <div id="message-pane" class="column is-6 message hero is-fullheight">
+
+            <div class="box message-preview">
+                <div class="top">
+                    <div class="address">
+                        <div id="mine">
+                        </div>
+
+                        <div class="til-title" id="now-title">til-title</div>
+                        &nbsp
+
+                        <div id="til-idx-box">
+                            <div id="til-listing-box">
+                                <nav class="level is-mobile">
+                                    <div class="level-left">
+
+
+                                        <a class="level-item is-sparta" id="heart" aria-label="heart"
+                                           onclick="toggle_like(idx, 'heart')">&nbsp
+
+                                            <div id="now-heart"></div>
+                                            &nbsp
+                                            <div id="heart-count" class="like-num">count</div>
+                                        </a>
+                                    </div>
+                                </nav>
+                                <hr class="hr6">
+                                <h3>content</h3>
+                                <div id="now-content" class="content-box">
+                                    til_content
+                                </div>
+                                <hr class="hr6">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div id="new-box" class="new-content">
+                        <div class="new-box">
+                            <label for="exampleFormControlInput1" class="center">제목</label>
+                            <p><textarea class="form-control" id="new-til-title" rows="1">til.til_title</textarea>
+                            </p>
+                            <label for="exampleFormControlInput1" class="center">content</label>
+
+                            <textarea class="form-control" id="new-til-content"
+                                      rows="8">til.til_content</textarea><br>
+                            <p id="new-content-button"><span class="two-button">
+                                <button type="button" onclick='update_til()'
+                                        class="btn btn-primary">변경</button>
+                                <button type="button" onclick='cancle()' class="btn btn-primary">취소</button>
+                            </span></p>
+                            <br>
+                            <p>til.til_day</p>
+
+                        </div>
+
+                    </div>
+
+                    <div>
+                        <table id="til-table" class="table">
+                            <thead>
+                            <tr>
+                                {#
+                                <th scope="col"></th>
+                                #}
+                            </tr>
+                            </thead>
+                            <tbody id="comment-box">
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+                <section class="section">
+                    <article class="media">
+                        <div class="media-content">
+                            <div class="field">
+                                <p class="control">
+                                    <button type="button" id="input-post"
+                                            onclick='$("#modal-post").addClass("is-active")' class="btn btn-primary">
+                                        댓글달기
+                                    </button>
+                            </div>
+                        </div>
+                    </article>
+                </section>
+            </div>
+
+        </div>
+        <div class="col-md-3">
+            <!-- Card -->
+            <div class="card gedf-card">
+                <div class="card-body">
+                    <h5 class="card-title">팔로우한 사람</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">팔로우한 사람 리스트</h6>
+                    <p class="card-text">이진권, 이주권, 이정권, 이주건</p>
+                </div>
+            </div>
+            <!-- Card -->
+            <div class="card gedf-card">
+                <div class="card-body">
+                    <h5 class="card-title">비슷한 글</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">키워드 리스트</h6>
+                    <a href="#" class="card-link">??? 사용법</a>
+                </div>
+            </div>
+        </div>
+        <!-- Post List -->
+        <div class="col-md-6 gedf-main" id="post-list">
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal" id="modal-post">
+    <div class="modal-background" onclick='$("#modal-post").removeClass("is-active")'></div>
+    <div class="modal-content">
+        <div class="box">
+            <article class="media">
+                <div class="media-content">
+                    <div class="field">
+                        <p class="control">
+                                        <textarea id="textarea-post" class="textarea"
+                                                  placeholder="댓글을 써주세요"></textarea>
+                        </p>
+                    </div>
+                    <nav class="level is-mobile">
+                        <div class="level-left">
+
+                        </div>
+                        <div class="level-right">
+                            <div class="level-item">
+                                <a class="button is-sparta" onclick="create_comment()">포스팅하기</a>
+                            </div>
+                            <div class="level-item">
+                                <a class="button is-sparta is-outlined"
+                                   onclick='$("#modal-post").removeClass("is-active")'>취소</a>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </article>
+        </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close"
+            onclick='$("#modal-post").removeClass("is-active")'></button>
+</div>
+
+
+</body>
