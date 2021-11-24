@@ -1,13 +1,12 @@
-package com.cdp.tdp.Domain;
+package com.cdp.tdp.domain;
 
-import com.cdp.tdp.Dto.TilRequestDto;
+import com.cdp.tdp.dto.TilRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Setter
 @Getter

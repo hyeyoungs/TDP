@@ -1,8 +1,8 @@
-package com.cdp.tdp.Controller;
+package com.cdp.tdp.controller;
 
-import com.cdp.tdp.Domain.Til;
-import com.cdp.tdp.Dto.TilRequestDto;
-import com.cdp.tdp.Service.TilService;
+import com.cdp.tdp.domain.Til;
+import com.cdp.tdp.dto.TilRequestDto;
+import com.cdp.tdp.service.TilService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
