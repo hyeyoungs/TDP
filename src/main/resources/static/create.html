@@ -69,23 +69,27 @@
 
 
         function create_til() {
-            let title = $('#title').val()
-            let content = $('#content').val()
-
+            let info = {
+                til_title : $('#title').val(),
+                til_content : $('#content').val(),
+                til_view : true,
+                til_like : 0
+            }
             $.ajax({
                 type: "POST",
                 url: "/til",
-                data: {til_title_give: title, til_content_give: content},
+                contentType: "application/json",
+                data: JSON.stringify(info),
                 success: function (response) { // 성공하면
                     alert("작성완료")
-                    window.location.href = "/til_board"
+                    window.location.href = "/til_board.html"
                 }
             });
         }
 
         $(document).on('click', '#btnList', function (e) {
             e.preventDefault();
-            window.location.href = "/til_board"
+            window.location.href = "/til_board.html"
         });
 
         function sign_out() {
