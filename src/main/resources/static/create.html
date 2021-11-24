@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <!-- cookie -->
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <style>
+        body {
+            padding-bottom: 30px;
+        }
+
+        .navbar-brand {
+            margin-left: 50px;
+        }
+
+        .nav-link {
+
+            margin-left: 100px;
+        }
+
+    </style>
+    <script>
+        let targetId;
+
+        $(document).on('click', '#btnSave', function (e) {
+            e.preventDefault();
+            $("#form").submit();
+        });
+
+        function read_user() {
+            $.ajax({
+                type: "GET",
+                url: "/login",
+                async: false,
+                success: function (response) {
+                    targetId = response.id;
+                }
+            });
+            return targetId;
+        }
+
+        async function read_user_profile() {
+            let user_info = await read_user();
+            $('.user_id_append').text(user_info['user_id']);
+            $('.user_nickname_append').text(user_info['user_nickname']);
+            $('.user_profile_info_append').text(user_info['user_profile_info']);
+            $('.user_profile_pic_append').text(user_info['user_profile_pic']);
+            $('.github_id_append').text(user_info['github_id']);
+            $('.user_id_append').val(user_info['user_id']);
+            $('.user_nickname_append').val(user_info['user_nickname']);
+            $('.user_profile_info_append').val(user_info['user_profile_info']);
+            $('.user_profile_pic_append').val(user_info['user_profile_pic']);
+            $('.user_profile_pic_real_append').attr('src', user_info['user_profile_pic_real']);
+            $('.github_id_append').val(user_info['github_id']);
+        }
+
+
+        function create_til() {
+            let title = $('#title').val()
+            let content = $('#content').val()
+
+            $.ajax({
+                type: "POST",
+                url: "/til",
+                data: {til_title_give: title, til_content_give: content},
+                success: function (response) { // 성공하면
+                    alert("작성완료")
+                    window.location.href = "/til_board"
+                }
+            });
+        }
+
+        $(document).on('click', '#btnList', function (e) {
+            e.preventDefault();
+            window.location.href = "/til_board"
+        });
+
+        function sign_out() {
+            $.removeCookie('mytoken', {path: '/'});
+            alert('로그아웃!')
+            window.location.href = "/"
+        }
+
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/home">TIL.D.P</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div id="navbar-nav" class="navbar-nav">
+                <a class="nav-link " href="./til_board">Write TIL</a>
+                <a class="nav-link" href="./mytil_page">My TIL</a>
+                <a class="nav-link" href="https://github.com/">Github</a>
+                <a class="nav-link" href="./my_page">myPage</a>
+                <a class="nav-link" onclick="sign_out()">logout</a>
+                <a class="nav-link" onclick="goback()">Back</a>
+            </div>
+        </div>
+    </div>
+</nav>
+<article>
+    <div class="container" role="main">
+        <h2>board Form</h2>
+        <form name="form" id="form" role="form">
+            <div class="mb-3">
+                <label for="title">제목</label>
+                <input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력해 주세요">
+            </div>
+            <p><span>작성자: </span><label for="content" class="user_nickname_append"></label>
+            <p>
+            <div class="mb-3">
+                <label for="content">내용</label>
+                <textarea class="form-control" rows="5" name="content" id="content"
+                          placeholder="내용을 입력해 주세요"></textarea>
+
+            </div>
+            <div class="mb-3">
+                <label for="tag">TAG</label>
+                <input type="text" class="form-control" name="tag" id="tag" placeholder="태그를 입력해 주세요">
+            </div>
+        </form>
+        <div>
+            <button onclick="create_til()" type="button" class="btn btn-sm btn-primary" id="btnSave">저장</button>
+            <button type="button" class="btn btn-sm btn-primary" id="btnList">목록</button>
+        </div>
+    </div>
+</article>
+</body>
+</html>

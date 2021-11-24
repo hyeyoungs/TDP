@@ -33,26 +33,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**").permitAll()
                 // 회원 관리 URL 전부를 login 없이 허용
                 .antMatchers("/user/**").permitAll()
+                .antMatchers("/static/**").permitAll()
                 // h2-console URL 을 login 없이 허용
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/signup").permitAll()
                 .antMatchers("/").permitAll()
+                .antMatchers("/*").permitAll()
                 // 그 외 모든 요청은 인증과정 필요
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .formLogin()
-                .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/")
-                .permitAll()
-                .and()
-                .logout()
-                .logoutUrl("/user/logout")
-                .permitAll();
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//
     }
     // 비밀번호 암호화
     @Bean

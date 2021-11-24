@@ -31,11 +31,6 @@ public class Til extends Timestamped {
     @Column(nullable = false)
     private Long til_like;
 
-//
-//    @JoinColumn(nullable = false)
-//    @OneToMany
-//    private Til user_id;
-
 
     @Builder
     public Til(TilRequestDto tilRequestDto) {
