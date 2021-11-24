@@ -33,45 +33,19 @@
 
     </style>
     <script>
-        let targetId;
-
+        $(document).ready(function () {
+            let user_info=localStorage.getItem("username");
+            $('.user_nickname_append').text(user_info);
+        });
         $(document).on('click', '#btnSave', function (e) {
             e.preventDefault();
             $("#form").submit();
         });
-
-        function read_user() {
-            $.ajax({
-                type: "GET",
-                url: "/login",
-                async: false,
-                success: function (response) {
-                    targetId = response.id;
-                }
-            });
-            return targetId;
-        }
-
-        async function read_user_profile() {
-            let user_info = await read_user();
-            $('.user_id_append').text(user_info['user_id']);
-            $('.user_nickname_append').text(user_info['user_nickname']);
-            $('.user_profile_info_append').text(user_info['user_profile_info']);
-            $('.user_profile_pic_append').text(user_info['user_profile_pic']);
-            $('.github_id_append').text(user_info['github_id']);
-            $('.user_id_append').val(user_info['user_id']);
-            $('.user_nickname_append').val(user_info['user_nickname']);
-            $('.user_profile_info_append').val(user_info['user_profile_info']);
-            $('.user_profile_pic_append').val(user_info['user_profile_pic']);
-            $('.user_profile_pic_real_append').attr('src', user_info['user_profile_pic_real']);
-            $('.github_id_append').val(user_info['github_id']);
-        }
-
-
         function create_til() {
             let info = {
                 til_title : $('#title').val(),
                 til_content : $('#content').val(),
+                til_user : $('#user-nickname').val(),
                 til_view : true,
                 til_like : 0
             }

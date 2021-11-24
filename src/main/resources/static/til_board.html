@@ -22,67 +22,31 @@
             src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script>
         $(document).ready(function () {
-            $.ajaxSetup({
-                error: function (jqXHR, exception) {
-                    switch (jqXHR.status) {
-                        case 401:
-                            alert('인증 에러!!');
-                            break;
-                        case 423:
-                            alert('중복된 id!!');
-                            break;
-                    }
-                },
-                beforeSend: function (xhr) {
-                    if (localStorage.getItem('token') != null) {
-                        xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
-                    } else {
-                        location.href = "login"
-                        alert("로그인 해주세요")
-                    }
-                }
-            });
             read_all_til();
-        });
+        })
 
         function read_all_til() {
             $.ajax({
                     type: "GET",
-                    url: "til/board",
-                    data: {},
+                    url: "/til_board",
                     success: function (response) {
-                        let all_til = response['all_til'];
-                        for (let i = 0; i < all_til.length; i++) {
-                            let title = all_til[i]['til_title'];
-                            let user = all_til[i]['til_user'];
-                            let content = all_til[i]['til_content'];
-                            let day = all_til[i]['til_day'];
-                            let til_idx = all_til[i]['til_idx']
-                            if (i < 4) {
-                                let temp_html = `<tr onClick="detail('${til_idx}')" style="cursor:pointer;">
-                                                <th scope="row">${title}<img src="static/new.png" height="30" width="30"></th>
-                                                <td>${user}</td>
-                                                <td>${day}</td>
-                                                <td>${content}</td>
-                                            </tr>`
-
-                                $('#til-box').append(temp_html)
-
-                            } else {
-                                let temp_html = `<tr onClick="detail('${til_idx}')" style="cursor:pointer;">
-                                                <th scope="row">${title}</th>
-                                                <td>${user}</td>
-                                                <td>${day}</td>
-                                                <td>${content}</td>
-                                            </tr>`
-                                $('#til-box').append(temp_html)
-                            }
+                        for (let i = 0; i < response.items.length; i++) {
+                            let itemDto = response.items[i];
+                            let tempHtml = addHTML(itemDto);
+                                $('#til-box').append(tempHtml);
                         }
                     }
                 }
             )
         }
-
+        function addHTML(itemDto){
+            return `<tr onClick="detail('${til_idx}')" style="cursor:pointer;">
+                                                <th scope="row">${title}<img src="static/new.png" height="30" width="30"></th>
+                                                <td>${user}</td>
+                                                <td>${day}</td>
+                                                <td>${content}</td>
+                                            </tr>`
+        }
 
         function detail(til_idx) {
             location.href = "/detail" + "?idx="+til_idx;

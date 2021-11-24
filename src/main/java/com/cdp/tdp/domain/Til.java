@@ -36,7 +36,7 @@ public class Til extends Timestamped {
     private User user;
 
     @Builder
-    public Til(TilRequestDto tilRequestDto, User user) {
+    public Til(TilRequestDto tilRequestDto) {
         this.til_title = tilRequestDto.getTil_title();
         this.til_content = tilRequestDto.getTil_content();
         this.til_view = tilRequestDto.isTil_view();
