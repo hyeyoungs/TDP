@@ -1,5 +1,4 @@
 package com.cdp.tdp.domain;
-
 import lombok.*;
 import javax.persistence.*;
 
