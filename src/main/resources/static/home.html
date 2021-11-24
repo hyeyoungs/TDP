@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 
-   <!-- JS -->
+    <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -55,6 +55,92 @@
     }
 
 </style>
+<script>
+    $(document).ready(function () {
+        list_til();
+    });
+
+
+    function read_flag() {
+        $.ajax({
+            type: "GET",
+            url: "/flag",
+            data: {},
+            async: false,
+            success: function (response) {
+                flag = response['flag'];
+
+            }
+        });
+        return flag;
+    }
+
+    async function state_home_switch() {
+        let flag = await read_flag();
+        if (flag === 0) {
+            $(".test").css("background-color", 'red');
+        } else if (flag === 1) {
+            $(".test").css("background-color", 'blue');// display 속성을 block 으로 바꾼다.
+        }
+    }
+
+
+    function list_til() {
+        $.ajax({
+            type: "GET",
+            url: "/til_board",
+            success: function (response) {
+                for (let i = 0; i < 4; i++) {
+                    let itemDto = response.items[i];
+                    let tempHtml = addHTML(itemDto);
+                    $('#board-main').append(tempHtml)
+                }
+            }
+        })
+    }
+
+    function addHTML(itemDto) {
+        return `
+                <div class="col" id="cards-box">
+                   <div class="card">
+                    <h5 class="card-subtitle">${user}</h5>
+                   <div class="card-body">
+                    <h5 class="card-title">${title}</h5>
+                    <p class="card-text">${content}</p>
+                    <p class="card-time">${day} </p>
+                    </div>
+                  </div>`
+    }
+
+    function rank_til() {
+        $.ajax({
+                type: "GET",
+                url: "/til/rank",
+                data: {},
+                success: function (response) {
+                    let til_rank = response['til_rank'];
+                    for (let i = 0; i < til_rank.length; i++) {
+                        let user = til_rank[i]['_id'];
+                        let score = til_rank[i]['til_score'];
+                        let temp_html = `<tr>
+                                                <th>${i + 1}</th>
+                                                <th scope="row">${user}</th>
+                                                <td>${score}</td>
+                                            </tr>
+`
+                        $('#ranker-box').append(temp_html)
+                    }
+                }
+            }
+        )
+    }
+
+    function sign_out() {
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
+        location.href = '/';
+    }
+</script>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
