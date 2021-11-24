@@ -2,6 +2,7 @@ package com.cdp.tdp.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.json.JSONObject;
 
 @Setter
 @Getter
@@ -11,4 +12,5 @@ public class TilRequestDto {
     private String til_content;
     private boolean til_view;
     private Long til_like;
+
 }
