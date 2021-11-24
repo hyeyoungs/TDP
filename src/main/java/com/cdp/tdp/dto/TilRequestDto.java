@@ -11,4 +11,5 @@ public class TilRequestDto {
     private String til_content;
     private boolean til_view;
     private Long til_like;
+    private String user_id;
 }

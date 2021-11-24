@@ -1,9 +1,13 @@
 package com.cdp.tdp.controller;
 
 import com.cdp.tdp.domain.Til;
+import com.cdp.tdp.domain.User;
 import com.cdp.tdp.dto.TilRequestDto;
+import com.cdp.tdp.security.UserDetailsImpl;
 import com.cdp.tdp.service.TilService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;

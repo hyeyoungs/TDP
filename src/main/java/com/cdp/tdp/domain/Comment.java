@@ -19,7 +19,7 @@ public class Comment {
 //    @ManyToOne
 //    @JoinColumn(name = "USER_ID", nullable = false)
 //    @Column(nullable = false) // 컬럼 값이고 반드시 값이 존재해야 함을 나타냅니다.
-//    private USER user;
+//    private USER  user;
 
     public String getTil_comment() {
         return til_comment;
