@@ -1,5 +1,4 @@
 package com.cdp.tdp.domain;
-
 import com.cdp.tdp.dto.CommentRequestDto;
 import lombok.NoArgsConstructor;
 
