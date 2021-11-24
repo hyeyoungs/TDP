@@ -5,10 +5,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class SignupRequestDto {
+public class UserDto {
     private String username;
     private String password;
-    private String nickname;
-    private String github_id;
-    private String introduce;
 }

@@ -19,16 +19,16 @@ public class UserService {
 
     @Transactional
     public User registerUser(SignupRequestDto requestDto) {
-        String signId = requestDto.getSignId();
+        String signId = requestDto.getUsername();
         // 회원 ID 중복 확인
-        Optional<User> found = userRepository.findBySignId(signId);
+        Optional<User> found = userRepository.findByUsername(signId);
         if (found.isPresent()) {
             throw new IllegalArgumentException("중복된 사용자 ID 가 존재합니다.");
         }
 
-        String signPassword = passwordEncoder.encode(requestDto.getSignPassword());
+        String signPassword = passwordEncoder.encode(requestDto.getPassword());
         String nickname = requestDto.getNickname();
-        String githubId = requestDto.getGithubId();
+        String githubId = requestDto.getGithub_id();
         String introduce = requestDto.getIntroduce();
 
         User user = new User(signId, signPassword, nickname, githubId, introduce);

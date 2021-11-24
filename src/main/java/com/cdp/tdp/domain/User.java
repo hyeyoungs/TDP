@@ -10,10 +10,10 @@ import javax.persistence.*;
 public class User extends Timestamped {
 
     public User(String signId, String signPassword, String nickname, String githubId, String introduce) {
-        this.signId = signId;
-        this.signPassword = signPassword;
+        this.username = signId;
+        this.password = signPassword;
         this.nickname = nickname;
-        this.githubId = githubId;
+        this.github_id = githubId;
         this.introduce = introduce;
     }
 
@@ -23,15 +23,15 @@ public class User extends Timestamped {
 
     // 반드시 값을 가지도록 한다.
     @Column(nullable = false)
-    private String signId;
+    private String username;
 
     @Column(nullable = false)
-    private String signPassword;
+    private String password;
 
     @Column(nullable = false)
     private String nickname;
 
-    private String githubId;
+    private String github_id;
 
     private String introduce;
 

@@ -2,7 +2,6 @@ package com.cdp.tdp.security;
 
 import com.cdp.tdp.domain.User;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -22,12 +21,12 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getSignPassword();
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getSignId();
+        return user.getUsername();
     }
 
     @Override
