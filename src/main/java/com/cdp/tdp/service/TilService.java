@@ -1,6 +1,7 @@
 package com.cdp.tdp.service;
 
 import com.cdp.tdp.domain.Til;
+import com.cdp.tdp.domain.User;
 import com.cdp.tdp.dto.TilRequestDto;
 import com.cdp.tdp.repository.TilRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +20,8 @@ public class TilService {
         return tilRepository.findAll();
     }
 
-    public Til createTil(TilRequestDto tilRequestDto) throws SQLException {
-        Til til = new Til(tilRequestDto);
+    public Til createTil(TilRequestDto tilRequestDto, User user) throws SQLException {
+        Til til = new Til(tilRequestDto, user);
         tilRepository.save(til);
         return til;
     }
