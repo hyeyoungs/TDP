@@ -33,11 +33,9 @@
 
     </style>
     <script>
-        let targetId;
-
-        $(document).on('click', '#btnSave', function (e) {
-            e.preventDefault();
-            $("#form").submit();
+        $(document).ready(function () {
+            let user_info=localStorage.getItem("username");
+            $('.user_nickname_append').text(user_info);
         });
 
         $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
@@ -72,12 +70,11 @@
             $('.user_profile_pic_real_append').attr('src', user_info['user_profile_pic_real']);
             $('.github_id_append').val(user_info['github_id']);
         }
-
-
         function create_til() {
             let info = {
                 til_title : $('#title').val(),
                 til_content : $('#content').val(),
+                til_user : $('#user-nickname').val(),
                 til_view : true,
                 til_like : 0
             }
