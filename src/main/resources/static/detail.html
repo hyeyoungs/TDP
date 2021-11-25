@@ -168,7 +168,7 @@
         $('#new-box').hide();
         get_til();
         //get_status();
-        //get_heart();
+        get_heart();
         //get_comment();
         //get_user();
      });
@@ -196,15 +196,13 @@
 
         $.ajax({
             type: "GET",
-            url: `/heart/${idx}`,
+            url: `/til/like/${idx}`,
             data: {},
             success: function (response) {
+                console.log(response);
 
-                let count = response['count']
-                let action = response['action']
-
-                $("#heart-count").text(count);
-                if (action) {
+                // $("#heart-count").text(count);
+                if (response) {
                     let temp_html = `<i class="fa fa-heart" aria-hidden="true"></i>`
                     $('#now-heart').append(temp_html)
 
@@ -227,13 +225,19 @@
             data: {},
             success: function (response) {
                 console.log(response);
-                // let title = response['til']['til_title']
-                // let content = response['til']['til_content']
-                // let heart=response['til']['til_like']
-                // $("#now-title").text(title);
-                // $("#now-content").text(content);
-                // $("#new-til-title").text(title);
-                // $('#new-til-content').text(content)
+                let title = response['til_title']
+                let content = response['til_content']
+                let num_heart=response['til_like']
+                let username=response['user']['username']
+                let github_id=response['user']['github_id']
+
+                $("#now-title").text(title);
+                $("#now-content").text(content);
+                $("#new-til-title").text(title);
+                $('#new-til-content').text(content)
+                $("#user-nickname").text(username);
+                $("#user-githhub_id").text(github_id);
+                $("#heart-count").text(num_heart);
 
             }
         });
@@ -392,15 +396,16 @@
     }
 
     function toggle_like(idx, type) {
-        let til_idx = idx
+
         let a_like = $('#heart')
         let $i_like = a_like.find("i")
         let like_num = $('#heart-count')
         if ($i_like.hasClass("fa-heart")) {
-
+            // 좋아요 취소
             $.ajax({
                 type: "DELETE",
-                url: "/til/dislike/{til_idx}",
+                url: `/til/dislike/${idx}`,
+
 
                 success: function (response) {
 
@@ -410,12 +415,15 @@
                 }
             })
         } else {
-
+            // 좋아요
+            let info={content:type};
             $.ajax({
                 type: "POST",
-                url: "/til/like/{til_idx}",
+                url: `/til/like/${idx}`,
+                contentType: "application/json",
                 data: JSON.stringify(info),
                 success: function (response) {
+
                     console.log(response);
                     $i_like.addClass("fa-heart").removeClass("fa-heart-o")
                     //like_num.text(response["count"])
@@ -500,11 +508,8 @@
                                     <div class="level-left">
 
 
-                                        <a class="level-item is-sparta" id="heart" aria-label="heart"
-                                           onclick="toggle_like(idx, 'heart')">&nbsp
-
-                                            <div id="now-heart"></div>
-                                            &nbsp
+                                        <a class="level-item is-sparta" id="heart" aria-label="heart" onclick="toggle_like(idx, 'heart')">&nbsp
+                                            <div id="now-heart"></div>&nbsp
                                             <div id="heart-count" class="like-num">count</div>
                                         </a>
                                     </div>

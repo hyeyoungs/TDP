@@ -38,7 +38,7 @@ public class LikeService {
     }
 
     //사용자가 이미 좋아요 한 게시물인지 체크
-    private boolean isNotAlreadyLike(User user,Til til) {
+    public boolean isNotAlreadyLike(User user,Til til) {
         return likeRepository.findByTilAndUser(til,user).isPresent();
     }
 

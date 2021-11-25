@@ -34,7 +34,26 @@ public class LikeController {
                 new ResponseEntity<>(HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+    @GetMapping("/til/like/{til_id}")
+    public boolean getLike(
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @PathVariable Long til_id) {
 
+        Til til = tilRepository.findById(til_id).get();
+        boolean result = false;
+
+        if (userDetails != null) {
+            if (likeRepository.findByTilAndUser(til, userDetails.getUser())!=null) {
+                result = true; //이미 좋아요 누른 상태
+            }
+
+            return result;
+        }
+
+
+        return false;
+
+    }
     //좋아요 취소
     @DeleteMapping("/til/dislike/{til_id}")
     public boolean CancelLike(
