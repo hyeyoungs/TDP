@@ -1,6 +1,8 @@
 package com.cdp.tdp.domain;
 import lombok.*;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -34,4 +36,10 @@ public class User extends Timestamped {
 
     private String introduce;
 
+    @OneToMany(mappedBy="user")
+    private List<Comment> comments = new ArrayList<Comment>();
+
+    public Long getId() {
+        return id;
+    }
 }

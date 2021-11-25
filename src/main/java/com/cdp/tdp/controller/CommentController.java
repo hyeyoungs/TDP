@@ -2,7 +2,9 @@ package com.cdp.tdp.controller;
 
 import com.cdp.tdp.domain.Comment;
 import com.cdp.tdp.dto.CommentRequestDto;
+import com.cdp.tdp.security.UserDetailsImpl;
 import com.cdp.tdp.service.CommentService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -27,13 +29,13 @@ public class CommentController {
 
 
     @PostMapping("/api/comment")
-    public Comment createComment(@RequestBody CommentRequestDto requestDto) throws SQLException {
-        Comment comment = commentService.createComment(requestDto);
+    public Comment createComment(@RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
+        Comment comment = commentService.createComment(requestDto, userDetails.getUser().getId());
         return comment;
     }
 
     @DeleteMapping("/api/comments/{id}")
-    public Long deleteComment(@PathVariable Long id) throws SQLException {
+    public Long deleteComment(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
         commentService.deleteComment(id);
         return id;
     }

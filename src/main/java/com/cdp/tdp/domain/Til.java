@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -30,6 +32,10 @@ public class Til extends Timestamped {
 
     @Column(nullable = false)
     private Long til_like;
+
+    @OneToMany(mappedBy="user")
+    private List<Comment> comments = new ArrayList<Comment>();
+
 
 //
 //    @JoinColumn(nullable = false)
