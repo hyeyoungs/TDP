@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Title | TIL.D.P</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap tags -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+          crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="
+    https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet"
+          id="bootstrap-css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+    <!-- Bulma CSS tags -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- cookie -->
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+    <style>
+        body {
+            background-color: #eeeeee;
+        }
+
+        .navbar-brand {
+            margin-left: 50px;
+        }
+
+        .nav-link {
+
+            margin-left: 100px;
+        }
+
+        section {
+            width: 600px;
+            max-width: 100vw;
+            max-height: 100vh;
+            margin: auto;
+        }
+
+        figure{
+            margin-right: 50px;
+        }
+
+        /* Reset Bootstrap */
+        .dropdown-toggle::after {
+            content: none;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+<!-- navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/main_page">TIL.D.P</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div id="navbar-nav" class="navbar-nav">
+                <a class="nav-link " href="./til_board">Write TIL</a>
+                <a class="nav-link" href="./mytil_page">My TIL</a>
+                <a class="nav-link" href="https://github.com/">Github</a>
+                <a class="nav-link" href="./my_page">myPage</a>
+                <a class="nav-link" onclick="sign_out()">logout</a>
+                <a class="nav-link" onclick="goback()">Back</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Profile -->
+<section class="hero">
+    <div class="hero-body" style="padding-bottom:1rem;margin:auto;min-width: 400px">
+        <article class="media">
+            <figure style="align-self: center">
+                <a class="image is-96x96" href="#">
+                    <img class="is-rounded user_profile_pic_real_append" src="">
+                </a>
+            </figure>
+
+            <div class="media-content">
+                <div class="content">
+                    <div>
+                        <strong class="user_nickname_append"></strong> <small>@<label class="user_id_append"></label></small>
+                    </div>
+                    <div class="user_profile_info_append">
+                    </div>
+                        <div class="github_id_tag">Github ID: <label class="github_id_append"></label></div>
+                    <div>Followers : 10000</div>
+                    <div>Following : 20000</div>
+                </div>
+            </div>
+        </article>
+        <!-- Button -->
+        <nav id="btns-me" class="level is-mobile" style="margin-top:2rem">
+            <a class="button level-item has-text-centered is-sparta" aria-label="edit"
+               onclick='$("#modal-edit").addClass("is-active")'>
+                프로필 수정&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="fa fa-pencil"
+                                                                       aria-hidden="true"></i></span>
+            </a>
+
+            <a class="button level-item has-text-centered is-sparta is-outlined" aria-label="logout"
+               onclick="sign_out()">
+                로그아웃&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="fa fa-sign-out"
+                                                                     aria-hidden="true"></i></span>
+            </a>
+        </nav>
+
+        <!-- Edit Modal -->
+        <div class="modal" id="modal-edit">
+            <div class="modal-background" onclick='$("#modal-edit").removeClass("is-active")'></div>
+            <div class="modal-content">
+                <div class="box">
+                    <article class="media">
+                        <div class="media-content">
+                            <div class="field">
+                                <label class="label" for="input-nickname">닉네임</label>
+
+                                <p class="control">
+
+                                    <input id="input-nickname" class="input user_nickname_append"
+                                           placeholder="" value="">
+                                </p>
+                            </div>
+                            <div class="field">
+                                <label class="label" for="input-github-id">Github ID</label>
+                                <p class="control">
+                                    <input id="input-github-id" class="input  github_id_append"
+                                           placeholder="" value="">
+                                </p>
+                            </div>
+                            <div class="field">
+                                <label class="label" for="input-pic">프로필 사진</label>
+
+                                <div class="control is-expanded">
+                                    <div class="file has-name">
+                                        <label class="file-label" style="width:100%">
+                                            <input id="input-pic" class="file-input" type="file"
+                                                   name="resume">
+                                            <span class="file-cta">
+                                                <span class="file-icon"><i class="fa fa-upload"></i></span>
+                                                <span class="file-label">파일 선택</span>
+                                            </span>
+                                            <span id="file-name" class="file-name user_profile_pic_append"
+                                                  style="width:100%;max-width:100%"></span>
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label" for="textarea-about">자기 소개</label>
+
+                                <p class="control">
+
+                        <textarea id="textarea-about" class="textarea user_profile_info_append"
+                                  placeholder="자기소개하기"></textarea>
+                                </p>
+                            </div>
+                            <nav class="level is-mobile">
+                                <div class="level-left">
+
+                                </div>
+                                <div class="level-right">
+                                    <div class="level-item">
+                                        <a class="button is-sparta" onclick="update_profile()">업데이트</a>
+                                    </div>
+                                    <div class="level-item">
+                                        <a class="button is-sparta is-outlined"
+                                           onclick='$("#modal-edit").removeClass("is-active")'>취소</a>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    </article>
+                </div>
+            </div>
+            <button class="modal-close is-large" aria-label="close"
+                    onclick='$("#modal-edit").removeClass("is-active")'></button>
+        </div>
+    </div>
+</section>
+</body>
