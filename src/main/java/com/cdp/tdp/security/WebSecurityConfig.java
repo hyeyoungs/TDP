@@ -41,8 +41,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login").permitAll()
                 .antMatchers("/signup").permitAll()
                 .antMatchers("/").permitAll()
-                .antMatchers("/index.html").permitAll()
-                .antMatchers("/create.html").permitAll()
+                // html 파일 자체로는 현재 토큰을 가지고 있는지 인식을 못하기에 login 없이 허용
+                .antMatchers("/*").permitAll()
                 // 그 외 모든 요청은 인증과정 필요
                 .anyRequest().authenticated()
                 .and()
