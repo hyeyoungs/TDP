@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -29,7 +28,7 @@ public class Til extends Timestamped {
     private boolean til_view;
 
     @Column(nullable = false)
-    private Long til_like;
+    private int til_like;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -40,12 +39,15 @@ public class Til extends Timestamped {
         this.til_title = tilRequestDto.getTil_title();
         this.til_content = tilRequestDto.getTil_content();
         this.til_view = tilRequestDto.isTil_view();
-        this.til_like = tilRequestDto.getTil_like();
+        this.til_like=tilRequestDto.getTil_like();
         this.user = user;
     }
+
 
     public void updateMyTil(TilRequestDto tilRequestDto){
         this.til_title= tilRequestDto.getTil_title();
         this.til_content=tilRequestDto.getTil_content();
     }
+
+
 }

@@ -60,47 +60,20 @@
         list_til();
     });
 
-
-    function read_flag() {
-        $.ajax({
-            type: "GET",
-            url: "/flag",
-            data: {},
-            async: false,
-            success: function (response) {
-                flag = response['flag'];
-
-            }
-        });
-        return flag;
-    }
-
-    async function state_home_switch() {
-        let flag = await read_flag();
-        if (flag === 0) {
-            $(".test").css("background-color", 'red');
-        } else if (flag === 1) {
-            $(".test").css("background-color", 'blue');// display 속성을 block 으로 바꾼다.
-        }
-    }
-
-
-    function list_til() {
-        $.ajax({
-            type: "GET",
-            url: "/til_board",
-            success: function (response) {
-                for (let i = 0; i < 4; i++) {
-                    let itemDto = response.items[i];
-                    let tempHtml = addHTML(itemDto);
-                    $('#board-main').append(tempHtml)
-                }
-            }
-        })
-    }
-
-    function addHTML(itemDto) {
-        return `
+        function list_til() {
+            $.ajax({
+                type: "GET",
+                url: "/til_board",
+                data: {},
+                success: function (response) {
+                    let all_til = response;
+                    console.log(all_til);
+                    for (let i = 0; i < 4; i++) {
+                        let title = all_til[i]['til_title'];
+                        let user = all_til[i]['user']['nickname'];
+                        let content = all_til[i]['til_content'];
+                        let day = all_til[i]['createdAt'];
+                        let tempHtml = `
                 <div class="col" id="cards-box">
                    <div class="card">
                     <h5 class="card-subtitle">${user}</h5>
@@ -110,51 +83,55 @@
                     <p class="card-time">${day} </p>
                     </div>
                   </div>`
-    }
-
-    function rank_til() {
-        $.ajax({
-                type: "GET",
-                url: "/til/rank",
-                data: {},
-                success: function (response) {
-                    let til_rank = response['til_rank'];
-                    for (let i = 0; i < til_rank.length; i++) {
-                        let user = til_rank[i]['_id'];
-                        let score = til_rank[i]['til_score'];
-                        let temp_html = `<tr>
-                                                <th>${i + 1}</th>
-                                                <th scope="row">${user}</th>
-                                                <td>${score}</td>
-                                            </tr>
-`
-                        $('#ranker-box').append(temp_html)
+                        $('#board-main').append(tempHtml)
                     }
                 }
-            }
-        )
-    }
+            })
+        }
 
-    function sign_out() {
-        localStorage.removeItem("token");
-        localStorage.removeItem("username");
-        location.href = '/';
-    }
+//     function rank_til() {
+//         $.ajax({
+//                 type: "GET",
+//                 url: "/til/rank",
+//                 data: {},
+//                 success: function (response) {
+//                     let til_rank = response['til_rank'];
+//                     for (let i = 0; i < til_rank.length; i++) {
+//                         let user = til_rank[i]['_id'];
+//                         let score = til_rank[i]['til_score'];
+//                         let temp_html = `<tr>
+//                                                 <th>${i + 1}</th>
+//                                                 <th scope="row">${user}</th>
+//                                                 <td>${score}</td>
+//                                             </tr>
+// `
+//                         $('#ranker-box').append(temp_html)
+//                     }
+//                 }
+//             }
+//         )
+//     }
+
+        function sign_out() {
+            localStorage.removeItem("token");
+            localStorage.removeItem("username");
+            location.href = '/';
+        }
 </script>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/main_page">TIL.D.P</a>
+        <a class="navbar-brand" href="./home.html">TIL.D.P</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div id="navbar-nav" class="navbar-nav">
-                <a class="nav-link " href="./til_board">Write TIL</a>
-                <a class="nav-link" href="./mytil_page">My TIL</a>
+                <a class="nav-link " href="./til_board.html">Write TIL</a>
+                <a class="nav-link" href="./mytil_page.html">My TIL</a>
                 <a class="nav-link" href="https://github.com/">Github</a>
-                <a class="nav-link" href="./my_page">myPage</a>
+                <a class="nav-link" href="./my_page.html">myPage</a>
                 <a class="nav-link" onclick="sign_out()">logout</a>
             </div>
         </div>

@@ -55,14 +55,14 @@
                         console.log(all_til);
                         for (let i = 0; i < all_til.length; i++) {
                             let title = all_til[i]['til_title'];
-                            let user = all_til[i]['til_user'];
+                            let user = all_til[i]['user']['nickname'];
                             let content = all_til[i]['til_content'];
-                            let day = all_til[i]['til_day'];
-                            let til_idx = all_til[i]['til_idx']
+                            let day = all_til[i]['createdAt'];
+                            let til_idx = all_til[i]['til_idx'];
                             if (i < 4) {
                                 let temp_html = `<tr onClick="detail('${til_idx}')" style="cursor:pointer;">
 
-                                                <th scope="row">${title}<img src="static/new.png" height="30" width="30"></th>
+                                                <th scope="row">${title}<img src="new.png" height="30" width="30"></th>
                                                 <td>${user}</td>
                                                 <td>${day}</td>
                                                 <td>${content}</td>
@@ -152,17 +152,17 @@
 <!-- navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/main_page">TIL.D.P</a>
+        <a class="navbar-brand" href="./home.html">TIL.D.P</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div id="navbar-nav" class="navbar-nav">
-                <a class="nav-link " href="./til_board">Write TIL</a>
-                <a class="nav-link" href="./mytil_page">My TIL</a>
+                <a class="nav-link " href="./til_board.html">Write TIL</a>
+                <a class="nav-link" href="./mytil_page.html">My TIL</a>
                 <a class="nav-link" href="https://github.com/">Github</a>
-                <a class="nav-link" href="./my_page">myPage</a>
+                <a class="nav-link" href="./my_page.html">myPage</a>
                 <a class="nav-link" onclick="sign_out()">logout</a>
                 <a class="nav-link" onclick="goback()">Back</a>
             </div>
@@ -182,7 +182,7 @@
     <div class="row">
         <div class="col-auto mr-auto"></div>
         <div class="col-auto">
-            <a class="btn btn-primary" href="create_page" role="button">글쓰기</a>
+            <a class="btn btn-primary" href="./create.html" role="button">글쓰기</a>
         </div>
     </div>
     <div class="container">
