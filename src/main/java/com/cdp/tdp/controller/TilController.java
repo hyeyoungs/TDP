@@ -30,8 +30,8 @@ public class TilController {
 
     @PostMapping("/til")
     public Til createTil(@RequestBody TilRequestDto tilRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException{
+        Til til = tilService.createTil(tilRequestDto, userDetails.getUser().getId());
         User user = (User) userDetails.getUser();
-        Til til = tilService.createTil(tilRequestDto, user);
         return til;
     }
 
@@ -43,5 +43,11 @@ public class TilController {
     @PutMapping("/til_board/{id}")
     public void updateTil(@PathVariable Long id, @RequestBody TilRequestDto tilRequestDto) throws SQLException{
         tilService.updateTil(id, tilRequestDto);
+    }
+
+    @GetMapping("/til/user")
+    public List<Til> getUserTil(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        User user = (User) userDetails.getUser();
+        return tilService.getUserTil(user);
     }
 }

@@ -2,6 +2,7 @@ package com.cdp.tdp.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Setter
@@ -20,9 +21,9 @@ public class User extends Timestamped {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
+    @Column(name = "user_id")
     private Long id;
 
-    // 반드시 값을 가지도록 한다.
     @Column(nullable = false)
     private String username;
 
@@ -36,7 +37,16 @@ public class User extends Timestamped {
 
     private String introduce;
 
+    private String picture;
+
+    private String picture_real;
+
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Til> tils;
+
+
+    @JsonIgnore
+    @OneToMany(mappedBy="user")
+    private List<Comment> comments;
 }

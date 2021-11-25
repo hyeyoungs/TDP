@@ -12,4 +12,6 @@ public class SignupRequestDto {
     private String nickname;
     private String github_id;
     private String introduce;
+    private String picture;
+    private String picture_real;
 }

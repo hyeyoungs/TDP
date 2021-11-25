@@ -56,24 +56,27 @@
 
 </style>
 <script>
+    let flag = 0;
+    let user_info = localStorage.getItem("username");
     $(document).ready(function () {
         list_til();
+        read_flag();
     });
 
-        function list_til() {
-            $.ajax({
-                type: "GET",
-                url: "/til_board",
-                data: {},
-                success: function (response) {
-                    let all_til = response;
-                    console.log(all_til);
-                    for (let i = 0; i < 4; i++) {
-                        let title = all_til[i]['til_title'];
-                        let user = all_til[i]['user']['nickname'];
-                        let content = all_til[i]['til_content'];
-                        let day = all_til[i]['createdAt'];
-                        let tempHtml = `
+    function list_til() {
+        $.ajax({
+            type: "GET",
+            url: "/til_board",
+            data: {},
+            success: function (response) {
+                let all_til = response;
+                console.log(all_til);
+                for (let i = 0; i < 4; i++) {
+                    let title = all_til[i]['til_title'];
+                    let user = all_til[i]['user']['nickname'];
+                    let content = all_til[i]['til_content'];
+                    let day = all_til[i]['createdAt'];
+                    let tempHtml = `
                 <div class="col" id="cards-box">
                    <div class="card">
                     <h5 class="card-subtitle">${user}</h5>
@@ -83,40 +86,71 @@
                     <p class="card-time">${day} </p>
                     </div>
                   </div>`
-                        $('#board-main').append(tempHtml)
+                    $('#board-main').append(tempHtml)
+                }
+            }
+        })
+    }
+
+    function read_flag() {
+        let today = new Date();
+        let result_date;
+
+        $.ajax({
+            type: "GET",
+            url: "/til/user",
+            data: {},
+            success: function (response) {
+                let all_til = response;
+
+                for (let i = 0; i < all_til.length; i++) {
+                    let day = all_til[i]['createdAt'];
+                    result_date = new Date(day);
+                    console.log(today.toDateString());
+                    console.log(result_date.toDateString());
+
+                    if(today.toDateString() === result_date.toDateString()){
+                        console.log(1);
+                        return 1;
+                    }
+                    else{
+                        console.log(0);
+                        return 0;
                     }
                 }
-            })
-        }
+    
+            }
+        })
+    }
 
-//     function rank_til() {
-//         $.ajax({
-//                 type: "GET",
-//                 url: "/til/rank",
-//                 data: {},
-//                 success: function (response) {
-//                     let til_rank = response['til_rank'];
-//                     for (let i = 0; i < til_rank.length; i++) {
-//                         let user = til_rank[i]['_id'];
-//                         let score = til_rank[i]['til_score'];
-//                         let temp_html = `<tr>
-//                                                 <th>${i + 1}</th>
-//                                                 <th scope="row">${user}</th>
-//                                                 <td>${score}</td>
-//                                             </tr>
-// `
-//                         $('#ranker-box').append(temp_html)
-//                     }
-//                 }
-//             }
-//         )
-//     }
+    //     function rank_til() {
+    //         $.ajax({
+    //                 type: "GET",
+    //                 url: "/til/rank",
+    //                 data: {},
+    //                 success: function (response) {
+    //                     let til_rank = response['til_rank'];
+    //                     for (let i = 0; i < til_rank.length; i++) {
+    //                         let user = til_rank[i]['_id'];
+    //                         let score = til_rank[i]['til_score'];
+    //                         let temp_html = `<tr>
+    //                                                 <th>${i + 1}</th>
+    //                                                 <th scope="row">${user}</th>
+    //                                                 <td>${score}</td>
+    //                                             </tr>
+    // `
+    //                         $('#ranker-box').append(temp_html)
+    //                     }
+    //                 }
+    //             }
+    //         )
+    //     }
 
-        function sign_out() {
-            localStorage.removeItem("token");
-            localStorage.removeItem("username");
-            location.href = '/';
-        }
+    function sign_out() {
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
+        location.href = '/';
+    }
 </script>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
