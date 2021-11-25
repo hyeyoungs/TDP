@@ -202,12 +202,12 @@
                 console.log(response);
 
                 // $("#heart-count").text(count);
-                if (response) {
+                if (response) { //좋아요누른상태
                     let temp_html = `<i class="fa fa-heart" aria-hidden="true"></i>`
                     $('#now-heart').append(temp_html)
 
 
-                } else {
+                } else { //좋아요 안누른상태
                     let temp_html = `<i class="fa fa-heart-o" aria-hidden="true"></i>`
                     $('#now-heart').append(temp_html)
                 }
@@ -224,7 +224,7 @@
             url: `/til_board/${idx}`,
             data: {},
             success: function (response) {
-                console.log(response);
+
                 let title = response['til_title']
                 let content = response['til_content']
                 let num_heart=response['til_like']
@@ -408,10 +408,12 @@
 
 
                 success: function (response) {
+                    console.log(response)
 
                     $i_like.addClass("fa-heart-o").removeClass("fa-heart")
                     console.log(response);
                     //like_num.text(response["count"])
+
                 }
             })
         } else {
@@ -425,12 +427,14 @@
                 success: function (response) {
 
                     console.log(response);
+
                     $i_like.addClass("fa-heart").removeClass("fa-heart-o")
-                    //like_num.text(response["count"])
+
                 }
             })
 
         }
+        window.location.reload();
     }
 
     function sign_out() {

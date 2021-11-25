@@ -1,6 +1,7 @@
 package com.cdp.tdp.controller;
 
 import com.cdp.tdp.domain.Til;
+import com.cdp.tdp.domain.User;
 import com.cdp.tdp.repository.LikeRepository;
 import com.cdp.tdp.repository.TilRepository;
 import com.cdp.tdp.security.UserDetailsImpl;
@@ -23,8 +24,8 @@ public class LikeController {
     public Til addLike(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @PathVariable Long til_id) {
-
-            Til til = likeService.addLike(userDetails.getUser(), til_id);
+            User user=(User) userDetails.getUser();
+            Til til = likeService.addLike(user, til_id);
             return til;
 
 
@@ -38,16 +39,16 @@ public class LikeController {
             @PathVariable Long til_id) {
 
         Til til = tilRepository.findById(til_id).get();
+        User user=(User) userDetails.getUser();
         boolean result = false;
 
-        if (userDetails != null) {
-            if (likeRepository.findByTilAndUser(til, userDetails.getUser()).isPresent()) {
-                result = true; //이미 좋아요 누른 상태
-            }
 
-            return result;
+        if (likeRepository.findByTilAndUser(til, user).isPresent()) {
+            result = true; //이미 좋아요 누른 상태
         }
+
         return result;
+
     }
     //좋아요 취소
     @DeleteMapping("/til/dislike/{til_id}")
@@ -55,8 +56,8 @@ public class LikeController {
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @PathVariable Long til_id)
     {
-
-        Til til = likeService.CancelLike(userDetails.getUser(), til_id);
+        User user=(User) userDetails.getUser();
+        Til til = likeService.CancelLike(user, til_id);
         return til;
     }
 }

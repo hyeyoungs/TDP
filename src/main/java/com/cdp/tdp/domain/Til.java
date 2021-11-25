@@ -39,7 +39,7 @@ public class Til extends Timestamped {
         this.til_title = tilRequestDto.getTil_title();
         this.til_content = tilRequestDto.getTil_content();
         this.til_view = tilRequestDto.isTil_view();
-        this.til_like=tilRequestDto.getTil_like();
+
         this.user = user;
     }
 
@@ -49,5 +49,7 @@ public class Til extends Timestamped {
         this.til_content=tilRequestDto.getTil_content();
     }
 
-
+    public void UpdateLike(int like_num){
+        this.til_like=like_num;
+    }
 }

@@ -9,6 +9,8 @@ import com.cdp.tdp.repository.LikeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @RequiredArgsConstructor
 @Service
 public class LikeService {
@@ -23,8 +25,9 @@ public class LikeService {
         //중복 좋아요 방지
         if(isNotAlreadyLike(user,til)==false) {
             likeRepository.save(new Likes(til,user));
-            int count_num=likeRepository.countByTil(til);
-            til.setTil_like(count_num);
+//            int count_num=likeRepository.countByTilId(til_id);
+//            til.UpdateLike(count_num);
+            plusLike(til_id);
             return til;
         }
         return til;
@@ -46,12 +49,21 @@ public class LikeService {
 
         if(isNotAlreadyLike(user,til)==true) {
             likeRepository.deleteByTilAndUser(til,user);
-            int count_num=likeRepository.countByTil(til);
-            til.setTil_like(count_num);
+            minusLike(til_id);
             return til;
         }
         return til;
 
     }
+    @Transactional
+    public int plusLike(Long id) {
+        return tilRepository.plusLike(id);
+    }
+
+    @Transactional
+    public int minusLike(Long id) {
+        return tilRepository.minusLike(id);
+    }
+
 
 }
