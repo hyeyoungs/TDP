@@ -62,7 +62,26 @@
         }
     </style>
 </head>
+<script>
+    $(document).ready(function () {
+        read_my_profile();
+    })
+    function read_my_profile() {
+        $.ajax({
+            type: "GET",
+            url: "/user",
+            data: {},
+            success: function (response) {
+            let my_profile = response;
+                let github_id = my_profile['github_id'];
+                let nickname = my_profile['nickname'];
+                $('#input-nickname').append(nickname).val()
+                $('#input-github-id').append(github_id).val()
+            }
+        })
+    }
 
+</script>
 <body>
 <!-- navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">

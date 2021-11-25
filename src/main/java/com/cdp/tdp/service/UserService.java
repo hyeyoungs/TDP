@@ -1,7 +1,9 @@
 package com.cdp.tdp.service;
 
+import com.cdp.tdp.domain.Til;
 import com.cdp.tdp.domain.User;
 import com.cdp.tdp.dto.SignupRequestDto;
+import com.cdp.tdp.dto.UserDto;
 import com.cdp.tdp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -37,6 +40,10 @@ public class UserService {
         User user = new User(signId, signPassword, nickname, githubId, introduce);
         userRepository.save(user);
         return user;
+    }
+
+    public User getMyUser(User user) {
+        return userRepository.findById(user);
     }
 
 }

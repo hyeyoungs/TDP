@@ -26,8 +26,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.headers().frameOptions().disable();
 
+
         http.authorizeRequests().anyRequest().permitAll();
         http.sessionManagement().disable(); // 인증을 session으로 관리 안함. jwt token으로 인증
+
+        
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
     // 비밀번호 암호화

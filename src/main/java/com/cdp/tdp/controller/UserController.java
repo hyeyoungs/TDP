@@ -20,14 +20,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 
+
 @RequiredArgsConstructor
 @RestController
 public class UserController {
-
+    private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
-    private final UserService userService;
 
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
