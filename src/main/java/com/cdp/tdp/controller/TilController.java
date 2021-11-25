@@ -29,8 +29,8 @@ public class TilController {
     }
 
     @PostMapping("/til")
-    public Til createTil(@RequestBody TilRequestDto tilRequestDto) throws SQLException{
-        Til til = tilService.createTil(tilRequestDto);
+    public Til createTil(@RequestBody TilRequestDto tilRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException{
+        Til til = tilService.createTil(tilRequestDto, userDetails.getUser().getId());
         return til;
     }
 

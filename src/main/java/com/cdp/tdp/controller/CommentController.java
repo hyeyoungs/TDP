@@ -30,12 +30,12 @@ public class CommentController {
 
     @PostMapping("/api/comment")
     public Comment createComment(@RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
-        Comment comment = commentService.createComment(requestDto, userDetails.getUser().getId());
+        Comment comment = commentService.createComment(requestDto, userDetails.getUser().getId(), requestDto.getTil_id());
         return comment;
     }
 
     @DeleteMapping("/api/comments/{id}")
-    public Long deleteComment(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
+    public Long deleteComment(@PathVariable Long id) throws SQLException {
         commentService.deleteComment(id);
         return id;
     }
