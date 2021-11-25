@@ -40,6 +40,12 @@
             $("#form").submit();
         });
 
+        $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+            if(localStorage.getItem('token')) {
+                jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
+            }
+        });
+
         function read_user() {
             $.ajax({
                 type: "GET",

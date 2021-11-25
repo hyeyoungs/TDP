@@ -37,7 +37,7 @@
                     if (localStorage.getItem('token') != null) {
                         xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
                     } else {
-                        location.href = "login"
+                        location.href = "login.html"
                         alert("로그인 해주세요")
                     }
                 }
@@ -48,10 +48,11 @@
         function read_all_til() {
             $.ajax({
                     type: "GET",
-                    url: "til/board",
+                    url: "/til_board",
                     data: {},
                     success: function (response) {
-                        let all_til = response['all_til'];
+                        let all_til = response;
+                        console.log(all_til);
                         for (let i = 0; i < all_til.length; i++) {
                             let title = all_til[i]['til_title'];
                             let user = all_til[i]['til_user'];
