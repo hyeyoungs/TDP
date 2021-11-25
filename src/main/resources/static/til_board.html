@@ -61,12 +61,27 @@
                             let til_idx = all_til[i]['til_idx']
                             if (i < 4) {
                                 let temp_html = `<tr onClick="detail('${til_idx}')" style="cursor:pointer;">
- 
+
                                                 <th scope="row">${title}<img src="static/new.png" height="30" width="30"></th>
                                                 <td>${user}</td>
                                                 <td>${day}</td>
                                                 <td>${content}</td>
                                             </tr>`
+                                $('#til-box').append(temp_html)
+
+                            } else {
+                                let temp_html = `<tr onClick="detail('${til_idx}')" style="cursor:pointer;">
+                                                <th scope="row">${title}</th>
+                                                <td>${user}</td>
+                                                <td>${day}</td>
+                                                <td>${content}</td>
+                                            </tr>`
+                                $('#til-box').append(temp_html)
+                            }
+                        }
+                    }
+                }
+            )
         }
 
         function detail(til_idx) {

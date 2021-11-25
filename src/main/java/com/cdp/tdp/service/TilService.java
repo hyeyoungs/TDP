@@ -20,8 +20,8 @@ public class TilService {
         return tilRepository.findAll();
     }
 
-    public Til createTil(TilRequestDto tilRequestDto) throws SQLException {
-        Til til = new Til(tilRequestDto);
+    public Til createTil(TilRequestDto tilRequestDto, User user) throws SQLException {
+        Til til = new Til(tilRequestDto, user);
         tilRepository.save(til);
         return til;
     }
