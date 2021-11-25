@@ -37,6 +37,10 @@ public class User extends Timestamped {
 
     private String introduce;
 
+    private String picture;
+
+    private String picture_real;
+
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Til> tils;

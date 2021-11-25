@@ -14,5 +14,4 @@ public class TilRequestDto {
 
     private int til_like;
     private String user_id;
-
 }

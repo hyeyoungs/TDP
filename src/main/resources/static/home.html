@@ -60,8 +60,7 @@
     let user_info = localStorage.getItem("username");
     $(document).ready(function () {
         list_til();
-        //read_flag();
-        // rank_til();
+        read_flag();
     });
 
     function list_til() {
@@ -94,30 +93,32 @@
     }
 
     function read_flag() {
-        // let today;
-        // today = new Date().format("%Y-%M-%D");
-        // console.log(today);
-    //     today = datetime.datetime.now().strftime('%Y-%m-%d')
-    //     for doc in til_state:
-    //     old_day = doc['til_day'].strftime('%Y-%m-%d')
-    //     if today == old_day:
-    //     flag = 1
-    //     break
-    // else:
-    //     flag = 0
+        let today = new Date();
+        let result_date;
+
         $.ajax({
             type: "GET",
-            url: "/til_board",
+            url: "/til/user",
             data: {},
             success: function (response) {
                 let all_til = response;
-                console.log(all_til);
+
                 for (let i = 0; i < all_til.length; i++) {
-                    let user = all_til[i]['user']['username'];
                     let day = all_til[i]['createdAt'];
-                    if (user_info === user) {
+                    result_date = new Date(day);
+                    console.log(today.toDateString());
+                    console.log(result_date.toDateString());
+
+                    if(today.toDateString() === result_date.toDateString()){
+                        console.log(1);
+                        return 1;
+                    }
+                    else{
+                        console.log(0);
+                        return 0;
                     }
                 }
+    
             }
         })
     }
