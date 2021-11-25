@@ -40,6 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/static/**").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/signup").permitAll()
+                .antMatchers("/my_page").permitAll()
                 .antMatchers("/").permitAll()
                 // html 파일 자체로는 현재 토큰을 가지고 있는지 인식을 못하기에 login 없이 허용
                 .antMatchers("/til_board/*").permitAll()
