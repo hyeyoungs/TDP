@@ -34,12 +34,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**").permitAll()
                 // 회원 관리 URL 전부를 login 없이 허용
                 .antMatchers("/user/**").permitAll()
-                .antMatchers("/static/**").permitAll()
                 // h2-console URL 을 login 없이 허용
                 .antMatchers("/h2-console/**").permitAll()
+                // login, signup 관련 URL을 login 없이 허용
+                .antMatchers("/static/**").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/signup").permitAll()
                 .antMatchers("/").permitAll()
+                // html 파일 자체로는 현재 토큰을 가지고 있는지 인식을 못하기에 login 없이 허용
                 .antMatchers("/*").permitAll()
                 // 그 외 모든 요청은 인증과정 필요
                 .anyRequest().authenticated()
