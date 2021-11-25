@@ -18,5 +18,5 @@ public interface LikeRepository extends JpaRepository<Likes, Long> {
     Optional<Likes> deleteByTilAndUser(Til til,User user);
 
 
-    int countByTil(Til til);
+    int countByTilId(Long til_id);
 }
