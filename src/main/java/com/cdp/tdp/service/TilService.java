@@ -47,5 +47,8 @@ public class TilService {
         return til;
     }
 
+    public List<Til> getUserTil(User user){
+        return tilRepository.findByUser(user);
+    }
 
 }

@@ -44,4 +44,10 @@ public class TilController {
     public void updateTil(@PathVariable Long id, @RequestBody TilRequestDto tilRequestDto) throws SQLException{
         tilService.updateTil(id, tilRequestDto);
     }
+
+    @GetMapping("/til/user")
+    public List<Til> getUserTil(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        User user = (User) userDetails.getUser();
+        return tilService.getUserTil(user);
+    }
 }

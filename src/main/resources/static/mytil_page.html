@@ -74,11 +74,11 @@
         async function list_user_til() {
             let user_info = await read_user()
             $.ajax({
-                type: "POST",
+                type: "GET",
                 url: "/til/user",
-                data: {til_user_give: user_info['user_id']},
+                data: {},
                 success: function (response) {
-                    let my_til = response['my_til'];
+                    let my_til = response;
                     for (let i = 0; i < my_til.length; i++) {
                         make_list_my_til(my_til[i], user_info);
                     }
