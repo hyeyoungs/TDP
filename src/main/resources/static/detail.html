@@ -400,7 +400,7 @@
         let a_like = $('#heart')
         let $i_like = a_like.find("i")
         let like_num = $('#heart-count')
-        if ($i_like.hasClass("fa-heart")) {
+        if ($i_like.hasClass("fa-heart")) { //좋아요 된 상태
             // 좋아요 취소
             $.ajax({
                 type: "DELETE",
@@ -515,7 +515,7 @@
                                     </div>
                                 </nav>
                                 <hr class="hr6">
-                                <h3>content</h3>
+                                <h3>글 내용</h3>
                                 <div id="now-content" class="content-box">
                                     til_content
                                 </div>
@@ -531,19 +531,19 @@
                     <div id="new-box" class="new-content">
                         <div class="new-box">
                             <label for="exampleFormControlInput1" class="center">제목</label>
-                            <p><textarea class="form-control" id="new-til-title" rows="1">til.til_title</textarea>
+                            <p><textarea class="form-control" id="new-til-title" rows="1">til_title</textarea>
                             </p>
                             <label for="exampleFormControlInput1" class="center">content</label>
 
                             <textarea class="form-control" id="new-til-content"
-                                      rows="8">til.til_content</textarea><br>
+                                      rows="8">til_content</textarea><br>
                             <p id="new-content-button"><span class="two-button">
                                 <button type="button" onclick='update_til()'
                                         class="btn btn-primary">변경</button>
                                 <button type="button" onclick='cancle()' class="btn btn-primary">취소</button>
                             </span></p>
                             <br>
-                            <p>til.til_day</p>
+                            <p>til_day</p>
 
                         </div>
 
@@ -553,9 +553,8 @@
                         <table id="til-table" class="table">
                             <thead>
                             <tr>
-                                {#
                                 <th scope="col"></th>
-                                #}
+
                             </tr>
                             </thead>
                             <tbody id="comment-box">

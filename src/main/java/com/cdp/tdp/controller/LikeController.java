@@ -20,21 +20,19 @@ public class LikeController {
 
 
     @PostMapping("/til/like/{til_id}")
-    public ResponseEntity<String> addLike(
+    public Til addLike(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @PathVariable Long til_id) {
 
-        boolean result = false;
+            Til til = likeService.addLike(userDetails.getUser(), til_id);
+            return til;
 
-        if (userDetails != null) {
-            result = likeService.addLike(userDetails.getUser(), til_id);
-        }
 
-        return result ?
-                new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
     }
+
     @GetMapping("/til/like/{til_id}")
+    //사용자가 이 글을 좋아요 눌렀는지 안눌렀는지 판별하는 함수
     public boolean getLike(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @PathVariable Long til_id) {
@@ -43,25 +41,22 @@ public class LikeController {
         boolean result = false;
 
         if (userDetails != null) {
-            if (likeRepository.findByTilAndUser(til, userDetails.getUser())!=null) {
+            if (likeRepository.findByTilAndUser(til, userDetails.getUser()).isPresent()) {
                 result = true; //이미 좋아요 누른 상태
             }
 
             return result;
         }
-
-
-        return false;
-
+        return result;
     }
     //좋아요 취소
     @DeleteMapping("/til/dislike/{til_id}")
-    public boolean CancelLike(
+    public Til CancelLike(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @PathVariable Long til_id) {
-        Til til = tilRepository.findById(til_id).get();
-        likeRepository.deleteByTilAndUser(til, userDetails.getUser()); //좋아요 id로 취소
-        //좋아요 수 감소 로직
-        return true;
+            @PathVariable Long til_id)
+    {
+
+        Til til = likeService.CancelLike(userDetails.getUser(), til_id);
+        return til;
     }
 }

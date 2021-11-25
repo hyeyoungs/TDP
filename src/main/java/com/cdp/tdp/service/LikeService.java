@@ -16,24 +16,23 @@ public class LikeService {
     private final LikeRepository likeRepository;
     private final TilService tilService;
 
-    public boolean addLike(User user, Long til_id) {
+    public Til addLike(User user, Long til_id) {
         //좋아요를 등록할 til 가져오기
         Til til = tilRepository.findById(til_id).get();
 
         //중복 좋아요 방지
-        if(isNotAlreadyLike(user,til)) {
-            return false;
+        if(isNotAlreadyLike(user,til)==false) {
+            likeRepository.save(new Likes(til,user));
+            int count_num=likeRepository.countByTil(til);
+            til.setTil_like(count_num);
+            return til;
         }
-        likeRepository.save(new Likes(til,user));
+        return til;
 
         //좋아요 수 증가 로직
         // 레포지토리에서 til_id로 찾아서 좋아요 갯수 가져옴
-        int count_num=likeRepository.countByTil(til);
 
-        // til 좋아요 수 til에 저장
-        til.setTil_like(count_num);
 
-        return true;
 
     }
 
@@ -41,6 +40,18 @@ public class LikeService {
     public boolean isNotAlreadyLike(User user,Til til) {
         return likeRepository.findByTilAndUser(til,user).isPresent();
     }
+    public Til CancelLike(User user, Long til_id) {
+        //좋아요를 취소할 til 가져오기
+        Til til = tilRepository.findById(til_id).get();
 
+        if(isNotAlreadyLike(user,til)==true) {
+            likeRepository.deleteByTilAndUser(til,user);
+            int count_num=likeRepository.countByTil(til);
+            til.setTil_like(count_num);
+            return til;
+        }
+        return til;
+
+    }
 
 }
