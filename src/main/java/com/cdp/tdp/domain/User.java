@@ -23,7 +23,7 @@ public class User extends Timestamped {
     private Long id;
 
     // 반드시 값을 가지도록 한다.
-    @Column(name = "user_id", nullable = false)
+    @Column(nullable = false)
     private String username;
 
     @Column(nullable = false)
