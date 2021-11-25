@@ -22,6 +22,7 @@ public class TilService {
 
     public Til createTil(TilRequestDto tilRequestDto) throws SQLException {
         Til til = new Til(tilRequestDto);
+
         tilRepository.save(til);
         return til;
     }
@@ -44,4 +45,6 @@ public class TilService {
         til.updateMyTil(tilRequestDto);
         return til;
     }
+
+
 }
