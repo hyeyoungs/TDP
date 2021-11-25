@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -27,29 +26,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.headers().frameOptions().disable();
 
-        http.authorizeRequests()
-                // image 폴더를 login 없이 허용
-                .antMatchers("/images/**").permitAll()
-                // css 폴더를 login 없이 허용
-                .antMatchers("/css/**").permitAll()
-                // 회원 관리 URL 전부를 login 없이 허용
-                .antMatchers("/user/**").permitAll()
-                // h2-console URL 을 login 없이 허용
-                .antMatchers("/h2-console/**").permitAll()
-                // login, signup 관련 URL을 login 없이 허용
-                .antMatchers("/static/**").permitAll()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/signup").permitAll()
-                .antMatchers("/").permitAll()
-                // html 파일 자체로는 현재 토큰을 가지고 있는지 인식을 못하기에 login 없이 허용
-                .antMatchers("/*").permitAll()
-                // 그 외 모든 요청은 인증과정 필요
-                .anyRequest().authenticated()
-                .and()
-                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
+        http.authorizeRequests().anyRequest().permitAll();
+        http.sessionManagement().disable(); // 인증을 session으로 관리 안함. jwt token으로 인증
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
     // 비밀번호 암호화

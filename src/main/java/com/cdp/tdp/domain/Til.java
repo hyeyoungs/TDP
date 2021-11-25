@@ -32,7 +32,7 @@ public class Til extends Timestamped {
     private Long til_like;
 
     @ManyToOne
-    @JoinColumn(name = "username")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Builder
