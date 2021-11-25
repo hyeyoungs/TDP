@@ -31,18 +31,17 @@
 
     <script>
         $(document).ready(function () {
-            $.ajaxSetup({
-                beforeSend: function (xhr) {
-                    if (localStorage.getItem('token') != null) {
-                        xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
-                    } else {
-                        alert("로그인 해주세요")
-                        location.href = "./index.html"
-                    }
-                }
-            });
             list_user_til();
             read_user_profile();
+        });
+
+        $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+            if(localStorage.getItem('token')) {
+                jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
+            } else {
+                alert("로그인 해주세요")
+                location.href = "./index.html"
+            }
         });
 
         function read_user() {
@@ -51,7 +50,7 @@
                 url: "/user",
                 async: false,
                 success: function (response) {
-                    user_info = response['user_info'];
+                    user_info = response;
                 }
             });
             return user_info;
@@ -59,13 +58,13 @@
 
         async function read_user_profile(){
             let user_info = await read_user();
-            $('.user_id_append').text(user_info['user_id']);
-            $('.user_nickname_append').text(user_info['user_nickname']);
+            $('.user_id_append').text(user_info['username']);
+            $('.user_nickname_append').text(user_info['nickname']);
             $('.user_profile_info_append').text(user_info['user_profile_info']);
             $('.user_profile_pic_append').text(user_info['user_profile_pic']);
             $('.github_id_append').text(user_info['github_id']);
-            $('.user_id_append').val(user_info['user_id']);
-            $('.user_nickname_append').val(user_info['user_nickname']);
+            $('.user_id_append').val(user_info['username']);
+            $('.user_nickname_append').val(user_info['nickname']);
             $('.user_profile_info_append').val(user_info['user_profile_info']);
             $('.user_profile_pic_append').val(user_info['user_profile_pic']);
             $('.user_profile_pic_real_append').attr('src', user_info['user_profile_pic_real']);
