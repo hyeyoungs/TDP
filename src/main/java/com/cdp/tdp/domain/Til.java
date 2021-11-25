@@ -43,7 +43,7 @@ public class Til extends Timestamped {
     @OneToMany(mappedBy="til")
     private List<Comment> comments;
 
-    public Til(Long id, String til_title, String til_content, boolean til_view, Long til_like, User user, List<Comment> comments) {
+    public Til(Long id, String til_title, String til_content, boolean til_view, int til_like, User user, List<Comment> comments) {
         this.id = id;
         this.til_title = til_title;
         this.til_content = til_content;
