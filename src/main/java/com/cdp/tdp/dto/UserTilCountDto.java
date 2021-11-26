@@ -7,5 +7,8 @@ import lombok.Setter;
 @Setter
 public class UserTilCountDto {
     private String username;
-    private Long til_count;
+    private int til_count;
+
+
+
 }

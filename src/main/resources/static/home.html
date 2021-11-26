@@ -50,6 +50,7 @@
     $(document).ready(function () {
       list_til();
       read_flag();
+      rank_til();
     });
 
     function list_til() {
@@ -115,28 +116,41 @@
     function logMyErrors(){
       $(".test").css("background-color", 'black');// display 속성을 block 으로 바꾼다.
     }
-    //     function rank_til() {
-    //         $.ajax({
-    //                 type: "GET",
-    //                 url: "/til/rank",
-    //                 data: {},
-    //                 success: function (response) {
-    //                     let til_rank = response['til_rank'];
-    //                     for (let i = 0; i < til_rank.length; i++) {
-    //                         let user = til_rank[i]['_id'];
-    //                         let score = til_rank[i]['til_score'];
-    //                         let temp_html = `<tr>
-    //                                                 <th>${i + 1}</th>
-    //                                                 <th scope="row">${user}</th>
-    //                                                 <td>${score}</td>
-    //                                             </tr>
-    // `
-    //                         $('#ranker-box').append(temp_html)
-    //                     }
-    //                 }
-    //             }
-    //         )
-    //     }
+    function rank_til() {
+        $.ajax({
+                type: "GET",
+                url: "/til/ranker",
+                data: {},
+                success: function (response) {
+
+                    console.log(response);
+                    for (let i = 0; i < response.length; i++) {
+                        let username = response[i]['username'];
+                        let til = response[i]['til_count'];
+                        let temp = `<h6 id="rank_username"><i class="fa fa-angle-right"></i>${username}</h6>
+                                            <div>
+                                              <div class="content">
+                                                <p id="rank_countTil">${til}</p>
+
+                                              </div>
+                                            </div>`
+
+                        let temp_html=
+                            `<h6 class="open"><i class="about_accordion wow fadeIn faq_main_content fa fa-angle-right"></i> ${username}</h6>
+                                <div class="open">
+                                  <div class="content">
+                                    <p id="rank_countTil">${til}</p>
+                                  </div>
+                                </div>`
+
+                        $('#faq_main_content').append(temp_html);
+
+                    }
+
+                }
+            }
+        )
+    }
 
     function sign_out() {
       localStorage.removeItem("token");
@@ -312,38 +326,24 @@
           <div class="col-md-6">
             <div class="about_accordion wow fadeIn">
               <div id="faq_main_content" class="faq_main_content">
-                <h6><i class="fa fa-angle-right"></i> UNIQUE DESIGN </h6>
-                <div>
-                  <div class="content">
-                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, </p>
+<!--                <h6 id="rank_username "><i class="fa fa-angle-right"></i> </h6>-->
+<!--                <div>-->
+<!--                  <div class="content">-->
+<!--                    <p id="rank_countTil"></p>-->
 
-                  </div>
-                </div>
+<!--                  </div>-->
+<!--                </div>-->
                 <!-- End off accordion item-1 -->
 
-                <h6 class="open"><i class="fa fa-angle-right"></i> EXPERIENCE TEAM</h6>
-                <div class="open">
-                  <div class="content">
-                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, </p>
-                  </div>
-                </div>
+<!--                <h6 class="open"><i class="fa fa-angle-right"></i> EXPERIENCE TEAM</h6>-->
+<!--                <div class="open">-->
+<!--                  <div class="content">-->
+<!--                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, </p>-->
+<!--                  </div>-->
+<!--                </div>-->
                 <!-- End off accordion item-2 -->
 
-                <h6> <i class="fa fa-angle-right"></i> GREAT SERVICE </h6>
-                <div>
-                  <div class="content">
-                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, </p>
-                  </div>
-                </div>
-                <!-- End off accordion item-3 -->
 
-                <h6><i class="fa fa-angle-right"></i> FREE UPDATES </h6>
-                <div>
-                  <div class="content">
-                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, </p>
-                  </div>
-                </div>
-                <!-- End off accordion item-4 -->
               </div>
             </div>
           </div>
