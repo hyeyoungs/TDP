@@ -45,8 +45,8 @@ public class UserService {
         return user;
     }
 
-    public User getMyUser(User user) {
-        return userRepository.findById(user);
+    public Optional<User> getMyUser(String username) {
+        return userRepository.findByUsername(username);
     }
 
     public List<User> getAllUser(){
