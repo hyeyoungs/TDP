@@ -2,9 +2,7 @@ package com.cdp.tdp.controller;
 
 import com.cdp.tdp.domain.Til;
 import com.cdp.tdp.domain.User;
-import com.cdp.tdp.dto.JwtResponse;
-import com.cdp.tdp.dto.SignupRequestDto;
-import com.cdp.tdp.dto.UserDto;
+import com.cdp.tdp.dto.*;
 import com.cdp.tdp.security.UserDetailsImpl;
 import com.cdp.tdp.service.UserService;
 import com.cdp.tdp.util.JwtTokenUtil;
@@ -67,5 +65,12 @@ public class UserController {
     @GetMapping("til/ranker")
     public List<User> readAllUser(){
         return userService.readAllUser();
+    }
+
+    @PutMapping("/user/update")
+    public void updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody UserUpdateDto userUpdateDto) throws SQLException{
+        User user = (User) userDetails.getUser();
+        userService.updateUser(user, userUpdateDto);
+
     }
 }
