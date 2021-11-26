@@ -1,5 +1,6 @@
 package com.cdp.tdp.controller;
 
+import com.cdp.tdp.domain.Comment;
 import com.cdp.tdp.domain.Ranker;
 import com.cdp.tdp.domain.Til;
 import com.cdp.tdp.domain.User;
@@ -65,9 +66,12 @@ public class UserController {
     }
     @GetMapping("til/ranker")
     public List<User> getAllUser(){
-       return userService.getAllUser();
+        User user = (User) userService.getAllUser();
+        return userService.getAllUser();
     }
-
+//    public Comment createComment(@RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
+//        Comment comment = commentService.createComment(requestDto, userDetails.getUser().getId(), requestDto.getTil_id());
+//        return comment;
     @PutMapping("/user/update")
     public void updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody UserUpdateDto userUpdateDto) throws SQLException{
         User user = (User) userDetails.getUser();

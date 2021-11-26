@@ -49,7 +49,7 @@ public class User extends Timestamped {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List<Til> tils;
+    private List<Til> til_list;
 
 
     @JsonIgnore

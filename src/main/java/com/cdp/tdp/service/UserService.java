@@ -48,9 +48,8 @@ public class UserService {
     public User getMyUser(User user) {
         return userRepository.findById(user);
     }
-    public List<User> getAllUser(UserTilCountDto userTilCountDto){
-        String signId = userTilCountDto.getUsername();
-        Long count = userTilCountDto.getTil_count();
+
+    public List<User> getAllUser(){
         return userRepository.findAll();
     }
 
