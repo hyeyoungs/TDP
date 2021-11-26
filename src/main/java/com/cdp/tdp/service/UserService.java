@@ -1,11 +1,9 @@
 package com.cdp.tdp.service;
 
+import com.cdp.tdp.controller.UserController;
 import com.cdp.tdp.domain.Til;
 import com.cdp.tdp.domain.User;
-import com.cdp.tdp.dto.SignupRequestDto;
-import com.cdp.tdp.dto.TilRequestDto;
-import com.cdp.tdp.dto.UserDto;
-import com.cdp.tdp.dto.UserUpdateDto;
+import com.cdp.tdp.dto.*;
 import com.cdp.tdp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,9 +48,11 @@ public class UserService {
     public User getMyUser(User user) {
         return userRepository.findById(user);
     }
-    public List<User> readAllUser(){
+
+    public List<User> getAllUser(){
         return userRepository.findAll();
     }
+
     @Transactional
     public User updateUser(User user , UserUpdateDto userUpdateDto)throws SQLException {
 

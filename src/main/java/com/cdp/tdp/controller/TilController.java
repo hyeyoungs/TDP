@@ -7,7 +7,6 @@ import com.cdp.tdp.security.UserDetailsImpl;
 import com.cdp.tdp.service.TilService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -31,7 +30,6 @@ public class TilController {
     @PostMapping("/til")
     public Til createTil(@RequestBody TilRequestDto tilRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException{
         Til til = tilService.createTil(tilRequestDto, userDetails.getUser().getId());
-        User user = (User) userDetails.getUser();
         return til;
     }
 
@@ -49,5 +47,10 @@ public class TilController {
     public List<Til> getUserTil(@AuthenticationPrincipal UserDetailsImpl userDetails){
         User user = (User) userDetails.getUser();
         return tilService.getUserTil(user);
+    }
+
+    @PutMapping("/til_board/{id}/view")
+    public void updateTilView(@PathVariable Long id) throws SQLException{
+        tilService.updateTilView(id);
     }
 }
