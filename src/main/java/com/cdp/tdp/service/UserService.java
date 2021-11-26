@@ -63,11 +63,19 @@ public class UserService {
             userTilCountDto.setTil_count(til_count);
             userTilCountDto.setUsername(username);
             CountTilList.add(userTilCountDto);
-
         }
-
+        CountTilList.sort(new Comparator<UserTilCountDto>() {
+            @Override
+            public int compare(UserTilCountDto o1, UserTilCountDto o2) {
+                if (o1.getTil_count()< o2.getTil_count()){
+                    return 1;
+                } else if (o1.getTil_count()>o2.getTil_count()){
+                    return -1;
+                }
+                return 0;
+            }
+        });
         return CountTilList;
-
     }
 
     public int TilCount(User user){
