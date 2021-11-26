@@ -1,5 +1,6 @@
 package com.cdp.tdp.controller;
 
+import com.cdp.tdp.domain.Til;
 import com.cdp.tdp.domain.User;
 import com.cdp.tdp.dto.JwtResponse;
 import com.cdp.tdp.dto.SignupRequestDto;
@@ -19,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -61,5 +63,9 @@ public class UserController {
     public User readUser(@AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
         User user = (User) userDetails.getUser();
         return user;
+    }
+    @GetMapping("til/ranker")
+    public List<User> readAllUser(){
+        return userService.readAllUser();
     }
 }
