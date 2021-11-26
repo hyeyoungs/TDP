@@ -35,8 +35,8 @@ public class Til extends Timestamped {
     @Column(nullable = false)
     private int til_like;
 
-    @ManyToOne
     @JoinColumn(name = "user_id")
+    @ManyToOne
     private User user;
 
     @JsonIgnore
@@ -68,5 +68,8 @@ public class Til extends Timestamped {
         this.til_content=tilRequestDto.getTil_content();
     }
 
+    public void updateMyTilView(){
+        til_view = !(til_view);
+    }
 
 }
