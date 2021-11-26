@@ -32,7 +32,7 @@
 
     <style>
         body {
-            background-color: #eeeeee;
+            background-color: #9fcdff;
         }
 
         .navbar-brand {
@@ -86,9 +86,11 @@
                 let github_id = my_profile['github_id'];
                 let nickname = my_profile['nickname'];
                 let username = my_profile['username'];
-
+                let introduce=my_profile['introduce'];
                 $('#username').text(username)
                 $('#github_id').text(github_id)
+                $('#nickname').text(nickname)
+                $('#introduce').text(introduce)
             }
         })
     }
@@ -122,6 +124,13 @@
 
             }
         });
+    }
+
+
+    function sign_out() {
+        $.removeCookie('mytoken', {path: '/'});
+        alert('로그아웃!')
+        window.location.href = "/"
     }
 
 </script>
@@ -160,14 +169,16 @@
             <div class="media-content">
                 <div class="content">
                     <div>
-                        <strong class="user_nickname_append"></strong> <small>@<label class="user_id_append" id="username"></label></small>
+                        <strong style="font-size: xx-large" id="nickname"></strong> <small>@<label class="user_id_append" id="username"></label></small>
                     </div>
-                    <div class="user_profile_info_append">
+                    <div class="user_profile_info_append" id="introduce">
                     </div>
-                    <div class="github_id_tag">Github ID: <label class="github_id_append" id="github_id"></label></div>
-                    <div>Followers : 10000</div>
-                    <div>Following : 20000</div>
+                    <div class="github_id_tag"><strong>Github ID:</strong> <label class="github_id_append" id="github_id"></label></div>
+                    <div><strong>Followers : </strong> 10000</div>
+                    <div><strong>Following : </strong>20000</div>
+
                 </div>
+
             </div>
         </article>
         <!-- Button -->
