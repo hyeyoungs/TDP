@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <!-- cookie -->
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+    <title>Title | TIL.D.P</title>
+
+
+</head>
+<style>
+    *{
+        font-family: 'Do Hyeon', sans-serif;
+    }
+    .navbar-brand {
+        margin-left: 70px;
+    }
+
+    .nav-link {
+
+        margin-left: 150px;
+    }
+
+    .rankingzone {
+        position: center;
+        float: right;
+        margin-right: 80px;
+    }
+
+    .left_write {
+        margin-left: 70px;
+    }
+
+    .board-main {
+        margin-left: 20px;
+    }
+
+    .test {
+        float: right;
+        width: 100px;
+        height: 100px;
+        background-color: yellow;
+        display: block;
+    }
+
+</style>
+<script>
+    let flag = 0;
+    let user_info = localStorage.getItem("username");
+    $(document).ready(function () {
+        list_til();
+        read_flag();
+    });
+
+    function list_til() {
+        $.ajax({
+            type: "GET",
+            url: "/til_board",
+            data: {},
+            success: function (response) {
+                let all_til = response;
+                console.log(all_til);
+                for (let i = 0; i < 4; i++) {
+                    let title = all_til[i]['til_title'];
+                    let user = all_til[i]['user']['nickname'];
+                    let content = all_til[i]['til_content'];
+                    let day = all_til[i]['createdAt'];
+                    let tempHtml = `
+                <div class="col" id="cards-box">
+                   <div class="card">
+                    <h5 class="card-subtitle">${user}</h5>
+                   <div class="card-body">
+                    <h5 class="card-title">${title}</h5>
+                    <p class="card-text">${content}</p>
+                    <p class="card-time">${day} </p>
+                    </div>
+                  </div>`
+                    $('#board-main').append(tempHtml)
+                }
+            }
+        })
+    }
+
+    function read_flag() {
+        let today = new Date();
+        let result_date;
+
+        $.ajax({
+            type: "GET",
+            url: "/til/user",
+            data: {},
+            success: function (response) {
+                let all_til = response;
+
+                for (let i = 0; i < all_til.length; i++) {
+                    let day = all_til[i]['createdAt'];
+                    result_date = new Date(day);
+                    console.log(today.toDateString());
+                    console.log(result_date.toDateString());
+                    try {
+                        if (today.toDateString() === result_date.toDateString()) {
+                            $(".test").css("background-color", 'blue');
+                        } else {
+                            $(".test").css("background-color", 'red');// display 속성을 block 으로 바꾼다.
+                        }
+                    }catch (e) {
+                        console.log("작성된 TIL이 없습니다.")
+                    }
+                }
+            }
+        })
+    }
+    function logMyErrors(){
+        $(".test").css("background-color", 'black');// display 속성을 block 으로 바꾼다.
+    }
+    //     function rank_til() {
+    //         $.ajax({
+    //                 type: "GET",
+    //                 url: "/til/rank",
+    //                 data: {},
+    //                 success: function (response) {
+    //                     let til_rank = response['til_rank'];
+    //                     for (let i = 0; i < til_rank.length; i++) {
+    //                         let user = til_rank[i]['_id'];
+    //                         let score = til_rank[i]['til_score'];
+    //                         let temp_html = `<tr>
+    //                                                 <th>${i + 1}</th>
+    //                                                 <th scope="row">${user}</th>
+    //                                                 <td>${score}</td>
+    //                                             </tr>
+    // `
+    //                         $('#ranker-box').append(temp_html)
+    //                     }
+    //                 }
+    //             }
+    //         )
+    //     }
+
+    function sign_out() {
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
+        location.href = '/';
+    }
+</script>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="./home_org.html">TIL.D.P</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div id="navbar-nav" class="navbar-nav">
+                <a class="nav-link " href="./til_board.html">Write TIL</a>
+                <a class="nav-link" href="./mytil_page.html">My TIL</a>
+                <a class="nav-link" href="https://github.com/">Github</a>
+                <a class="nav-link" href="./my_page.html">myPage</a>
+                <a class="nav-link" onclick="sign_out()">logout</a>
+            </div>
+        </div>
+    </div>
+</nav>
+<br><br>
+<div class="rankingzone">
+    <h1> 랭킹존 </h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Team</th>
+            <th>Points</th>
+            <th>+/-</th>
+        </tr>
+        </thead>
+        <tbody id="ranker-box">
+
+        </tbody>
+    </table>
+</div>
+<div class="left_write">
+    <br><br>
+    <div class="test rounded-circle"></div>
+    <br>
+    <h1>TIL 관리 서비스</h1><br>
+</div>
+
+
+<h4>당신의 til 관리를 책임집니다!</h4>
+<br>
+<br><br><br>
+<div class="row row-cols-3 row-cols-md-5 g-3 board-main" id="board-main">
+</div>
+</body>
+</html>
