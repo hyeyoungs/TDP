@@ -1,9 +1,10 @@
 package com.cdp.tdp.controller;
 
+import com.cdp.tdp.domain.Comment;
+import com.cdp.tdp.domain.Ranker;
+import com.cdp.tdp.domain.Til;
 import com.cdp.tdp.domain.User;
-import com.cdp.tdp.dto.JwtResponse;
-import com.cdp.tdp.dto.SignupRequestDto;
-import com.cdp.tdp.dto.UserDto;
+import com.cdp.tdp.dto.*;
 import com.cdp.tdp.security.UserDetailsImpl;
 import com.cdp.tdp.service.UserService;
 import com.cdp.tdp.util.JwtTokenUtil;
@@ -19,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -61,5 +63,19 @@ public class UserController {
     public User readUser(@AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
         User user = (User) userDetails.getUser();
         return user;
+    }
+    @GetMapping("til/ranker")
+    public List<User> getAllUser(){
+        User user = (User) userService.getAllUser();
+        return userService.getAllUser();
+    }
+//    public Comment createComment(@RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
+//        Comment comment = commentService.createComment(requestDto, userDetails.getUser().getId(), requestDto.getTil_id());
+//        return comment;
+    @PutMapping("/user/update")
+    public void updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody UserUpdateDto userUpdateDto) throws SQLException{
+        User user = (User) userDetails.getUser();
+        userService.updateUser(user, userUpdateDto);
+
     }
 }

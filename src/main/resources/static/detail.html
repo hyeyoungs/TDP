@@ -202,12 +202,12 @@
                 console.log(response);
 
                 // $("#heart-count").text(count);
-                if (response) {
+                if (response) { //좋아요누른상태
                     let temp_html = `<i class="fa fa-heart" aria-hidden="true"></i>`
                     $('#now-heart').append(temp_html)
 
 
-                } else {
+                } else { //좋아요 안누른상태
                     let temp_html = `<i class="fa fa-heart-o" aria-hidden="true"></i>`
                     $('#now-heart').append(temp_html)
                 }
@@ -224,7 +224,7 @@
             url: `/til_board/${idx}`,
             data: {},
             success: function (response) {
-                console.log(response);
+
                 let title = response['til_title']
                 let content = response['til_content']
                 let num_heart=response['til_like']
@@ -408,10 +408,12 @@
 
 
                 success: function (response) {
+                    console.log(response)
 
                     $i_like.addClass("fa-heart-o").removeClass("fa-heart")
                     console.log(response);
                     //like_num.text(response["count"])
+
                 }
             })
         } else {
@@ -425,12 +427,14 @@
                 success: function (response) {
 
                     console.log(response);
+
                     $i_like.addClass("fa-heart").removeClass("fa-heart-o")
-                    //like_num.text(response["count"])
+
                 }
             })
 
         }
+        window.location.reload();
     }
 
     function sign_out() {
@@ -442,22 +446,20 @@
 <body>
 
 
-<!-- navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/main_page">TIL.D.P</a>
+        <a class="navbar-brand" href="./home.html">TIL.D.P</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div id="navbar-nav" class="navbar-nav">
-                <a class="nav-link " href="./til_board">Write TIL</a>
-                <a class="nav-link" href="./mytil_page">My TIL</a>
+                <a class="nav-link " href="./til_board.html">Write TIL</a>
+                <a class="nav-link" href="./mytil_page.html">My TIL</a>
                 <a class="nav-link" href="https://github.com/">Github</a>
-                <a class="nav-link" href="./my_page">myPage</a>
+                <a class="nav-link" href="./my_page.html">myPage</a>
                 <a class="nav-link" onclick="sign_out()">logout</a>
-                <a class="nav-link" onclick="goback()">Back</a>
             </div>
         </div>
     </div>

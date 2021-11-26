@@ -54,13 +54,14 @@
                         let all_til = response;
                         console.log(all_til);
                         for (let i = 0; i < all_til.length; i++) {
+                            console.log(all_til[i]);
                             let title = all_til[i]['til_title'];
                             let user = all_til[i]['user']['nickname'];
                             let content = all_til[i]['til_content'];
                             let day = all_til[i]['createdAt'];
-                            let til_idx = all_til[i]['til_idx'];
+                            let til_idx = all_til[i]['id'];
                             if (i < 4) {
-                                let temp_html = `<tr onClick="detail('${til_idx}')" style="cursor:pointer;">
+                                let temp_html = `<tr onClick="detail(${til_idx})" style="cursor:pointer;">
 
                                                 <th scope="row">${title}<img src="new.png" height="30" width="30"></th>
                                                 <td>${user}</td>
@@ -70,7 +71,7 @@
                                 $('#til-box').append(temp_html)
 
                             } else {
-                                let temp_html = `<tr onClick="detail('${til_idx}')" style="cursor:pointer;">
+                                let temp_html = `<tr onClick="detail(${til_idx})" style="cursor:pointer;">
                                                 <th scope="row">${title}</th>
                                                 <td>${user}</td>
                                                 <td>${day}</td>
@@ -85,7 +86,7 @@
         }
 
         function detail(til_idx) {
-            location.href = "/detail" + "?idx="+til_idx;
+            location.href = "detail.html?idx="+til_idx;
         }
 
         function til_search() {

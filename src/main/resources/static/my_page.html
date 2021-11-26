@@ -66,19 +66,62 @@
     $(document).ready(function () {
         read_my_profile();
     })
+
+    $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+        if(localStorage.getItem('token')) {
+            jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
+        } else {
+            alert("로그인 해주세요")
+            location.href = "./index.html"
+        }
+    });
     function read_my_profile() {
         $.ajax({
             type: "GET",
             url: "/user",
             data: {},
             success: function (response) {
-            let my_profile = response;
+                console.log(response);
+                let my_profile = response;
                 let github_id = my_profile['github_id'];
                 let nickname = my_profile['nickname'];
-                $('#input-nickname').append(nickname).val()
-                $('#input-github-id').append(github_id).val()
+                let username = my_profile['username'];
+
+                $('#username').text(username)
+                $('#github_id').text(github_id)
             }
         })
+    }
+
+    function update_profile() {
+        let nickname = $('#input-nickname').val()
+        let github_id = $('#input-github-id').val()
+        let file = $('#input-pic')[0].files[0]
+        let about = $("#textarea-about").val()
+
+
+        let info={
+            nickname : nickname,
+            github_id : github_id,
+            file : file,
+            introduce : about
+        }
+
+        $.ajax({
+            type: "PUT",
+            url: "/user/update",
+            contentType: "application/json",
+            data: JSON.stringify(info),
+
+            processData: false,
+            success: function (response) {
+                alert('업데이트 되었습니다!')
+                window.location.reload();
+
+
+
+            }
+        });
     }
 
 </script>
@@ -86,7 +129,7 @@
 <!-- navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/main_page">TIL.D.P</a>
+        <a class="navbar-brand" href="./home.html">TIL.D.P</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -117,11 +160,11 @@
             <div class="media-content">
                 <div class="content">
                     <div>
-                        <strong class="user_nickname_append"></strong> <small>@<label class="user_id_append"></label></small>
+                        <strong class="user_nickname_append"></strong> <small>@<label class="user_id_append" id="username"></label></small>
                     </div>
                     <div class="user_profile_info_append">
                     </div>
-                        <div class="github_id_tag">Github ID: <label class="github_id_append"></label></div>
+                    <div class="github_id_tag">Github ID: <label class="github_id_append" id="github_id"></label></div>
                     <div>Followers : 10000</div>
                     <div>Following : 20000</div>
                 </div>
