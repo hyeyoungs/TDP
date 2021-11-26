@@ -45,7 +45,7 @@ public class UserService {
     public User getMyUser(User user) {
         return userRepository.findById(user);
     }
-    public List<User> readAllUser(User user){
-        return userRepository.in;
+    public List<User> readAllUser(){
+        return userRepository.findAll();
     }
 }
