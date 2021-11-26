@@ -1,5 +1,6 @@
 package com.cdp.tdp.controller;
 
+import com.cdp.tdp.domain.Ranker;
 import com.cdp.tdp.domain.Til;
 import com.cdp.tdp.domain.User;
 import com.cdp.tdp.dto.*;
@@ -63,8 +64,8 @@ public class UserController {
         return user;
     }
     @GetMapping("til/ranker")
-    public List<User> readAllUser(){
-        return userService.readAllUser();
+    public List<User> getAllUser(){
+       return userService.getAllUser();
     }
 
     @PutMapping("/user/update")
