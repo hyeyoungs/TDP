@@ -64,9 +64,9 @@ public class UserController {
         User user = (User) userDetails.getUser();
         return user;
     }
-    @GetMapping("til/ranker")
-    public List<User> getAllUser(){
-        User user = (User) userService.getAllUser();
+    @GetMapping("/til/ranker")
+    public List<UserTilCountDto> getAllUser(){
+
         return userService.getAllUser();
     }
 //    public Comment createComment(@RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
