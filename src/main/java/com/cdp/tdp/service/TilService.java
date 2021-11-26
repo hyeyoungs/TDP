@@ -44,7 +44,7 @@ public class TilService {
     }
 
     @Transactional
-    public Til updateTil(Long id , TilRequestDto tilRequestDto)throws SQLException{
+    public Til updateTil(Long id, TilRequestDto tilRequestDto)throws SQLException{
         Til til = tilRepository.findById(id).orElseThrow(
                 ()->new NullPointerException("해당 아이디가 존재하지 않습니다.")
         );
@@ -54,6 +54,14 @@ public class TilService {
 
     public List<Til> getUserTil(User user){
         return tilRepository.findByUser(user);
+    }
+
+    public void updateTilView(Long id){
+        Til til = tilRepository.findById(id).orElseThrow(
+                ()->new NullPointerException("해당 아이디가 존재하지 않습니다.")
+        );
+        til.updateMyTilView();
+        tilRepository.save(til);
     }
 
 }
