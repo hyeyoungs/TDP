@@ -141,28 +141,9 @@
 
 <script>
     $(document).ready(function () {
+        login_check();
         let user_info=localStorage.getItem("username");
         $('.user_nickname').text(user_info);
-    //     $.ajaxSetup({
-    //         error: function (jqXHR, exception) {
-    //             switch (jqXHR.status) {
-    //                 case 401:
-    //                     alert('인증 에러!!');
-    //                     break;
-    //                 case 423:
-    //                     alert('중복된 id!!');
-    //                     break;
-    //             }
-    //         },
-    //         beforeSend: function (xhr) {
-    //             if (localStorage.getItem('token') != null) {
-    //                 xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
-    //             } else {
-    //                 location.href = "login"
-    //                 alert("로그인 해주세요")
-    //             }
-    //         }
-    //     });
         idx = window.location.search.split("=")[1]
         $('#new-box').hide();
         get_til();
@@ -171,6 +152,20 @@
         //get_comment();
         //get_user();
      });
+
+    function login_check(options, originalOptions, jqXHR){
+        if(localStorage.getItem('token')) {
+            jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
+        } else {
+            alert("로그인 해주세요")
+            location.href = "./index.html"
+        }
+    }
+
+    $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+        login_check(options, originalOptions, jqXHR);
+    });
+
     var idx;
 
     function get_status() {

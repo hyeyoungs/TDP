@@ -35,14 +35,22 @@
     </style>
     <script>
         $(document).ready(function () {
+            login_check();
             let user_info=localStorage.getItem("username");
             $('.user_nickname_append').text(user_info);
         });
 
-        $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+        function login_check(options, originalOptions, jqXHR){
             if(localStorage.getItem('token')) {
                 jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
+            } else {
+                alert("로그인 해주세요")
+                location.href = "./index.html"
             }
+        }
+
+        $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+            login_check(options, originalOptions, jqXHR);
         });
 
         function create_til() {

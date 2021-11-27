@@ -48,9 +48,23 @@
     let flag = 0;
     let user_info = localStorage.getItem("username");
     $(document).ready(function () {
+      login_check();
       list_til();
       read_flag();
       rank_til();
+    });
+
+    function login_check(options, originalOptions, jqXHR){
+      if(localStorage.getItem('token')) {
+        jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
+      } else {
+        alert("로그인 해주세요")
+        location.href = "./index.html"
+      }
+    }
+
+    $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+      login_check(options, originalOptions, jqXHR);
     });
 
     function list_til() {
@@ -61,7 +75,11 @@
         success: function (response) {
           let all_til = response;
           console.log(all_til);
-          for (let i = 0; i < 4; i++) {
+          let max = 4;
+          if (all_til.length < 4) {
+            max = all_til.length;
+          }
+          for (let i = 0; i < max; i++) {
             let title = all_til[i]['til_title'];
             let user = all_til[i]['user']['nickname'];
             let content = all_til[i]['til_content'];
