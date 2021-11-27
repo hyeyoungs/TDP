@@ -402,22 +402,9 @@
 </style>
 <script>
     $(document).ready(function () {
-        $.ajaxSetup({
-            error: function (jqXHR) {
-                switch (jqXHR.status) {
-                    case 401:
-                        alert('인증 에러!!');
-                        break;
-                }
-            },
-            beforeSend: function (xhr) {
-                if (localStorage.getItem('token')) {
-                    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
-                    alert("로그인 해주세요")
-                    location.href = "./home.html"
-                }
-            }
-        });
+        if (localStorage.getItem('token')) {
+            location.href = "./home.html"
+        }
     });
 
     function cambiar_login() {
