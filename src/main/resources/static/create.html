@@ -17,6 +17,7 @@
     <!-- cookie -->
     <script type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
     <style>
         body {
             padding-bottom: 30px;
@@ -57,7 +58,7 @@
                 contentType: "application/json",
                 data: JSON.stringify(info),
                 success: function (response) { // 성공하면
-                    alert("작성완료")
+                    alert("작성 완료!")
                     window.location.href = "/til_board.html"
                 }
             });
