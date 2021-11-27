@@ -143,6 +143,8 @@
     $(document).ready(function () {
         token_check();
         read_user_profile();
+        append_github_id();
+        append_introduce();
         idx = window.location.search.split("=")[1]
         $('#new-box').hide();
         get_til();
@@ -185,6 +187,7 @@
 
     async function read_user_profile(){
         let user_info = await read_user();
+        console.log(user_info)
         $('.user_id_append').text(user_info['username']);
         $('.user_nickname_append').text(user_info['nickname']);
         $('.user_profile_info_append').text(user_info['introduce']);
@@ -196,6 +199,22 @@
         $('.user_profile_pic_append').val(user_info['picture']);
         $('.user_profile_pic_real_append').attr('src', user_info['picture_real']);
         $('.github_id_append').val(user_info['github_id']);
+    }
+
+    async function append_github_id(){
+        let user_info = await read_user();
+        let github_id = user_info['github_id']
+        if (github_id == null){
+            $('.github_id_tag').hide();
+        }
+    }
+
+    async function append_introduce(){
+        let user_info = await read_user();
+        let introduce = user_info['introduce']
+        if (introduce == null){
+            $('.introduce_tag').hide();
+        }
     }
 
     var idx;
@@ -254,15 +273,11 @@
                 let title = response['til_title']
                 let content = response['til_content']
                 let num_heart=response['til_like']
-                let username=response['user']['username']
-                let github_id=response['user']['github_id']
 
                 $("#now-title").text(title);
                 $("#now-content").text(content);
                 $("#new-til-title").text(title);
                 $('#new-til-content').text(content)
-                $("#user-nickname").text(username);
-                $("#user-githhub_id").text(github_id);
                 $("#heart-count").text(num_heart);
 
             }
@@ -482,19 +497,19 @@
                 <div class="card-body">
                     <span>닉네임</span>
                     <div id="user-nickname" class="h5 user_nickname_append"></div>
-                    <span>user_introduce</span>
-                    <div id="user-profile" class="h7 text-muted user_profile_info_append"></div>
-                    <span>github_id</span>
-                    <div id="user-github_id" class="h7 text-muted github_id_append"></div>
+                    <span class = "introduce_tag">user_introduce</span>
+                    <div id="user-profile" class="h7 text-muted introduce_tag user_profile_info_append"></div>
+                    <span class="github_id_tag">github_id</span>
+                    <div id="user-github_id" class="h7 text-muted github_id_tag github_id_append"></div>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         <div class="h6 text-muted">Followers</div>
-                        <div class="h5"></div>
+                        <div class="h5">10000</div>
                     </li>
                     <li class="list-group-item">
                         <div class="h6 text-muted">Followings</div>
-                        <div class="h5"></div>
+                        <div class="h5">20000</div>
                     </li>
                     <li class="list-group-item">Sparta Coding</li>
                 </ul>
