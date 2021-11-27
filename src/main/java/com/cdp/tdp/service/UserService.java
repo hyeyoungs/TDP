@@ -46,10 +46,6 @@ public class UserService {
         return user;
     }
 
-    public Optional<User> getMyUser(String username) {
-        return userRepository.findByUsername(username);
-    }
-
     public List<UserTilCountDto> getAllUser(){
         List<User> user_list= userRepository.findAll(); // 모든 user 를 리스트에 담음
         int til_count;

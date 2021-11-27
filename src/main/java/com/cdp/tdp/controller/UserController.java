@@ -50,9 +50,9 @@ public class UserController {
     }
 
     @GetMapping(value = "/user")
-    public Optional<User> readUser(@AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
-        String username = userDetails.getUsername();
-        return userService.getMyUser(username);
+    public User readUser(@AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
+        User user = (User) userDetails.getUser();
+        return user;
     }
 
     @GetMapping("/til/ranker")
@@ -62,7 +62,6 @@ public class UserController {
 
     @PutMapping("/user/update")
     public void updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody UserUpdateDto userUpdateDto) throws SQLException{
-        User user = (User) userDetails.getUser();
-        userService.updateUser(user, userUpdateDto);
+        userService.updateUser(userDetails.getUser(), userUpdateDto);
     }
 }
