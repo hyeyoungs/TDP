@@ -141,7 +141,8 @@
 
 
     function sign_out() {
-        $.removeCookie('mytoken', {path: '/'});
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
         alert('로그아웃!')
         window.location.href = "/"
     }

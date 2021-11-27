@@ -179,9 +179,10 @@
     }
 
     function sign_out() {
-      localStorage.removeItem("token");
-      localStorage.removeItem("username");
-      location.href = '/';
+      localStorage.removeItem('token');
+      localStorage.removeItem('username');
+      alert('로그아웃!')
+      window.location.href = "/"
     }
 
 
