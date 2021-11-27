@@ -187,7 +187,6 @@
 
     async function read_user_profile(){
         let user_info = await read_user();
-        console.log(user_info)
         $('.user_id_append').text(user_info['username']);
         $('.user_nickname_append').text(user_info['nickname']);
         $('.user_profile_info_append').text(user_info['introduce']);
