@@ -149,7 +149,6 @@
         //get_status();
         get_heart();
         //get_comment();
-        //get_user();
      });
 
     function token_check(){
@@ -265,26 +264,6 @@
                 $("#user-nickname").text(username);
                 $("#user-githhub_id").text(github_id);
                 $("#heart-count").text(num_heart);
-
-            }
-        });
-    }
-
-    function get_user() {
-
-        $.ajax({
-            type: "GET",
-            url: `/til/user/${idx}`,
-            data: {},
-            success: function (response) {
-
-                let nickname = response['user_nickname']
-                let githhub_id = response['githhub_id']
-                let profile = response['user_profile_info']
-
-                $("#user-nickname").text(nickname);
-                $("#user-githhub_id").text(githhub_id);
-                $("#user-profile").text(profile);
 
             }
         });
@@ -501,11 +480,11 @@
             <div class="card">
                 <div class="card-body">
                     <span>닉네임</span>
-                    <div id="user-nickname" class="h5">user_nickname 내용</div>
+                    <div id="user-nickname" class="h5 user_nickname_append"></div>
                     <span>user_introduce</span>
-                    <div id="user-pfofile" class="h7 text-muted">user_introduce 내용</div>
+                    <div id="user-profile" class="h7 text-muted user_profile_info_append"></div>
                     <span>github_id</span>
-                    <div id="user-githhub_id" class="h7 text-muted">github_id 내용</div>
+                    <div id="user-github_id" class="h7 text-muted github_id_append"></div>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
@@ -559,10 +538,10 @@
 
                     <div id="new-box" class="new-content">
                         <div class="new-box">
-                            <label for="exampleFormControlInput1" class="center">제목</label>
+                            <label for="new-til-title" class="center">제목</label>
                             <p><textarea class="form-control" id="new-til-title" rows="1">til_title</textarea>
                             </p>
-                            <label for="exampleFormControlInput1" class="center">content</label>
+                            <label for="new-til-content" class="center">content</label>
 
                             <textarea class="form-control" id="new-til-content"
                                       rows="8">til_content</textarea><br>
