@@ -142,8 +142,7 @@
 <script>
     $(document).ready(function () {
         token_check();
-        let user_info=localStorage.getItem("username");
-        $('.user_nickname').text(user_info);
+        read_user_profile();
         idx = window.location.search.split("=")[1]
         $('#new-box').hide();
         get_til();
@@ -172,6 +171,33 @@
     $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
         login_check(options, originalOptions, jqXHR);
     });
+
+    function read_user() {
+        $.ajax({
+            type: "GET",
+            url: "/user",
+            async: false,
+            success: function (response) {
+                user_info = response;
+            }
+        });
+        return user_info;
+    }
+
+    async function read_user_profile(){
+        let user_info = await read_user();
+        $('.user_id_append').text(user_info['username']);
+        $('.user_nickname_append').text(user_info['nickname']);
+        $('.user_profile_info_append').text(user_info['user_profile_info']);
+        $('.user_profile_pic_append').text(user_info['user_profile_pic']);
+        $('.github_id_append').text(user_info['github_id']);
+        $('.user_id_append').val(user_info['username']);
+        $('.user_nickname_append').val(user_info['nickname']);
+        $('.user_profile_info_append').val(user_info['user_profile_info']);
+        $('.user_profile_pic_append').val(user_info['user_profile_pic']);
+        $('.user_profile_pic_real_append').attr('src', user_info['user_profile_pic_real']);
+        $('.github_id_append').val(user_info['github_id']);
+    }
 
     var idx;
 
