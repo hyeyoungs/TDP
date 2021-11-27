@@ -48,12 +48,19 @@
     let flag = 0;
     let user_info = localStorage.getItem("username");
 
-    $(document).ready(function (options, originalOptions, jqXHR) {
-      login_check(options, originalOptions, jqXHR);
+    $(document).ready(function () {
+      token_check();
       list_til();
       read_flag();
       rank_til();
     });
+
+    function token_check(){
+      if (localStorage.getItem('token') == null) {
+        alert("로그인 해주세요")
+        location.href = "./index.html"
+      }
+    }
 
     function login_check(options, originalOptions, jqXHR){
       if(localStorage.getItem('token')) {

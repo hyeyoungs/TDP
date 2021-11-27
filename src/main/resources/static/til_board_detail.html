@@ -51,8 +51,8 @@
 
     </style>
     <script>
-        $(document).ready(function (options, originalOptions, jqXHR) {
-            login_check(options, originalOptions, jqXHR);
+        $(document).ready(function () {
+            token_check();
             const url = new URL(window.location.href);
 
             // URLSearchParams 객체
@@ -63,6 +63,13 @@
             setting=urlParams.get('setting')
             get_tils(keyword,setting)
         });
+
+        function token_check(){
+            if (localStorage.getItem('token') == null) {
+                alert("로그인 해주세요")
+                location.href = "./index.html"
+            }
+        }
 
         function login_check(options, originalOptions, jqXHR){
             if(localStorage.getItem('token')) {

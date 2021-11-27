@@ -140,8 +140,8 @@
 </head>
 
 <script>
-    $(document).ready(function (options, originalOptions, jqXHR) {
-        login_check(options, originalOptions, jqXHR);
+    $(document).ready(function () {
+        token_check();
         let user_info=localStorage.getItem("username");
         $('.user_nickname').text(user_info);
         idx = window.location.search.split("=")[1]
@@ -152,6 +152,13 @@
         //get_comment();
         //get_user();
      });
+
+    function token_check(){
+        if (localStorage.getItem('token') == null) {
+            alert("로그인 해주세요")
+            location.href = "./index.html"
+        }
+    }
 
     function login_check(options, originalOptions, jqXHR){
         if(localStorage.getItem('token')) {

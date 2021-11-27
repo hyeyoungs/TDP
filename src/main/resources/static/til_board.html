@@ -21,10 +21,17 @@
     <script type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script>
-        $(document).ready(function (options, originalOptions, jqXHR) {
-            login_check(options, originalOptions, jqXHR);
+        $(document).ready(function () {
+            token_check();
             read_all_til();
-        })
+        });
+
+        function token_check(){
+            if (localStorage.getItem('token') == null) {
+                alert("로그인 해주세요")
+                location.href = "./index.html"
+            }
+        }
 
         function login_check(options, originalOptions, jqXHR){
             if(localStorage.getItem('token')) {
