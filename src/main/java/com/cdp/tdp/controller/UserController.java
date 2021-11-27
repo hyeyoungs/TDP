@@ -64,6 +64,5 @@ public class UserController {
     public void updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody UserUpdateDto userUpdateDto) throws SQLException{
         User user = (User) userDetails.getUser();
         userService.updateUser(user, userUpdateDto);
-
     }
 }
