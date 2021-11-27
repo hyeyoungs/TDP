@@ -30,8 +30,8 @@
             src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
     <script>
-        $(document).ready(function () {
-            login_check();
+        $(document).ready(function (options, originalOptions, jqXHR) {
+            login_check(options, originalOptions, jqXHR);
             list_user_til();
             read_user_profile();
         });

@@ -47,8 +47,9 @@
   <script>
     let flag = 0;
     let user_info = localStorage.getItem("username");
-    $(document).ready(function () {
-      login_check();
+
+    $(document).ready(function (options, originalOptions, jqXHR) {
+      login_check(options, originalOptions, jqXHR);
       list_til();
       read_flag();
       rank_til();

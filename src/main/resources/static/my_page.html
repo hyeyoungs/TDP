@@ -63,8 +63,8 @@
     </style>
 </head>
 <script>
-    $(document).ready(function () {
-        login_check();
+    $(document).ready(function (options, originalOptions, jqXHR) {
+        login_check(options, originalOptions, jqXHR);
         read_my_profile();
     })
 

@@ -140,8 +140,8 @@
 </head>
 
 <script>
-    $(document).ready(function () {
-        login_check();
+    $(document).ready(function (options, originalOptions, jqXHR) {
+        login_check(options, originalOptions, jqXHR);
         let user_info=localStorage.getItem("username");
         $('.user_nickname').text(user_info);
         idx = window.location.search.split("=")[1]

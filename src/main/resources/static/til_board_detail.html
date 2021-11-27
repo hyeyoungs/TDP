@@ -51,8 +51,8 @@
 
     </style>
     <script>
-        $(document).ready(function () {
-            login_check();
+        $(document).ready(function (options, originalOptions, jqXHR) {
+            login_check(options, originalOptions, jqXHR);
             const url = new URL(window.location.href);
 
             // URLSearchParams 객체
