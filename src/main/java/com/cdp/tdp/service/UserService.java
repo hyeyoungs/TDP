@@ -33,21 +33,18 @@ public class UserService {
             if (found.isPresent()) {
                 throw new IllegalArgumentException("중복된 사용자 ID 가 존재합니다.");
             }
-
+            requestDto.setPicture("profile_placeholder.png");
+            requestDto.setPicture_real("./profile_pics/profile_placeholder.png");
             String signPassword = passwordEncoder.encode(requestDto.getPassword());
             String nickname = requestDto.getNickname();
             String githubId = requestDto.getGithub_id();
             String introduce = requestDto.getIntroduce();
-            String picture=requestDto.getPicture();
-            String picture_real=requestDto.getPicture_real();
+            String picture = requestDto.getPicture();
+            String picture_real = requestDto.getPicture_real();
 
             User user = new User(signId, signPassword, nickname, githubId, introduce,picture,picture_real);
             userRepository.save(user);
         return user;
-    }
-
-    public Optional<User> getMyUser(String username) {
-        return userRepository.findByUsername(username);
     }
 
     public List<UserTilCountDto> getAllUser(){

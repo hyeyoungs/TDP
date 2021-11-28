@@ -1,20 +1,24 @@
 package com.cdp.tdp.security;
 
 import com.cdp.tdp.domain.User;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
 
-@Getter
-@RequiredArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
     private final User user;
-    private boolean enabled = true;
+    private final boolean enabled = true;
+
+    public UserDetailsImpl(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
+    }
 
     @Override
     public String getPassword() {

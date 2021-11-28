@@ -45,8 +45,7 @@ public class TilController {
 
     @GetMapping("/til/user")
     public List<Til> getUserTil(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        User user = (User) userDetails.getUser();
-        return tilService.getUserTil(user);
+        return tilService.getUserTil(userDetails.getUser());
     }
 
     @PutMapping("/til_board/{id}/view")
