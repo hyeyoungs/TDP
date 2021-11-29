@@ -21,9 +21,8 @@ public class TilService {
     private final UserRepository userRepository;
 
     public List<Til> getAllTil() {
-        return tilRepository.findAll();
+        return tilRepository.findAllByOrderByIdDesc();
     }
-
 
     public Til createTil(TilRequestDto tilRequestDto, Long id) throws SQLException {
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("no such user"));
