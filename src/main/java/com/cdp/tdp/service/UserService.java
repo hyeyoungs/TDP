@@ -73,17 +73,12 @@ public class UserService {
             }
         });
         return CountTilList;
-    }
 
+    }
     public int TilCount(User user){
         List<Til> user_tils=user.getTil_list();// 모든 user 를 리스트에 담음
         return user_tils.size();
-
-
-
     }
-
-
 
     @Transactional
     public User updateUser(User user , UserUpdateDto userUpdateDto)throws SQLException {
