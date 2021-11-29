@@ -150,7 +150,7 @@
         get_til();
         //get_status();
         get_heart();
-        //get_comment();
+        get_comment();
      });
 
     function token_check(){
@@ -286,23 +286,22 @@
     function get_comment() {
         $.ajax({
             type: "GET",
-            url: `/til/comment/${idx}`,
+            url: `/til/comments/${idx}`,
             data: {},
             success: function (response) {
-                let writer = response['writer']
-                let all_comment = response['comment'];
+                let user = response[0]['id']
+                for (let i = 1; i < response.length; i++) {
+                    let comment = response[i]['til_comment']
+                    let day = response[i]['createdAt']
+                    let commenter = response[i]['user']['id']
+                    let comment_idx = response[i]['id']
+                    let nickname = response[i]['user']['nickname']
 
-                for (let i = 0; i < all_comment.length; i++) {
-                    let comment = all_comment[i]['til_comment']
-                    let day = all_comment[i]['til_comment_day']
-                    let commenter = all_comment[i]['user_nickmane']
-                    let comment_idx = all_comment[i]['comment_idx']
-
-
-                    if (commenter == writer) {
+                    // user는 접속자, commenter는 댓글 작성자
+                    if (user == commenter) {
                         let temp_html =
                             `<tr>
-                                <td>${commenter}</td>
+                                <td>${nickname}</td>
                                 <td>${comment}</td>
                                 <td>${day}</td>
                                 <td>
@@ -315,7 +314,7 @@
                     } else {
                         let temp_html =
                             `<tr>
-                                <td>${commenter}</td>
+                                <td>${nickname}</td>
                                 <td>${comment}</td>
                                 <td>${day}</td>
                                 </tr>`
@@ -329,23 +328,36 @@
 
 
     function create_comment() {
-        let comment = $("#textarea-post").val()
-        let today = new Date().toISOString()
-
+        let info = {
+            til_comment : $("#textarea-post").val(),
+            idx: idx
+        }
         $.ajax({
             type: "POST",
             url: "/til/comment",
-            data: {
-                comment_give: comment,
-                date_give: today,
-                til_idx_give: idx
-            },
+            contentType: "application/json",
+            data: JSON.stringify(info),
+
             success: function (response) {
-                alert(response['msg'])
                 $("#modal-post").removeClass("is-active")
                 window.location.reload()
             }
         })
+    }
+
+    function delete_comment(comment_idx) {
+        comment_idx = parseInt(comment_idx)
+        alert(comment_idx)
+
+        $.ajax({
+            type: "DELETE",
+            url: `/til/comments/${comment_idx}`,
+            data: {},
+            success: function (response) {
+                alert(response['msg'])
+                window.location.reload()
+            }
+        });
     }
 
     function delete_comment(comment_idx) {
