@@ -33,21 +33,18 @@ public class UserService {
             if (found.isPresent()) {
                 throw new IllegalArgumentException("중복된 사용자 ID 가 존재합니다.");
             }
-
+            requestDto.setPicture("profile_placeholder.png");
+            requestDto.setPicture_real("./profile_pics/profile_placeholder.png");
             String signPassword = passwordEncoder.encode(requestDto.getPassword());
             String nickname = requestDto.getNickname();
             String githubId = requestDto.getGithub_id();
             String introduce = requestDto.getIntroduce();
-            String picture=requestDto.getPicture();
-            String picture_real=requestDto.getPicture_real();
+            String picture = requestDto.getPicture();
+            String picture_real = requestDto.getPicture_real();
 
             User user = new User(signId, signPassword, nickname, githubId, introduce,picture,picture_real);
             userRepository.save(user);
         return user;
-    }
-
-    public User getMyUser(User user) {
-        return userRepository.findById(user);
     }
 
     public List<UserTilCountDto> getAllUser(){
@@ -63,11 +60,19 @@ public class UserService {
             userTilCountDto.setTil_count(til_count);
             userTilCountDto.setUsername(username);
             CountTilList.add(userTilCountDto);
-
         }
-
+        CountTilList.sort(new Comparator<UserTilCountDto>() {
+            @Override
+            public int compare(UserTilCountDto o1, UserTilCountDto o2) {
+                if (o1.getTil_count()< o2.getTil_count()){
+                    return 1;
+                } else if (o1.getTil_count()>o2.getTil_count()){
+                    return -1;
+                }
+                return 0;
+            }
+        });
         return CountTilList;
-
     }
 
     public int TilCount(User user){

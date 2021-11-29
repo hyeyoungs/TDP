@@ -22,6 +22,6 @@ public class UserUpdateDto {
 
     private String picture;
 
-
+//    private String picture_real;
 
 }

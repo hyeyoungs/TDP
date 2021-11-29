@@ -9,6 +9,4 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
     User findById(User user);
-    // til 갯수세기
-
 }

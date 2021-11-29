@@ -97,7 +97,6 @@
             background-color: rgba(211, 211, 211, 0.2)
         }
 
-        }
         .new-box {
             border-color: DodgerBlue;
             background-color: rgba(30, 144, 255, 0.2);
@@ -134,7 +133,7 @@
         .hr6 {
             border: none;
             border: 5px;
-            double orange;
+            double: orange;
         }
 
     </style>
@@ -142,36 +141,81 @@
 
 <script>
     $(document).ready(function () {
-        let user_info=localStorage.getItem("username");
-        $('.user_nickname').text(user_info);
-    //     $.ajaxSetup({
-    //         error: function (jqXHR, exception) {
-    //             switch (jqXHR.status) {
-    //                 case 401:
-    //                     alert('인증 에러!!');
-    //                     break;
-    //                 case 423:
-    //                     alert('중복된 id!!');
-    //                     break;
-    //             }
-    //         },
-    //         beforeSend: function (xhr) {
-    //             if (localStorage.getItem('token') != null) {
-    //                 xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
-    //             } else {
-    //                 location.href = "login"
-    //                 alert("로그인 해주세요")
-    //             }
-    //         }
-    //     });
+        token_check();
+        read_user_profile();
+        append_github_id();
+        append_introduce();
         idx = window.location.search.split("=")[1]
         $('#new-box').hide();
         get_til();
         //get_status();
         get_heart();
         //get_comment();
-        //get_user();
      });
+
+    function token_check(){
+        if (localStorage.getItem('token') == null) {
+            alert("로그인 해주세요")
+            location.href = "./index.html"
+        }
+    }
+
+    function login_check(options, originalOptions, jqXHR){
+        if(localStorage.getItem('token')) {
+            jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
+        } else {
+            alert("로그인 해주세요")
+            location.href = "./index.html"
+        }
+    }
+
+    $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+        login_check(options, originalOptions, jqXHR);
+    });
+
+    function read_user() {
+        $.ajax({
+            type: "GET",
+            url: "/user",
+            async: false,
+            success: function (response) {
+                user_info = response;
+            }
+        });
+        return user_info;
+    }
+
+    async function read_user_profile(){
+        let user_info = await read_user();
+        $('.user_id_append').text(user_info['username']);
+        $('.user_nickname_append').text(user_info['nickname']);
+        $('.user_profile_info_append').text(user_info['introduce']);
+        $('.user_profile_pic_append').text(user_info['picture']);
+        $('.github_id_append').text(user_info['github_id']);
+        $('.user_id_append').val(user_info['username']);
+        $('.user_nickname_append').val(user_info['nickname']);
+        $('.user_profile_info_append').val(user_info['introduce']);
+        $('.user_profile_pic_append').val(user_info['picture']);
+        $('.user_profile_pic_real_append').attr('src', user_info['picture_real']);
+        $('.github_id_append').val(user_info['github_id']);
+    }
+
+    async function append_github_id(){
+        let user_info = await read_user();
+        let github_id = user_info['github_id']
+        if (github_id == null){
+            $('.github_id_tag').hide();
+        }
+    }
+
+    async function append_introduce(){
+        let user_info = await read_user();
+        let introduce = user_info['introduce']
+        if (introduce == null){
+            $('.introduce_tag').hide();
+        }
+    }
+
     var idx;
 
     function get_status() {
@@ -228,36 +272,12 @@
                 let title = response['til_title']
                 let content = response['til_content']
                 let num_heart=response['til_like']
-                let username=response['user']['username']
-                let github_id=response['user']['github_id']
 
                 $("#now-title").text(title);
                 $("#now-content").text(content);
                 $("#new-til-title").text(title);
                 $('#new-til-content').text(content)
-                $("#user-nickname").text(username);
-                $("#user-githhub_id").text(github_id);
                 $("#heart-count").text(num_heart);
-
-            }
-        });
-    }
-
-    function get_user() {
-
-        $.ajax({
-            type: "GET",
-            url: `/til/user/${idx}`,
-            data: {},
-            success: function (response) {
-
-                let nickname = response['user_nickname']
-                let githhub_id = response['githhub_id']
-                let profile = response['user_profile_info']
-
-                $("#user-nickname").text(nickname);
-                $("#user-githhub_id").text(githhub_id);
-                $("#user-profile").text(profile);
 
             }
         });
@@ -438,7 +458,8 @@
     }
 
     function sign_out() {
-        $.removeCookie('mytoken', {path: '/'});
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
         alert('로그아웃!')
         window.location.href = "/"
     }
@@ -474,20 +495,20 @@
             <div class="card">
                 <div class="card-body">
                     <span>닉네임</span>
-                    <div id="user-nickname" class="h5">user_nickname 내용</div>
-                    <span>user_introduce</span>
-                    <div id="user-pfofile" class="h7 text-muted">user_introduce 내용</div>
-                    <span>github_id</span>
-                    <div id="user-githhub_id" class="h7 text-muted">github_id 내용</div>
+                    <div id="user-nickname" class="h5 user_nickname_append"></div>
+                    <span class = "introduce_tag">user_introduce</span>
+                    <div id="user-profile" class="h7 text-muted introduce_tag user_profile_info_append"></div>
+                    <span class="github_id_tag">github_id</span>
+                    <div id="user-github_id" class="h7 text-muted github_id_tag github_id_append"></div>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         <div class="h6 text-muted">Followers</div>
-                        <div class="h5"></div>
+                        <div class="h5">10000</div>
                     </li>
                     <li class="list-group-item">
                         <div class="h6 text-muted">Followings</div>
-                        <div class="h5"></div>
+                        <div class="h5">20000</div>
                     </li>
                     <li class="list-group-item">Sparta Coding</li>
                 </ul>
@@ -532,10 +553,10 @@
 
                     <div id="new-box" class="new-content">
                         <div class="new-box">
-                            <label for="exampleFormControlInput1" class="center">제목</label>
+                            <label for="new-til-title" class="center">제목</label>
                             <p><textarea class="form-control" id="new-til-title" rows="1">til_title</textarea>
                             </p>
-                            <label for="exampleFormControlInput1" class="center">content</label>
+                            <label for="new-til-content" class="center">content</label>
 
                             <textarea class="form-control" id="new-til-content"
                                       rows="8">til_content</textarea><br>

@@ -401,6 +401,12 @@
     }
 </style>
 <script>
+    $(document).ready(function () {
+        if (localStorage.getItem('token')) {
+            location.href = "./home.html"
+        }
+    });
+
     function cambiar_login() {
         document.querySelector('.cont_forms').className = "cont_forms cont_forms_active_login";
         document.querySelector('.cont_form_login').style.display = "block";
@@ -469,24 +475,48 @@
     function sign_up() {
         let info = {
             username: $('#sign_id').val(),
-            password : $('#sign_pw').val(),
-            nickname: $('#sign_nick').val()
+            password: $('#sign_pw').val(),
+            nickname: $('#sign_nick').val(),
+            password_check: $('#sign_confirm_pw').val()
         }
-        $.ajax({
-            type: 'POST',
-            url: `/signup`,
-            contentType: "application/json",
-            data: JSON.stringify(info),
-            success: function (response) {
-                if (response) {
-                    console.log(response)
-                    alert('회원가입이 완료되었습니다.');
-                    window.location.href = '/';
-                } else {
-                    alert('error');
+            $.ajax({
+                type: 'POST',
+                url: `/signup`,
+                contentType: "application/json",
+                data: JSON.stringify(info),
+                success: function (response) {
+                    if (response) {
+                        console.log(response)
+                        alert('회원가입이 완료되었습니다.');
+                        window.location.href = '/';
+                    } else {
+                        alert('error');
+                    }
                 }
-            }
-        })
+            })
+        }
+    function check_dup() {
+        let user_id = $("#sign_id").val()
+        let user_pw = $("#sign_pw").val()
+        let user_nick = $("#sign_nick").val()
+        let user_check_pw = $("#sign_confirm_pw").val()
+        if (user_id === "") {
+            alert("아이디를 입력해주세요")
+            return
+        }
+        if (user_pw === "") {
+            alert("비밀번호를 입력해주세요")
+            return
+        }
+        if (user_nick === "") {
+            alert("닉네임을 입력해주세요.")
+            return
+        }
+        if(user_pw===user_check_pw){
+            sign_up()
+        }else{
+            alert("비밀번호를 확인해주세요.")
+        }
     }
 
 </script>
@@ -551,7 +581,7 @@
                     <label for="sign_confirm_pw"></label><input type="password" id="sign_confirm_pw"
                                                                 placeholder="Confirm Password"/>
                     <p id="help-password2" class="help">비밀번호를 다시 한 번 입력해주세요.</p>
-                    <button class="btn_sign_up" onclick="sign_up()">SIGN UP</button>
+                    <button class="btn_sign_up" onclick="check_dup()">SIGN UP</button>
                 </div>
 
             </div>
