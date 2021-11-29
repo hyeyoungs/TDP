@@ -27,10 +27,9 @@ public class CommentController {
         List<Comment> comments = commentService.getComment(id);
         User user = userService.getUser(userDetails.getUser().getId());
         List<Object> list = new ArrayList<>();
-        System.out.println(user);
         list.add(user);
         list.addAll(comments);
-        System.out.println(list);
+
 
         // 응답 보내기
         return list;

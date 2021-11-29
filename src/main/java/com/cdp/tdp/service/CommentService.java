@@ -36,8 +36,6 @@ public class CommentService {
 
     public Comment createComment(CommentRequestDto requestDto, Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("no such user"));
-        System.out.println(id);
-        System.out.println(user);
         Til til = tilRepository.findById(requestDto.getIdx()).orElseThrow(() -> new IllegalArgumentException("no such til"));
         // 요청받은 DTO 로 DB에 저장할 객체 만들기
         Comment comment = new Comment(requestDto, user, til);
