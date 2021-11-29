@@ -1,8 +1,12 @@
 package com.cdp.tdp.service;
 
+import com.cdp.tdp.domain.Comment;
 import com.cdp.tdp.domain.Til;
+import com.cdp.tdp.domain.User;
 import com.cdp.tdp.dto.TilRequestDto;
+import com.cdp.tdp.repository.CommentRepository;
 import com.cdp.tdp.repository.TilRepository;
+import com.cdp.tdp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,13 +18,16 @@ import java.util.List;
 @Service
 public class TilService {
     private final TilRepository tilRepository;
+    private final UserRepository userRepository;
 
     public List<Til> getAllTil() {
-        return tilRepository.findAll();
+        return tilRepository.findAllByOrderByIdDesc();
     }
 
-    public Til createTil(TilRequestDto tilRequestDto) throws SQLException {
-        Til til = new Til(tilRequestDto);
+    public Til createTil(TilRequestDto tilRequestDto, Long id) throws SQLException {
+        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("no such user"));
+        Til til = new Til(tilRequestDto, user);
+        //System.out.print(til);
         tilRepository.save(til);
         return til;
     }
@@ -36,11 +43,24 @@ public class TilService {
     }
 
     @Transactional
-    public Til updateTil(Long id , TilRequestDto tilRequestDto)throws SQLException{
+    public Til updateTil(Long id, TilRequestDto tilRequestDto)throws SQLException{
         Til til = tilRepository.findById(id).orElseThrow(
                 ()->new NullPointerException("해당 아이디가 존재하지 않습니다.")
         );
         til.updateMyTil(tilRequestDto);
         return til;
     }
+
+    public List<Til> getUserTil(User user){
+        return tilRepository.findByUser(user);
+    }
+
+    public void updateTilView(Long id){
+        Til til = tilRepository.findById(id).orElseThrow(
+                ()->new NullPointerException("해당 아이디가 존재하지 않습니다.")
+        );
+        til.updateMyTilView();
+        tilRepository.save(til);
+    }
+
 }

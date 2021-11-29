@@ -1,41 +1,38 @@
 package com.cdp.tdp.domain;
 import com.cdp.tdp.dto.CommentRequestDto;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
+@Setter
+@Getter
 @NoArgsConstructor // 기본생성자를 대신 생성해줍니다.
 @Entity // 테이블임을 나타냅니다.
-public class Comment {
+public class Comment extends Timestamped {
 
     @Id // ID 값, Primary Key로 사용하겠다는 뜻입니다.
     @GeneratedValue(strategy = GenerationType.AUTO) // 자동 증가 명령입니다.
     private Long id;
 
-
-    @Column(nullable = false) // 컬럼 값이고 반드시 값이 존재해야 함을 나타냅니다.
+    @Column // 컬럼 값이고 반드시 값이 존재해야 함을 나타냅니다.
     private String til_comment;
 
-//    @ManyToOne
-//    @JoinColumn(name = "USER_ID", nullable = false)
-//    @Column(nullable = false) // 컬럼 값이고 반드시 값이 존재해야 함을 나타냅니다.
-//    private USER user;
+    @ManyToOne
+    @JoinColumn(name = "til_id", nullable = false)
+    private Til til;
 
-    public String getTil_comment() {
-        return til_comment;
-    }
 
-    public Long getId() {
-        return id;
-    }
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-//    public String getUser_id() {
-//        return user_id;
-//    }
-
-    public Comment(CommentRequestDto requestDto) {
+    public Comment(CommentRequestDto requestDto, User user, Til til) {
         this.til_comment = requestDto.getTil_comment();
-//        this.user_id = requestDto.getUser_id();
+        this.user = user;
+        this.til = til;
+
     }
 
 

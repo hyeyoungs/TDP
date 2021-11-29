@@ -1,9 +1,12 @@
 package com.cdp.tdp.controller;
 
 import com.cdp.tdp.domain.Til;
+import com.cdp.tdp.domain.User;
 import com.cdp.tdp.dto.TilRequestDto;
+import com.cdp.tdp.security.UserDetailsImpl;
 import com.cdp.tdp.service.TilService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -25,8 +28,8 @@ public class TilController {
     }
 
     @PostMapping("/til")
-    public Til createTil(@RequestBody TilRequestDto tilRequestDto) throws SQLException{
-        Til til = tilService.createTil(tilRequestDto);
+    public Til createTil(@RequestBody TilRequestDto tilRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException{
+        Til til = tilService.createTil(tilRequestDto, userDetails.getUser().getId());
         return til;
     }
 
@@ -38,5 +41,15 @@ public class TilController {
     @PutMapping("/til_board/{id}")
     public void updateTil(@PathVariable Long id, @RequestBody TilRequestDto tilRequestDto) throws SQLException{
         tilService.updateTil(id, tilRequestDto);
+    }
+
+    @GetMapping("/til/user")
+    public List<Til> getUserTil(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        return tilService.getUserTil(userDetails.getUser());
+    }
+
+    @PutMapping("/til_board/{id}/view")
+    public void updateTilView(@PathVariable Long id) throws SQLException{
+        tilService.updateTilView(id);
     }
 }
