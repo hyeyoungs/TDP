@@ -37,15 +37,17 @@
             let user_info=localStorage.getItem("username");
             $('.user_nickname_append').text(user_info);
         });
-        $(document).on('click', '#btnSave', function (e) {
-            e.preventDefault();
-            $("#form").submit();
+
+        $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+            if(localStorage.getItem('token')) {
+                jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
+            }
         });
+
         function create_til() {
             let info = {
                 til_title : $('#title').val(),
                 til_content : $('#content').val(),
-                til_user : $('#user-nickname').val(),
                 til_view : true,
                 til_like : 0
             }
@@ -63,7 +65,7 @@
 
         $(document).on('click', '#btnList', function (e) {
             e.preventDefault();
-            window.location.href = "/til_board"
+            window.location.href = "/til_board.html"
         });
 
         function sign_out() {

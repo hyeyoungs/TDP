@@ -25,7 +25,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
-    <link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
@@ -97,7 +96,6 @@
             background-color: rgba(211, 211, 211, 0.2)
         }
 
-        }
         .new-box {
             border-color: DodgerBlue;
             background-color: rgba(30, 144, 255, 0.2);
@@ -134,11 +132,313 @@
         .hr6 {
             border: none;
             border: 5px;
-            double orange;
+            double: orange;
         }
 
     </style>
 </head>
+
+<script>
+    $(document).ready(function () {
+        let user_info=localStorage.getItem("username");
+        $('.user_nickname').text(user_info);
+    //     $.ajaxSetup({
+    //         error: function (jqXHR, exception) {
+    //             switch (jqXHR.status) {
+    //                 case 401:
+    //                     alert('인증 에러!!');
+    //                     break;
+    //                 case 423:
+    //                     alert('중복된 id!!');
+    //                     break;
+    //             }
+    //         },
+    //         beforeSend: function (xhr) {
+    //             if (localStorage.getItem('token') != null) {
+    //                 xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+    //             } else {
+    //                 location.href = "login"
+    //                 alert("로그인 해주세요")
+    //             }
+    //         }
+    //     });
+        idx = window.location.search.split("=")[1]
+        $('#new-box').hide();
+        get_til();
+        //get_status();
+        get_heart();
+        get_comment();
+        //get_user();
+     });
+    var idx;
+
+    function get_status() {
+        $.ajax({
+            type: "GET",
+            url: `/status/${idx}`,
+            data: {},
+            success: function (response) {
+
+                let status = response['status']
+                if (status) {
+                    let temp_html =
+                        `<button type="button" onclick='new_box()' class="btn btn-primary two-button">수정</button>
+                            <button type="button" onclick='delete_til()' class="btn btn-primary two-button">삭제</button>`
+                    $('#mine').append(temp_html)
+                }
+            }
+        });
+    }
+
+    function get_heart() {
+
+        $.ajax({
+            type: "GET",
+            url: `/til/like/${idx}`,
+            data: {},
+            success: function (response) {
+                console.log(response);
+
+                // $("#heart-count").text(count);
+                if (response) { //좋아요누른상태
+                    let temp_html = `<i class="fa fa-heart" aria-hidden="true"></i>`
+                    $('#now-heart').append(temp_html)
+
+
+                } else { //좋아요 안누른상태
+                    let temp_html = `<i class="fa fa-heart-o" aria-hidden="true"></i>`
+                    $('#now-heart').append(temp_html)
+                }
+
+            }
+
+        });
+    }
+
+
+    function get_til() {
+        $.ajax({
+            type: "GET",
+            url: `/til_board/${idx}`,
+            data: {},
+            success: function (response) {
+
+                let title = response['til_title']
+                let content = response['til_content']
+                let num_heart=response['til_like']
+                let username=response['user']['username']
+                let github_id=response['user']['github_id']
+
+                $("#now-title").text(title);
+                $("#now-content").text(content);
+                $("#new-til-title").text(title);
+                $('#new-til-content').text(content)
+                $("#user-nickname").text(username);
+                $("#user-githhub_id").text(github_id);
+                $("#heart-count").text(num_heart);
+
+            }
+        });
+    }
+
+    function get_user() {
+
+        $.ajax({
+            type: "GET",
+            url: `/til/user/${idx}`,
+            data: {},
+            success: function (response) {
+
+                let nickname = response['user_nickname']
+                let githhub_id = response['githhub_id']
+                let profile = response['user_profile_info']
+
+                $("#user-nickname").text(nickname);
+                $("#user-githhub_id").text(githhub_id);
+                $("#user-profile").text(profile);
+
+            }
+        });
+    }
+
+    function get_comment() {
+        $.ajax({
+            type: "GET",
+            url: `/til/comments/${idx}`,
+            data: {},
+            success: function (response) {
+                let user = response[0]['id']
+                for (let i = 1; i < response.length; i++) {
+                    let comment = response[i]['til_comment']
+                    let day = response[i]['createdAt']
+                    let commenter = response[i]['user']['id']
+                    let comment_idx = response[i]['id']
+                    let nickname = response[i]['user']['nickname']
+
+                    //
+                    if (user == commenter) {
+                        let temp_html =
+                            `<tr>
+                                <td>${nickname}</td>
+                                <td>${comment}</td>
+                                <td>${day}</td>
+                                <td>
+                                    <button type="button" onclick='delete_comment(${comment_idx})' class="btn btn-primary">삭제</button>
+                                </td>
+                                </tr>`
+
+                        $('#comment-box').append(temp_html)
+
+                    } else {
+                        let temp_html =
+                            `<tr>
+                                <td>${nickname}</td>
+                                <td>${comment}</td>
+                                <td>${day}</td>
+                                </tr>`
+
+                        $('#comment-box').append(temp_html)
+                    }
+                }
+            }
+        });
+    }
+
+
+    function create_comment() {
+        let info = {
+            til_comment : $("#textarea-post").val(),
+            idx: idx
+        }
+        $.ajax({
+            type: "POST",
+            url: "/til/comment",
+            contentType: "application/json",
+            data: JSON.stringify(info),
+
+            success: function (response) {
+                $("#modal-post").removeClass("is-active")
+                window.location.reload()
+            }
+        })
+    }
+
+    function delete_comment(comment_idx) {
+        comment_idx = parseInt(comment_idx)
+        alert(comment_idx)
+
+        $.ajax({
+            type: "DELETE",
+            url: `/til/comments/${comment_idx}`,
+            data: {},
+            success: function (response) {
+                alert(response['msg'])
+                window.location.reload()
+            }
+        });
+    }
+
+
+    function delete_til() {
+        $.ajax({
+            type: "DELETE",
+            url: `/til/${idx}`,
+            success: function (response) {
+                alert(response["msg"]);
+                window.history.back();
+            }
+        });
+    }
+
+
+    function update_til() {
+        let til_title = $('#new-til-title').val();
+        let til_content = $('#new-til-content').val();
+        $.ajax({
+            type: "PUT",
+            url: `/til/${idx}`,
+            data: {til_title_give: til_title, til_content_give: til_content},
+            success: function (response) {
+                alert(response["msg"]);
+                window.location.reload();
+            }
+        });
+    }
+
+    function time2str(date) {
+        let today = new Date()
+        let time = (today - date) / 1000 / 60  // 분
+
+        if (time < 60) {
+            return parseInt(time) + "분 전"
+        }
+        time = time / 60  // 시간
+        if (time < 24) {
+            return parseInt(time) + "시간 전"
+        }
+        time = time / 24
+        if (time < 7) {
+            return parseInt(time) + "일 전"
+        }
+        return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`
+    }
+
+    function new_box() {
+        $('#new-box').show();
+    }
+
+    function cancle() {
+        $('#new-box').hide();
+    }
+
+    function toggle_like(idx, type) {
+
+        let a_like = $('#heart')
+        let $i_like = a_like.find("i")
+        let like_num = $('#heart-count')
+        if ($i_like.hasClass("fa-heart")) { //좋아요 된 상태
+            // 좋아요 취소
+            $.ajax({
+                type: "DELETE",
+                url: `/til/dislike/${idx}`,
+
+
+                success: function (response) {
+                    console.log(response)
+
+                    $i_like.addClass("fa-heart-o").removeClass("fa-heart")
+                    console.log(response);
+                    //like_num.text(response["count"])
+
+                }
+            })
+        } else {
+            // 좋아요
+            let info={content:type};
+            $.ajax({
+                type: "POST",
+                url: `/til/like/${idx}`,
+                contentType: "application/json",
+                data: JSON.stringify(info),
+                success: function (response) {
+
+                    console.log(response);
+
+                    $i_like.addClass("fa-heart").removeClass("fa-heart-o")
+
+                }
+            })
+
+        }
+        window.location.reload();
+    }
+
+    function sign_out() {
+        $.removeCookie('mytoken', {path: '/'});
+        alert('로그아웃!')
+        window.location.href = "/"
+    }
+    </script>
 <body>
 
 
@@ -208,17 +508,14 @@
                                     <div class="level-left">
 
 
-                                        <a class="level-item is-sparta" id="heart" aria-label="heart"
-                                           onclick="toggle_like(idx, 'heart')">&nbsp
-
-                                            <div id="now-heart"></div>
-                                            &nbsp
+                                        <a class="level-item is-sparta" id="heart" aria-label="heart" onclick="toggle_like(idx, 'heart')">&nbsp
+                                            <div id="now-heart"></div>&nbsp
                                             <div id="heart-count" class="like-num">count</div>
                                         </a>
                                     </div>
                                 </nav>
                                 <hr class="hr6">
-                                <h3>content</h3>
+                                <h3>글 내용</h3>
                                 <div id="now-content" class="content-box">
                                     til_content
                                 </div>
@@ -234,19 +531,19 @@
                     <div id="new-box" class="new-content">
                         <div class="new-box">
                             <label for="exampleFormControlInput1" class="center">제목</label>
-                            <p><textarea class="form-control" id="new-til-title" rows="1">til.til_title</textarea>
+                            <p><textarea class="form-control" id="new-til-title" rows="1">til_title</textarea>
                             </p>
                             <label for="exampleFormControlInput1" class="center">content</label>
 
                             <textarea class="form-control" id="new-til-content"
-                                      rows="8">til.til_content</textarea><br>
+                                      rows="8">til_content</textarea><br>
                             <p id="new-content-button"><span class="two-button">
                                 <button type="button" onclick='update_til()'
                                         class="btn btn-primary">변경</button>
                                 <button type="button" onclick='cancle()' class="btn btn-primary">취소</button>
                             </span></p>
                             <br>
-                            <p>til.til_day</p>
+                            <p>til_day</p>
 
                         </div>
 
@@ -256,9 +553,8 @@
                         <table id="til-table" class="table">
                             <thead>
                             <tr>
-                                {#
                                 <th scope="col"></th>
-                                #}
+
                             </tr>
                             </thead>
                             <tbody id="comment-box">

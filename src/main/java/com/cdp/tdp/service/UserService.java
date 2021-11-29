@@ -4,8 +4,6 @@ import com.cdp.tdp.domain.User;
 import com.cdp.tdp.dto.SignupRequestDto;
 import com.cdp.tdp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +34,10 @@ public class UserService {
 
         User user = new User(signId, signPassword, nickname, githubId, introduce);
         userRepository.save(user);
+        return user;
+    }
+    public User getUser(Long id){
+        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("no such user"));
         return user;
     }
 

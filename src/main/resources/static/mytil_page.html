@@ -29,6 +29,196 @@
     <script type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
+    <script>
+        $(document).ready(function () {
+            $.ajaxSetup({
+                beforeSend: function (xhr) {
+                    if (localStorage.getItem('token') != null) {
+                        xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+                    } else {
+                        alert("로그인 해주세요")
+                        location.href = "./index.html"
+                    }
+                }
+            });
+            list_user_til();
+            read_user_profile();
+        });
+
+        function read_user() {
+            $.ajax({
+                type: "GET",
+                url: "/user",
+                async: false,
+                success: function (response) {
+                    user_info = response['user_info'];
+                }
+            });
+            return user_info;
+        }
+
+        async function read_user_profile(){
+            let user_info = await read_user();
+            $('.user_id_append').text(user_info['user_id']);
+            $('.user_nickname_append').text(user_info['user_nickname']);
+            $('.user_profile_info_append').text(user_info['user_profile_info']);
+            $('.user_profile_pic_append').text(user_info['user_profile_pic']);
+            $('.github_id_append').text(user_info['github_id']);
+            $('.user_id_append').val(user_info['user_id']);
+            $('.user_nickname_append').val(user_info['user_nickname']);
+            $('.user_profile_info_append').val(user_info['user_profile_info']);
+            $('.user_profile_pic_append').val(user_info['user_profile_pic']);
+            $('.user_profile_pic_real_append').attr('src', user_info['user_profile_pic_real']);
+            $('.github_id_append').val(user_info['github_id']);
+        }
+
+        async function list_user_til() {
+            let user_info = await read_user()
+            $.ajax({
+                type: "POST",
+                url: "/til/user",
+                data: {til_user_give: user_info['user_id']},
+                success: function (response) {
+                    let my_til = response['my_til'];
+                    for (let i = 0; i < my_til.length; i++) {
+                        make_list_my_til(my_til[i], user_info);
+                    }
+                }
+            });
+        }
+
+        function make_list_my_til(til, user_info){
+            let view_str = '';
+            if (til['til_view'] == 1) {
+                view_str = '공개';
+            } else if (til['til_view'] == 0) {
+                view_str = '비공개';
+            } else {
+                alert("공개 범위의 값이 잘못된 형식 입니다.");
+            }
+            let temp_html = `
+                            <!--- Post-->
+                            <div class="card gedf-card">
+                                <div class="card-header">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="mr-2">
+                                                <!-- Profile Image -->
+                                                <img class="rounded-circle" width="45" src="https://picsum.photos/50/50" alt="">
+                                            </div>
+                                            <div class="ml-2">
+                                                <div class="h5 m-0">@${til['til_user']}</div>
+                                                <div class="h7 text-muted user_nickname_append">${user_info['user_nickname']}</div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="dropdown">
+                                                <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa fa-ellipsis-h"></i>
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
+                                                    <div class="h6 dropdown-header">Configuration</div>
+                                                    <button class="dropdown-item" onclick = "get_til('${til['til_idx']}')" data-toggle="modal" data-target="#exampleModal">수정</button>
+                                                    <a class="dropdown-item" onclick = "delete_til('${til['til_idx']}')">삭제</a>
+                                                    <a class="dropdown-item" onclick = "update_view('${til['til_idx']}')">${view_str}</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>${til['til_day']}</div>
+                                    <a class="card-link" href="#">
+                                        <h5 class="card-title">${til['til_title']}</h5>
+                                    </a>
+                                    <p class="card-text">
+                                        ${ til['til_content']}
+                                    </p>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="#" class="card-link"><i class="fa fa-gittip"></i> Like</a>
+                                    <a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
+                                    <a href="#" class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
+                                </div>
+                            </div>
+                            <!-- Post End -->`;
+            $('#post-list').append(temp_html);
+        }
+
+        function get_til(idx){
+            $.ajax({
+                type: "GET",
+                url: `/til?idx=${idx}`,
+                data: {},
+                success: function (response){
+                    let title = response['til']['til_title']
+                    let content = response['til']['til_content']
+                    let user = response['til']['til_user']
+                    let idx = response['til']['til_idx']
+                    $("#modal-title").val(title);
+                    $("#modal-content").val(content);
+                    $("#modal-user").text(user);
+                    $("#modal-save").attr("onclick", `update_til('${idx}');`);
+                }
+            });
+        }
+
+        function update_til(idx){
+            let til_title = $('input#modal-title').val();
+            let til_content = $('textarea#modal-content').val();
+            $.ajax({
+                type: "PUT",
+                url: `/til/${idx}`,
+                data: {til_title_give: til_title, til_content_give: til_content},
+                success: function (response){
+                    alert(response["msg"]);
+                    window.location.reload();
+                }
+            });
+        }
+
+        function delete_til(idx){
+            $.ajax({
+                type: "DELETE",
+                url: `/til/${idx}`,
+                success: function (response){
+                    alert(response["msg"]);
+                    window.location.reload();
+                }
+            });
+        }
+
+        function update_view(idx){
+            $.ajax({
+                type: "PUT",
+                url: `/til/view/${idx}`,
+                data: {},
+                success: function (response){
+                    alert(response["msg"]);
+                    window.location.reload();
+                }
+            });
+        }
+
+
+        function goback() {
+            window.history.back();
+        }
+
+        function sign_out() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('username');
+            alert('로그아웃!')
+            window.location.href = "/"
+        }
+
+        $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+            if(localStorage.getItem('token')) {
+                jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
+            }
+        });
+    </script>
+
     <style>
         body {
             background-color: #eeeeee;
@@ -148,16 +338,16 @@
                         <div class="modal-body">
                             <form name="form" id="form" role="form" method="post" action="./my_page">
                                 <div class="mb-3">
-                                    <label for="title">제목</label>
+                                    <label for="modal-title">제목</label>
                                     <input type="text" class="form-control" name="title" id="modal-title"
                                            placeholder="제목을 입력해 주세요" value="">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="reg_id">작성자</label>
+                                    <label for="modal-user">작성자</label>
                                     <p id="modal-user"></p>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="content">내용</label>
+                                    <label for="modal-content">내용</label>
                                     <textarea class="form-control" rows="5" name="content" id="modal-content"
                                               placeholder="내용을 입력해 주세요"></textarea>
                                 </div>

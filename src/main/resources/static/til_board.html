@@ -22,6 +22,26 @@
             src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script>
         $(document).ready(function () {
+            $.ajaxSetup({
+                error: function (jqXHR, exception) {
+                    switch (jqXHR.status) {
+                        case 401:
+                            alert('인증 에러!!');
+                            break;
+                        case 423:
+                            alert('중복된 id!!');
+                            break;
+                    }
+                },
+                beforeSend: function (xhr) {
+                    if (localStorage.getItem('token') != null) {
+                        xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+                    } else {
+                        location.href = "login.html"
+                        alert("로그인 해주세요")
+                    }
+                }
+            });
             read_all_til();
         })
 
@@ -29,29 +49,45 @@
             $.ajax({
                     type: "GET",
                     url: "/til_board",
+                    data: {},
                     success: function (response) {
-                        for (let i = 0; i < response.items.length; i++) {
-                            let itemDto = response.items[i];
-                            let tempHtml = addHTML(itemDto);
-                                $('#til-box').append(tempHtml);
+                        let all_til = response;
+                        console.log(all_til);
+                        for (let i = 0; i < all_til.length; i++) {
+                            console.log(all_til[i]);
+                            let title = all_til[i]['til_title'];
+                            let user = all_til[i]['user']['nickname'];
+                            let content = all_til[i]['til_content'];
+                            let day = all_til[i]['createdAt'];
+                            let til_idx = all_til[i]['id'];
+                            if (i < 4) {
+                                let temp_html = `<tr onClick="detail(${til_idx})" style="cursor:pointer;">
+
+                                                <th scope="row">${title}<img src="new.png" height="30" width="30"></th>
+                                                <td>${user}</td>
+                                                <td>${day}</td>
+                                                <td>${content}</td>
+                                            </tr>`
+                                $('#til-box').append(temp_html)
+
+                            } else {
+                                let temp_html = `<tr onClick="detail(${til_idx})" style="cursor:pointer;">
+                                                <th scope="row">${title}</th>
+                                                <td>${user}</td>
+                                                <td>${day}</td>
+                                                <td>${content}</td>
+                                            </tr>`
+                                $('#til-box').append(temp_html)
+                            }
                         }
                     }
                 }
             )
         }
-        function addHTML(itemDto){
-            return `<tr onClick="detail('${til_idx}')" style="cursor:pointer;">
-                                                <th scope="row">${title}<img src="static/new.png" height="30" width="30"></th>
-                                                <td>${user}</td>
-                                                <td>${day}</td>
-                                                <td>${content}</td>
-                                            </tr>`
-        }
 
         function detail(til_idx) {
-            location.href = "/detail" + "?idx="+til_idx;
+            location.href = "detail.html?idx="+til_idx;
         }
-
 
         function til_search() {
             let keyword = $('#keyword').val()
@@ -59,8 +95,6 @@
             location.href = "/til_board_detail_page" + "?keyword=" + keyword + "&setting=" + setting;
             //    로딩바 0.1초
         }
-
-
         function search_setting(a) {
             $('#setting-btn').text(a)
         }
@@ -119,17 +153,17 @@
 <!-- navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/main_page">TIL.D.P</a>
+        <a class="navbar-brand" href="./home.html">TIL.D.P</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div id="navbar-nav" class="navbar-nav">
-                <a class="nav-link " href="./til_board">Write TIL</a>
-                <a class="nav-link" href="./mytil_page">My TIL</a>
+                <a class="nav-link " href="./til_board.html">Write TIL</a>
+                <a class="nav-link" href="./mytil_page.html">My TIL</a>
                 <a class="nav-link" href="https://github.com/">Github</a>
-                <a class="nav-link" href="./my_page">myPage</a>
+                <a class="nav-link" href="./my_page.html">myPage</a>
                 <a class="nav-link" onclick="sign_out()">logout</a>
                 <a class="nav-link" onclick="goback()">Back</a>
             </div>
@@ -149,7 +183,7 @@
     <div class="row">
         <div class="col-auto mr-auto"></div>
         <div class="col-auto">
-            <a class="btn btn-primary" href="create_page" role="button">글쓰기</a>
+            <a class="btn btn-primary" href="./create.html" role="button">글쓰기</a>
         </div>
     </div>
     <div class="container">

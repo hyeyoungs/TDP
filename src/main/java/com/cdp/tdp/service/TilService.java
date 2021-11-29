@@ -1,12 +1,9 @@
 package com.cdp.tdp.service;
 
-import com.cdp.tdp.domain.Comment;
 import com.cdp.tdp.domain.Til;
 import com.cdp.tdp.domain.User;
 import com.cdp.tdp.dto.TilRequestDto;
-import com.cdp.tdp.repository.CommentRepository;
 import com.cdp.tdp.repository.TilRepository;
-import com.cdp.tdp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,13 +15,18 @@ import java.util.List;
 @Service
 public class TilService {
     private final TilRepository tilRepository;
-    private final UserRepository userRepository;
 
     public List<Til> getAllTil() {
         return tilRepository.findAll();
     }
 
 
+    public Til createTil(TilRequestDto tilRequestDto, User user) throws SQLException {
+        Til til = new Til(tilRequestDto, user);
+
+        tilRepository.save(til);
+        return til;
+    }
 
     public Til getTil(Long id) {
         return tilRepository.findById(id).orElseThrow(
@@ -44,4 +46,6 @@ public class TilService {
         til.updateMyTil(tilRequestDto);
         return til;
     }
+
+
 }
