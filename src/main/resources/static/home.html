@@ -56,8 +56,12 @@
 
 </style>
 <script>
+    let user_info=localStorage.getItem("username");
     $(document).ready(function () {
         list_til();
+        read_til();
+        let today = new Date();
+        document.write(today)
     });
 
         function list_til() {
@@ -88,7 +92,24 @@
                 }
             })
         }
-
+        function list_til() {
+            $.ajax({
+                type: "GET",
+                url: "/til_board",
+                data: {},
+                success: function (response) {
+                    let all_til = response;
+                    console.log(all_til);
+                    for (let i = 0; i < all_til.length; i++) {
+                        let user = all_til[i]['user']['username'];
+                        let day = all_til[i]['createdAt'];
+                        if(user_info===user){
+                        }
+                        console.log(user,day);
+                    }
+                }
+            })
+        }
 //     function rank_til() {
 //         $.ajax({
 //                 type: "GET",
