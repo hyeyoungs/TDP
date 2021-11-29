@@ -88,4 +88,9 @@ public class UserService {
         return user;
     }
 
+    public User getUser(Long id){
+        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("no such user"));
+        return user;
+    }
+
 }

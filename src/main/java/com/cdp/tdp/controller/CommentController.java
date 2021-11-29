@@ -30,14 +30,12 @@ public class CommentController {
         list.add(user);
         list.addAll(comments);
 
-
         // 응답 보내기
         return list;
     }
 
     @PostMapping("/til/comment")
     public Comment createComment(@RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
-
         Comment comment = commentService.createComment(requestDto, userDetails.getUser().getId());
         return comment;
     }
