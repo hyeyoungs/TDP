@@ -32,7 +32,7 @@
 
     <style>
         body {
-            background-color: #eeeeee;
+            background-color: #9fcdff;
         }
 
         .navbar-brand {
@@ -64,21 +64,106 @@
 </head>
 <script>
     $(document).ready(function () {
-        read_my_profile();
-    })
-    function read_my_profile() {
+        token_check();
+        read_user_profile();
+        append_github_id();
+    });
+
+    function token_check(){
+        if (localStorage.getItem('token') == null) {
+            alert("로그인 해주세요")
+            location.href = "./index.html"
+        }
+    }
+
+    function login_check(options, originalOptions, jqXHR){
+        if(localStorage.getItem('token')) {
+            jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
+        } else {
+            alert("로그인 해주세요")
+            location.href = "./index.html"
+        }
+    }
+
+    $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+        login_check(options, originalOptions, jqXHR);
+    });
+
+    function read_user() {
         $.ajax({
             type: "GET",
             url: "/user",
-            data: {},
+            async: false,
             success: function (response) {
-            let my_profile = response;
-                let github_id = my_profile['github_id'];
-                let nickname = my_profile['nickname'];
-                $('#input-nickname').append(nickname).val()
-                $('#input-github-id').append(github_id).val()
+                user_info = response;
             }
-        })
+        });
+        return user_info;
+    }
+
+    async function read_user_profile(){
+        let user_info = await read_user();
+        $('.user_id_append').text(user_info['username']);
+        $('.user_nickname_append').text(user_info['nickname']);
+        $('.user_profile_info_append').text(user_info['introduce']);
+        $('.user_profile_pic_append').text(user_info['picture']);
+        $('.github_id_append').text(user_info['github_id']);
+        $('.user_id_append').val(user_info['username']);
+        $('.user_nickname_append').val(user_info['nickname']);
+        $('.user_profile_info_append').val(user_info['introduce']);
+        $('.user_profile_pic_append').val(user_info['picture']);
+        $('.user_profile_pic_real_append').attr('src', user_info['picture_real']);
+        $('.github_id_append').val(user_info['github_id']);
+    }
+
+    async function append_github_id(){
+        let user_info = await read_user();
+        let github_id = user_info['github_id']
+        if (github_id == null){
+            $('.github_id_tag').hide();
+        }
+    }
+
+    function goback() {
+        window.history.back();
+    }
+
+    function update_profile() {
+        let nickname = $('#input-nickname').val()
+        let github_id = $('#input-github-id').val()
+        let file = $('#input-pic')[0].files[0]
+        let about = $("#textarea-about").val()
+
+        let info={
+            nickname : nickname,
+            github_id : github_id,
+            file : file,
+            introduce : about
+        }
+
+        $.ajax({
+            type: "PUT",
+            url: "/user/update",
+            contentType: "application/json",
+            data: JSON.stringify(info),
+
+            processData: false,
+            success: function (response) {
+                alert('업데이트 되었습니다!')
+                window.location.reload();
+
+
+
+            }
+        });
+    }
+
+
+    function sign_out() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
+        alert('로그아웃!')
+        window.location.href = "/"
     }
 
 </script>
@@ -86,17 +171,17 @@
 <!-- navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/main_page">TIL.D.P</a>
+        <a class="navbar-brand" href="./home.html">TIL.D.P</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div id="navbar-nav" class="navbar-nav">
-                <a class="nav-link " href="./til_board">Write TIL</a>
-                <a class="nav-link" href="./mytil_page">My TIL</a>
+                <a class="nav-link " href="./til_board.html">Write TIL</a>
+                <a class="nav-link" href="./mytil_page.html">My TIL</a>
                 <a class="nav-link" href="https://github.com/">Github</a>
-                <a class="nav-link" href="./my_page">myPage</a>
+                <a class="nav-link" href="./my_page.html">myPage</a>
                 <a class="nav-link" onclick="sign_out()">logout</a>
                 <a class="nav-link" onclick="goback()">Back</a>
             </div>
@@ -117,14 +202,16 @@
             <div class="media-content">
                 <div class="content">
                     <div>
-                        <strong class="user_nickname_append"></strong> <small>@<label class="user_id_append"></label></small>
+                        <strong style="font-size: xx-large" id="nickname"></strong> <small>@<label class="user_id_append" id="username"></label></small>
                     </div>
-                    <div class="user_profile_info_append">
+                    <div class="user_profile_info_append" id="introduce">
                     </div>
-                        <div class="github_id_tag">Github ID: <label class="github_id_append"></label></div>
-                    <div>Followers : 10000</div>
-                    <div>Following : 20000</div>
+                    <div class="github_id_tag"><strong>Github ID:</strong> <label class="github_id_append" id="github_id"></label></div>
+                    <div><strong>Followers : </strong> 10000</div>
+                    <div><strong>Following : </strong>20000</div>
+
                 </div>
+
             </div>
         </article>
         <!-- Button -->

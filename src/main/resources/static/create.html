@@ -17,6 +17,7 @@
     <!-- cookie -->
     <script type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
     <style>
         body {
             padding-bottom: 30px;
@@ -34,15 +35,57 @@
     </style>
     <script>
         $(document).ready(function () {
-            let user_info=localStorage.getItem("username");
-            $('.user_nickname_append').text(user_info);
+            token_check();
+            read_user_profile();
         });
 
-        $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+        function token_check(){
+            if (localStorage.getItem('token') == null) {
+                alert("로그인 해주세요")
+                location.href = "./index.html"
+            }
+        }
+
+        function login_check(options, originalOptions, jqXHR){
             if(localStorage.getItem('token')) {
                 jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
+            } else {
+                alert("로그인 해주세요")
+                location.href = "./index.html"
             }
+        }
+
+        $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+            login_check(options, originalOptions, jqXHR);
         });
+
+        function read_user() {
+            $.ajax({
+                type: "GET",
+                url: "/user",
+                async: false,
+                success: function (response) {
+                    user_info = response;
+                }
+            });
+            return user_info;
+        }
+
+        async function read_user_profile(){
+            let user_info = await read_user();
+            console.log(user_info)
+            $('.user_id_append').text(user_info['username']);
+            $('.user_nickname_append').text(user_info['nickname']);
+            $('.user_profile_info_append').text(user_info['introduce']);
+            $('.user_profile_pic_append').text(user_info['picture']);
+            $('.github_id_append').text(user_info['github_id']);
+            $('.user_id_append').val(user_info['username']);
+            $('.user_nickname_append').val(user_info['nickname']);
+            $('.user_profile_info_append').val(user_info['introduce']);
+            $('.user_profile_pic_append').val(user_info['picture']);
+            $('.user_profile_pic_real_append').attr('src', user_info['picture_real']);
+            $('.github_id_append').val(user_info['github_id']);
+        }
 
         function create_til() {
             let info = {
@@ -57,7 +100,7 @@
                 contentType: "application/json",
                 data: JSON.stringify(info),
                 success: function (response) { // 성공하면
-                    alert("작성완료")
+                    alert("작성 완료!")
                     window.location.href = "/til_board.html"
                 }
             });
@@ -69,7 +112,8 @@
         });
 
         function sign_out() {
-            $.removeCookie('mytoken', {path: '/'});
+            localStorage.removeItem('token');
+            localStorage.removeItem('username');
             alert('로그아웃!')
             window.location.href = "/"
         }
@@ -79,7 +123,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/home">TIL.D.P</a>
+        <a class="navbar-brand" href="./home.html">TIL.D.P</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

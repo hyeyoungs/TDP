@@ -31,18 +31,30 @@
 
     <script>
         $(document).ready(function () {
-            $.ajaxSetup({
-                beforeSend: function (xhr) {
-                    if (localStorage.getItem('token') != null) {
-                        xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
-                    } else {
-                        alert("로그인 해주세요")
-                        location.href = "./index.html"
-                    }
-                }
-            });
+            token_check();
             list_user_til();
             read_user_profile();
+            append_github_id();
+        });
+
+        function token_check(){
+            if (localStorage.getItem('token') == null) {
+                alert("로그인 해주세요")
+                location.href = "./index.html"
+            }
+        }
+
+        function login_check(options, originalOptions, jqXHR){
+            if(localStorage.getItem('token')) {
+                jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
+            } else {
+                alert("로그인 해주세요")
+                location.href = "./index.html"
+            }
+        }
+
+        $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+            login_check(options, originalOptions, jqXHR);
         });
 
         function read_user() {
@@ -51,7 +63,7 @@
                 url: "/user",
                 async: false,
                 success: function (response) {
-                    user_info = response['user_info'];
+                    user_info = response;
                 }
             });
             return user_info;
@@ -59,27 +71,35 @@
 
         async function read_user_profile(){
             let user_info = await read_user();
-            $('.user_id_append').text(user_info['user_id']);
-            $('.user_nickname_append').text(user_info['user_nickname']);
-            $('.user_profile_info_append').text(user_info['user_profile_info']);
-            $('.user_profile_pic_append').text(user_info['user_profile_pic']);
+            $('.user_id_append').text(user_info['username']);
+            $('.user_nickname_append').text(user_info['nickname']);
+            $('.user_profile_info_append').text(user_info['introduce']);
+            $('.user_profile_pic_append').text(user_info['picture']);
             $('.github_id_append').text(user_info['github_id']);
-            $('.user_id_append').val(user_info['user_id']);
-            $('.user_nickname_append').val(user_info['user_nickname']);
-            $('.user_profile_info_append').val(user_info['user_profile_info']);
-            $('.user_profile_pic_append').val(user_info['user_profile_pic']);
-            $('.user_profile_pic_real_append').attr('src', user_info['user_profile_pic_real']);
+            $('.user_id_append').val(user_info['username']);
+            $('.user_nickname_append').val(user_info['nickname']);
+            $('.user_profile_info_append').val(user_info['introduce']);
+            $('.user_profile_pic_append').val(user_info['picture']);
+            $('.user_profile_pic_real_append').attr('src', user_info['picture_real']);
             $('.github_id_append').val(user_info['github_id']);
+        }
+
+        async function append_github_id(){
+            let user_info = await read_user();
+            let github_id = user_info['github_id']
+            if (github_id == null){
+                $('.github_id_tag').hide();
+            }
         }
 
         async function list_user_til() {
             let user_info = await read_user()
             $.ajax({
-                type: "POST",
+                type: "GET",
                 url: "/til/user",
-                data: {til_user_give: user_info['user_id']},
+                data: {},
                 success: function (response) {
-                    let my_til = response['my_til'];
+                    let my_til = response;
                     for (let i = 0; i < my_til.length; i++) {
                         make_list_my_til(my_til[i], user_info);
                     }
@@ -104,11 +124,11 @@
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="mr-2">
                                                 <!-- Profile Image -->
-                                                <img class="rounded-circle" width="45" src="https://picsum.photos/50/50" alt="">
+                                                <img class="rounded-circle" width="45" src="${til['user']['picture_real']}" alt="">
                                             </div>
                                             <div class="ml-2">
-                                                <div class="h5 m-0">@${til['til_user']}</div>
-                                                <div class="h7 text-muted user_nickname_append">${user_info['user_nickname']}</div>
+                                                <div class="h5 m-0">@${til['user']['username']}</div>
+                                                <div class="h7 text-muted user_nickname_append">${til['user']['nickname']}</div>
                                             </div>
                                         </div>
                                         <div>
@@ -118,16 +138,16 @@
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
                                                     <div class="h6 dropdown-header">Configuration</div>
-                                                    <button class="dropdown-item" onclick = "get_til('${til['til_idx']}')" data-toggle="modal" data-target="#exampleModal">수정</button>
-                                                    <a class="dropdown-item" onclick = "delete_til('${til['til_idx']}')">삭제</a>
-                                                    <a class="dropdown-item" onclick = "update_view('${til['til_idx']}')">${view_str}</a>
+                                                    <button class="dropdown-item" onclick = "get_til('${til['id']}')" data-toggle="modal" data-target="#exampleModal">수정</button>
+                                                    <a class="dropdown-item" onclick = "delete_til('${til['id']}')">삭제</a>
+                                                    <a class="dropdown-item" onclick = "update_view('${til['id']}')">${view_str}</a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>${til['til_day']}</div>
+                                    <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>${til['createdAt']}</div>
                                     <a class="card-link" href="#">
                                         <h5 class="card-title">${til['til_title']}</h5>
                                     </a>
@@ -148,13 +168,13 @@
         function get_til(idx){
             $.ajax({
                 type: "GET",
-                url: `/til?idx=${idx}`,
+                url: `/til_board/${idx}`,
                 data: {},
                 success: function (response){
-                    let title = response['til']['til_title']
-                    let content = response['til']['til_content']
-                    let user = response['til']['til_user']
-                    let idx = response['til']['til_idx']
+                    let title = response['til_title']
+                    let content = response['til_content']
+                    let user = response['user']['nickname'];
+                    let idx = response['id']
                     $("#modal-title").val(title);
                     $("#modal-content").val(content);
                     $("#modal-user").text(user);
@@ -164,14 +184,18 @@
         }
 
         function update_til(idx){
-            let til_title = $('input#modal-title').val();
-            let til_content = $('textarea#modal-content').val();
+            let info = {
+                til_title : $('input#modal-title').val(),
+                til_content : $('textarea#modal-content').val()
+            }
+
             $.ajax({
                 type: "PUT",
-                url: `/til/${idx}`,
-                data: {til_title_give: til_title, til_content_give: til_content},
+                url: `/til_board/${idx}`,
+                contentType: "application/json",
+                data: JSON.stringify(info),
                 success: function (response){
-                    alert(response["msg"]);
+                    alert("수정 완료!");
                     window.location.reload();
                 }
             });
@@ -180,9 +204,9 @@
         function delete_til(idx){
             $.ajax({
                 type: "DELETE",
-                url: `/til/${idx}`,
+                url: `/til_board/${idx}`,
                 success: function (response){
-                    alert(response["msg"]);
+                    alert("삭제 완료!");
                     window.location.reload();
                 }
             });
@@ -191,10 +215,10 @@
         function update_view(idx){
             $.ajax({
                 type: "PUT",
-                url: `/til/view/${idx}`,
+                url: `/til_board/${idx}/view`,
                 data: {},
                 success: function (response){
-                    alert(response["msg"]);
+                    alert("공개/비공개 변경 완료!");
                     window.location.reload();
                 }
             });
@@ -211,12 +235,6 @@
             alert('로그아웃!')
             window.location.href = "/"
         }
-
-        $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
-            if(localStorage.getItem('token')) {
-                jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
-            }
-        });
     </script>
 
     <style>
@@ -264,17 +282,17 @@
 <!-- navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/main_page">TIL.D.P</a>
+        <a class="navbar-brand" href="./home.html">TIL.D.P</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div id="navbar-nav" class="navbar-nav">
-                <a class="nav-link " href="./til_board">Write TIL</a>
-                <a class="nav-link" href="./mytil_page">My TIL</a>
+                <a class="nav-link " href="./til_board.html">Write TIL</a>
+                <a class="nav-link" href="./mytil_page.html">My TIL</a>
                 <a class="nav-link" href="https://github.com/">Github</a>
-                <a class="nav-link" href="./my_page">myPage</a>
+                <a class="nav-link" href="./my_page.html">myPage</a>
                 <a class="nav-link" onclick="sign_out()">logout</a>
                 <a class="nav-link" onclick="goback()">Back</a>
             </div>
@@ -314,7 +332,7 @@
                         <div class="h6 text-muted">Following</div>
                         <div class="h5">6758</div>
                     </li>
-                    <li class="list-group-item">Github : <label class ="text-label github_id_append"></label></li>
+                    <li class="list-group-item github_id_tag">Github : <label class ="text-label github_id_append"></label></li>
                 </ul>
             </div>
         </div>

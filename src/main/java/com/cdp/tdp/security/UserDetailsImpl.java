@@ -10,6 +10,7 @@ import java.util.Collections;
 public class UserDetailsImpl implements UserDetails {
 
     private final User user;
+    private final boolean enabled = true;
 
     public UserDetailsImpl(User user) {
         this.user = user;
@@ -31,22 +32,22 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return enabled;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return enabled;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return enabled;
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 
     @Override
