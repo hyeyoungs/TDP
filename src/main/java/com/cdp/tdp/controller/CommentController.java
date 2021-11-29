@@ -38,9 +38,6 @@ public class CommentController {
 
     @PostMapping("/til/comment")
     public Comment createComment(@RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
-        System.out.println(userDetails);
-        System.out.println(userDetails.getUser());
-        System.out.println(userDetails.getUser().getId());
 
         Comment comment = commentService.createComment(requestDto, userDetails.getUser().getId());
         return comment;
