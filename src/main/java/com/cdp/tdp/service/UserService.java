@@ -73,23 +73,23 @@ public class UserService {
             }
         });
         return CountTilList;
-    }
 
+    }
     public int TilCount(User user){
         List<Til> user_tils=user.getTil_list();// 모든 user 를 리스트에 담음
         return user_tils.size();
-
-
-
     }
-
-
 
     @Transactional
     public User updateUser(User user , UserUpdateDto userUpdateDto)throws SQLException {
 
         user.updateUser(userUpdateDto);
         userRepository.save(user);
+        return user;
+    }
+
+    public User getUser(Long id){
+        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("no such user"));
         return user;
     }
 

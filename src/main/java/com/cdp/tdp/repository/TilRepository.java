@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TilRepository extends JpaRepository<Til, Long> {
-
+    List<Til> findAllByOrderByIdDesc();
     Optional<Til> findById(Long til_id);
     @Transactional
     @Modifying

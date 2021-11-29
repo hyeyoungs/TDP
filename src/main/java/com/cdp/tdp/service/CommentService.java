@@ -29,14 +29,14 @@ public class CommentService {
         this.tilRepository = tilRepository;
     }
 
-    public List<Comment> getComment() {
-        // 멤버 변수 사용
-        return commentRepository.findAll();
+    public List<Comment> getComment(Long id) {
+        List<Comment> comments = commentRepository.findAll();
+        return comments;
     }
 
-    public Comment createComment(CommentRequestDto requestDto, Long id, Long til_id) {
+    public Comment createComment(CommentRequestDto requestDto, Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("no such user"));
-        Til til = tilRepository.findById(til_id).orElseThrow(() -> new IllegalArgumentException("no such til"));
+        Til til = tilRepository.findById(requestDto.getIdx()).orElseThrow(() -> new IllegalArgumentException("no such til"));
         // 요청받은 DTO 로 DB에 저장할 객체 만들기
         Comment comment = new Comment(requestDto, user, til);
         commentRepository.save(comment);
@@ -44,8 +44,8 @@ public class CommentService {
     }
 
     public Long deleteComment(Long id)  {
-            commentRepository.deleteById(id);
-            return id;
+        commentRepository.deleteById(id);
+        return id;
     }
 
 
