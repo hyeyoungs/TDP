@@ -137,7 +137,9 @@
         data: {},
         success: function (response) {
           let all_til = response;
-
+          if (all_til.length == 0){
+            $(".test").css("background-color", 'red');
+          }
           for (let i = 0; i < all_til.length; i++) {
             let day = all_til[i]['createdAt'];
             result_date = new Date(day);
@@ -150,15 +152,17 @@
                 $(".test").css("background-color", 'red');// display 속성을 block 으로 바꾼다.
               }
             }catch (e) {
-              console.log("작성된 TIL이 없습니다.")
+              console.log("read_flag error");
             }
           }
         }
       })
     }
+
     function logMyErrors(){
       $(".test").css("background-color", 'black');// display 속성을 block 으로 바꾼다.
     }
+
     function rank_til() {
         $.ajax({
                 type: "GET",
