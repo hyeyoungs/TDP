@@ -43,7 +43,10 @@ public class Til extends Timestamped {
     @OneToMany(mappedBy="til")
     private List<Comment> comments;
 
-    public Til(Long id, String til_title, String til_content, boolean til_view, int til_like, User user, List<Comment> comments) {
+    @OneToMany(mappedBy="til")
+    private List<Tag> tags;
+
+    public Til(Long id, String til_title, String til_content, boolean til_view, int til_like, User user, List<Comment> comments,List<Tag> tags) {
         this.id = id;
         this.til_title = til_title;
         this.til_content = til_content;
@@ -51,6 +54,7 @@ public class Til extends Timestamped {
         this.til_like = til_like;
         this.user = user;
         this.comments = comments;
+        this.tags=tags;
     }
 
     @Builder
@@ -73,7 +77,4 @@ public class Til extends Timestamped {
         til_view = !(til_view);
     }
 
-    public void UpdateLike(int like_num){
-        this.til_like=like_num;
-    }
 }

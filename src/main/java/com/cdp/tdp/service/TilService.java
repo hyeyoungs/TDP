@@ -1,10 +1,12 @@
 package com.cdp.tdp.service;
 
 import com.cdp.tdp.domain.Comment;
+import com.cdp.tdp.domain.Tag;
 import com.cdp.tdp.domain.Til;
 import com.cdp.tdp.domain.User;
 import com.cdp.tdp.dto.TilRequestDto;
 import com.cdp.tdp.repository.CommentRepository;
+import com.cdp.tdp.repository.TagRepository;
 import com.cdp.tdp.repository.TilRepository;
 import com.cdp.tdp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -19,6 +22,7 @@ import java.util.List;
 public class TilService {
     private final TilRepository tilRepository;
     private final UserRepository userRepository;
+    private final TagRepository tagRepository;
 
     public List<Til> getAllTil() {
         return tilRepository.findAllByOrderByIdDesc();
@@ -26,9 +30,18 @@ public class TilService {
 
     public Til createTil(TilRequestDto tilRequestDto, Long id) throws SQLException {
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("no such user"));
+
         Til til = new Til(tilRequestDto, user);
         //System.out.print(til);
         tilRepository.save(til);
+
+        String[] tagArray = tilRequestDto.getTags().split("\\s*,\\s*");
+        List<Tag> tagList = new ArrayList<>();
+        for (int i = 0; i < tagArray.length; i++) {
+            Tag tag=new Tag(tagArray[i],til);
+            tagList.add(tag);
+        }
+        tagRepository.saveAll(tagList);
         return til;
     }
 

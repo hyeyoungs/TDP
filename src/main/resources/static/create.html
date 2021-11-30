@@ -14,8 +14,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
-    
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <!-- 구글폰트 -->
+    <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+    <link rel="stylesheet" href="bootstrap-tagsinput.css">
+    <script src="bootstrap-tagsinput.js"></script>
+
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
     <style>
         body {
             padding-bottom: 30px;
@@ -90,7 +101,8 @@
                 til_title : $('#title').val(),
                 til_content : $('#content').val(),
                 til_view : true,
-                til_like : 0
+                til_like : 0,
+                tags: $("#tags").val()
             }
             $.ajax({
                 type: "POST",
@@ -153,9 +165,9 @@
                           placeholder="내용을 입력해 주세요"></textarea>
 
             </div>
-            <div class="mb-3">
+            <div class="mb-3 form-group">
                 <label for="tag">TAG</label>
-                <input type="text" class="form-control" name="tag" id="tag" placeholder="태그를 입력해 주세요">
+                <input type="text" value="" id="tags" data-role="tagsinput" placeholder="tags" />
             </div>
         </form>
         <div>

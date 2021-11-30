@@ -52,18 +52,24 @@
                         console.log(all_til);
                         for (let i = 0; i < all_til.length; i++) {
                             console.log(all_til[i]);
+                            let tags = '';
                             let title = all_til[i]['til_title'];
                             let user = all_til[i]['user']['nickname'];
                             let content = all_til[i]['til_content'];
                             let day = all_til[i]['createdAt'];
                             let til_idx = all_til[i]['id'];
+                            let til_tags=all_til[i]['tags'];
+                            for(let j = 0 ;  j < til_tags.length ; j++){
+                                console.log(til_tags[j]);
+                                tags += " #"+ til_tags[j]['name'];
+                            }
                             if (i < 4) {
                                 let temp_html = `<tr onClick="detail(${til_idx})" style="cursor:pointer;">
 
                                                 <th scope="row">${title}<img src="new.png" height="30" width="30"></th>
                                                 <td>${user}</td>
                                                 <td>${day}</td>
-                                                <td>${content}</td>
+                                                <td>${tags}</td>
                                             </tr>`
                                 $('#til-box').append(temp_html)
 
@@ -72,7 +78,7 @@
                                                 <th scope="row">${title}</th>
                                                 <td>${user}</td>
                                                 <td>${day}</td>
-                                                <td>${content}</td>
+                                                <td>${tags}</td>
                                             </tr>`
                                 $('#til-box').append(temp_html)
                             }
@@ -191,7 +197,7 @@
                 <th scope="col">제목</th>
                 <th scope="col">작성자</th>
                 <th scope="col">작성일</th>
-                <th scope="col">내용</th>
+                <th scope="col">태그</th>
             </tr>
             </thead>
             <tbody id="til-box">
@@ -206,6 +212,7 @@
                         <li><a style="cursor:pointer" onclick="search_setting('제목')">제목</a></li>
                         <li><a style="cursor:pointer" onclick="search_setting('작성자')">작성자</a></li>
                         <li><a style="cursor:pointer" onclick="search_setting('내용')">내용</a></li>
+                        <li><a style="cursor:pointer" onclick="search_setting('태그')">태그</a></li>
                     </ul>
                 </div><!-- /btn-group -->
                 <input id="keyword" type="text" class="form-control" placeholder="검색어를 입력해주세요" aria-label="...">
