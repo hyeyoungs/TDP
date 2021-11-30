@@ -6,6 +6,7 @@ import com.cdp.tdp.dto.TilRequestDto;
 import com.cdp.tdp.security.UserDetailsImpl;
 import com.cdp.tdp.service.TilService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,4 +53,11 @@ public class TilController {
     public void updateTilView(@PathVariable Long id) throws SQLException{
         tilService.updateTilView(id);
     }
+
+    @GetMapping("/til/search")
+    public List<Til> SearchTil(@RequestParam String keyword, @RequestParam String setting){
+
+        return tilService.SearchTil(keyword,setting);
+    }
+
 }

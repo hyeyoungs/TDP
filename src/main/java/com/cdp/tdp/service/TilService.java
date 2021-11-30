@@ -10,12 +10,15 @@ import com.cdp.tdp.repository.TagRepository;
 import com.cdp.tdp.repository.TilRepository;
 import com.cdp.tdp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @RequiredArgsConstructor
 @Service
@@ -51,6 +54,8 @@ public class TilService {
         );
     }
 
+
+
     public void deleteTil(Long id) {
         tilRepository.deleteById(id);
     }
@@ -74,6 +79,32 @@ public class TilService {
         );
         til.updateMyTilView();
         tilRepository.save(til);
+    }
+
+
+    public List<Til> SearchTil(String keyword,String setting)
+    {
+        if(setting.equals("제목"))
+        {
+
+            return tilRepository.findAllByTilTitle(keyword);
+        }
+        else if(setting.equals("작성자"))
+        {
+
+            User user = userRepository.findByUsername(keyword)
+                    .orElseThrow(() -> new UsernameNotFoundException("로그인 오류"));
+            return tilRepository.findAllByUser(user);
+
+        }
+
+        else // 태그
+        {
+
+            return tilRepository.findAllByTagsName(keyword);
+
+
+        }
     }
 
 }

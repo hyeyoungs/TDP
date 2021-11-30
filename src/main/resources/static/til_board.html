@@ -53,7 +53,7 @@
                         for (let i = 0; i < all_til.length; i++) {
                             console.log(all_til[i]);
                             let tags = '';
-                            let title = all_til[i]['til_title'];
+                            let title = all_til[i]['tilTitle'];
                             let user = all_til[i]['user']['nickname'];
                             let content = all_til[i]['til_content'];
                             let day = all_til[i]['createdAt'];
@@ -95,7 +95,7 @@
         function til_search() {
             let keyword = $('#keyword').val()
             let setting = $('#setting-btn').text()
-            location.href = "/til_board_detail_page" + "?keyword=" + keyword + "&setting=" + setting;
+            location.href = "/til_board_detail.html" + "?keyword=" + keyword + "&setting=" + setting;
             //    로딩바 0.1초
         }
         function search_setting(a) {
@@ -211,7 +211,7 @@
                     <ul class="dropdown-menu" role="menu">
                         <li><a style="cursor:pointer" onclick="search_setting('제목')">제목</a></li>
                         <li><a style="cursor:pointer" onclick="search_setting('작성자')">작성자</a></li>
-                        <li><a style="cursor:pointer" onclick="search_setting('내용')">내용</a></li>
+
                         <li><a style="cursor:pointer" onclick="search_setting('태그')">태그</a></li>
                     </ul>
                 </div><!-- /btn-group -->
