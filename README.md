@@ -8,7 +8,7 @@
 |웹 프레임워크|Spring|
 
 
-# 라이브러리
+### 라이브러리
 |라이브러리|Appliance|
 |:---|:---|
 |spring-boot-starter-date-jap|데이터베이스|
@@ -21,7 +21,7 @@
 |Jwt|authentication|
 |spring-boot-starter-websocket|Notification|
 
-# Architecture
+### Architecture
 ![image](https://user-images.githubusercontent.com/38107948/144232384-d63b9549-db2e-4dd0-8a90-cbd788fdde2c.png)
 ## TDP란?
 
