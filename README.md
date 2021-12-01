@@ -58,6 +58,9 @@
 |Jwt|authentication|
 |spring-boot-starter-websocket|Notification|
 
+# Architecture
+
+![image](https://user-images.githubusercontent.com/38107948/144232384-d63b9549-db2e-4dd0-8a90-cbd788fdde2c.png)
 
 
 ## How To Use
