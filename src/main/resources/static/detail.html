@@ -25,16 +25,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
-    <link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- cookie -->
-    <script type="text/javascript"
-            src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
 
     <style>
@@ -269,7 +265,7 @@
             data: {},
             success: function (response) {
 
-                let title = response['til_title']
+                let title = response['tilTitle']
                 let content = response['til_content']
                 let num_heart=response['til_like']
 
@@ -347,28 +343,14 @@
 
     function delete_comment(comment_idx) {
         comment_idx = parseInt(comment_idx)
-        alert(comment_idx)
+
 
         $.ajax({
             type: "DELETE",
             url: `/til/comments/${comment_idx}`,
             data: {},
             success: function (response) {
-                alert(response['msg'])
-                window.location.reload()
-            }
-        });
-    }
-
-    function delete_comment(comment_idx) {
-        comment_idx = parseInt(comment_idx)
-        alert(comment_idx)
-        $.ajax({
-            type: "DELETE",
-            url: "/til/comment",
-            data: {comment_idx_give: comment_idx},
-            success: function (response) {
-                alert(response['msg'])
+                alert("댓글 삭제")
                 window.location.reload()
             }
         });
