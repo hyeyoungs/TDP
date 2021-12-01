@@ -37,14 +37,17 @@
 - [ ]  프론트 인프라 s3 + cloudfront로 구성
 - [ ]  GitAction과 도커 사용하여 배포
 
-### 기술스택 및 라이브러리
+### 기술스택
 |종류|이름|
 |:---|:---|
 |개발 언어|Java|
 |데이터베이스|Mysql| -> 임시로 H2 사용중입니다.
 |웹 프레임워크|Spring|
 
+
+# 라이브러리
 |라이브러리|Appliance|
+|:---|:---|
 |spring-boot-starter-date-jap|데이터베이스|
 |json|데이터 통신|
 |jetbrains:annotations|주석 집합|
