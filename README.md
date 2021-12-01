@@ -1,5 +1,28 @@
 # 📝 TDP-Spring
 
+### 기술스택
+|종류|이름|
+|:---|:---|
+|개발 언어|Java|
+|데이터베이스|Mysql| -> 임시로 H2 사용중입니다.
+|웹 프레임워크|Spring|
+
+
+# 라이브러리
+|라이브러리|Appliance|
+|:---|:---|
+|spring-boot-starter-date-jap|데이터베이스|
+|json|데이터 통신|
+|jetbrains:annotations|주석 집합|
+|junit|테스트 프레임워크|
+|lombok|코드 작성 자동화|
+|h2|임시로 사용되는 db|
+|springboot_security|Auth|
+|Jwt|authentication|
+|spring-boot-starter-websocket|Notification|
+
+# Architecture
+![image](https://user-images.githubusercontent.com/38107948/144232384-d63b9549-db2e-4dd0-8a90-cbd788fdde2c.png)
 ## TDP란?
 
 - "Today I Learned Deserter Pursuit"의 약자로서, [TIL(Today I Learned) 관리 시스템](http://tildp.shop)입니다.
@@ -37,30 +60,6 @@
 - [ ]  프론트 인프라 s3 + cloudfront로 구성
 - [ ]  GitAction과 도커 사용하여 배포
 
-### 기술스택
-|종류|이름|
-|:---|:---|
-|개발 언어|Java|
-|데이터베이스|Mysql| -> 임시로 H2 사용중입니다.
-|웹 프레임워크|Spring|
-
-
-# 라이브러리
-|라이브러리|Appliance|
-|:---|:---|
-|spring-boot-starter-date-jap|데이터베이스|
-|json|데이터 통신|
-|jetbrains:annotations|주석 집합|
-|junit|테스트 프레임워크|
-|lombok|코드 작성 자동화|
-|h2|임시로 사용되는 db|
-|springboot_security|Auth|
-|Jwt|authentication|
-|spring-boot-starter-websocket|Notification|
-
-# Architecture
-
-![image](https://user-images.githubusercontent.com/38107948/144232384-d63b9549-db2e-4dd0-8a90-cbd788fdde2c.png)
 
 
 ## How To Use
