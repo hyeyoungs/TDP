@@ -18,6 +18,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+    <script src="https://cdnout.com/bootstrap-notify/"></script>
+    <link rel="stylesheet" href="https://cdnout.com/bootstrap-notify/css/base.css" media="all">
 
 </head>
 <style>
@@ -399,11 +401,30 @@
 </style>
 <script>
     $(document).ready(function () {
+        let urlEndpoint='http://localhost:8080/subscribe';
+        let eventSource = new EventSource(urlEndpoint);
+        eventSource.addEventListener("latestNews",function (event){
+            let articleData = JSON.parse(event.data);
+            // 이부분을 이용하자.
+            // addBlock(articleData.title, articleData.text);
+        })
         if (localStorage.getItem('token')) {
             location.href = "./home.html"
         }
     });
 
+
+    // function addBlock(title,text){
+    //     let a = document.createElement("article");
+    //     let h = document.createElement("H3")
+    //     let t = document.createTextNode(title);
+    //     h.appendChild(t);
+    //     let para = document.createElement("P");
+    //     para.innerHTML =text;
+    //     a.appendChild(h);
+    //     a.appendChild(para);
+    //     document.getElementById("toast").appendChild(a);
+    // }
     function cambiar_login() {
         document.querySelector('.cont_forms').className = "cont_forms cont_forms_active_login";
         document.querySelector('.cont_form_login').style.display = "block";
@@ -587,5 +608,20 @@
 
     </div>
 </div>
+<!-- toast -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <img src="..." class="rounded me-2" alt="...">
+            <strong class="me-auto">Bootstrap</strong>
+            <small>11 mins ago</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Hello, world! This is a toast message.
+        </div>
+    </div>
+</div>
+<!-- toast end -->
 </body>
 </html>
