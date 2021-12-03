@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
 @Service
 public class CommentService {
     // 멤버 변수 선언
@@ -30,7 +29,7 @@ public class CommentService {
     }
 
     public List<Comment> getComment(Long id) {
-        List<Comment> comments = commentRepository.findAll();
+        List<Comment> comments = commentRepository.findByTilId(id);
         return comments;
     }
 
