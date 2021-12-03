@@ -282,7 +282,7 @@
     function get_comment() {
         $.ajax({
             type: "GET",
-            url: `/til/comments/${idx}`,
+            url: `/til/${idx}/comments`,
             data: {},
             success: function (response) {
                 let user = response[0]['id']

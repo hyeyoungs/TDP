@@ -30,7 +30,7 @@ public class CommentService {
     }
 
     public List<Comment> getComment(Long id) {
-        List<Comment> comments = commentRepository.findAll();
+        List<Comment> comments = commentRepository.findByTilId(id);
         return comments;
     }
 
