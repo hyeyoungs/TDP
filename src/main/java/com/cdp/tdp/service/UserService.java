@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -24,6 +25,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final TilRepository tilRepository;
+    private final FileService fileService;
 
     @Transactional
         public User registerUser(SignupRequestDto requestDto) {
@@ -81,9 +83,17 @@ public class UserService {
     }
 
     @Transactional
-    public User updateUser(User user , UserUpdateDto userUpdateDto)throws SQLException {
-
-        user.updateUser(userUpdateDto);
+    public User updateUser(User user, String nickname, String githubId, MultipartFile imageFile, String about) {
+        if (imageFile == null){
+            String fileName = user.getPicture();
+            String url = user.getPicture_real();
+            user.updateUser(nickname, githubId, fileName, url, about);
+        }
+        else{
+            String fileName = imageFile.getOriginalFilename();
+            String url = fileService.uploadImage(imageFile);
+            user.updateUser(nickname, githubId, fileName, url, about);
+        }
         userRepository.save(user);
         return user;
     }
