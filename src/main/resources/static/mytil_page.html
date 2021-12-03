@@ -84,7 +84,7 @@
         async function append_github_id(){
             let user_info = await read_user();
             let github_id = user_info['github_id']
-            if (github_id == null){
+            if (github_id == null || github_id == ""){
                 $('.github_id_tag').hide();
             }
         }

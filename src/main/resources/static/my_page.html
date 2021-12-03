@@ -116,7 +116,7 @@
     async function append_github_id(){
         let user_info = await read_user();
         let github_id = user_info['github_id']
-        if (github_id == null){
+        if (github_id == null || github_id == ""){
             $('.github_id_tag').hide();
         }
     }
@@ -126,31 +126,27 @@
     }
 
     function update_profile() {
-        let nickname = $('#input-nickname').val()
-        let github_id = $('#input-github-id').val()
-        let file = $('#input-pic')[0].files[0]
-        let about = $("#textarea-about").val()
-
-        let info={
-            nickname : nickname,
-            github_id : github_id,
-            file : file,
-            introduce : about
-        }
-
+        let info = new FormData();
+        info.append("nickname", $('#input-nickname').val());
+        info.append("github_id", $('#input-github-id').val());
+        info.append("file", $('#input-pic')[0].files[0]);
+        info.append("about", $("#textarea-about").val())
+        console.log($('#input-pic')[0].files[0]);
+        console.log(info);
         $.ajax({
             type: "PUT",
-            url: "/user/update",
-            contentType: "application/json",
-            data: JSON.stringify(info),
-
+            url: "/user/profile",
+            enctype: 'multipart/form-data',
+            cache: false,
+            contentType: false,
             processData: false,
+            data: info,
             success: function (response) {
                 alert('업데이트 되었습니다!')
                 window.location.reload();
-
-
-
+            },
+            fail: function (err) {
+                alert("fail");
             }
         });
     }
