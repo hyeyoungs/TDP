@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Title | TIL.D.P</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
@@ -17,9 +17,13 @@
             crossorigin="anonymous"></script>
 
     <script>
+        size = 10
+        current_pate = 1
+        isSearch = 0
+
         $(document).ready(function () {
             token_check();
-            read_all_til();
+            read_til_list(1, isSearch);
         });
 
         function token_check(){
@@ -42,25 +46,35 @@
             login_check(options, originalOptions, jqXHR);
         });
 
-        function read_all_til() {
+        function read_til_list(page, isSearch) {
+            $('#til-box').empty();
+            let keyword = $('#keyword').val()
+            let setting = $('#setting-btn').text()
+            if (keyword == '' || keyword == null){  isSearch = 0    }
+
+            let url = `/til_board?page=${page}`;
+
+            if (isSearch == 1){
+                url = `/til/search?page=${page}&keyword=${keyword}&setting=${setting}`;
+            }
+            console.log(url);
             $.ajax({
                     type: "GET",
-                    url: "/til_board",
+                    url: url,
                     data: {},
                     success: function (response) {
-                        let all_til = response;
-                        console.log(all_til);
-                        for (let i = 0; i < all_til.length; i++) {
-                            console.log(all_til[i]);
+                        console.log(response);
+                        let til_list = response['tils']['content'];
+                        for (let i = 0; i < til_list.length; i++) {
+                            // console.log(til_list[i]);
                             let tags = '';
-                            let title = all_til[i]['tilTitle'];
-                            let user = all_til[i]['user']['nickname'];
-                            let content = all_til[i]['til_content'];
-                            let day = all_til[i]['createdAt'];
-                            let til_idx = all_til[i]['id'];
-                            let til_tags=all_til[i]['tags'];
+                            let title = til_list[i]['tilTitle'];
+                            let user = til_list[i]['user']['nickname'];
+                            let day = til_list[i]['createdAt'];
+                            let til_idx = til_list[i]['id'];
+                            let til_tags = til_list[i]['tags'];
                             for(let j = 0 ;  j < til_tags.length ; j++){
-                                console.log(til_tags[j]);
+                                // console.log(til_tags[j]);
                                 tags += " #"+ til_tags[j]['name'];
                             }
                             if (i < 4) {
@@ -83,9 +97,11 @@
                                 $('#til-box').append(temp_html)
                             }
                         }
+                        makePagingButtons(response['totalPages'], response['page'] + 1)
                     }
                 }
             )
+
         }
 
         function detail(til_idx) {
@@ -93,10 +109,8 @@
         }
 
         function til_search() {
-            let keyword = $('#keyword').val()
-            let setting = $('#setting-btn').text()
-            location.href = "/til_board_detail.html" + "?keyword=" + keyword + "&setting=" + setting;
-            //    로딩바 0.1초
+            isSearch = 1
+            read_til_list(1, isSearch)
         }
         function search_setting(a) {
             $('#setting-btn').text(a)
@@ -109,27 +123,24 @@
             window.location.href = "/"
         }
 
-        function makePaging(pagingInfo) {
-            let tempHtml = '';
-            for (let i = 0; i < pagingInfo['totalPage']; i++) {
-                if (i + 1 == pagingInfo['curPage']) {
-                    tempHtml += `<li class="page-item active"><a class="page-link" href="#">${i + 1}</a></li>`;
+        function makePagingButtons(total_page, page) {
+            $('#pagination-buttons').empty();
+            current_page = page;
+            let tmp_html = ``;
+            for (let index = 1; index <= total_page; index++) {
+                if (current_page == index) {
+                    tmp_html = `<li class="page-item active"><a class="page-link" onclick="read_til_list('${index}', isSearch)">${index}</a></li>`;
                 } else {
-                    tempHtml += `<li class="page-item"><a class="page-link" href="#" onclick="showArticles(${i + 1})">${i + 1}</a></li>`;
+                    tmp_html = `<li class="page-item"><a class="page-link" onclick="read_til_list('${index}', isSearch)">${index}</a></li>`;
                 }
+                $('#pagination-buttons').append(tmp_html);
             }
-            $("#pagination").html(tempHtml);
         }
 
     </script>
     <style>
         .wrap {
             margin: 50px auto;
-        }
-
-        .input-box {
-            margin: 50px auto;
-            width: 350px;
         }
 
         .col-lg-6 {
@@ -147,6 +158,10 @@
         .nav-link {
 
             margin-left: 100px;
+        }
+
+        #create_button {
+            margin-right : 100px;
         }
 
     </style>
@@ -176,19 +191,21 @@
 </nav>
 
 
-<div class="container">
-    <table class="table">
-        <thead class="thead-light">
-        <tr class="text-center">
-            <th scope="col">TIL LIST</th>
-</div>
+
 
 <div class="wrap">
-    <div class="row">
+    <div class="row" id="create_button">
         <div class="col-auto mr-auto"></div>
         <div class="col-auto">
             <a class="btn btn-primary" href="./create.html" role="button">글쓰기</a>
         </div>
+    </div>
+    <div class="container">
+        <table class="table">
+            <tr class="text-center">
+                <th scope="col">TIL LIST</th>
+            </tr>
+        </table>
     </div>
     <div class="container">
         <table id="til-table" class="table">
@@ -203,6 +220,11 @@
             <tbody id="til-box">
             </tbody>
         </table>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination" style="justify-content: center;" id="pagination-buttons">
+
+            </ul>
+        </nav>
         <div class="col-lg-6">
             <div class="input-group">
                 <div class="input-group-btn">
@@ -211,7 +233,6 @@
                     <ul class="dropdown-menu" role="menu">
                         <li><a style="cursor:pointer" onclick="search_setting('제목')">제목</a></li>
                         <li><a style="cursor:pointer" onclick="search_setting('작성자')">작성자</a></li>
-
                         <li><a style="cursor:pointer" onclick="search_setting('태그')">태그</a></li>
                     </ul>
                 </div><!-- /btn-group -->
