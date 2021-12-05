@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -43,6 +44,14 @@ public class UserController {
         return ResponseEntity.ok(new JwtResponse(token, userDetails.getUsername()));
     }
 
+    @PostMapping(value = "/login/kakao")
+    public ResponseEntity<?> createAuthenticationTokenByKakao(@RequestBody SocialLoginDto socialLoginDto) throws Exception {
+        String username = userService.kakaoLogin(socialLoginDto.getToken());
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        final String token = jwtTokenUtil.generateToken(userDetails);
+        return ResponseEntity.ok(new JwtResponse(token, userDetails.getUsername()));
+    }
+
     @PostMapping(value = "/signup")
     public ResponseEntity createUser(@RequestBody SignupRequestDto userDto) throws Exception {
         userService.registerUser(userDto);
@@ -64,4 +73,8 @@ public class UserController {
     public void updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody UserUpdateDto userUpdateDto) throws SQLException{
         userService.updateUser(userDetails.getUser(), userUpdateDto);
     }
+
+
+
+
 }

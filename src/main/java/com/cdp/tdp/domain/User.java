@@ -22,9 +22,33 @@ public class User extends Timestamped {
         this.introduce = introduce;
         this.picture=picture;
         this.picture_real=picture_real; // s3이미지 주소
+        this.kakaoId=null;
 
     }
 
+    public User(String signId, String signPassword, String nickname, String githubId, String introduce,String picture,String picture_real,Long kakaoId) {
+        this.username = signId;
+        this.password = signPassword;
+        this.nickname = nickname;
+        this.github_id = githubId;
+        this.introduce = introduce;
+        this.picture=picture;
+        this.picture_real=picture_real; // s3이미지 주소
+        this.kakaoId=kakaoId;
+
+    }
+
+    public User(String signId, String signPassword, String nickname, Long kakaoId) {
+        this.username = signId;
+        this.password = signPassword;
+        this.nickname = nickname;
+        this.github_id = null;
+        this.introduce = null;
+        this.picture= null;
+        this.picture_real= null; // s3이미지 주소
+        this.kakaoId=kakaoId;
+
+    }
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     @Column(name = "user_id")
@@ -46,6 +70,9 @@ public class User extends Timestamped {
     private String picture;
 
     private String picture_real;
+
+    @Column(nullable = true)
+    private Long kakaoId;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
