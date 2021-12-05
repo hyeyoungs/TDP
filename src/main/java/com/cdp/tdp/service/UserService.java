@@ -78,22 +78,27 @@ public class UserService {
 
     }
     public int TilCount(User user){
-        List<Til> user_tils=user.getTil_list();// 모든 user 를 리스트에 담음
+        List<Til> user_tils = user.getTil_list();// 모든 user 를 리스트에 담음
         return user_tils.size();
     }
 
     @Transactional
     public User updateUser(User user, String nickname, String githubId, MultipartFile imageFile, String about) {
+        UserUpdateDto userUpdateDto = new UserUpdateDto();
+
+        userUpdateDto.setNickname(nickname);
+        userUpdateDto.setGithub_id(githubId);
+        userUpdateDto.setIntroduce(about);
+
         if (imageFile == null){
-            String fileName = user.getPicture();
-            String url = user.getPicture_real();
-            user.updateUser(nickname, githubId, fileName, url, about);
+            userUpdateDto.setPicture(user.getPicture());
+            userUpdateDto.setPicture_real(user.getPicture_real());
         }
         else{
-            String fileName = imageFile.getOriginalFilename();
-            String url = fileService.uploadImage(imageFile);
-            user.updateUser(nickname, githubId, fileName, url, about);
+            userUpdateDto.setPicture(imageFile.getOriginalFilename());
+            userUpdateDto.setPicture_real(fileService.uploadImage(imageFile));
         }
+        user.updateUser(userUpdateDto);
         userRepository.save(user);
         return user;
     }
