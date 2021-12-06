@@ -18,7 +18,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -30,13 +29,9 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final TilRepository tilRepository;
-
-    private final FileService fileService;
-
     private final KakaoOAuth2 kakaoOAuth2;
     private final AuthenticationManager authenticationManager;
     private static final String ADMIN_TOKEN = "AAABnv/xRVklrnYxKZ0aHgTBcXukeZygoC";
-
 
 
     @Transactional
@@ -133,17 +128,9 @@ public class UserService {
     }
 
     @Transactional
-    public User updateUser(User user, String nickname, String githubId, MultipartFile imageFile, String about) {
-        if (imageFile == null){
-            String fileName = user.getPicture();
-            String url = user.getPicture_real();
-            user.updateUser(nickname, githubId, fileName, url, about);
-        }
-        else{
-            String fileName = imageFile.getOriginalFilename();
-            String url = fileService.uploadImage(imageFile);
-            user.updateUser(nickname, githubId, fileName, url, about);
-        }
+    public User updateUser(User user , UserUpdateDto userUpdateDto)throws SQLException {
+
+        user.updateUser(userUpdateDto);
         userRepository.save(user);
         return user;
     }

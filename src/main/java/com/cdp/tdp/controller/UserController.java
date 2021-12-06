@@ -4,7 +4,6 @@ import com.cdp.tdp.domain.User;
 import com.cdp.tdp.dto.*;
 import com.cdp.tdp.security.UserDetailsImpl;
 import com.cdp.tdp.security.UserDetailsServiceImpl;
-//import com.cdp.tdp.service.S3UploadService;
 import com.cdp.tdp.service.UserService;
 import com.cdp.tdp.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +14,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -71,13 +70,9 @@ public class UserController {
         return userService.getAllUser();
     }
 
-    @PutMapping("/user/profile")
-    public void updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                           @RequestParam("nickname") String nickname,
-                           @RequestParam("github_id") String githubId,
-                           @RequestParam(value = "file", required = false) MultipartFile imageFile,
-                           @RequestParam("about") String about){
-        userService.updateUser(userDetails.getUser(), nickname, githubId, imageFile, about);
+    @PutMapping("/user/update")
+    public void updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody UserUpdateDto userUpdateDto) throws SQLException{
+        userService.updateUser(userDetails.getUser(), userUpdateDto);
     }
 
 

@@ -36,9 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 
-### AWS ###
-src/main/**/application-aws.yml
-
 ### macOS ###
 # General
 .DS_Store

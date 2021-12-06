@@ -138,10 +138,11 @@
 <script>
     $(document).ready(function () {
         token_check();
-
+        read_user_profile();
+        append_github_id();
+        append_introduce();
         idx = window.location.search.split("=")[1]
         $('#new-box').hide();
-        read_writer();
         get_til();
         //get_status();
         get_heart();
@@ -168,28 +169,50 @@
         login_check(options, originalOptions, jqXHR);
     });
 
-    var idx;
-
-    function read_writer() {
+    function read_user() {
         $.ajax({
             type: "GET",
-            url: `/til_board/${idx}`,
+            url: "/user",
+            async: false,
             success: function (response) {
-                let github_id = response['user']['github_id'];
-                let introduce = response['user']['introduce'];
-                if (github_id == null || github_id == ""){
-                    $('.github_id_tag').hide();
-                }
-                if (introduce == null || introduce == ""){
-                    $('.introduce_tag').hide();
-                }
-                $('.writer_nickname_append').text(response['user']['nickname']);
-                $('.writer_github_id_append').text(github_id);
-                $('.writer_profile_info_append').text(response['user']['introduce']);
-                $('.writer_profile_pic_real_append').attr('src', response['user']['picture_real']);
+                user_info = response;
             }
         });
+        return user_info;
     }
+
+    async function read_user_profile(){
+        let user_info = await read_user();
+        $('.user_id_append').text(user_info['username']);
+        $('.user_nickname_append').text(user_info['nickname']);
+        $('.user_profile_info_append').text(user_info['introduce']);
+        $('.user_profile_pic_append').text(user_info['picture']);
+        $('.github_id_append').text(user_info['github_id']);
+        $('.user_id_append').val(user_info['username']);
+        $('.user_nickname_append').val(user_info['nickname']);
+        $('.user_profile_info_append').val(user_info['introduce']);
+        $('.user_profile_pic_append').val(user_info['picture']);
+        $('.user_profile_pic_real_append').attr('src', user_info['picture_real']);
+        $('.github_id_append').val(user_info['github_id']);
+    }
+
+    async function append_github_id(){
+        let user_info = await read_user();
+        let github_id = user_info['github_id']
+        if (github_id == null){
+            $('.github_id_tag').hide();
+        }
+    }
+
+    async function append_introduce(){
+        let user_info = await read_user();
+        let introduce = user_info['introduce']
+        if (introduce == null){
+            $('.introduce_tag').hide();
+        }
+    }
+
+    var idx;
 
     function get_status() {
         $.ajax({
@@ -244,7 +267,7 @@
 
                 let title = response['tilTitle']
                 let content = response['til_content']
-                let num_heart = response['til_like']
+                let num_heart=response['til_like']
 
                 $("#now-title").text(title);
                 $("#now-content").text(content);
@@ -259,7 +282,7 @@
     function get_comment() {
         $.ajax({
             type: "GET",
-            url: `/til/${idx}/comments`,
+            url: `/til/comments/${idx}`,
             data: {},
             success: function (response) {
                 let user = response[0]['id']
@@ -461,16 +484,16 @@
 <div class="container-fluid gedf-wrapper">
     <!-- container -->
     <div class="row">
-        <!-- Writer Profile -->
+        <!-- User Profile -->
         <div class="col-md-3">
             <div class="card">
                 <div class="card-body">
-                    <span>Nickname</span>
-                    <div id="user-nickname" class="h5 writer_nickname_append"></div>
-                    <span class = "introduce_tag">Introduce</span>
-                    <div id="user-profile" class="h7 text-muted introduce_tag writer_profile_info_append"></div>
-                    <span class="github_id_tag">Github Id</span>
-                    <div id="user-github_id" class="h7 text-muted github_id_tag writer_github_id_append"></div>
+                    <span>닉네임</span>
+                    <div id="user-nickname" class="h5 user_nickname_append"></div>
+                    <span class = "introduce_tag">user_introduce</span>
+                    <div id="user-profile" class="h7 text-muted introduce_tag user_profile_info_append"></div>
+                    <span class="github_id_tag">github_id</span>
+                    <div id="user-github_id" class="h7 text-muted github_id_tag github_id_append"></div>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">

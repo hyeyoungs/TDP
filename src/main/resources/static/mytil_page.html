@@ -84,12 +84,13 @@
         async function append_github_id(){
             let user_info = await read_user();
             let github_id = user_info['github_id']
-            if (github_id == null || github_id == ""){
+            if (github_id == null){
                 $('.github_id_tag').hide();
             }
         }
 
         async function list_user_til() {
+            let user_info = await read_user()
             $.ajax({
                 type: "GET",
                 url: "/til/user",
@@ -97,13 +98,13 @@
                 success: function (response) {
                     let my_til = response;
                     for (let i = 0; i < my_til.length; i++) {
-                        make_list_my_til(my_til[i]);
+                        make_list_my_til(my_til[i], user_info);
                     }
                 }
             });
         }
 
-        function make_list_my_til(til){
+        function make_list_my_til(til, user_info){
             let view_str = '';
             if (til['til_view'] == 1) {
                 view_str = '공개';
@@ -322,11 +323,11 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         <div class="h6 text-muted">Followers</div>
-                        <div class="h5">미구현11</div>
+                        <div class="h5">5.2342</div>
                     </li>
                     <li class="list-group-item">
                         <div class="h6 text-muted">Following</div>
-                        <div class="h5">미구현22</div>
+                        <div class="h5">6758</div>
                     </li>
                     <li class="list-group-item github_id_tag">Github : <label class ="text-label github_id_append"></label></li>
                 </ul>
