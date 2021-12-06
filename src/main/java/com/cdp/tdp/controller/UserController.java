@@ -46,6 +46,7 @@ public class UserController {
 
     @PostMapping(value = "/login/kakao")
     public ResponseEntity<?> createAuthenticationTokenByKakao(@RequestBody SocialLoginDto socialLoginDto) throws Exception {
+        //api 인증을 통해 얻어온 code값 받아오기
         String username = userService.kakaoLogin(socialLoginDto.getToken());
         final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         final String token = jwtTokenUtil.generateToken(userDetails);

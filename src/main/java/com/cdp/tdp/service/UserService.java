@@ -86,6 +86,8 @@ public class UserService {
 
         // 로그인 처리
         Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(username, password);
+        //  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException { 로 진행됨
+
         Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
