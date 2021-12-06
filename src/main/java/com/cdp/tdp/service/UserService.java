@@ -65,7 +65,7 @@ public class UserService {
 
         // 우리 DB 에서 회원 Id 와 패스워드
         // 회원 Id = 카카오 nickname
-        String username = nickname;
+        String username = email;
         // 패스워드 = 카카오 Id + ADMIN TOKEN
         String password = kakaoId + ADMIN_TOKEN;
 
@@ -80,7 +80,7 @@ public class UserService {
             // ROLE = 사용자
 
 
-            kakaoUser = new User(nickname, encodedPassword, email,  kakaoId);
+            kakaoUser = new User(username, encodedPassword, nickname,  kakaoId);
             userRepository.save(kakaoUser);
         }
 
