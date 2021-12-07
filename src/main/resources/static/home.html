@@ -77,7 +77,7 @@
         else{
           console.log('글 썼네')
         }
-      }, 7000);
+      }, 86400000);
     });
 
     function token_check(){
@@ -214,16 +214,6 @@
       window.location.href = "/"
     }
 
-    // // 카카오톡 동의항목 추가
-    // function addAgree ()
-    // {
-    //   $.ajax({
-    //     type: "GET",
-    //     url:"/authorize?scope=talk_message",
-    //
-    //     success: (data) => { console.log(data); }
-    //   });
-    // }
 
 
 
@@ -395,7 +385,6 @@
   </section>
   <!--End off Home Sections-->
 
-  <button onclick="REST_Call('/message')"> 나에게 메시지 발송 </button><br/>
 
 
   <!--About Sections-->
