@@ -56,6 +56,9 @@
                         console.log(all_til);
                         for (let i = 0; i < all_til.length; i++) {
                             console.log(all_til[i]);
+                            if (all_til[i]['til_view']==false){
+                                continue
+                            }
                             let title = all_til[i]['til_title'];
                             let user = all_til[i]['user']['nickname'];
                             let content = all_til[i]['til_content'];
