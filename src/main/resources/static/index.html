@@ -147,13 +147,16 @@
     Kakao.init('0b012b5872605ba270c2c0573b61eb78');
     function kakao_login() {
         Kakao.Auth.login({
+
             success: function(authObj) {
+                let access_token=authObj['access_token'];
                 $.ajax({
                     type: 'POST',
                     url: `/login/kakao`,
                     contentType: "application/json",
-                    data: JSON.stringify({'token':authObj['access_token']}),
+                    data: JSON.stringify({'token':access_token}),
                     success: function (response) {
+                        localStorage.setItem("access_token",access_token);
                         localStorage.setItem("token", response['token']);
                         localStorage.setItem("username", response['username']);
                         location.href = '/';
