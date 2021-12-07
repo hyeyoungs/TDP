@@ -19,7 +19,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class TilService {
@@ -38,13 +38,17 @@ public class TilService {
         //System.out.print(til);
         tilRepository.save(til);
 
-        String[] tagArray = tilRequestDto.getTags().split("\\s*,\\s*");
-        List<Tag> tagList = new ArrayList<>();
-        for (int i = 0; i < tagArray.length; i++) {
-            Tag tag=new Tag(tagArray[i],til);
-            tagList.add(tag);
+        if(!(tilRequestDto.getTags().isEmpty())) {
+            String[] tagArray = tilRequestDto.getTags().split("\\s*,\\s*");
+
+
+            List<Tag> tagList = new ArrayList<>();
+            for (int i = 0; i < tagArray.length; i++) {
+                Tag tag = new Tag(tagArray[i], til);
+                tagList.add(tag);
+            }
+            tagRepository.saveAll(tagList);
         }
-        tagRepository.saveAll(tagList);
         return til;
     }
 
