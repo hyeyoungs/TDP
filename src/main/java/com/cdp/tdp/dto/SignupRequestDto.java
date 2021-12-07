@@ -13,4 +13,5 @@ public class SignupRequestDto {
     private String introduce;
     private String picture;
     private String picture_real;
+
 }

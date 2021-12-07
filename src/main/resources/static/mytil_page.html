@@ -25,9 +25,6 @@
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <!-- cookie -->
-    <script type="text/javascript"
-            src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -149,7 +146,7 @@
                                 <div class="card-body">
                                     <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>${til['createdAt']}</div>
                                     <a class="card-link" href="#">
-                                        <h5 class="card-title">${til['til_title']}</h5>
+                                        <h5 class="card-title">${til['tilTitle']}</h5>
                                     </a>
                                     <p class="card-text">
                                         ${ til['til_content']}
@@ -171,7 +168,7 @@
                 url: `/til_board/${idx}`,
                 data: {},
                 success: function (response){
-                    let title = response['til_title']
+                    let title = response['tilTitle']
                     let content = response['til_content']
                     let user = response['user']['nickname'];
                     let idx = response['id']
@@ -185,7 +182,7 @@
 
         function update_til(idx){
             let info = {
-                til_title : $('input#modal-title').val(),
+                tilTitle : $('input#modal-title').val(),
                 til_content : $('textarea#modal-content').val()
             }
 
