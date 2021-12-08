@@ -20,9 +20,29 @@ $(document).ready(function() {
 
 function connect() {
     var socket = new SockJS('/our-websocket');
-    stompClient = Stomp.over(socket);
+    let options = {debug: false, protocols: Stomp.VERSIONS.supportedProtocols()};
+    stompClient = Stomp.over(socket, options);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
+        let headers = {Authorization: sessionStorage.getItem('access_token')};
+
+        // STOMP Client의 header 부분에 집어넣어줍니다.
+        this.stompClient.connect(headers, (frame) => {
+            this.connected = true
+            console.log('소켓 연결 성공', frame);
+            this.stompClient.subscribe('/exchange/chat-exchange/msg.' + this.chatRequestDto.roomId, (tick) => {
+                console.log(tick.body);
+                this.chatLogs.push(JSON.parse(tick.body));
+            })
+        }, (error) => {
+            console.log('연결실패');
+            console.log(error)
+            this.connected = false
+        })
+
+
+
+
         updateNotificationDisplay();
         stompClient.subscribe('/topic/messages', function (message) {
             showMessage(JSON.parse(message.body).content);

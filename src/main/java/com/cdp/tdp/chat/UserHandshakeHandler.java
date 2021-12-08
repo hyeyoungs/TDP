@@ -25,13 +25,13 @@ public class UserHandshakeHandler extends DefaultHandshakeHandler {
 
     @Override
     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication();
-
-        log.info((String) principal);
-
-
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String id = user.getId().toString();
+        log.info(id);
 
 
-        return new UserPrincipal((String) principal);
+
+
+        return new UserPrincipal(id);
     }
 }
