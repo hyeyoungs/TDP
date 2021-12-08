@@ -1,6 +1,19 @@
 var stompClient = null;
 var notificationCount = 0;
 
+function login_check(options, originalOptions, jqXHR){
+    if(localStorage.getItem('token')) {
+        jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    } else {
+        alert("로그인 해주세요")
+        location.href = "./index.html"
+    }
+    }
+
+    $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+    login_check(options, originalOptions, jqXHR);
+    });
+
 $(document).ready(function() {
     console.log("Index page is ready");
     connect();
@@ -20,28 +33,11 @@ $(document).ready(function() {
 
 function connect() {
     var socket = new SockJS('/our-websocket');
-    let options = {debug: false, protocols: Stomp.VERSIONS.supportedProtocols()};
-    stompClient = Stomp.over(socket, options);
-    stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
-        let headers = {Authorization: sessionStorage.getItem('access_token')};
 
-        // STOMP Client의 header 부분에 집어넣어줍니다.
-        this.stompClient.connect(headers, (frame) => {
-            this.connected = true
-            console.log('소켓 연결 성공', frame);
-            this.stompClient.subscribe('/exchange/chat-exchange/msg.' + this.chatRequestDto.roomId, (tick) => {
-                console.log(tick.body);
-                this.chatLogs.push(JSON.parse(tick.body));
-            })
-        }, (error) => {
-            console.log('연결실패');
-            console.log(error)
-            this.connected = false
-        })
+    stompClient = Stomp.over(socket);
+    let headers = {Authorization: localStorage.getItem('token')};
 
-
-
+    stompClient.connect(headers, function (frame) {
 
         updateNotificationDisplay();
         stompClient.subscribe('/topic/messages', function (message) {
