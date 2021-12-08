@@ -1,4 +1,4 @@
-let urlEndpoint = 'http://localhost:8080/subscribe';
+let urlEndpoint = '/subscribe';
 let eventSource = new EventSource(urlEndpoint);
 
 eventSource.addEventListener("latestNews", function (event) {
