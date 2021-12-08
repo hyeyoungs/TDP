@@ -41,7 +41,7 @@ public class MessageController {
         Thread.sleep(1000);
         User user = userRepository.findByUsername(userDetails.getUsername()).orElseThrow(() -> new IllegalArgumentException("no such user"));
 
-        notificationService.sendPrivateNotification(user.getId().toString());
+        notificationService.sendPrivateNotification("sub-"+user.getId().toString());
         return new ResponseMessage(HtmlUtils.htmlEscape(
                 "Sending private message to user " + userDetails.getUsername() + ": "
                         + message.getMessageContent())

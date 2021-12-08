@@ -23,6 +23,6 @@ public class NotificationService {
     public void sendPrivateNotification(final String userId) {
         ResponseMessage message = new ResponseMessage("Private Notification");
 
-        messagingTemplate.convertAndSendToUser(userId,"/topic/private-notifications", message);
+        messagingTemplate.convertAndSendToUser("sub-"+userId,"/topic/private-notifications", message);
     }
 }
