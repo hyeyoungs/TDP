@@ -25,23 +25,13 @@ public class UserHandshakeHandler extends DefaultHandshakeHandler {
 
     @Override
     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String id = user.getId().toString();
+        log.info(id);
 
 
-        if (!SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUs")) {
-            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            log.info(user.getUsername());
-
-            log.info(String.valueOf(user));
-            String id = String.valueOf(user.getId());
-            log.info(id);
-            LOG.info("User with ID '{}' opened the page", id);
-            return new UserPrincipal(id);
-        } else {
-            String user = "anonymousUser";
-            log.info(user);
-        }
 
 
-        return new UserPrincipal("");
+        return new UserPrincipal(id);
     }
 }
