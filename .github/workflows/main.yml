@@ -18,7 +18,7 @@ jobs:
           aws s3 cp  \
             --recursive \
             --region ap-northeast-2 \
-            src/main/resources/static s3://springboot-guide
+            src/main/resources/static s3://elasticbeanstalk-us-east-1-246259824876
       - name: invalidate
         uses: chetan/invalidate-cloudfront-action@v2
         env:
