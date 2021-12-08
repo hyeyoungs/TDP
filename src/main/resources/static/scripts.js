@@ -36,23 +36,24 @@ function connect() {
 
     stompClient = Stomp.over(socket);
     let headers = {Authorization: localStorage.getItem('token')};
-
+    console.log("header 출력:",headers)
     stompClient.connect(headers, function (frame) {
 
         updateNotificationDisplay();
         stompClient.subscribe('/topic/messages', function (message) {
             showMessage(JSON.parse(message.body).content);
         });
-
+        console.log("1")
         stompClient.subscribe('/user/topic/private-messages', function (message) {
             showMessage(JSON.parse(message.body).content);
         });
+        console.log("2")
 
         stompClient.subscribe('/topic/global-notifications', function (message) {
             notificationCount = notificationCount + 1;
             updateNotificationDisplay();
         });
-
+        console.log("3")
         stompClient.subscribe('/user/topic/private-notifications', function (message) {
             notificationCount = notificationCount + 1;
             updateNotificationDisplay();
@@ -71,7 +72,7 @@ function sendMessage() {
 
 function sendPrivateMessage() {
     console.log("sending private message");
-    stompClient.send("/ws/private-message", {}, JSON.stringify({'messageContent': $("#private-message").val()}));
+    stompClient.send("/ws/private-message", {}, JSON.stringify({'messageContent': $("#private-message").val(),'recipient':$("#recipient").val()}));
 }
 
 function updateNotificationDisplay() {

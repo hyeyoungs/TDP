@@ -131,16 +131,6 @@ public class UserService {
     }
 
 
-    public RedirectView goKakaoOAuth(String scope) {
-        String AUTHORIZE_URI="https://kauth.kakao.com/oauth/authorize";
-        String REDIRECT_URI="http://localhost:8080/login/kakao";
-        String REST_API_KEY="6a74def55fe9fbcc1814f507597c1be2";
-        String uri = AUTHORIZE_URI+"?redirect_uri="+REDIRECT_URI+"&response_type=code&client_id="+REST_API_KEY;
-        if(!scope.isEmpty())
-            uri += "&scope="+scope;
-
-        return new RedirectView(uri);
-    }
 
 
     public List<UserTilCountDto> getAllUser(){
