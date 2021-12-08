@@ -23,8 +23,12 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 
     <!-- JS -->
+    <script src="back.js" rel="script"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+    <!-- Toast CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -84,13 +88,12 @@
         async function append_github_id(){
             let user_info = await read_user();
             let github_id = user_info['github_id']
-            if (github_id == null){
+            if (github_id == null || github_id == ""){
                 $('.github_id_tag').hide();
             }
         }
 
         async function list_user_til() {
-            let user_info = await read_user()
             $.ajax({
                 type: "GET",
                 url: "/til/user",
@@ -98,13 +101,13 @@
                 success: function (response) {
                     let my_til = response;
                     for (let i = 0; i < my_til.length; i++) {
-                        make_list_my_til(my_til[i], user_info);
+                        make_list_my_til(my_til[i]);
                     }
                 }
             });
         }
 
-        function make_list_my_til(til, user_info){
+        function make_list_my_til(til){
             let view_str = '';
             if (til['til_view'] == 1) {
                 view_str = '공개';
@@ -146,7 +149,7 @@
                                 <div class="card-body">
                                     <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>${til['createdAt']}</div>
                                     <a class="card-link" href="#">
-                                        <h5 class="card-title">${til['til_title']}</h5>
+                                        <h5 class="card-title">${til['tilTitle']}</h5>
                                     </a>
                                     <p class="card-text">
                                         ${ til['til_content']}
@@ -168,7 +171,7 @@
                 url: `/til_board/${idx}`,
                 data: {},
                 success: function (response){
-                    let title = response['til_title']
+                    let title = response['tilTitle']
                     let content = response['til_content']
                     let user = response['user']['nickname'];
                     let idx = response['id']
@@ -182,7 +185,7 @@
 
         function update_til(idx){
             let info = {
-                til_title : $('input#modal-title').val(),
+                tilTitle : $('input#modal-title').val(),
                 til_content : $('textarea#modal-content').val()
             }
 
@@ -323,11 +326,11 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         <div class="h6 text-muted">Followers</div>
-                        <div class="h5">5.2342</div>
+                        <div class="h5">미구현11</div>
                     </li>
                     <li class="list-group-item">
                         <div class="h6 text-muted">Following</div>
-                        <div class="h5">6758</div>
+                        <div class="h5">미구현22</div>
                     </li>
                     <li class="list-group-item github_id_tag">Github : <label class ="text-label github_id_append"></label></li>
                 </ul>
@@ -406,4 +409,19 @@
 
     </div>
 </div>
+<!-- toast -->
+<div class="position-fixed bottom-0 end-0 p-3 toast-box" style="z-index: 11">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000000">
+        <div class="toast-header">
+            <img src="..." class="rounded me-2" alt="...">
+            <strong class="me-auto" id="til_title">${title}</strong>
+            <small>&times;</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" onclick="toast_close()"></button>
+        </div>
+        <div class="toast-body" id="til_content">
+            ${content}
+        </div>
+    </div>
+</div>
+<!-- toast end -->
 </body>

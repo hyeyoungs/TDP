@@ -4,6 +4,7 @@ import com.cdp.tdp.domain.User;
 import com.cdp.tdp.dto.*;
 import com.cdp.tdp.security.UserDetailsImpl;
 import com.cdp.tdp.security.UserDetailsServiceImpl;
+//import com.cdp.tdp.service.S3UploadService;
 import com.cdp.tdp.service.UserService;
 import com.cdp.tdp.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
@@ -12,11 +13,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -43,6 +45,15 @@ public class UserController {
         return ResponseEntity.ok(new JwtResponse(token, userDetails.getUsername()));
     }
 
+    @PostMapping(value = "/login/kakao")
+    public ResponseEntity<?> createAuthenticationTokenByKakao(@RequestBody SocialLoginDto socialLoginDto) throws Exception {
+        //api 인증을 통해 얻어온 code값 받아오기
+        String username = userService.kakaoLogin(socialLoginDto.getToken());
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        final String token = jwtTokenUtil.generateToken(userDetails);
+        return ResponseEntity.ok(new JwtResponse(token, userDetails.getUsername()));
+    }
+
     @PostMapping(value = "/signup")
     public ResponseEntity createUser(@RequestBody SignupRequestDto userDto) throws Exception {
         userService.registerUser(userDto);
@@ -60,8 +71,16 @@ public class UserController {
         return userService.getAllUser();
     }
 
-    @PutMapping("/user/update")
-    public void updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody UserUpdateDto userUpdateDto) throws SQLException{
-        userService.updateUser(userDetails.getUser(), userUpdateDto);
+    @PutMapping("/user/profile")
+    public void updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                           @RequestParam("nickname") String nickname,
+                           @RequestParam("github_id") String githubId,
+                           @RequestParam(value = "file", required = false) MultipartFile imageFile,
+                           @RequestParam("about") String about){
+        userService.updateUser(userDetails.getUser(), nickname, githubId, imageFile, about);
     }
+
+
+
+
 }

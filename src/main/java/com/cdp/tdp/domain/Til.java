@@ -24,7 +24,7 @@ public class Til extends Timestamped {
     private Long id;
 
     @Column(nullable = false)
-    private String til_title;
+    private String tilTitle;
 
     @Column(nullable = false)
     private String til_content;
@@ -43,19 +43,23 @@ public class Til extends Timestamped {
     @OneToMany(mappedBy="til")
     private List<Comment> comments;
 
-    public Til(Long id, String til_title, String til_content, boolean til_view, int til_like, User user, List<Comment> comments) {
+    @OneToMany(mappedBy="til")
+    private List<Tag> tags;
+
+    public Til(Long id, String tilTitle, String til_content, boolean til_view, int til_like, User user, List<Comment> comments,List<Tag> tags) {
         this.id = id;
-        this.til_title = til_title;
+        this.tilTitle = tilTitle;
         this.til_content = til_content;
         this.til_view = til_view;
         this.til_like = til_like;
         this.user = user;
         this.comments = comments;
+        this.tags=tags;
     }
 
     @Builder
     public Til(TilRequestDto tilRequestDto, User user) {
-        this.til_title = tilRequestDto.getTil_title();
+        this.tilTitle = tilRequestDto.getTilTitle();
         this.til_content = tilRequestDto.getTil_content();
         this.til_view = tilRequestDto.isTil_view();
 
@@ -64,7 +68,7 @@ public class Til extends Timestamped {
 
 
     public void updateMyTil(TilRequestDto tilRequestDto){
-        this.til_title= tilRequestDto.getTil_title();
+        this.tilTitle= tilRequestDto.getTilTitle();
         this.til_content=tilRequestDto.getTil_content();
     }
 
@@ -73,7 +77,4 @@ public class Til extends Timestamped {
         til_view = !(til_view);
     }
 
-    public void UpdateLike(int like_num){
-        this.til_like=like_num;
-    }
 }
