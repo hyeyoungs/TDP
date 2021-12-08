@@ -1311,34 +1311,34 @@ FAQ Page
 }
 
 
-/*
-Video Section style
-======================*/
+/*!**/
+/*Video Section style*/
+/*======================*!*/
 
-.video {
-	background: url(../images/background/video.jpg) no-repeat center center;
-	background-size: cover;
-	position: relative;
-}
+/*.video {*/
+/*	background: url(../images/background/video.jpg) no-repeat center center;*/
+/*	background-size: cover;*/
+/*	position: relative;*/
+/*}*/
 
-.main_video {
-	display: block;
-	/*z-index: 2;*/
-	/*position: relative;*/
-}
+/*.main_video {*/
+/*	display: block;*/
+/*	!*z-index: 2;*!*/
+/*	!*position: relative;*!*/
+/*}*/
 
-.main_video i,
-.main_video span.fa,
-.main_video span.icon {
-	color: #fff;
-	font-size: 3rem;
-	border: 2px solid #fff;
-	width: 80px;
-	height: 80px;
-	line-height: 80px;
-	border-radius: 50%;
-	position: relative;
-}
+/*.main_video i,*/
+/*.main_video span.fa,*/
+/*.main_video span.icon {*/
+/*	color: #fff;*/
+/*	font-size: 3rem;*/
+/*	border: 2px solid #fff;*/
+/*	width: 80px;*/
+/*	height: 80px;*/
+/*	line-height: 80px;*/
+/*	border-radius: 50%;*/
+/*	position: relative;*/
+/*}*/
 
 
 /*

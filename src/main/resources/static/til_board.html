@@ -16,10 +16,6 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
 
-
-    <!-- cookie -->
-    <script type="text/javascript"
-            src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script>
         $(document).ready(function () {
             token_check();
@@ -56,21 +52,31 @@
                         console.log(all_til);
                         for (let i = 0; i < all_til.length; i++) {
                             console.log(all_til[i]);
+
                             if (all_til[i]['til_view']==false){
                                 continue
                             }
-                            let title = all_til[i]['til_title'];
+                            
+
+                            let tags = '';
+                            let title = all_til[i]['tilTitle'];
+
                             let user = all_til[i]['user']['nickname'];
                             let content = all_til[i]['til_content'];
                             let day = all_til[i]['createdAt'];
                             let til_idx = all_til[i]['id'];
+                            let til_tags=all_til[i]['tags'];
+                            for(let j = 0 ;  j < til_tags.length ; j++){
+                                console.log(til_tags[j]);
+                                tags += " #"+ til_tags[j]['name'];
+                            }
                             if (i < 4) {
                                 let temp_html = `<tr onClick="detail(${til_idx})" style="cursor:pointer;">
 
                                                 <th scope="row">${title}<img src="new.png" height="30" width="30"></th>
                                                 <td>${user}</td>
                                                 <td>${day}</td>
-                                                <td>${content}</td>
+                                                <td>${tags}</td>
                                             </tr>`
                                 $('#til-box').append(temp_html)
 
@@ -79,7 +85,7 @@
                                                 <th scope="row">${title}</th>
                                                 <td>${user}</td>
                                                 <td>${day}</td>
-                                                <td>${content}</td>
+                                                <td>${tags}</td>
                                             </tr>`
                                 $('#til-box').append(temp_html)
                             }
@@ -96,7 +102,7 @@
         function til_search() {
             let keyword = $('#keyword').val()
             let setting = $('#setting-btn').text()
-            location.href = "/til_board_detail_page" + "?keyword=" + keyword + "&setting=" + setting;
+            location.href = "/til_board_detail.html" + "?keyword=" + keyword + "&setting=" + setting;
             //    로딩바 0.1초
         }
         function search_setting(a) {
@@ -198,7 +204,7 @@
                 <th scope="col">제목</th>
                 <th scope="col">작성자</th>
                 <th scope="col">작성일</th>
-                <th scope="col">내용</th>
+                <th scope="col">태그</th>
             </tr>
             </thead>
             <tbody id="til-box">
@@ -212,7 +218,8 @@
                     <ul class="dropdown-menu" role="menu">
                         <li><a style="cursor:pointer" onclick="search_setting('제목')">제목</a></li>
                         <li><a style="cursor:pointer" onclick="search_setting('작성자')">작성자</a></li>
-                        <li><a style="cursor:pointer" onclick="search_setting('내용')">내용</a></li>
+
+                        <li><a style="cursor:pointer" onclick="search_setting('태그')">태그</a></li>
                     </ul>
                 </div><!-- /btn-group -->
                 <input id="keyword" type="text" class="form-control" placeholder="검색어를 입력해주세요" aria-label="...">
