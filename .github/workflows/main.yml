@@ -7,7 +7,7 @@ on:
 jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@main
@@ -65,5 +65,3 @@ jobs:
           region: ap-northeast-2
           deployment_package: deploy/deploy.zip
           wait_for_environment_recovery: 180
-
-
