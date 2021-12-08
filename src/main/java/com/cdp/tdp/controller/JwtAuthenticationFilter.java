@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 @RequiredArgsConstructor
-@Component
+@ComponentJwtAuthenticationFilte
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final UserDetailsService userDetailsService;
@@ -35,11 +35,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String header = req.getHeader(HEADER_STRING);
         String username = null;
         String authToken = null;
-        if (header != null && header.startsWith(TOKEN_PREFIX)) {
+        if (header != null || header.startsWith(TOKEN_PREFIX)) {
             authToken = header.replace(TOKEN_PREFIX,"");
             try {
                 // jwtToeknUtil 사용 (토큰에서 user 정보 가져오기)
                 username = jwtTokenUtil.getUsernameFromToken(authToken);
+
             } catch (IllegalArgumentException e) {
                 logger.error("an error occured during getting username from token", e);
             } catch (ExpiredJwtException e) {
