@@ -20,58 +20,47 @@
     <script src="back.js" rel="script"></script>
 
     <script>
-        var roomId;
-        var roomName;
-        var username;
+        let roomId;
+        let roomName;
+        let username;
         let id;
         $(document).ready(function () {
             id = window.location.search.split("=")[1]
             read_room();
             read_user();
 
-            var sockJs = new SockJS("/stomp/chat");
+            let sockJs = new SockJS("/stomp/chat");
             //1. SockJS를 내부에 들고있는 stomp를 내어줌
-            var stomp = Stomp.over(sockJs);
-
+            let stomp = Stomp.over(sockJs);
             //2. connection이 맺어지면 실행
+
             stomp.connect({}, function () {
-                console.log("STOMP Connection")
-                console.log(roomId);
-                console.log(id);
                 //4. subscribe(path, callback)으로 메세지를 받을 수 있음
                 stomp.subscribe(`/sub/chat/room/` + roomId, function (chat) {
-                    var content = JSON.parse(chat.body);
-                    console.log('content',content)
-                    var writer = content.writer;
-
-                    console.log('writer',writer)
-                    console.log('username',username)
-                    var str = '';
-
+                    let content = JSON.parse(chat.body);
+                    let writer = content.writer;
+                    let str = '';
                     if (writer === username) {
                         str = "<div class='col-6'>";
                         str += "<div class='alert alert-secondary'>";
                         str += "<b>" + writer + " : " + content.message + "</b>";
                         str += "</div></div>";
-                    } else {
+                    }
+                    else {
                         str = "<div class='col-6'>";
                         str += "<div class='alert alert-warning'>";
                         str += "<b>" + writer + " : " + content.message + "</b>";
                         str += "</div></div>";
                     }
-
                     $("#msgArea").append(str);
                 });
-
                 //3. send(path, header, message)로 메세지를 보낼 수 있음
                 stomp.send('/pub/chat/enter', {}, JSON.stringify({roomId: roomId, writer: username, message:"hello"}))
             });
         })
 
             $("#button-send").on("click", function (e) {
-                var msg = document.getElementById("msg");
-
-                console.log(username + ":" + msg.value);
+                let msg = document.getElementById("msg");
                 stomp.send('/pub/chat/message', {}, JSON.stringify({
                     roomId: roomId,
                     message: msg.value,
@@ -83,7 +72,6 @@
         $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
             login_check(options, originalOptions, jqXHR);
         });
-
 
         function read_room() {
             $.ajax({
@@ -104,18 +92,13 @@
                 url: '${domainURL}/user',
                 async: false,
                 success: function (response) {
-                    console.log(response)
                     username = response['username']
-
                 }
             });
-
         }
 
     </script>
     <style>
-
-
         .navbar-brand {
             margin-left: 50px;
         }
@@ -168,6 +151,22 @@
     </div>
     <div class="col-6"></div>
 </div>
-
+<!-- toast -->
+<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000000"
+         style="position: absolute; top: 0; right: 0;">
+        <div class="toast-header">
+            <i class="bi bi-x-lg"></i>
+            <strong class="me-auto" id="til_title">${title}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"
+                    onclick="toast_close()"></button>
+        </div>
+        <div class="toast-body" id="til_content">
+            ${content}
+        </div>
+    </div>
+</div>
+<!-- toast end -->
 </body>
+
 </html>

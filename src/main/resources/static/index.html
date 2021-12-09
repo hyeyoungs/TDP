@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
     <title>Title</title>
     <!-- Required meta tags -->
@@ -36,7 +36,6 @@
         }
     });
 
-
     function cambiar_login() {
         document.querySelector('.cont_forms').className = "cont_forms cont_forms_active_login";
         document.querySelector('.cont_form_login').style.display = "block";
@@ -49,7 +48,6 @@
         setTimeout(function () {
             document.querySelector('.cont_form_sign_up').style.display = "none";
         }, 200);
-
     }
 
     function cambiar_sign_up(at) {
@@ -116,7 +114,6 @@
                 data: JSON.stringify(info),
                 success: function (response) {
                     if (response) {
-                        console.log(response)
                         alert('회원가입이 완료되었습니다.');
                         window.location.href = '/';
                     } else {
@@ -125,6 +122,7 @@
                 }
             })
         }
+
     function check_dup() {
         let user_id = $("#sign_id").val()
         let user_pw = $("#sign_pw").val()
@@ -253,13 +251,14 @@
 
 
 <!-- toast -->
-<div class="position-fixed bottom-0 end-0 p-3 toast-box" style="z-index: 11">
-    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000000">
+<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000000"
+         style="position: absolute; top: 0; right: 0;">
         <div class="toast-header">
-            <img src="..." class="rounded me-2" alt="...">
+            <i class="bi bi-x-lg"></i>
             <strong class="me-auto" id="til_title">${title}</strong>
-            <small>&times;</small>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" onclick="toast_close()"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"
+                    onclick="toast_close()"></button>
         </div>
         <div class="toast-body" id="til_content">
             ${content}

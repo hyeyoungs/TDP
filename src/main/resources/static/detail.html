@@ -140,20 +140,20 @@
 </head>
 
 <script>
+    let idx;
+
     $(document).ready(function () {
         idx = window.location.search.split("=")[1]
         $('#new-box').hide();
         read_writer();
         get_til();
-        //get_status();
         get_heart();
         get_comment();
     });
-    $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
         login_check(options, originalOptions, jqXHR);
     });
-
-    var idx;
 
     function read_writer() {
         $.ajax({
@@ -162,10 +162,10 @@
             success: function (response) {
                 let github_id = response['user']['github_id'];
                 let introduce = response['user']['introduce'];
-                if (github_id == null || github_id == "") {
+                if (github_id == null || github_id === "") {
                     $('.github_id_tag').hide();
                 }
-                if (introduce == null || introduce == "") {
+                if (introduce == null || introduce === "") {
                     $('.introduce_tag').hide();
                 }
                 $('.writer_nickname_append').text(response['user']['nickname']);
@@ -201,24 +201,17 @@
             url: `${domainURL}/til/like/${idx}`,
             data: {},
             success: function (response) {
-                console.log(response);
-
-                // $("#heart-count").text(count);
                 if (response) { //좋아요누른상태
                     let temp_html = `<i class="fa fa-heart" aria-hidden="true"></i>`
                     $('#now-heart').append(temp_html)
-
-
                 } else { //좋아요 안누른상태
                     let temp_html = `<i class="fa fa-heart-o" aria-hidden="true"></i>`
                     $('#now-heart').append(temp_html)
                 }
-
             }
 
         });
     }
-
 
     function get_til() {
         $.ajax({
@@ -256,7 +249,7 @@
                     let nickname = response[i]['user']['nickname']
 
                     // user는 접속자, commenter는 댓글 작성자
-                    if (user == commenter) {
+                    if (user === commenter) {
                         let temp_html =
                             `<tr>
                                 <td>${nickname}</td>
@@ -284,10 +277,9 @@
         });
     }
 
-
     function create_comment() {
         let info = {
-            til_comment : $("#textarea-post").val(),
+            til_comment: $("#textarea-post").val(),
             idx: idx
         }
         $.ajax({
@@ -305,8 +297,6 @@
 
     function delete_comment(comment_idx) {
         comment_idx = parseInt(comment_idx)
-
-
         $.ajax({
             type: "DELETE",
             url: `${domainURL}/til/comments/${comment_idx}`,
@@ -318,7 +308,6 @@
         });
     }
 
-
     function delete_til() {
         $.ajax({
             type: "DELETE",
@@ -329,7 +318,6 @@
             }
         });
     }
-
 
     function update_til() {
         let til_title = $('#new-til-title').val();
@@ -381,29 +369,19 @@
             $.ajax({
                 type: "DELETE",
                 url: `${domainURL}/til/dislike/${idx}`,
-
-
                 success: function (response) {
-                    console.log(response)
-
                     $i_like.addClass("fa-heart-o").removeClass("fa-heart")
-                    console.log(response);
-                    //like_num.text(response["count"])
-
                 }
             })
         } else {
             // 좋아요
-            let info={content:type};
+            let info = {content: type};
             $.ajax({
                 type: "POST",
                 url: `${domainURL}/til/like/${idx}`,
                 contentType: "application/json",
                 data: JSON.stringify(info),
                 success: function (response) {
-
-                    console.log(response);
-
                     $i_like.addClass("fa-heart").removeClass("fa-heart-o")
 
                 }
@@ -413,7 +391,7 @@
         window.location.reload();
     }
 
-    </script>
+</script>
 <body>
 
 
@@ -446,7 +424,7 @@
                 <div class="card-body">
                     <span>Nickname</span>
                     <div id="user-nickname" class="h5 writer_nickname_append"></div>
-                    <span class = "introduce_tag">Introduce</span>
+                    <span class="introduce_tag">Introduce</span>
                     <div id="user-profile" class="h7 text-muted introduce_tag writer_profile_info_append"></div>
                     <span class="github_id_tag">Github Id</span>
                     <div id="user-github_id" class="h7 text-muted github_id_tag writer_github_id_append"></div>
@@ -481,8 +459,10 @@
                                     <div class="level-left">
 
 
-                                        <a class="level-item is-sparta" id="heart" aria-label="heart" onclick="toggle_like(idx, 'heart')">&nbsp
-                                            <div id="now-heart"></div>&nbsp
+                                        <a class="level-item is-sparta" id="heart" aria-label="heart"
+                                           onclick="toggle_like(idx, 'heart')">&nbsp
+                                            <div id="now-heart"></div>
+                                            &nbsp
                                             <div id="heart-count" class="like-num">count</div>
                                         </a>
                                     </div>
@@ -611,22 +591,22 @@
     </div>
     <button class="modal-close is-large" aria-label="close"
             onclick='$("#modal-post").removeClass("is-active")'></button>
-    <!-- toast -->
-    <div class="position-fixed bottom-0 end-0 p-3 toast-box" style="z-index: 11">
-        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000000">
-            <div class="toast-header">
-                <img src="..." class="rounded me-2" alt="...">
-                <strong class="me-auto" id="til_title">${title}</strong>
-                <small>&times;</small>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" onclick="toast_close()"></button>
-            </div>
-            <div class="toast-body" id="til_content">
-                ${content}
-            </div>
+</div>
+<!-- toast -->
+<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000000"
+         style="position: absolute; top: 0; right: 0;">
+        <div class="toast-header">
+            <i class="bi bi-x-lg"></i>
+            <strong class="me-auto" id="til_title">${title}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"
+                    onclick="toast_close()"></button>
+        </div>
+        <div class="toast-body" id="til_content">
+            ${content}
         </div>
     </div>
-    <!-- toast end -->
 </div>
-
+<!-- toast end -->
 
 </body>
