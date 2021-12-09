@@ -1,7 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.5.7'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id "org.asciidoctor.convert" version "1.5.9.2" // API 문서 자동 생성 (Spring Rest Docs)
+    id "org.asciidoctor.jvm.convert" version "3.3.2" // API 문서 자동 생성 (Spring Rest Docs)
     id 'java'
 }
 
@@ -52,7 +52,6 @@ dependencies {
     // Spring Rest Docs
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     implementation 'com.google.code.gson:gson:2.8.8'
-    asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.4.RELEASE'
     // websocket
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'org.webjars:webjars-locator-core'
@@ -91,4 +90,3 @@ task copyDocument(type: Copy) {
 build {
     dependsOn copyDocument
 }
-
