@@ -126,11 +126,11 @@ public class UserService {
 
         for(User user : user_list) { //모든 user 조회
              // user의 til갯수 가져오기
-            String username=user.getUsername();
+            String nickname=user.getNickname();
             til_count=TilCount(user);
             UserTilCountDto userTilCountDto=new UserTilCountDto();
             userTilCountDto.setTil_count(til_count);
-            userTilCountDto.setUsername(username);
+            userTilCountDto.setNickname(nickname);
             CountTilList.add(userTilCountDto);
         }
         CountTilList.sort(new Comparator<UserTilCountDto>() {
