@@ -17,6 +17,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.sql.SQLException;
@@ -91,15 +92,13 @@ public class UserController {
         return userService.getAllUser();
     }
 
-    @PutMapping("/user/update")
-    public void updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody UserUpdateDto userUpdateDto) throws SQLException{
-        userService.updateUser(userDetails.getUser(), userUpdateDto);
+    @PutMapping("/user/profile")
+    public void updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                           @RequestParam("nickname") String nickname,
+                           @RequestParam("github_id") String githubId,
+                           @RequestParam(value = "file", required = false) MultipartFile imageFile,
+                           @RequestParam("about") String about){
+        userService.updateUser(userDetails.getUser(), nickname, githubId, imageFile, about);
     }
-
-
-
-
-
-
 
 }
