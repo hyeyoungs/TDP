@@ -24,22 +24,8 @@ public class StompChatController {
     //"/pub/chat/enter"
     @MessageMapping(value = "/chat/enter")
     public void enter(ChatMessageDTO message){
-        log.info(message.getMessage());
-        log.info("채팅방 들어옴");
         count.add(message.getWriter());
-
-//        if (message.getMessage()=="enter") {
-//            count.add(message.getWriter());
-//            log.info("enter :" + message.getWriter());
-//        }
-//        if (message.getMessage()=="exit"){
-//            count.remove(message.getWriter());
-//            log.info("exit :" + message.getWriter());
-//        }
-
-
         message.setUserCount((long) count.size());
-        log.info(String.valueOf(count.size()));
 
         String json = new Gson().toJson(count);
         message.setMessage(json);
@@ -52,8 +38,7 @@ public class StompChatController {
 
     @MessageMapping(value = "/chat/exit")
     public void exit(ChatMessageDTO message) {
-        log.info(message.getMessage());
-        log.info("채팅방 나감");
+
         count.remove(message.getWriter());
         message.setUserCount((long) count.size());
 
