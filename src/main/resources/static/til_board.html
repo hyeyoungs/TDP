@@ -24,25 +24,9 @@
         isSearch = 0
 
         $(document).ready(function () {
-            token_check();
             read_til_list(1, isSearch);
         });
 
-        // function token_check(){
-        //     if (localStorage.getItem('token') == null) {
-        //         alert("로그인 해주세요")
-        //         location.href = "./index.html"
-        //     }
-        // }
-        //
-        // function login_check(options, originalOptions, jqXHR){
-        //     if(localStorage.getItem('token')) {
-        //         jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
-        //     } else {
-        //         alert("로그인 해주세요")
-        //         location.href = "./index.html"
-        //     }
-        // }
 
         $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
             login_check(options, originalOptions, jqXHR);
@@ -52,11 +36,11 @@
             $('#til-box').empty();
             let keyword = $('#keyword').val()
             let setting = $('#setting-btn').text()
-            if (keyword == '' || keyword == null){  isSearch = 0    }
+            if (keyword === '' || keyword == null){  isSearch = 0    }
 
             let url = `${domainURL}/til_board?page=${page}`;
 
-            if (isSearch == 1){
+            if (isSearch === 1){
                 url = `${domainURL}/til/search?page=${page}&keyword=${keyword}&setting=${setting}`;
             }
             console.log(url);
@@ -68,7 +52,6 @@
                         console.log(response);
                         let til_list = response['tils']['content'];
                         for (let i = 0; i < til_list.length; i++) {
-                            // console.log(til_list[i]);
                             let tags = '';
                             let title = til_list[i]['tilTitle'];
                             let user = til_list[i]['user']['nickname'];
@@ -76,7 +59,6 @@
                             let til_idx = til_list[i]['id'];
                             let til_tags = til_list[i]['tags'];
                             for(let j = 0 ;  j < til_tags.length ; j++){
-                                // console.log(til_tags[j]);
                                 tags += " #"+ til_tags[j]['name'];
                             }
                             if (i < 4) {
@@ -117,13 +99,6 @@
         function search_setting(a) {
             $('#setting-btn').text(a)
         }
-        //
-        // function sign_out() {
-        //     localStorage.removeItem('token');
-        //     localStorage.removeItem('username');
-        //     alert('로그아웃!')
-        //     window.location.href = "/"
-        // }
 
         function makePagingButtons(total_page, page) {
             $('#pagination-buttons').empty();
