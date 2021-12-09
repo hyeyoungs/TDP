@@ -13,14 +13,33 @@ import org.springframework.http.MediaType;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
 public class TilController {
+    public List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
+
+    @CrossOrigin
+    @RequestMapping(value = "/subscribe", consumes = MediaType.ALL_VALUE)
+    public SseEmitter subscribe() {
+        SseEmitter sseEmitter = new SseEmitter();
+        try {
+            sseEmitter.send(SseEmitter.event().name("INIT"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        sseEmitter.onCompletion(() -> emitters.remove(sseEmitter));
+        emitters.add(sseEmitter);
+        return sseEmitter;
+    }
+
     private final TilService tilService;
 
     @GetMapping("/til_board")
@@ -45,8 +64,15 @@ public class TilController {
     }
 
     @PostMapping("/til")
-    public Til createTil(@RequestBody TilRequestDto tilRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException{
+    public Til createTil(@RequestBody TilRequestDto tilRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
         Til til = tilService.createTil(tilRequestDto, userDetails.getUser().getId());
+        for (SseEmitter emitter : emitters) {
+            try {
+                emitter.send(SseEmitter.event().name("latestNews").data(til));
+            } catch (IOException e) {
+                emitters.remove(emitter);
+            }
+        }
         return til;
     }
 
@@ -71,7 +97,6 @@ public class TilController {
     }
 
     @GetMapping("/til/search")
-
     public TilListDto SearchTil(@RequestParam int page, @RequestParam String keyword, @RequestParam String setting){
         log.info("search page = {}", page);
         page --;

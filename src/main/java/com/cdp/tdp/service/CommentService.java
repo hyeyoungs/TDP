@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+import java.util.Optional;
 
 @Service
 public class CommentService {
@@ -19,7 +19,6 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
     private final TilRepository tilRepository;
-
     // 생성자: ProductService() 가 생성될 때 호출됨
     @Autowired
     public CommentService(CommentRepository commentRepository, UserRepository userRepository, TilRepository tilRepository) {
@@ -30,7 +29,7 @@ public class CommentService {
     }
 
     public List<Comment> getComment(Long id) {
-        List<Comment> comments = commentRepository.findAll();
+        List<Comment> comments = commentRepository.findByTilId(id);
         return comments;
     }
 
