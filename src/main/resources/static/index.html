@@ -18,8 +18,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
-    <script src="https://cdnout.com/bootstrap-notify/"></script>
-    <link rel="stylesheet" href="https://cdnout.com/bootstrap-notify/css/base.css" media="all">
 
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script><meta charset="UTF-8">
 
@@ -37,6 +35,9 @@
             location.href = "./home.html"
         }
     });
+
+
+
     //
     // function addBlock(title,text){
     //     let a = document.createElement("article");
@@ -49,6 +50,7 @@
     //     a.appendChild(para);
     //     document.getElementById("toast").appendChild(a);
     // }
+
     function cambiar_login() {
         document.querySelector('.cont_forms').className = "cont_forms cont_forms_active_login";
         document.querySelector('.cont_form_login').style.display = "block";
@@ -164,13 +166,16 @@
     Kakao.init('0b012b5872605ba270c2c0573b61eb78');
     function kakao_login() {
         Kakao.Auth.login({
+
             success: function(authObj) {
+                let access_token=authObj['access_token'];
                 $.ajax({
                     type: 'POST',
                     url: `/login/kakao`,
                     contentType: "application/json",
-                    data: JSON.stringify({'token':authObj['access_token']}),
+                    data: JSON.stringify({'token':access_token}),
                     success: function (response) {
+                        localStorage.setItem("access_token",access_token);
                         localStorage.setItem("token", response['token']);
                         localStorage.setItem("username", response['username']);
                         location.href = '/';
@@ -195,7 +200,7 @@
                 <div class="col_md_login">
                     <div class="cont_ba_opcitiy">
                         <h2>LOGIN</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <p>보다 간편하게 TIL을 작성해요 ✏️</p>
                         <button class="btn_login" onclick="cambiar_login()">LOGIN</button>
 
                     </div>
@@ -209,7 +214,7 @@
                 <div class="col_md_sign_up">
                     <div class="cont_ba_opcitiy">
                         <h2>SIGN UP</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <p>Welcome to T.I.L. DP Site!<br></p>
                         <button class="btn_sign_up" onclick="cambiar_sign_up()">SIGN UP</button>
                     </div>
                 </div>
@@ -259,6 +264,8 @@
 
     </div>
 </div>
+
+
 <!-- toast -->
 <div class="position-fixed bottom-0 end-0 p-3 toast-box" style="z-index: 11">
     <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000000">
@@ -274,5 +281,6 @@
     </div>
 </div>
 <!-- toast end -->
+
 </body>
 </html>

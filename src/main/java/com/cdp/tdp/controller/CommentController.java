@@ -1,7 +1,6 @@
 package com.cdp.tdp.controller;
 
 import com.cdp.tdp.domain.Comment;
-import com.cdp.tdp.domain.Til;
 import com.cdp.tdp.domain.User;
 import com.cdp.tdp.dto.CommentRequestDto;
 import com.cdp.tdp.security.UserDetailsImpl;

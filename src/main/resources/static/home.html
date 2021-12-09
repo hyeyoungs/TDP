@@ -10,7 +10,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Rage Freebie HTML5 Landing page</title>
+  <title>TIL Management Service</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/png" href="favicon.ico">
@@ -67,6 +67,16 @@
       list_til();
       read_flag();
       rank_til();
+      sendMessage = setInterval(function() {
+        console.log($(".test").css("background-color"))
+        if ( $(".test").css("background-color")=='rgb(255, 0, 0)'){
+          console.log('메시지 보내야됨')
+          REST_Call('/message');
+      }
+        else{
+          console.log('글 썼네')
+        }
+      }, 86400000);
     });
 
     function token_check(){
@@ -143,8 +153,10 @@
             try {
               if (today.toDateString() === result_date.toDateString()) {
                 $(".test").css("background-color", 'blue');
+
               } else {
                 $(".test").css("background-color", 'red');// display 속성을 block 으로 바꾼다.
+
               }
             }catch (e) {
               console.log("read_flag error");
@@ -158,35 +170,32 @@
       $(".test").css("background-color", 'black');// display 속성을 block 으로 바꾼다.
     }
 
+
+
     function rank_til() {
         $.ajax({
                 type: "GET",
                 url: "/til/ranker",
                 data: {},
                 success: function (response) {
-                    for (let i = 0; i < response.length; i++) {
+                    for (let i = 0; i < 3; i++) {
                         let username = response[i]['username'];
                         let til = response[i]['til_count'];
-                        let temp = `<h6 id="rank_username"><i class="fa fa-angle-right"></i>${username}</h6>
-                                            <div>
-                                              <div class="content">
-                                                <p id="rank_countTil">${til}</p>
-
-                                              </div>
-                                            </div>`
-
-                        let temp_html=
-                            `<h6 class="open"><i class="about_accordion wow fadeIn faq_main_content fa fa-angle-right"></i> ${username}</h6>
+                        if(til===0){
+                          continue
+                        }else{
+                          let temp_html=
+                                  `<h6 class="open"><i class="about_accordion wow fadeIn faq_main_content fa fa-angle-right"></i> ${username}</h6>
                                 <div class="open">
                                   <div class="content">
                                     <p id="rank_countTil">${til}</p>
                                   </div>
                                 </div>`
 
-                        $('#faq_main_content').append(temp_html);
+                          $('#faq_main_content').append(temp_html);
 
-                    }
-
+                        }
+                        }
                 }
             }
         )
@@ -198,6 +207,25 @@
       alert('로그아웃!')
       window.location.href = "/"
     }
+
+
+
+
+    function REST_Call (path)
+    {
+
+      let access_token=localStorage.getItem('access_token')
+      console.log(access_token);
+      $.ajax({
+        type: "POST",
+        url: path,
+        contentType: "application/json",
+        data: JSON.stringify({'token':access_token}),
+        success: (data) => { alert('메시지가 전송되었습니다!'); }
+      });
+    }
+
+
 
 
   </script>
@@ -333,6 +361,7 @@
         <div class="main_home">
           <div class="home_text">
             <h1 class="text-white">WE’RE <br /> TIL Management Service!<span>
+
           <div class="test rounded-circle" ></div>
 
           </span></h1>
@@ -346,10 +375,10 @@
       </div>
       <!--End off row-->
 
-
     <!--End off container -->
   </section>
   <!--End off Home Sections-->
+
 
 
   <!--About Sections-->

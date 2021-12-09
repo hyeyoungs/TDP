@@ -150,7 +150,7 @@
         //get_status();
         get_heart();
         get_comment();
-     });
+    });
 
     function token_check(){
         if (localStorage.getItem('token') == null) {
@@ -158,7 +158,6 @@
             location.href = "./index.html"
         }
     }
-
     function login_check(options, originalOptions, jqXHR){
         if(localStorage.getItem('token')) {
             jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
@@ -181,10 +180,10 @@
             success: function (response) {
                 let github_id = response['user']['github_id'];
                 let introduce = response['user']['introduce'];
-                if (github_id == null || github_id == ""){
+                if (github_id == null || github_id == "") {
                     $('.github_id_tag').hide();
                 }
-                if (introduce == null || introduce == ""){
+                if (introduce == null || introduce == "") {
                     $('.introduce_tag').hide();
                 }
                 $('.writer_nickname_append').text(response['user']['nickname']);
@@ -485,7 +484,7 @@
                         <div class="h6 text-muted">Followings</div>
                         <div class="h5">20000</div>
                     </li>
-                    <li class="list-group-item">Sparta Coding</li>
+                    <li class="list-group-item">Today I Learned Deserter Pursuit</li>
                 </ul>
             </div>
         </div>

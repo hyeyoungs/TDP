@@ -1,6 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.5.7'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id "org.asciidoctor.convert" version "1.5.9.2" // API 문서 자동 생성 (Spring Rest Docs)
     id 'java'
 }
 
@@ -33,14 +34,48 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     // jwt
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
-    // spring-cloud-starter
-    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.1.RELEASE'
     // aws
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    // spring-cloud-starter
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.1.RELEASE'
+    // Spring Rest Docs
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    implementation 'com.google.code.gson:gson:2.8.8'
+    asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.4.RELEASE'
+    // web socket
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.webjars:webjars-locator-core'
+    implementation 'org.webjars:sockjs-client:1.0.2'
+    implementation 'org.webjars:stomp-websocket:2.3.3'
+    
+    implementation 'org.webjars:bootstrap:3.3.7'
+    implementation 'org.webjars:jquery:3.1.1-1'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation group: 'org.webjars', name: 'stomp-websocket', version: '2.3.3-1'
+}
+
+ext {
+    set('snippetsDir', file("build/generated-snippets"))
 }
 
 test {
+    outputs.dir snippetsDir
     useJUnitPlatform()
+    filter {
+        includeTestsMatching "com.cdp.tdp.controller.*"
+    }
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
+bootJar {
+    dependsOn asciidoctor
+    from ("${asciidoctor.outputDir}/html5") {
+        into "/static/docs"
+    }
 }
 
 jar {
