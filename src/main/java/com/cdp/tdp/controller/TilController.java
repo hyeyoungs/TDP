@@ -42,9 +42,13 @@ public class TilController {
 
     private final TilService tilService;
 
+    @GetMapping("/tils")
+    public List<Til> getAllTil(){
+        return tilService.getAllTil();
+    }
+
     @GetMapping("/til_board")
     public TilListDto getTilList(@RequestParam int page) {
-        log.info("total page = {}", page);
         page --;
         int size = 10;
 
@@ -98,7 +102,6 @@ public class TilController {
 
     @GetMapping("/til/search")
     public TilListDto SearchTil(@RequestParam int page, @RequestParam String keyword, @RequestParam String setting){
-        log.info("search page = {}", page);
         page --;
         int size = 10;
 
@@ -108,7 +111,6 @@ public class TilController {
                 .page(tils.getNumber())
                 .size(tils.getSize())
                 .totalPages(tils.getTotalPages()).build();
-        log.info("tilList Value = {}", tilList);
         return tilList;
 
     }

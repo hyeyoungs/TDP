@@ -1,12 +1,15 @@
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9" lang=""> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html class="no-js" lang="en">
 <!--<![endif]-->
 
-<!--Designerd by: http://bootstrapthemes.co-->
+<!--Designerd by: https://bootstrapthemes.co-->
 
 <head>
   <meta charset="utf-8">
@@ -14,13 +17,10 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/png" href="favicon.ico">
-
   <!--Google Font link-->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
-
-
   <link rel="stylesheet" href="assets/css/slick.css">
   <link rel="stylesheet" href="assets/css/slick-theme.css">
   <link rel="stylesheet" href="assets/css/animate.css">
@@ -29,26 +29,19 @@
   <link rel="stylesheet" href="assets/css/bootstrap.css">
   <link rel="stylesheet" href="assets/css/magnific-popup.css">
   <link rel="stylesheet" href="assets/css/bootsnav.css">
-
-
   <!--For Plugins external css-->
   <!--<link rel="stylesheet" href="assets/css/plugins.css" />-->
-
   <!--Theme custom css -->
   <link rel="stylesheet" href="assets/css/style.css">
   <!--<link rel="stylesheet" href="assets/css/colors/maron.css">-->
-
   <!--Theme Responsive css-->
   <link rel="stylesheet" href="assets/css/responsive.css" />
-
   <!-- JS includes -->
   <script src="assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
   <script src="assets/js/vendor/jquery-1.11.2.min.js"></script>
   <script src="assets/js/vendor/popper.min.js"></script>
   <script src="assets/js/vendor/bootstrap.min.js"></script>
-
   <script src="assets/js/jquery.magnific-popup.js"></script>
   <script src="assets/js/jquery.easing.1.3.js"></script>
   <script src="assets/js/slick.min.js"></script>
@@ -60,12 +53,13 @@
   <script src="assets/js/plugins.js"></script>
   <script src="assets/js/main.js"></script>
   <script src="back.js" rel="script"></script>
-  <script>
+  
+  <script> 
     let flag = 0;
     let user_info = localStorage.getItem("username");
     let count;
+    
     $(document).ready(function () {
-      token_check();
       list_til();
       read_flag();
       rank_til();
@@ -83,59 +77,33 @@
     var sockJs = new SockJS("/stomp/chat");
     //1. SockJS를 내부에 들고있는 stomp를 내어줌
     stomp = Stomp.over(sockJs);
-
     //2. connection이 맺어지면 실행
     stomp.connect({}, function () {
-
       //4. subscribe(path, callback)으로 메세지를 받을 수 있음
       stomp.subscribe("/sub/chat/home/", function (chat) {
         var content = JSON.parse(chat.body);
         count = content.userCount;
         let connector = content.message;
         $('#user-count').text(count);
-
-
       });
     })
 
-      function token_check() {
-        if (localStorage.getItem('token') == null) {
-          alert("로그인 해주세요")
-          location.href = "./index.html"
-        }
-      }
-
-      function login_check(options, originalOptions, jqXHR) {
-        if (localStorage.getItem('token')) {
-          jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
-        } else {
-          alert("로그인 해주세요")
-          location.href = "./index.html"
-        }
-      }
-
-      $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
-        login_check(options, originalOptions, jqXHR);
-      });
-
-      function list_til() {
-        $.ajax({
-          type: "GET",
-          url: "/til_board",
-          data: {},
-          success: function (response) {
-            let all_til = response;
-            let max = 6;
-            if (all_til.length < 6) {
-              max = all_til.length;
-            }
-            for (let i = 0; i < max; i++) {
-              let title = all_til[i]['tilTitle'];
-              let user = all_til[i]['user']['nickname'];
-              let content = all_til[i]['til_content'];
-              let day = all_til[i]['createdAt'];
-
-              let tempHtml = `
+        function list_til() {
+            $.ajax({
+                type: "GET",
+                url: `${domainURL}/tils`,
+                data: {},
+                success: function (response) {
+                    let all_til = response;
+                    let max = 6;
+                    if (all_til.length < 6) {
+                        max = all_til.length;
+                    }
+                    for (let i = 0; i < max; i++) {
+                        let title = all_til[i]['tilTitle'];
+                        let user = all_til[i]['user']['nickname'];
+                        let content = all_til[i]['til_content'];
+                        let tempHtml = `
             <div class="col-md-4">
               <div class="service_item">
                 <i class="icofont icofont-light-bulb"></i>
@@ -145,127 +113,100 @@
                 <h5>${user}</h5>
               </div>
             </div>`
-              console.log(tempHtml)
-              $('#board-main').append(tempHtml)
-            }
-          }
-        })
-      }
-
-      function read_flag() {
-        let today = new Date();
-        let result_date;
-        $.ajax({
-          type: "GET",
-          url: "/til/user",
-          data: {},
-          success: function (response) {
-            let all_til = response;
-            if (all_til.length == 0) {
-              $(".test").css("background-color", 'red');
-            }
-            for (let i = 0; i < all_til.length; i++) {
-              let day = all_til[i]['createdAt'];
-              result_date = new Date(day);
-              console.log(today.toDateString());
-              console.log(result_date.toDateString());
-              try {
-                if (today.toDateString() === result_date.toDateString()) {
-                  $(".test").css("background-color", 'blue');
-
-                } else {
-                  $(".test").css("background-color", 'red');// display 속성을 block 으로 바꾼다.
-
+                        $('#board-main').append(tempHtml)
+                    }
                 }
-              } catch (e) {
-                console.log("read_flag error");
-              }
-            }
-          }
-        })
-      }
+            })
+        }
 
-      function logMyErrors() {
-        $(".test").css("background-color", 'black');// display 속성을 block 으로 바꾼다.
-      }
+        function read_flag() {
+            let today = new Date();
+            let result_date;
+            $.ajax({
+                type: "GET",
+                url: `${domainURL}/til/user`,
+                data: {},
+                success: function (response) {
+                    let all_til = response;
+                    if (all_til.length === 0) {
+                        $(".test").css("background-color", 'red');
+                    }
+                    for (let i = 0; i < all_til.length; i++) {
+                        let day = all_til[i]['createdAt'];
+                        result_date = new Date(day);
+                        try {
+                            if (today.toDateString() === result_date.toDateString()) {
+                                $(".test").css("background-color", 'blue');
 
+                            } else {
+                                $(".test").css("background-color", 'red');// display 속성을 block 으로 바꾼다.
+                            }
+                        } catch (e) {
 
-      function rank_til() {
-        $.ajax({
-                  type: "GET",
-                  url: "/til/ranker",
-                  data: {},
-                  success: function (response) {
-                    for (let i = 0; i < 3; i++) {
-                      let username = response[i]['username'];
-                      let til = response[i]['til_count'];
-                      if (til === 0) {
-                        continue
-                      } else {
-                        let temp_html =
-                                `<h6 class="open"><i class="about_accordion wow fadeIn faq_main_content fa fa-angle-right"></i> ${username}</h6>
+                        }
+                    }
+                }
+            })
+        }
+
+        function rank_til() {
+            $.ajax({
+                    type: "GET",
+                    url: `${domainURL}/til/ranker`,
+                    data: {},
+                    success: function (response) {
+                        for (let i = 0; i < 3; i++) {
+                            let nickname = response[i]['nickname'];
+                            let til = response[i]['til_count'];
+                            if (til === 0) {
+                            } else {
+                                let temp_html =
+                                    `<h6 class="open"><i class="about_accordion wow fadeIn faq_main_content fa fa-angle-right"></i> ${nickname}</h6>
                                 <div class="open">
                                   <div class="content">
                                     <p id="rank_countTil">${til}</p>
                                   </div>
                                 </div>`
-
-                        $('#faq_main_content').append(temp_html);
-
-                      }
+                                $('#faq_main_content').append(temp_html);
+                            }
+                        }
                     }
-                  }
                 }
-        )
-      }
+            )
+        }
 
-      function sign_out() {
-        localStorage.removeItem('token');
-        localStorage.removeItem('username');
-        alert('로그아웃!')
-        window.location.href = "/"
-      }
+        function REST_Call(path) {
 
+            let access_token = localStorage.getItem('access_token')
+            $.ajax({
+                type: "POST",
+                url: `${domainURL}/message`,
+                contentType: "application/json",
+                data: JSON.stringify({'token': access_token}),
+                success: (data) => {
+                    alert('메시지가 전송되었습니다!');
+                }
+            });
+        }
 
-      function REST_Call(path) {
-
-        let access_token = localStorage.getItem('access_token')
-        console.log(access_token);
-        $.ajax({
-          type: "POST",
-          url: path,
-          contentType: "application/json",
-          data: JSON.stringify({'token': access_token}),
-          success: (data) => {
-            alert('메시지가 전송되었습니다!');
-          }
-        });
-      }
-
-
-
-
-
-
-  </script>
+    </script>
 </head>
 <style>
 
-  .left_write {
-    margin-right: 100px;
-  }
+    .left_write {
+        margin-right: 100px;
+    }
 
 
-  .test {
+    .test {
 
-    float: right;
-    width: 200px;
-    height: 200px;
-    background-color: yellow;
-    display: block;
-    margin-left: 50px;
-    margin-top: 0px;
-
+        float: right;
+        width: 200px;
+        height: 200px;
+        background-color: yellow;
+        display: block;
+        margin-left: 50px;
+        margin-top: 0;
   }
   .middle {
     text-align: center;
@@ -278,118 +219,71 @@
 
 <!-- Preloader -->
 <div id="loading">
-  <div id="loading-center">
-    <div id="loading-center-absolute">
-      <div class="object" id="object_one"></div>
-      <div class="object" id="object_two"></div>
-      <div class="object" id="object_three"></div>
-      <div class="object" id="object_four"></div>
+    <div id="loading-center">
+        <div id="loading-center-absolute">
+            <div class="object" id="object_one"></div>
+            <div class="object" id="object_two"></div>
+            <div class="object" id="object_three"></div>
+            <div class="object" id="object_four"></div>
+        </div>
     </div>
-  </div>
 </div>
 <!--End off Preloader -->
 
 
 <div class="culmn">
-  <!--Home page style-->
+    <!--Home page style-->
 
 
-
-  <nav class="navbar navbar-light navbar-expand-lg  navbar-fixed white no-background bootsnav">
-    <!-- Start Top Search -->
-    <div class="top-search">
-      <div class="container">
-        <div class="input-group">
-          <span class="input-group-addon"><i class="fa fa-search"></i></span>
-          <input type="text" class="form-control" placeholder="Search">
-          <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>
+    <nav class="navbar navbar-light navbar-expand-lg  navbar-fixed white no-background bootsnav">
+        <!-- Start Top Search -->
+        <div class="top-search">
+            <div class="container">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    <input type="text" class="form-control" placeholder="Search">
+                    <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <!-- End Top Search -->
+        <!-- End Top Search -->
 
-    <div class="container">
-      <!-- Start Atribute Navigation -->
-      <div class="attr-nav">
-        <ul>
+        <div class="container">
+            <!-- Start Atribute Navigation -->
+            <div class="attr-nav">
+                <ul>
 
-          <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
-          <li class="side-menu"><a href="#"><i class="fa fa-bars"></i></a></li>
-        </ul>
-      </div>
-      <!-- End Atribute Navigation -->
+                    <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
+                    <li class="side-menu"><a href="#"><i class="fa fa-bars"></i></a></li>
+                </ul>
+            </div>
+            <!-- End Atribute Navigation -->
 
-      <!-- Start Header Navigation -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-menu">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
 
-        <a class="navbar-brand" style="color: whitesmoke;font-size: x-large;" href="./home.html"><strong>TDP</strong></a>
-      </div>
-      <!-- End Header Navigation -->
+                <a class="navbar-brand" style="color: whitesmoke;font-size: x-large;"
+                   href="./home.html"><strong>TDP</strong></a>
+            </div>
+            <!-- End Header Navigation -->
 
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="navbar-menu">
-        <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
 
-          <li><a class="nav-link " href="./til_board.html">Write TIL</a></li>
-          <li><a class="nav-link" href="./mytil_page.html">My TIL</a></li>
-          <li><a class="nav-link" href="https://github.com/">Github</a></li>
-          <li><a class="nav-link" href="./my_page.html">myPage</a></li>
-          <li><a class="nav-link" onclick="sign_out()">logout</a></li>
-        </ul>
-      </div>
-      <!-- /.navbar-collapse -->
-    </div>
-
-
-    <!-- Start Side Menu -->
-    <div class="side">
-      <a href="#" class="close-side"><i class="fa fa-times"></i></a>
-      <div class="widget">
-        <h6 class="title">Custom Pages</h6>
-        <ul class="link">
-          <li><a href="#">About</a></li>
-          <li><a href="#">Services</a></li>
-          <li><a href="#">Blog</a></li>
-          <li><a href="#">Portfolio</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-      </div>
-      <div class="widget">
-        <h6 class="title">Additional Links</h6>
-        <ul class="link">
-          <li><a href="#">Retina Homepage</a></li>
-          <li><a href="#">New Page Examples</a></li>
-          <li><a href="#">Parallax Sections</a></li>
-          <li><a href="#">Shortcode Central</a></li>
-          <li><a href="#">Ultimate Font Collection</a></li>
-        </ul>
-      </div>
-    </div>
-    <!-- End Side Menu -->
-
-  </nav>
-
-  <!--Home Sections-->
-
-  <section id="hello" class="home bg-mega">
-    <div class="overlay"></div>
-    <div class="container">
-      <div class="row">
-        <div class="main_home">
-          <div class="home_text">
-            <h1 class="text-white">WE’RE <br /> TIL Management Service!<span>
-
-          <div class="test rounded-circle" ></div>
-
-          </span></h1>
-
-          </div>
-
+                    <li><a class="nav-link " href="./til_board.html">Write TIL</a></li>
+                    <li><a class="nav-link" href="./mytil_page.html">My TIL</a></li>
+                    <li><a class="nav-link" href="https://github.com/">Github</a></li>
+                    <li><a class="nav-link" href="./my_page.html">myPage</a></li>
+                    <li><a class="nav-link" onclick="sign_out()">logout</a></li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
         </div>
 
       </div>
@@ -406,182 +300,235 @@
     <h2 id="user-count" style="display: inline"><strong>0</strong></h2><h2 style="display: inline"><strong>명 채팅서버 접속중</strong></h2>
     <p><button type="button" class="btn btn-primary" href="./rooms.html">채팅 리스트</button></p>
   </div>
-
-
-  <!--About Sections-->
-  <section id="about" class="about roomy-100">
-    <div class="container">
-      <div class="row">
-        <div class="main_about">
-          <div class="col-md-6">
-            <div class="about_content">
-              <h2><strong>RANK</strong></h2>
-              <div class="separator_left"></div>
-              <p>가장 많은 til 보유자</p>
+        <!-- Start Side Menu -->
+        <div class="side">
+            <a href="#" class="close-side"><i class="fa fa-times"></i></a>
+            <div class="widget">
+                <h6 class="title">Custom Pages</h6>
+                <ul class="link">
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Portfolio</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
             </div>
-          </div>
-          <div class="col-md-6">
-            <div class="about_accordion wow fadeIn">
-              <div id="faq_main_content" class="faq_main_content">
-<!--                <h6 id="rank_username "><i class="fa fa-angle-right"></i> </h6>-->
-<!--                <div>-->
-<!--                  <div class="content">-->
-<!--                    <p id="rank_countTil"></p>-->
-
-<!--                  </div>-->
-<!--                </div>-->
-                <!-- End off accordion item-1 -->
-
-<!--                <h6 class="open"><i class="fa fa-angle-right"></i> EXPERIENCE TEAM</h6>-->
-<!--                <div class="open">-->
-<!--                  <div class="content">-->
-<!--                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, </p>-->
-<!--                  </div>-->
-<!--                </div>-->
-                <!-- End off accordion item-2 -->
-
-
-              </div>
+            <div class="widget">
+                <h6 class="title">Additional Links</h6>
+                <ul class="link">
+                    <li><a href="#">Retina Homepage</a></li>
+                    <li><a href="#">New Page Examples</a></li>
+                    <li><a href="#">Parallax Sections</a></li>
+                    <li><a href="#">Shortcode Central</a></li>
+                    <li><a href="#">Ultimate Font Collection</a></li>
+                </ul>
             </div>
-          </div>
         </div>
-      </div>
-      <!--End off row-->
-    </div>
-    <!--End off container -->
+        <!-- End Side Menu -->
 
+    </nav>
 
-  </section>
-  <!--End off About section -->
+    <!--Home Sections-->
 
+    <section id="hello" class="home bg-mega">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="main_home">
+                    <div class="home_text">
+                        <h1 class="text-white">WE’RE <br/> TIL Management Service!<span>
 
+          <div class="test rounded-circle"></div>
 
+          </span></h1>
 
-  <!--Service Section-->
-  <section id="service" class="service">
-    <div class="container">
-      <div class="row">
-        <div class="main_service roomy-100">
-          <div class="col-md-8 col-sm-10 mr-md-auto ml-md-auto mr-sm-auto ml-sm-auto">
-            <div class="head_title text-center">
-              <h2><strong>OUR TILS</strong></h2>
-              <div class="separator_auto"></div>
-              <p>사용자들이 작성한 TIL 입니다.</p>
+                    </div>
+
+                </div>
+
             </div>
-          </div>
-          <div class="row" id="board-main">
 
-
-          </div>
         </div>
-      </div>
-      <!--End off row -->
-    </div>
-    <!--End off container -->
-  </section>
-  <!--End off Featured section-->
+        <!--End off row-->
 
-  <!--Blog Section-->
-  <section id="blog" class="blog">
-    <div class="container">
-      <div class="row">
-        <div class="main_blog text-center roomy-100">
-          <div class="col-sm-8 mr-sm-auto ml-sm-auto">
-            <div class="head_title text-center">
-              <h2>RECENT BLOGS</h2>
-              <div class="separator_auto"></div>
-              <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. </p>
-            </div>
-          </div>
+        <!--End off container -->
+    </section>
+    <!--End off Home Sections-->
 
-          <div class="row">
 
-            <div class="col-md-4">
-              <div class="blog_item m-top-20">
-                <div class="blog_item_img">
-                  <img src="assets/images/Blog/1.jpg" alt="" />
-                </div>
-                <div class="blog_text roomy-40">
-                  <h6>PLEASUARE WITHOUT CONSCIENCE</h6>
-                  <p><em><a href="">May 15, 2016</a> /<a href="">admin</a>/<a href=""> Co-working</a></em></p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="blog_item m-top-20">
-                <div class="blog_item_img">
-                  <img src="assets/images/Blog/2.jpg" alt="" />
-                </div>
-                <div class="blog_text roomy-40">
-                  <h6>PLEASUARE WITHOUT CONSCIENCE</h6>
-                  <p><em><a href="">May 15, 2016</a> /<a href="">admin</a>/<a href=""> Co-working</a></em></p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="blog_item m-top-20">
-                <div class="blog_item_img">
-                  <img src="assets/images/Blog/3.jpg" alt="" />
-                </div>
-                <div class="blog_text roomy-40">
-                  <h6>PLEASUARE WITHOUT CONSCIENCE</h6>
-                  <p><em><a href="">May 15, 2016</a> /<a href="">admin</a>/<a href=""> Co-working</a></em></p>
-                </div>
-              </div>
-            </div>
+    <!--About Sections-->
+    <section id="about" class="about roomy-100">
+        <div class="container">
+            <div class="row">
+                <div class="main_about">
+                    <div class="col-md-6">
+                        <div class="about_content">
+                            <h2><strong>RANK</strong></h2>
+                            <div class="separator_left"></div>
+                            <p>가장 많은 til 보유자</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="about_accordion wow fadeIn">
+                            <div id="faq_main_content" class="faq_main_content">
+                                <!--                <h6 id="rank_username "><i class="fa fa-angle-right"></i> </h6>-->
+                                <!--                <div>-->
+                                <!--                  <div class="content">-->
+                                <!--                    <p id="rank_countTil"></p>-->
 
-          </div>
+                                <!--                  </div>-->
+                                <!--                </div>-->
+                                <!-- End off accordion item-1 -->
+
+                                <!--                <h6 class="open"><i class="fa fa-angle-right"></i> EXPERIENCE TEAM</h6>-->
+                                <!--                <div class="open">-->
+                                <!--                  <div class="content">-->
+                                <!--                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, </p>-->
+                                <!--                  </div>-->
+                                <!--                </div>-->
+                                <!-- End off accordion item-2 -->
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--End off row-->
         </div>
-      </div>
-      <!--End off row -->
-    </div>
-    <!--End off container -->
-  </section>
-  <!-- End off Blog section-->
+        <!--End off container -->
 
 
+    </section>
+    <!--End off About section -->
 
 
+    <!--Service Section-->
+    <section id="service" class="service">
+        <div class="container">
+            <div class="row">
+                <div class="main_service roomy-100">
+                    <div class="col-md-8 col-sm-10 mr-md-auto ml-md-auto mr-sm-auto ml-sm-auto">
+                        <div class="head_title text-center">
+                            <h2><strong>OUR TILS</strong></h2>
+                            <div class="separator_auto"></div>
+                            <p>사용자들이 작성한 TIL 입니다.</p>
+                        </div>
+                    </div>
+                    <div class="row" id="board-main">
 
 
-  <!-- scroll up-->
-  <div class="scrollup">
-    <a href="#"><i class="fa fa-chevron-up"></i></a>
-  </div>
-  <!-- End off scroll up -->
-
-
-  <footer id="footer" class="footer bg-black">
-    <div class="container">
-      <div class="row">
-        <div class="main_footer text-center p-top-40 p-bottom-30">
-          <p class="wow fadeInRight" data-wow-duration="1s">
-            Made with
-            <i class="fa fa-heart"></i> by
-            <a target="_blank" href="https://bootstrapthemes.co">Bootstrap Themes</a> 2016. All Rights Reserved
-          </p>
+                    </div>
+                </div>
+            </div>
+            <!--End off row -->
         </div>
-      </div>
+        <!--End off container -->
+    </section>
+    <!--End off Featured section-->
+
+    <!--Blog Section-->
+    <section id="blog" class="blog">
+        <div class="container">
+            <div class="row">
+                <div class="main_blog text-center roomy-100">
+                    <div class="col-sm-8 mr-sm-auto ml-sm-auto">
+                        <div class="head_title text-center">
+                            <h2>RECENT BLOGS</h2>
+                            <div class="separator_auto"></div>
+                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
+                                tincidunt tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo
+                                consequat. </p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <div class="blog_item m-top-20">
+                                <div class="blog_item_img">
+                                    <img src="assets/images/Blog/1.jpg" alt=""/>
+                                </div>
+                                <div class="blog_text roomy-40">
+                                    <h6>PLEASUARE WITHOUT CONSCIENCE</h6>
+                                    <p><em><a href="">May 15, 2016</a> /<a href="">admin</a>/<a href=""> Co-working</a></em>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="blog_item m-top-20">
+                                <div class="blog_item_img">
+                                    <img src="assets/images/Blog/2.jpg" alt=""/>
+                                </div>
+                                <div class="blog_text roomy-40">
+                                    <h6>PLEASUARE WITHOUT CONSCIENCE</h6>
+                                    <p><em><a href="">May 15, 2016</a> /<a href="">admin</a>/<a href=""> Co-working</a></em>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="blog_item m-top-20">
+                                <div class="blog_item_img">
+                                    <img src="assets/images/Blog/3.jpg" alt=""/>
+                                </div>
+                                <div class="blog_text roomy-40">
+                                    <h6>PLEASUARE WITHOUT CONSCIENCE</h6>
+                                    <p><em><a href="">May 15, 2016</a> /<a href="">admin</a>/<a href=""> Co-working</a></em>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!--End off row -->
+        </div>
+        <!--End off container -->
+    </section>
+    <!-- End off Blog section-->
+
+
+    <!-- scroll up-->
+    <div class="scrollup">
+        <a href="#"><i class="fa fa-chevron-up"></i></a>
     </div>
-  </footer>
+    <!-- End off scroll up -->
 
 
+    <footer id="footer" class="footer bg-black">
+        <div class="container">
+            <div class="row">
+                <div class="main_footer text-center p-top-40 p-bottom-30">
+                    <p class="wow fadeInRight" data-wow-duration="1s">
+                        Made with
+                        <i class="fa fa-heart"></i> by
+                        <a target="_blank" href="https://bootstrapthemes.co">Bootstrap Themes</a> 2016. All Rights
+                        Reserved
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
 
 
 </div>
 <!-- toast -->
 <div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
-  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000000" style="position: absolute; top: 0; right: 0;">
-    <div class="toast-header">
-      <img src="..." class="rounded me-2" alt="...">
-      <strong class="me-auto" id="til_title">${title}</strong>
-      <small>&times;</small>
-      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" onclick="toast_close()"></button>
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000000"
+         style="position: absolute; top: 0; right: 0;">
+        <div class="toast-header">
+            <i class="bi bi-x-lg"></i>
+            <strong class="me-auto" id="til_title">${title}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"
+                    onclick="toast_close()"></button>
+        </div>
+        <div class="toast-body" id="til_content">
+            ${content}
+        </div>
     </div>
-    <div class="toast-body" id="til_content">
-      ${content}
-    </div>
-  </div>
 </div>
 <!-- toast end -->
 </body>

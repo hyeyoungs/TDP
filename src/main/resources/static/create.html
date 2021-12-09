@@ -46,45 +46,15 @@
     </style>
     <script>
         $(document).ready(function () {
-            token_check();
             read_user_profile();
         });
-
-        function token_check(){
-            if (localStorage.getItem('token') == null) {
-                alert("로그인 해주세요")
-                location.href = "./index.html"
-            }
-        }
-
-        function login_check(options, originalOptions, jqXHR){
-            if(localStorage.getItem('token')) {
-                jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
-            } else {
-                alert("로그인 해주세요")
-                location.href = "./index.html"
-            }
-        }
 
         $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
             login_check(options, originalOptions, jqXHR);
         });
 
-        function read_user() {
-            $.ajax({
-                type: "GET",
-                url: "/user",
-                async: false,
-                success: function (response) {
-                    user_info = response;
-                }
-            });
-            return user_info;
-        }
-
-        async function read_user_profile(){
-            let user_info = await read_user();
-            console.log(user_info)
+        function read_user_profile(){
+            let user_info = read_user();
             $('.user_id_append').text(user_info['username']);
             $('.user_nickname_append').text(user_info['nickname']);
             $('.user_profile_info_append').text(user_info['introduce']);
@@ -108,27 +78,20 @@
             }
             $.ajax({
                 type: "POST",
-                url: "/til",
+                url: `${domainURL}/til`,
                 contentType: "application/json",
                 data: JSON.stringify(info),
                 success: function (response) { // 성공하면
                     alert("작성 완료!")
-                    window.location.href = "/til_board.html"
+                    window.location.href = `/til_board.html`
                 }
             });
         }
 
         $(document).on('click', '#btnList', function (e) {
             e.preventDefault();
-            window.location.href = "/til_board.html"
+            window.location.href = `${domainURL}/til_board.html`
         });
-
-        function sign_out() {
-            localStorage.removeItem('token');
-            localStorage.removeItem('username');
-            alert('로그아웃!')
-            window.location.href = "/"
-        }
 
     </script>
 </head>
@@ -168,7 +131,7 @@
 
             </div>
             <div class="mb-3 form-group">
-                <label for="tag">TAG</label>
+                <label for="tags">TAG</label>
                 <input type="text" value="" id="tags" data-role="tagsinput" placeholder="tags" />
             </div>
         </form>
@@ -178,6 +141,22 @@
         </div>
     </div>
 </article>
-
+<!-- toast -->
+<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000000"
+         style="position: absolute; top: 0; right: 0;">
+        <div class="toast-header">
+            <i class="bi bi-x-lg"></i>
+            <strong class="me-auto" id="til_title">${title}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"
+                    onclick="toast_close()"></button>
+        </div>
+        <div class="toast-body" id="til_content">
+            ${content}
+        </div>
+    </div>
+</div>
+<!-- toast end -->
 </body>
+
 </html>
