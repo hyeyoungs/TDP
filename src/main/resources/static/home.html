@@ -164,7 +164,7 @@
                 data: {},
                 success: function (response) {
                     for (let i = 0; i < 3; i++) {
-                        let nickname = response[i]['user']['nickname'];
+                        let nickname = response[i]['nickname'];
                         let til = response[i]['til_count'];
                         if(til===0){
                           continue
