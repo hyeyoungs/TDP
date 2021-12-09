@@ -72,9 +72,6 @@ public class UserController {
 
     }
 
-
-
-
     @PostMapping(value = "/signup")
     public ResponseEntity createUser(@RequestBody SignupRequestDto userDto) throws Exception {
         userService.registerUser(userDto);
