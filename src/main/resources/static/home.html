@@ -54,11 +54,10 @@
   <script src="assets/js/slick.min.js"></script>
   <script src="assets/js/jquery.collapse.js"></script>
   <script src="assets/js/bootsnav.js"></script>
-
   <!-- paradise slider js -->
   <script src="assets/js/plugins.js"></script>
   <script src="assets/js/main.js"></script>
-
+  <script src="back.js" rel="script"></script>
   <script>
     let flag = 0;
     let user_info = localStorage.getItem("username");
@@ -102,7 +101,7 @@
             max = all_til.length;
           }
           for (let i = 0; i < max; i++) {
-            let title = all_til[i]['til_title'];
+            let title = all_til[i]['tilTitle'];
             let user = all_til[i]['user']['nickname'];
             let content = all_til[i]['til_content'];
             let day = all_til[i]['createdAt'];
@@ -165,29 +164,24 @@
                 url: "/til/ranker",
                 data: {},
                 success: function (response) {
-                    for (let i = 0; i < response.length; i++) {
+                    for (let i = 0; i < 3; i++) {
                         let username = response[i]['username'];
                         let til = response[i]['til_count'];
-                        let temp = `<h6 id="rank_username"><i class="fa fa-angle-right"></i>${username}</h6>
-                                            <div>
-                                              <div class="content">
-                                                <p id="rank_countTil">${til}</p>
-
-                                              </div>
-                                            </div>`
-
-                        let temp_html=
-                            `<h6 class="open"><i class="about_accordion wow fadeIn faq_main_content fa fa-angle-right"></i> ${username}</h6>
+                        if(til===0){
+                          continue
+                        }else{
+                          let temp_html=
+                                  `<h6 class="open"><i class="about_accordion wow fadeIn faq_main_content fa fa-angle-right"></i> ${username}</h6>
                                 <div class="open">
                                   <div class="content">
                                     <p id="rank_countTil">${til}</p>
                                   </div>
                                 </div>`
 
-                        $('#faq_main_content').append(temp_html);
+                          $('#faq_main_content').append(temp_html);
 
-                    }
-
+                        }
+                        }
                 }
             }
         )
@@ -514,7 +508,21 @@
 
 
 </div>
-
+<!-- toast -->
+<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000000" style="position: absolute; top: 0; right: 0;">
+    <div class="toast-header">
+      <img src="..." class="rounded me-2" alt="...">
+      <strong class="me-auto" id="til_title">${title}</strong>
+      <small>&times;</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" onclick="toast_close()"></button>
+    </div>
+    <div class="toast-body" id="til_content">
+      ${content}
+    </div>
+  </div>
+</div>
+<!-- toast end -->
 </body>
 
 </html>

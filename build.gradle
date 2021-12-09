@@ -22,6 +22,7 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'org.json:json:20210307'
     implementation 'org.jetbrains:annotations:20.1.0'
     compileOnly 'org.projectlombok:lombok'
@@ -33,6 +34,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     // jwt
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    // aws
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     // spring-cloud-starter
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.1.RELEASE'
     // Spring Rest Docs
@@ -63,4 +66,8 @@ bootJar {
     from ("${asciidoctor.outputDir}/html5") {
         into "/static/docs"
     }
+}
+
+jar {
+    enabled = false
 }

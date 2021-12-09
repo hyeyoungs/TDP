@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,6 +44,15 @@ public class UserController {
         return ResponseEntity.ok(new JwtResponse(token, userDetails.getUsername()));
     }
 
+    @PostMapping(value = "/login/kakao")
+    public ResponseEntity<?> createAuthenticationTokenByKakao(@RequestBody SocialLoginDto socialLoginDto) throws Exception {
+        //api 인증을 통해 얻어온 code값 받아오기
+        String username = userService.kakaoLogin(socialLoginDto.getToken());
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        final String token = jwtTokenUtil.generateToken(userDetails);
+        return ResponseEntity.ok(new JwtResponse(token, userDetails.getUsername()));
+    }
+
     @PostMapping(value = "/signup")
     public ResponseEntity createUser(@RequestBody SignupRequestDto userDto) throws Exception {
         userService.registerUser(userDto);
@@ -68,4 +78,8 @@ public class UserController {
                            @RequestParam("about") String about){
         userService.updateUser(userDetails.getUser(), nickname, githubId, imageFile, about);
     }
+
+
+
+
 }

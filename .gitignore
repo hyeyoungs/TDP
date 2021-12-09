@@ -38,7 +38,6 @@ out/
 .vscode/
 
 ### AWS ###
-src/main/**/application-aws.yml
 
 ### macOS ###
 # General
