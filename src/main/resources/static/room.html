@@ -19,11 +19,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
     <script>
-        var roomId;
-        var roomName;
-        var username;
+        let roomId;
+        let roomName;
+        let username;
         let id;
-        var stomp;
+        let stomp;
         $(document).ready(function () {
             id = window.location.search.split("=")[1]
             token_check();
@@ -42,13 +42,13 @@
                 console.log(id);
                 //4. subscribe(path, callback)으로 메세지를 받을 수 있음
                 stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
-                    var content = JSON.parse(chat.body);
+                    let content = JSON.parse(chat.body);
                     console.log('content',content)
-                    var writer = content.writer;
+                    let writer = content.writer;
 
                     console.log('writer',writer)
                     console.log('username',username)
-                    var str = '';
+                    let str = '';
 
                     if (writer === username) {
                         str = "<div class='col-6'>";
@@ -138,7 +138,7 @@
                 async: false,
                 success: function (response) {
                     console.log(response)
-                    username = response['username']
+                    username = response['nickname']
 
                 }
             });
@@ -184,7 +184,7 @@
     </div>
 </nav>
 
-<div class="container">
+<div class="container align-middle">
     <div class="col-6">
         <h1 id="room-name">name</h1>
     </div>
