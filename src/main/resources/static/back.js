@@ -1,4 +1,4 @@
-let urlEndpoint = '/subscribe';
+let urlEndpoint = 'http://api.tildp.shop/subscribe';
 let eventSource = new EventSource(urlEndpoint);
 let domainURL= 'http://api.tildp.shop';
 eventSource.addEventListener("latestNews", function (event) {
