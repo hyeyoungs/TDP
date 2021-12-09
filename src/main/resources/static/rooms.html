@@ -47,7 +47,6 @@
                     url: `${domainURL}/rooms`,
                     data: {},
                     success: function (response) {
-                        console.log(response);
                         let all_rooms = response;
                         for (let i = 0; i < all_rooms.length; i++) {
                             let idx = all_rooms[i]['roomId'];
