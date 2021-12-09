@@ -164,13 +164,13 @@
                 data: {},
                 success: function (response) {
                     for (let i = 0; i < 3; i++) {
-                        let username = response[i]['username'];
+                        let nickname = response[i]['nickname'];
                         let til = response[i]['til_count'];
                         if(til===0){
                           continue
                         }else{
                           let temp_html=
-                                  `<h6 class="open"><i class="about_accordion wow fadeIn faq_main_content fa fa-angle-right"></i> ${username}</h6>
+                                  `<h6 class="open"><i class="about_accordion wow fadeIn faq_main_content fa fa-angle-right"></i> ${nickname}</h6>
                                 <div class="open">
                                   <div class="content">
                                     <p id="rank_countTil">${til}</p>

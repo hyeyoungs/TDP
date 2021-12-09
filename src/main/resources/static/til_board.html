@@ -38,10 +38,10 @@
             let setting = $('#setting-btn').text()
             if (keyword === '' || keyword == null){  isSearch = 0    }
 
-            let url = `${domainURL}/til_board?page=${page}`;
+            let url = `/til_board?page=${page}`;
 
             if (isSearch === 1){
-                url = `${domainURL}/til/search?page=${page}&keyword=${keyword}&setting=${setting}`;
+                url = `/til/search?page=${page}&keyword=${keyword}&setting=${setting}`;
             }
             console.log(url);
             $.ajax({
@@ -89,9 +89,8 @@
         }
 
         function detail(til_idx) {
-            location.href = `${domainURL}/detail.html?idx=`+til_idx;
+            location.href = `/detail.html?idx=`+til_idx;
         }
-
         function til_search() {
             isSearch = 1
             read_til_list(1, isSearch)
