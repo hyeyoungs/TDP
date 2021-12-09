@@ -34,16 +34,31 @@ dependencies {
     // jwt
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
+
+    // spring-cloud-starter
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.1.RELEASE'
+    // aws
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+}
+
+
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'org.webjars:webjars-locator-core'
     implementation 'org.webjars:sockjs-client:1.0.2'
     implementation 'org.webjars:stomp-websocket:2.3.3'
+    
     implementation 'org.webjars:bootstrap:3.3.7'
     implementation 'org.webjars:jquery:3.1.1-1'
 
     implementation 'com.google.code.gson:gson:2.8.6'
 
+
+    implementation group: 'org.webjars', name: 'stomp-websocket', version: '2.3.3-1'
 }
 test {
     useJUnitPlatform()
+}
+
+jar {
+    enabled = false
 }
