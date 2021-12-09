@@ -60,22 +60,18 @@
                 stomp.send('/pub/chat/enter', {}, JSON.stringify({
                     roomId: roomId, writer: username, message:"enter", userCount:0}))
             });
-        })
-
-
-
+        });
             $("#button-send").on("click", function (e) {
                 let msg = document.getElementById("msg");
                 stomp.send('/pub/chat/message', {}, JSON.stringify({
                     roomId: roomId,
                     message: msg.value,
                     writer: username,
-                    userCount:0
+                    userCount: 0
 
                 }));
                 msg.value = '';
             });
-        });
 
         function disconnect() {
             stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message:"exit"}))
@@ -101,7 +97,7 @@
                     roomName = response['name'];
                     $('#room-name').text(roomName);
                 }
-            })
+            });
         }
 
     </script>
