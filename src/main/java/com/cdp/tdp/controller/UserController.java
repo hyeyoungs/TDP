@@ -7,21 +7,26 @@ import com.cdp.tdp.security.UserDetailsServiceImpl;
 import com.cdp.tdp.service.UserService;
 import com.cdp.tdp.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
-
+@Slf4j
 @RequiredArgsConstructor
 @RestController
+@Component
 public class UserController {
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
@@ -44,14 +49,30 @@ public class UserController {
         return ResponseEntity.ok(new JwtResponse(token, userDetails.getUsername()));
     }
 
-    @PostMapping(value = "/login/kakao")
+    @RequestMapping(value = "/login/kakao")
     public ResponseEntity<?> createAuthenticationTokenByKakao(@RequestBody SocialLoginDto socialLoginDto) throws Exception {
         //api 인증을 통해 얻어온 code값 받아오기
+
         String username = userService.kakaoLogin(socialLoginDto.getToken());
         final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         final String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token, userDetails.getUsername()));
     }
+
+//    @Scheduled(fixedRate = 10000) // cron에 따라 실행 매월 매요일 13시 마다 실행
+    @PostMapping("/message")
+    public void message(@RequestBody SocialLoginDto socialLoginDto) {
+    //access 토큰을 발급받아야함
+
+        String token = socialLoginDto.getToken();
+
+        log.info(token);
+        String message= userService.sendmessage(token);
+
+    }
+
+
+
 
     @PostMapping(value = "/signup")
     public ResponseEntity createUser(@RequestBody SignupRequestDto userDto) throws Exception {
@@ -70,14 +91,13 @@ public class UserController {
         return userService.getAllUser();
     }
 
-    @PutMapping("/user/profile")
-    public void updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                           @RequestParam("nickname") String nickname,
-                           @RequestParam("github_id") String githubId,
-                           @RequestParam(value = "file", required = false) MultipartFile imageFile,
-                           @RequestParam("about") String about){
-        userService.updateUser(userDetails.getUser(), nickname, githubId, imageFile, about);
+    @PutMapping("/user/update")
+    public void updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody UserUpdateDto userUpdateDto) throws SQLException{
+        userService.updateUser(userDetails.getUser(), userUpdateDto);
     }
+
+
+
 
 
 

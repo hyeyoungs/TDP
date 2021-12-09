@@ -1,11 +1,14 @@
 package com.cdp.tdp.domain;
 
 import com.cdp.tdp.dto.TilRequestDto;
+import com.cdp.tdp.dto.UserDto;
 import com.cdp.tdp.dto.UserUpdateDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -89,4 +92,6 @@ public class User extends Timestamped {
         this.picture= userUpdateDto.getPicture();
         this.picture_real = userUpdateDto.getPicture_real();
     }
+
+
 }

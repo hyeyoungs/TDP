@@ -1,8 +1,7 @@
 package com.cdp.tdp.util;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -13,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+@Slf4j
 @Component
 public class JwtTokenUtil implements Serializable {
 
@@ -37,6 +37,7 @@ public class JwtTokenUtil implements Serializable {
         final Claims claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
     }
+
     //for retrieveing any information from token we will need the secret key
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
@@ -71,4 +72,30 @@ public class JwtTokenUtil implements Serializable {
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
+
+    public boolean validateToken2(String jwt) {
+        return this.getClaims(jwt) != null;
+    }
+
+    private Jws<Claims> getClaims(String jwt) {
+        try {
+            return Jwts.parser().setSigningKey(secret).parseClaimsJws(jwt);
+        } catch (SignatureException ex) {
+            log.error("Invalid JWT signature");
+            throw ex;
+        } catch (MalformedJwtException ex) {
+            log.error("Invalid JWT token");
+            throw ex;
+        } catch (ExpiredJwtException ex) {
+            log.error("Expired JWT token");
+            throw ex;
+        } catch (UnsupportedJwtException ex) {
+            log.error("Unsupported JWT token");
+            throw ex;
+        } catch (IllegalArgumentException ex) {
+            log.error("JWT claims string is empty.");
+            throw ex;
+        }
+    }
 }
+

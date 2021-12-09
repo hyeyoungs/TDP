@@ -1,5 +1,6 @@
 package com.cdp.tdp.security.kakao;
 
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -10,6 +11,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+@Slf4j
 @Component
 public class KakaoOAuth2 {
 
@@ -55,6 +57,7 @@ public class KakaoOAuth2 {
 
     private KakaoUserInfo getUserInfoByToken(String accessToken) {
         // HttpHeader 오브젝트 생성
+        log.info(accessToken);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + accessToken);
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
