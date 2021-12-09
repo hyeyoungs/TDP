@@ -1,6 +1,7 @@
 package com.cdp.tdp.security;
 
 import com.cdp.tdp.domain.User;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
