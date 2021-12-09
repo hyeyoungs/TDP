@@ -37,7 +37,7 @@
                 contentType: "application/json",
                 data: JSON.stringify(info),
                 success: function (response) {
-                    // window.location.href = "/rooms.html"
+                     window.location.href = "/rooms.html"
                 }
             });
         }
@@ -47,6 +47,7 @@
                     url: `${domainURL}/rooms`,
                     data: {},
                     success: function (response) {
+                        console.log(response);
                         let all_rooms = response;
                         for (let i = 0; i < all_rooms.length; i++) {
                             let idx = all_rooms[i]['roomId'];
@@ -60,7 +61,6 @@
 
                                             </tr>`
                                 $('#til-box').append(temp_html)
-
                             } else {
                                 let temp_html = `<tr onClick="detail(${idx})" style="cursor:pointer;">
                                                 <th scope="row">${name}</th>
@@ -147,8 +147,6 @@
             <tr>
                 <th scope="col">채팅방 이름</th>
                 <th scope="col">개설날짜</th>
-
-
             </tr>
             </thead>
             <tbody id="til-box">
