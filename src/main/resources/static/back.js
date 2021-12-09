@@ -32,7 +32,3 @@ function sign_out() {
     alert('로그아웃!')
     window.location.href = "/"
 }
-
-function goback() {
-    window.history.back();
-}
