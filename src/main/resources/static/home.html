@@ -71,7 +71,7 @@
         }
       }, 86400000);
     });
-    var sockJs = new SockJS("http://www.api.tildp.shop/stomp/chat");
+    var sockJs = new SockJS('http://www.api.tid/stomp/chat');
     //1. SockJS를 내부에 들고있는 stomp를 내어줌
     stomp = Stomp.over(sockJs);
     //2. connection이 맺어지면 실행
