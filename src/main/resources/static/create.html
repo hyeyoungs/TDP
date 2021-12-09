@@ -49,21 +49,6 @@
             read_user_profile();
         });
 
-        // function token_check(){
-        //     if (localStorage.getItem('token') == null) {
-        //         alert("로그인 해주세요")
-        //         location.href = "./index.html"
-        //     }
-        // }
-        //
-        // function login_check(options, originalOptions, jqXHR){
-        //     if(localStorage.getItem('token')) {
-        //         jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
-        //     } else {
-        //         alert("로그인 해주세요")
-        //         location.href = "./index.html"
-        //     }
-        // }
 
         $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
             login_check(options, originalOptions, jqXHR);
