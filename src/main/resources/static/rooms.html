@@ -15,7 +15,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
-
+    <script src="back.js" rel="script"></script>
     <script>
 
 
@@ -25,19 +25,19 @@
 
         });
 
-        function token_check(){
-            if (localStorage.getItem('token') == null) {
-                alert("로그인 해주세요")
-                location.href = "./index.html"
-            }
-        }
-
-        function sign_out() {
-            localStorage.removeItem('token');
-            localStorage.removeItem('username');
-            alert('로그아웃!')
-            window.location.href = "/"
-        }
+        // function token_check(){
+        //     if (localStorage.getItem('token') == null) {
+        //         alert("로그인 해주세요")
+        //         location.href = "./index.html"
+        //     }
+        // }
+        //
+        // function sign_out() {
+        //     localStorage.removeItem('token');
+        //     localStorage.removeItem('username');
+        //     alert('로그아웃!')
+        //     window.location.href = "/"
+        // }
         function create_room() {
 
             let info = {
@@ -46,7 +46,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "/room",
+                url: `${domainURL}/room`,
                 contentType: "application/json",
                 data: JSON.stringify(info),
                 success: function (response) { // 성공하면
@@ -58,7 +58,7 @@
         function read_all_rooms() {
             $.ajax({
                     type: "GET",
-                    url: "/rooms",
+                    url: `${domainURL}/rooms`,
                     data: {},
                     success: function (response) {
                         let all_rooms = response;
@@ -98,7 +98,7 @@
 
 
         function detail(idx) {
-            location.href = "room.html?id="+idx;
+            location.href = `${domainURL}/room.html?id=`+idx;
         }
     </script>
     <style>

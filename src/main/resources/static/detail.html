@@ -35,7 +35,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
+    <script src="back.js" rel="script"></script>
 
     <style>
         body {
@@ -155,15 +155,16 @@
     function token_check(){
         if (localStorage.getItem('token') == null) {
             alert("로그인 해주세요")
-            location.href = "./index.html"
+            location.href = `${domainURL}/index.html`
         }
     }
     function login_check(options, originalOptions, jqXHR){
         if(localStorage.getItem('token')) {
             jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
         } else {
+
             alert("로그인 해주세요")
-            location.href = "./index.html"
+            location.href = `${domainURL}/index.html`
         }
     }
 
@@ -176,7 +177,7 @@
     function read_writer() {
         $.ajax({
             type: "GET",
-            url: `/til_board/${idx}`,
+            url: `${domainURL}/til_board/${idx}`,
             success: function (response) {
                 let github_id = response['user']['github_id'];
                 let introduce = response['user']['introduce'];
@@ -197,7 +198,7 @@
     function get_status() {
         $.ajax({
             type: "GET",
-            url: `/status/${idx}`,
+            url: `${domainURL}/status/${idx}`,
             data: {},
             success: function (response) {
 
@@ -216,7 +217,7 @@
 
         $.ajax({
             type: "GET",
-            url: `/til/like/${idx}`,
+            url: `${domainURL}/til/like/${idx}`,
             data: {},
             success: function (response) {
                 console.log(response);
@@ -241,7 +242,7 @@
     function get_til() {
         $.ajax({
             type: "GET",
-            url: `/til_board/${idx}`,
+            url: `${domainURL}/til_board/${idx}`,
             data: {},
             success: function (response) {
 
@@ -262,7 +263,7 @@
     function get_comment() {
         $.ajax({
             type: "GET",
-            url: `/til/${idx}/comments`,
+            url: `${domainURL}/til/${idx}/comments`,
             data: {},
             success: function (response) {
                 let user = response[0]['id']
@@ -310,7 +311,7 @@
         }
         $.ajax({
             type: "POST",
-            url: "/til/comment",
+            url: `${domainURL}/til/comment`,
             contentType: "application/json",
             data: JSON.stringify(info),
 
@@ -327,7 +328,7 @@
 
         $.ajax({
             type: "DELETE",
-            url: `/til/comments/${comment_idx}`,
+            url: `${domainURL}/til/comments/${comment_idx}`,
             data: {},
             success: function (response) {
                 alert("댓글 삭제")
@@ -340,7 +341,7 @@
     function delete_til() {
         $.ajax({
             type: "DELETE",
-            url: `/til/${idx}`,
+            url: `${domainURL}/til/${idx}`,
             success: function (response) {
                 alert(response["msg"]);
                 window.history.back();
@@ -354,7 +355,7 @@
         let til_content = $('#new-til-content').val();
         $.ajax({
             type: "PUT",
-            url: `/til/${idx}`,
+            url: `${domainURL}/til/${idx}`,
             data: {til_title_give: til_title, til_content_give: til_content},
             success: function (response) {
                 alert(response["msg"]);
@@ -398,7 +399,7 @@
             // 좋아요 취소
             $.ajax({
                 type: "DELETE",
-                url: `/til/dislike/${idx}`,
+                url: `${domainURL}/til/dislike/${idx}`,
 
 
                 success: function (response) {
@@ -415,7 +416,7 @@
             let info={content:type};
             $.ajax({
                 type: "POST",
-                url: `/til/like/${idx}`,
+                url: `${domainURL}/til/like/${idx}`,
                 contentType: "application/json",
                 data: JSON.stringify(info),
                 success: function (response) {
@@ -435,7 +436,7 @@
         localStorage.removeItem('token');
         localStorage.removeItem('username');
         alert('로그아웃!')
-        window.location.href = "/"
+        window.location.href = `${domainURL}/home.html`
     }
     </script>
 <body>
