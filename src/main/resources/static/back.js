@@ -36,6 +36,7 @@ function sign_out() {
 function goback() {
     window.history.back();
 }
+
 function read_user() {
     $.ajax({
         type: "GET",
