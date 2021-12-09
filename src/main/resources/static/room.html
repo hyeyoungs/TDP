@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+    <script>
+        var roomId;
+        var roomName;
+        var username;
+        let id;
+        $(document).ready(function () {
+            id = window.location.search.split("=")[1]
+            token_check();
+            read_room();
+            read_user();
+            // login_check();
+
+            var sockJs = new SockJS("/stomp/chat");
+            //1. SockJS를 내부에 들고있는 stomp를 내어줌
+            var stomp = Stomp.over(sockJs);
+
+            //2. connection이 맺어지면 실행
+            stomp.connect({}, function () {
+                console.log("STOMP Connection")
+                console.log(roomId);
+                console.log(id);
+                //4. subscribe(path, callback)으로 메세지를 받을 수 있음
+                stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
+                    var content = JSON.parse(chat.body);
+                    console.log('content',content)
+                    var writer = content.writer;
+
+                    console.log('writer',writer)
+                    console.log('username',username)
+                    var str = '';
+
+                    if (writer === username) {
+                        str = "<div class='col-6'>";
+                        str += "<div class='alert alert-secondary'>";
+                        str += "<b>" + writer + " : " + content.message + "</b>";
+                        str += "</div></div>";
+                    } else {
+                        str = "<div class='col-6'>";
+                        str += "<div class='alert alert-warning'>";
+                        str += "<b>" + writer + " : " + content.message + "</b>";
+                        str += "</div></div>";
+                    }
+
+                    $("#msgArea").append(str);
+                });
+
+                //3. send(path, header, message)로 메세지를 보낼 수 있음
+                stomp.send('/pub/chat/enter', {}, JSON.stringify({roomId: roomId, writer: username, message:"hello"}))
+            });
+
+            $("#button-send").on("click", function (e) {
+                var msg = document.getElementById("msg");
+
+                console.log(username + ":" + msg.value);
+                stomp.send('/pub/chat/message', {}, JSON.stringify({
+                    roomId: roomId,
+                    message: msg.value,
+                    writer: username
+                }));
+                msg.value = '';
+            });
+        });
+
+        function token_check() {
+            if (localStorage.getItem('token') == null) {
+                alert("로그인 해주세요")
+                location.href = "./index.html"
+
+            }
+        }
+
+        function login_check(options, originalOptions, jqXHR){
+            if(localStorage.getItem('token')) {
+                jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
+            } else {
+                alert("로그인 해주세요")
+                location.href = "./index.html"
+            }
+        }
+        $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+            login_check(options, originalOptions, jqXHR);
+        });
+
+
+        function read_room() {
+            $.ajax({
+                type: "GET",
+                url: `/room/${id}`,
+                data: {},
+                success: function (response) {
+                    roomId = response['roomId'];
+                    roomName = response['name'];
+                    $('#room-name').text(roomName);
+                }
+            })
+        }
+
+        function read_user() {
+            $.ajax({
+                type: "GET",
+                url: '/user',
+                async: false,
+                success: function (response) {
+                    console.log(response)
+                    username = response['username']
+
+                }
+            });
+
+        }
+
+    </script>
+    <style>
+
+
+        .navbar-brand {
+            margin-left: 50px;
+        }
+
+        .nav-link {
+
+            margin-left: 100px;
+        }
+
+    </style>
+</head>
+
+
+<body>
+<!-- navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="./home.html">TIL.D.P</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div id="navbar-nav" class="navbar-nav">
+                <a class="nav-link " href="./til_board.html">Write TIL</a>
+                <a class="nav-link" href="./mytil_page.html">My TIL</a>
+                <a class="nav-link" href="https://github.com/">Github</a>
+                <a class="nav-link" href="./my_page.html">myPage</a>
+                <a class="nav-link" onclick="sign_out()">logout</a>
+                <a class="nav-link" onclick="goback()">Back</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="col-6">
+        <h1 id="room-name">name</h1>
+    </div>
+    <div>
+        <div id="msgArea" class="col"></div>
+        <div class="col-6">
+            <div class="input-group mb-3">
+                <input type="text" id="msg" class="form-control">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="button-send">전송</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6"></div>
+</div>
+
+</body>
+</html>
