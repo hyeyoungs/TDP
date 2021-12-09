@@ -64,10 +64,10 @@
     let user_info = localStorage.getItem("username");
 
     $(document).ready(function () {
-      token_check();
       list_til();
       read_flag();
       rank_til();
+
       sendMessage = setInterval(function() {
         console.log($(".test").css("background-color"))
         if ( $(".test").css("background-color")=='rgb(255, 0, 0)'){
@@ -79,22 +79,6 @@
         }
       }, 86400000);
     });
-
-    // function token_check(){
-    //   if (localStorage.getItem('token') == null) {
-    //     alert("로그인 해주세요")
-    //     location.href = "./index.html"
-    //   }
-    // }
-    //
-    // function login_check(options, originalOptions, jqXHR){
-    //   if(localStorage.getItem('token')) {
-    //     jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
-    //   } else {
-    //     alert("로그인 해주세요")
-    //     location.href = "./index.html"
-    //   }
-    // }
 
     $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
       login_check(options, originalOptions, jqXHR);
@@ -143,7 +127,7 @@
         data: {},
         success: function (response) {
           let all_til = response;
-          if (all_til.length == 0){
+          if (all_til.length === 0){
             $(".test").css("background-color", 'red');
           }
           for (let i = 0; i < all_til.length; i++) {
@@ -201,15 +185,6 @@
             }
         )
     }
-
-    function sign_out() {
-      localStorage.removeItem('token');
-      localStorage.removeItem('username');
-      alert('로그아웃!')
-      window.location.href = `${domainURL}/index.html`
-    }
-
-
 
 
     function REST_Call (path)

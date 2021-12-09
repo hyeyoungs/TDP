@@ -66,12 +66,9 @@
 </head>
 <script>
     $(document).ready(function () {
-        token_check();
         read_user_profile();
         append_github_id();
     });
-
-
 
     $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
         login_check(options, originalOptions, jqXHR);
@@ -108,13 +105,9 @@
     async function append_github_id(){
         let user_info = await read_user();
         let github_id = user_info['github_id']
-        if (github_id == null || github_id == ""){
+        if (github_id == null || github_id === ""){
             $('.github_id_tag').hide();
         }
-    }
-
-    function goback() {
-        window.history.back();
     }
 
     function update_profile() {
@@ -142,14 +135,6 @@
             }
         });
     }
-
-
-    // function sign_out() {
-    //     localStorage.removeItem('token');
-    //     localStorage.removeItem('username');
-    //     alert('로그아웃!')
-    //     window.location.href = "/"
-    // }
 
 </script>
 <body>

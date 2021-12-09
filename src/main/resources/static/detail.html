@@ -141,8 +141,6 @@
 
 <script>
     $(document).ready(function () {
-        token_check();
-
         idx = window.location.search.split("=")[1]
         $('#new-box').hide();
         read_writer();
@@ -151,23 +149,6 @@
         get_heart();
         get_comment();
     });
-
-    function token_check(){
-        if (localStorage.getItem('token') == null) {
-            alert("로그인 해주세요")
-            location.href = `${domainURL}/index.html`
-        }
-    }
-    function login_check(options, originalOptions, jqXHR){
-        if(localStorage.getItem('token')) {
-            jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
-        } else {
-
-            alert("로그인 해주세요")
-            location.href = `${domainURL}/index.html`
-        }
-    }
-
     $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
         login_check(options, originalOptions, jqXHR);
     });
@@ -432,12 +413,6 @@
         window.location.reload();
     }
 
-    function sign_out() {
-        localStorage.removeItem('token');
-        localStorage.removeItem('username');
-        alert('로그아웃!')
-        window.location.href = `${domainURL}/home.html`
-    }
     </script>
 <body>
 
