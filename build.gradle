@@ -30,7 +30,7 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    // spring security
+    // 스프링 시큐리티
     implementation 'org.springframework.boot:spring-boot-starter-security'
     // jwt
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
@@ -48,6 +48,20 @@ ext {
     set('snippetsDir', file("build/generated-snippets"))
 }
 
+
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.webjars:webjars-locator-core'
+    implementation 'org.webjars:sockjs-client:1.0.2'
+    implementation 'org.webjars:stomp-websocket:2.3.3'
+    
+    implementation 'org.webjars:bootstrap:3.3.7'
+    implementation 'org.webjars:jquery:3.1.1-1'
+
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+
+    implementation group: 'org.webjars', name: 'stomp-websocket', version: '2.3.3-1'
+}
 test {
     outputs.dir snippetsDir
     useJUnitPlatform()

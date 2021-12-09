@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <script>
+
+
+        $(document).ready(function () {
+            token_check();
+            read_all_rooms();
+
+        });
+
+        function token_check(){
+            if (localStorage.getItem('token') == null) {
+                alert("로그인 해주세요")
+                location.href = "./index.html"
+            }
+        }
+
+        function sign_out() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('username');
+            alert('로그아웃!')
+            window.location.href = "/"
+        }
+        function create_room() {
+            alert($('#room').val())
+            let info = {
+                roomName : $('#room').val()
+            }
+
+
+            alert(info.roomName)
+            $.ajax({
+                type: "POST",
+                url: "/room",
+                contentType: "application/json",
+                data: JSON.stringify(info),
+                success: function (response) { // 성공하면
+                    alert("채팅방 개설 완료!")
+                    window.location.href = "/rooms.html"
+                }
+            });
+        }
+        function read_all_rooms() {
+            $.ajax({
+                    type: "GET",
+                    url: "/rooms",
+                    data: {},
+                    success: function (response) {
+                        let all_rooms = response;
+                        console.log(all_rooms);
+                        for (let i = 0; i < all_rooms.length; i++) {
+                            console.log(all_rooms[i]);
+
+
+
+                            let idx=all_rooms[i]['roomId'];
+                            let name = all_rooms[i]['name'];
+                            let date=all_rooms[i]['createdAt']
+
+
+                            if (i < 4) {
+                                let temp_html = `<tr onClick="detail(${idx})" style="cursor:pointer;">
+
+                                                <th scope="row">${name}<img src="new.png" height="30" width="30"></th>
+                                               <td>${date}</td>
+
+                                            </tr>`
+                                $('#til-box').append(temp_html)
+
+                            } else {
+                                let temp_html = `<tr onClick="detail(${idx})" style="cursor:pointer;">
+                                                <th scope="row">${name}</th>
+                                                <td>${date}</td>
+
+                                            </tr>`
+                                $('#til-box').append(temp_html)
+                            }
+                        }
+                    }
+                }
+            )
+        }
+
+
+        function detail(idx) {
+            location.href = "room.html?id="+idx;
+        }
+    </script>
+    <style>
+        .wrap {
+            margin: 50px auto;
+        }
+
+        .input-box {
+            margin: 50px auto;
+            width: 350px;
+        }
+
+        .col-lg-6 {
+            margin: 50px auto;
+        }
+
+        .row {
+            float: right;
+        }
+
+        .navbar-brand {
+            margin-left: 50px;
+        }
+
+        .nav-link {
+
+            margin-left: 100px;
+        }
+
+    </style>
+</head>
+
+
+<body>
+<!-- navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="./home.html">TIL.D.P</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div id="navbar-nav" class="navbar-nav">
+                <a class="nav-link " href="./til_board.html">Write TIL</a>
+                <a class="nav-link" href="./mytil_page.html">My TIL</a>
+                <a class="nav-link" href="https://github.com/">Github</a>
+                <a class="nav-link" href="./my_page.html">myPage</a>
+                <a class="nav-link" onclick="sign_out()">logout</a>
+                <a class="nav-link" onclick="goback()">Back</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<table class="table">
+    <thead class="thead-light">
+    <tr class="text-center">
+        <th scope="col">채팅방</th>
+
+        <div class="wrap">
+    <div class="row">
+        <div class="col-auto mr-auto"></div>
+        <div class="col-auto">
+
+                <input type="text" id="room" name="room" class="form-control">
+                <span><button class="btn btn-secondary" onclick="create_room()">개설하기</button></span>
+
+        </div>
+
+    </div>
+    <div class="container">
+        <table id="til-table" class="table">
+            <thead>
+            <tr>
+                <th scope="col">채팅방 이름</th>
+                <th scope="col">개설날짜</th>
+
+
+            </tr>
+            </thead>
+            <tbody id="til-box">
+            </tbody>
+        </table>
+
+    </div>
+        </div>
+</table>
+
+</body>
+</html>
