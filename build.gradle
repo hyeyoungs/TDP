@@ -34,6 +34,14 @@ dependencies {
     // jwt
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
+
+    // spring-cloud-starter
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.1.RELEASE'
+    // aws
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+}
+
+
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'org.webjars:webjars-locator-core'
     implementation 'org.webjars:sockjs-client:1.0.2'
@@ -49,4 +57,8 @@ dependencies {
 }
 test {
     useJUnitPlatform()
+}
+
+jar {
+    enabled = false
 }

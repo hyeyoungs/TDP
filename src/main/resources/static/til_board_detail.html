@@ -13,10 +13,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
-
+    <!-- Toast CSS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="back.js" rel="script"></script>
     <style>
         .wrap {
             margin: 50px auto;
@@ -226,5 +225,20 @@
     </div>
 
 </div>
+<!-- toast -->
+<div class="position-fixed bottom-0 end-0 p-3 toast-box" style="z-index: 11">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000000">
+        <div class="toast-header">
+            <img src="..." class="rounded me-2" alt="...">
+            <strong class="me-auto" id="til_title">${title}</strong>
+            <small>&times;</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" onclick="toast_close()"></button>
+        </div>
+        <div class="toast-body" id="til_content">
+            ${content}
+        </div>
+    </div>
+</div>
+<!-- toast end -->
 </body>
 </html>
