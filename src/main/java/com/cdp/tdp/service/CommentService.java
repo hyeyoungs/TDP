@@ -19,7 +19,6 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
     private final TilRepository tilRepository;
-
     // 생성자: ProductService() 가 생성될 때 호출됨
     @Autowired
     public CommentService(CommentRepository commentRepository, UserRepository userRepository, TilRepository tilRepository) {

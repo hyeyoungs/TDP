@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -62,7 +61,6 @@ public class Til extends Timestamped {
         this.tilTitle = tilRequestDto.getTilTitle();
         this.til_content = tilRequestDto.getTil_content();
         this.til_view = tilRequestDto.isTil_view();
-
         this.user = user;
     }
 

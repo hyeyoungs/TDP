@@ -1,7 +1,8 @@
 package com.cdp.tdp.service;
 
-import com.cdp.tdp.controller.UserController;
+import com.cdp.tdp.domain.Const;
 import com.cdp.tdp.domain.Til;
+import com.cdp.tdp.domain.Trans;
 import com.cdp.tdp.domain.User;
 import com.cdp.tdp.dto.*;
 import com.cdp.tdp.repository.TilRepository;
@@ -9,7 +10,7 @@ import com.cdp.tdp.repository.UserRepository;
 import com.cdp.tdp.security.kakao.KakaoOAuth2;
 import com.cdp.tdp.security.kakao.KakaoUserInfo;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,24 +20,21 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.sql.SQLException;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final TilRepository tilRepository;
-
     private final FileService fileService;
-
     private final KakaoOAuth2 kakaoOAuth2;
     private final AuthenticationManager authenticationManager;
     private static final String ADMIN_TOKEN = "AAABnv/xRVklrnYxKZ0aHgTBcXukeZygoC";
-
 
 
     @Transactional
@@ -70,7 +68,7 @@ public class UserService {
 
         // 우리 DB 에서 회원 Id 와 패스워드
         // 회원 Id = 카카오 nickname
-        String username = nickname;
+        String username = email;
         // 패스워드 = 카카오 Id + ADMIN TOKEN
         String password = kakaoId + ADMIN_TOKEN;
 
@@ -85,7 +83,7 @@ public class UserService {
             // ROLE = 사용자
 
 
-            kakaoUser = new User(nickname, encodedPassword, email,  kakaoId);
+            kakaoUser = new User(username, encodedPassword, nickname,  kakaoId);
             userRepository.save(kakaoUser);
         }
 
@@ -98,6 +96,28 @@ public class UserService {
 
         return username;
     }
+
+    private final HttpSession httpSession;
+
+    @Autowired
+    public HttpCallService httpCallService;
+
+
+
+    public String sendmessage(String token) {
+
+        String KAKAO_API_HOST="https://kapi.kakao.com";
+        String uri = KAKAO_API_HOST + "/v2/api/talk/memo/send";
+
+        log.info(uri);
+        log.info(Trans.default_msg_param);
+
+        log.info(httpCallService.CallwithToken(Const.POST, uri, token, Trans.default_msg_param));
+        return httpCallService.CallwithToken(Const.POST, uri, token, Trans.default_msg_param);
+    }
+
+
+
 
     public List<UserTilCountDto> getAllUser(){
         List<User> user_list= userRepository.findAll(); // 모든 user 를 리스트에 담음
@@ -128,22 +148,28 @@ public class UserService {
 
     }
     public int TilCount(User user){
-        List<Til> user_tils=user.getTil_list();// 모든 user 를 리스트에 담음
+        List<Til> user_tils = user.getTil_list();// 모든 user 를 리스트에 담음
         return user_tils.size();
     }
 
     @Transactional
     public User updateUser(User user, String nickname, String githubId, MultipartFile imageFile, String about) {
+        UserUpdateDto userUpdateDto = new UserUpdateDto();
+
+        userUpdateDto.setNickname(nickname);
+        userUpdateDto.setGithub_id(githubId);
+        userUpdateDto.setIntroduce(about);
+
         if (imageFile == null){
-            String fileName = user.getPicture();
-            String url = user.getPicture_real();
-            user.updateUser(nickname, githubId, fileName, url, about);
+            userUpdateDto.setPicture(user.getPicture());
+            userUpdateDto.setPicture_real(user.getPicture_real());
         }
         else{
-            String fileName = imageFile.getOriginalFilename();
-            String url = fileService.uploadImage(imageFile);
-            user.updateUser(nickname, githubId, fileName, url, about);
+            userUpdateDto.setPicture(imageFile.getOriginalFilename());
+            userUpdateDto.setPicture_real(fileService.uploadImage(imageFile));
         }
+      
+        user.updateUser(userUpdateDto);
         userRepository.save(user);
         return user;
     }
@@ -152,5 +178,6 @@ public class UserService {
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("no such user"));
         return user;
     }
+
 
 }
