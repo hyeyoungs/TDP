@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -70,10 +71,10 @@ public class ApiTest {
                                 fieldWithPath("username").description("유저명"),
                                 fieldWithPath("password").description("패스워드"),
                                 fieldWithPath("nickname").description("닉네임"),
-                                fieldWithPath("github_id").description("Github 아이디"),
-                                fieldWithPath("introduce").description("유저소개"),
-                                fieldWithPath("picture").description("유저이미지명"),
-                                fieldWithPath("picture_real").description("유저이미지의 실제 위치")
+                                fieldWithPath("github_id").description("Github 아이디").optional().type(JsonFieldType.STRING),
+                                fieldWithPath("introduce").description("유저소개").optional().type(JsonFieldType.STRING),
+                                fieldWithPath("picture").description("유저이미지명").optional().type(JsonFieldType.STRING),
+                                fieldWithPath("picture_real").description("유저이미지의 실제 위치").optional().type(JsonFieldType.STRING)
                         )
                 ));
     }
