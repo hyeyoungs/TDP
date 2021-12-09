@@ -17,6 +17,7 @@
             crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="back.js" rel="script"></script>
 
     <script>
         var roomId;
@@ -40,7 +41,7 @@
                 console.log(roomId);
                 console.log(id);
                 //4. subscribe(path, callback)으로 메세지를 받을 수 있음
-                stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
+                stomp.subscribe('/sub/chat/room/` + roomId, function (chat) {
                     var content = JSON.parse(chat.body);
                     console.log('content',content)
                     var writer = content.writer;
@@ -80,23 +81,23 @@
                 msg.value = '';
             });
         });
-
-        function token_check() {
-            if (localStorage.getItem('token') == null) {
-                alert("로그인 해주세요")
-                location.href = "./index.html"
-
-            }
-        }
-
-        function login_check(options, originalOptions, jqXHR){
-            if(localStorage.getItem('token')) {
-                jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
-            } else {
-                alert("로그인 해주세요")
-                location.href = "./index.html"
-            }
-        }
+        //
+        // function token_check() {
+        //     if (localStorage.getItem('token') == null) {
+        //         alert("로그인 해주세요")
+        //         location.href = "./index.html"
+        //
+        //     }
+        // }
+        //
+        // function login_check(options, originalOptions, jqXHR){
+        //     if(localStorage.getItem('token')) {
+        //         jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
+        //     } else {
+        //         alert("로그인 해주세요")
+        //         location.href = "./index.html"
+        //     }
+        // }
         $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
             login_check(options, originalOptions, jqXHR);
         });
@@ -105,7 +106,7 @@
         function read_room() {
             $.ajax({
                 type: "GET",
-                url: `/room/${id}`,
+                url: `${domainURL}/room/${id}`,
                 data: {},
                 success: function (response) {
                     roomId = response['roomId'];
@@ -118,7 +119,7 @@
         function read_user() {
             $.ajax({
                 type: "GET",
-                url: '/user',
+                url: '${domainURL}/user',
                 async: false,
                 success: function (response) {
                     console.log(response)

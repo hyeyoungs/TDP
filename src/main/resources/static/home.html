@@ -58,6 +58,7 @@
   <script src="assets/js/plugins.js"></script>
   <script src="assets/js/main.js"></script>
   <script src="back.js" rel="script"></script>
+
   <script>
     let flag = 0;
     let user_info = localStorage.getItem("username");
@@ -79,21 +80,21 @@
       }, 86400000);
     });
 
-    function token_check(){
-      if (localStorage.getItem('token') == null) {
-        alert("로그인 해주세요")
-        location.href = "./index.html"
-      }
-    }
-
-    function login_check(options, originalOptions, jqXHR){
-      if(localStorage.getItem('token')) {
-        jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
-      } else {
-        alert("로그인 해주세요")
-        location.href = "./index.html"
-      }
-    }
+    // function token_check(){
+    //   if (localStorage.getItem('token') == null) {
+    //     alert("로그인 해주세요")
+    //     location.href = "./index.html"
+    //   }
+    // }
+    //
+    // function login_check(options, originalOptions, jqXHR){
+    //   if(localStorage.getItem('token')) {
+    //     jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    //   } else {
+    //     alert("로그인 해주세요")
+    //     location.href = "./index.html"
+    //   }
+    // }
 
     $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
       login_check(options, originalOptions, jqXHR);
@@ -102,7 +103,7 @@
     function list_til() {
       $.ajax({
         type: "GET",
-        url: "/til_board",
+        url: `${domainURL}/til_board`,
         data: {},
         success: function (response) {
           let all_til = response;
@@ -138,7 +139,7 @@
       let result_date;
       $.ajax({
         type: "GET",
-        url: "/til/user",
+        url: `${domainURL}/til/user`,
         data: {},
         success: function (response) {
           let all_til = response;
@@ -175,7 +176,7 @@
     function rank_til() {
         $.ajax({
                 type: "GET",
-                url: "/til/ranker",
+                url: `${domainURL}/til/ranker`,
                 data: {},
                 success: function (response) {
                     for (let i = 0; i < 3; i++) {
@@ -205,7 +206,7 @@
       localStorage.removeItem('token');
       localStorage.removeItem('username');
       alert('로그아웃!')
-      window.location.href = "/"
+      window.location.href = `${domainURL}/index.html`
     }
 
 
@@ -218,7 +219,7 @@
       console.log(access_token);
       $.ajax({
         type: "POST",
-        url: path,
+        url: `${domainURL}/message`,
         contentType: "application/json",
         data: JSON.stringify({'token':access_token}),
         success: (data) => { alert('메시지가 전송되었습니다!'); }

@@ -32,7 +32,7 @@
 <script>
     $(document).ready(function () {
         if (localStorage.getItem('token')) {
-            location.href = "./home.html"
+            location.href = `${domainURL}/home.html`
         }
     });
 
@@ -100,7 +100,7 @@
         }
         $.ajax({
             type: 'POST',
-            url: `/login`,
+            url: `${domainURL}/login`,
             contentType: "application/json",
             data: JSON.stringify(info),
             success: function (response) {
@@ -125,7 +125,7 @@
         }
             $.ajax({
                 type: 'POST',
-                url: `/signup`,
+                url: `${domainURL}/signup`,
                 contentType: "application/json",
                 data: JSON.stringify(info),
                 success: function (response) {
@@ -171,7 +171,7 @@
                 let access_token=authObj['access_token'];
                 $.ajax({
                     type: 'POST',
-                    url: `/login/kakao`,
+                    url: `${domainURL}/login/kakao`,
                     contentType: "application/json",
                     data: JSON.stringify({'token':access_token}),
                     success: function (response) {
