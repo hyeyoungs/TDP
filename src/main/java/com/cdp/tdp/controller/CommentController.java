@@ -22,7 +22,7 @@ public class CommentController {
     private final UserService userService;
 
 
-    @GetMapping("/til/comments/{id}")
+    @GetMapping("/til/{id}/comments")
     public List getComment(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
         List<Comment> comments = commentService.getComment(id);
         User user = userService.getUser(userDetails.getUser().getId());
