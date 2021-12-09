@@ -53,20 +53,8 @@
             login_check(options, originalOptions, jqXHR);
         });
 
-        function read_user() {
-            $.ajax({
-                type: "GET",
-                url: `${domainURL}/user`,
-                async: false,
-                success: function (response) {
-                    user_info = response;
-                }
-            });
-            return user_info;
-        }
-
-        async function read_user_profile(){
-            let user_info = await read_user();
+        function read_user_profile(){
+            let user_info = read_user();
             $('.user_id_append').text(user_info['username']);
             $('.user_nickname_append').text(user_info['nickname']);
             $('.user_profile_info_append').text(user_info['introduce']);
@@ -95,7 +83,7 @@
                 data: JSON.stringify(info),
                 success: function (response) { // 성공하면
                     alert("작성 완료!")
-                    window.location.href = `${domainURL}/til_board.html`
+                    window.location.href = `/til_board.html`
                 }
             });
         }

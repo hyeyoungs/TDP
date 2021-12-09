@@ -37,3 +37,14 @@ function goback() {
     window.history.back();
 }
 
+function read_user() {
+    $.ajax({
+        type: "GET",
+        url: `${domainURL}/user`,
+        async: false,
+        success: function (response) {
+            user_info = response;
+        }
+    });
+    return user_info;
+}
