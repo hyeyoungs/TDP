@@ -32,27 +32,10 @@
     <script src="back.js" rel="script"></script>
     <script>
         $(document).ready(function () {
-            token_check();
             list_user_til();
             read_user_profile();
             append_github_id();
         });
-
-        function token_check(){
-            if (localStorage.getItem('token') == null) {
-                alert("로그인 해주세요")
-                location.href = `${domainURL}/index.html`
-            }
-        }
-
-        function login_check(options, originalOptions, jqXHR){
-            if(localStorage.getItem('token')) {
-                jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
-            } else {
-                alert("로그인 해주세요")
-                location.href = `${domainURL}/index.html`
-            }
-        }
 
         $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
             login_check(options, originalOptions, jqXHR);
@@ -224,17 +207,6 @@
             });
         }
 
-
-        function goback() {
-            window.history.back();
-        }
-
-        // function sign_out() {
-        //     localStorage.removeItem('token');
-        //     localStorage.removeItem('username');
-        //     alert('로그아웃!')
-        //     window.location.href = "/"
-        // }
     </script>
 
     <style>
