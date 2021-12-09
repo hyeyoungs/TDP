@@ -86,16 +86,6 @@
             })
         }
 
-        function read_user() {
-            $.ajax({
-                type: "GET",
-                url: '${domainURL}/user',
-                async: false,
-                success: function (response) {
-                    username = response['username']
-                }
-            });
-        }
 
     </script>
     <style>
