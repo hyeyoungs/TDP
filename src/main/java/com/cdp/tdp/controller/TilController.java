@@ -42,6 +42,11 @@ public class TilController {
 
     private final TilService tilService;
 
+    @GetMapping("/tils")
+    public List<Til> getAllTil(){
+        return tilService.getAllTil();
+    }
+
     @GetMapping("/til_board")
     public TilListDto getTilList(@RequestParam int page) {
         log.info("total page = {}", page);

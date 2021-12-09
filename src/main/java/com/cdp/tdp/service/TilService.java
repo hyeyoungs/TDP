@@ -29,6 +29,10 @@ public class TilService {
     private final UserRepository userRepository;
     private final TagRepository tagRepository;
 
+    public List<Til> getAllTil() {
+        return tilRepository.findAllByOrderByIdDesc();
+    }
+
     public Page<Til> getTilList(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return tilRepository.findAllByOrderByIdDesc(pageable);
