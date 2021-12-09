@@ -39,13 +39,11 @@
             window.location.href = "/"
         }
         function create_room() {
-            alert($('#room').val())
+
             let info = {
                 roomName : $('#room').val()
             }
 
-
-            alert(info.roomName)
             $.ajax({
                 type: "POST",
                 url: "/room",
