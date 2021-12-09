@@ -71,13 +71,13 @@
         }
       }, 86400000);
     });
-    var sockJs = new SockJS(${domainURL}+"/stomp/chat");
+    var sockJs = new SockJS(domainURL+"/stomp/chat");
     //1. SockJS를 내부에 들고있는 stomp를 내어줌
     stomp = Stomp.over(sockJs);
     //2. connection이 맺어지면 실행
     stomp.connect({}, function () {
       //4. subscribe(path, callback)으로 메세지를 받을 수 있음
-      stomp.subscribe(${domainURL}+"/sub/chat/home/", function (chat) {
+      stomp.subscribe(domainURL+"/sub/chat/home/", function (chat) {
         let content = JSON.parse(chat.body);
         count = content.userCount;
         let connector = content.message;
@@ -185,10 +185,6 @@
                 }
             });
         }
-
-  function chatstart() {
-      window.location.href = `/rooms.html`;
-  }
 
     </script>
 </head>
@@ -351,7 +347,7 @@
     <!--End off Home Sections-->
 <div style="text-align: center" class="page-header">
     <h2 class="user-count" style="display: inline"><strong>0</strong></h2><h2 style="display: inline"><strong>명 채팅서버 접속중</strong></h2>
-    <p><button type="button" class="home_btn_chatlist btn-primary" onclick="chatstart()" >채팅 리스트</button></p>
+    <p><button type="button" class="home_btn_chatlist btn-primary" onClick="location.href='./rooms.html'" >채팅 리스트</button></p>
 </div>
 
     <!--About Sections-->
