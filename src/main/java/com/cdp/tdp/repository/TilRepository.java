@@ -22,6 +22,9 @@ public interface TilRepository extends JpaRepository<Til, Long> {
     @Query("update Til til set til.til_like = til.til_like - 1 where til.id = :id")
     int minusLike(Long id);
     List<Til> findByUser(User user);
+    List<Til> findAllByUser(User user);
+    List<Til> findAllByTilTitle(String til_title);
+    List<Til> findAllByTagsName(String keyword);
 }
 
 

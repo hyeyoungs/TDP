@@ -1,6 +1,7 @@
 package com.cdp.tdp.controller;
 
 import com.cdp.tdp.domain.Comment;
+import com.cdp.tdp.domain.Til;
 import com.cdp.tdp.domain.User;
 import com.cdp.tdp.dto.CommentRequestDto;
 import com.cdp.tdp.security.UserDetailsImpl;
@@ -22,7 +23,7 @@ public class CommentController {
     private final UserService userService;
 
 
-    @GetMapping("/til/comments/{id}")
+    @GetMapping("/til/{id}/comments")
     public List getComment(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
         List<Comment> comments = commentService.getComment(id);
         User user = userService.getUser(userDetails.getUser().getId());
