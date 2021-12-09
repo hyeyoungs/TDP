@@ -1,6 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.5.7'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id "org.asciidoctor.convert" version "1.5.9.2" // API 문서 자동 생성 (Spring Rest Docs)
     id 'java'
 }
 
@@ -34,8 +35,32 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
     // spring-cloud-starter
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.1.RELEASE'
+    // Spring Rest Docs
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    implementation 'com.google.code.gson:gson:2.8.8'
+    asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.4.RELEASE'
+}
+
+ext {
+    set('snippetsDir', file("build/generated-snippets"))
 }
 
 test {
+    outputs.dir snippetsDir
     useJUnitPlatform()
+    filter {
+        includeTestsMatching "com.cdp.tdp.controller.*"
+    }
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
+bootJar {
+    dependsOn asciidoctor
+    from ("${asciidoctor.outputDir}/html5") {
+        into "/static/docs"
+    }
 }
