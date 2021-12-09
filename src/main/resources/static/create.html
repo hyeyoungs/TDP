@@ -69,7 +69,6 @@
         $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
             login_check(options, originalOptions, jqXHR);
         });
-
         function read_user() {
             $.ajax({
                 type: "GET",
