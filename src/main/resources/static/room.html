@@ -23,6 +23,7 @@
         var roomName;
         var username;
         let id;
+        var stomp;
         $(document).ready(function () {
             id = window.location.search.split("=")[1]
             token_check();
@@ -32,7 +33,7 @@
 
             var sockJs = new SockJS("/stomp/chat");
             //1. SockJS를 내부에 들고있는 stomp를 내어줌
-            var stomp = Stomp.over(sockJs);
+            stomp = Stomp.over(sockJs);
 
             //2. connection이 맺어지면 실행
             stomp.connect({}, function () {
@@ -65,8 +66,11 @@
                 });
 
                 //3. send(path, header, message)로 메세지를 보낼 수 있음
-                stomp.send('/pub/chat/enter', {}, JSON.stringify({roomId: roomId, writer: username, message:"hello"}))
+                stomp.send('/pub/chat/enter', {}, JSON.stringify({
+                    roomId: roomId, writer: username, message:"enter", userCount:0}))
             });
+
+
 
             $("#button-send").on("click", function (e) {
                 var msg = document.getElementById("msg");
@@ -75,11 +79,23 @@
                 stomp.send('/pub/chat/message', {}, JSON.stringify({
                     roomId: roomId,
                     message: msg.value,
-                    writer: username
+                    writer: username,
+                    userCount:0
+
                 }));
                 msg.value = '';
             });
         });
+
+        function disconnect() {
+            stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message:"exit"}))
+            if (stomp !== null) {
+                stomp.disconnect();
+            }
+        }
+        window.onbeforeunload = function(){
+            disconnect();
+        }
 
         function token_check() {
             if (localStorage.getItem('token') == null) {

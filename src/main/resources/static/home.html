@@ -54,6 +54,8 @@
   <script src="assets/js/slick.min.js"></script>
   <script src="assets/js/jquery.collapse.js"></script>
   <script src="assets/js/bootsnav.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
   <!-- paradise slider js -->
   <script src="assets/js/plugins.js"></script>
   <script src="assets/js/main.js"></script>
@@ -61,7 +63,7 @@
   <script>
     let flag = 0;
     let user_info = localStorage.getItem("username");
-
+    let count;
     $(document).ready(function () {
       token_check();
       list_til();
@@ -78,45 +80,62 @@
         }
       }, 86400000);
     });
+    var sockJs = new SockJS("/stomp/chat");
+    //1. SockJS를 내부에 들고있는 stomp를 내어줌
+    stomp = Stomp.over(sockJs);
 
-    function token_check(){
-      if (localStorage.getItem('token') == null) {
-        alert("로그인 해주세요")
-        location.href = "./index.html"
+    //2. connection이 맺어지면 실행
+    stomp.connect({}, function () {
+
+      //4. subscribe(path, callback)으로 메세지를 받을 수 있음
+      stomp.subscribe("/sub/chat/home/", function (chat) {
+        var content = JSON.parse(chat.body);
+        count = content.userCount;
+        let connector = content.message;
+        $('#user-count').text(count);
+
+
+      });
+    })
+
+      function token_check() {
+        if (localStorage.getItem('token') == null) {
+          alert("로그인 해주세요")
+          location.href = "./index.html"
+        }
       }
-    }
 
-    function login_check(options, originalOptions, jqXHR){
-      if(localStorage.getItem('token')) {
-        jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
-      } else {
-        alert("로그인 해주세요")
-        location.href = "./index.html"
+      function login_check(options, originalOptions, jqXHR) {
+        if (localStorage.getItem('token')) {
+          jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
+        } else {
+          alert("로그인 해주세요")
+          location.href = "./index.html"
+        }
       }
-    }
 
-    $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
-      login_check(options, originalOptions, jqXHR);
-    });
+      $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+        login_check(options, originalOptions, jqXHR);
+      });
 
-    function list_til() {
-      $.ajax({
-        type: "GET",
-        url: "/til_board",
-        data: {},
-        success: function (response) {
-          let all_til = response;
-          let max = 6;
-          if (all_til.length < 6) {
-            max = all_til.length;
-          }
-          for (let i = 0; i < max; i++) {
-            let title = all_til[i]['tilTitle'];
-            let user = all_til[i]['user']['nickname'];
-            let content = all_til[i]['til_content'];
-            let day = all_til[i]['createdAt'];
+      function list_til() {
+        $.ajax({
+          type: "GET",
+          url: "/til_board",
+          data: {},
+          success: function (response) {
+            let all_til = response;
+            let max = 6;
+            if (all_til.length < 6) {
+              max = all_til.length;
+            }
+            for (let i = 0; i < max; i++) {
+              let title = all_til[i]['tilTitle'];
+              let user = all_til[i]['user']['nickname'];
+              let content = all_til[i]['til_content'];
+              let day = all_til[i]['createdAt'];
 
-            let tempHtml=`
+              let tempHtml = `
             <div class="col-md-4">
               <div class="service_item">
                 <i class="icofont icofont-light-bulb"></i>
@@ -126,104 +145,104 @@
                 <h5>${user}</h5>
               </div>
             </div>`
-            console.log(tempHtml)
-            $('#board-main').append(tempHtml)
-          }
-        }
-      })
-    }
-
-    function read_flag() {
-      let today = new Date();
-      let result_date;
-      $.ajax({
-        type: "GET",
-        url: "/til/user",
-        data: {},
-        success: function (response) {
-          let all_til = response;
-          if (all_til.length == 0){
-            $(".test").css("background-color", 'red');
-          }
-          for (let i = 0; i < all_til.length; i++) {
-            let day = all_til[i]['createdAt'];
-            result_date = new Date(day);
-            console.log(today.toDateString());
-            console.log(result_date.toDateString());
-            try {
-              if (today.toDateString() === result_date.toDateString()) {
-                $(".test").css("background-color", 'blue');
-
-              } else {
-                $(".test").css("background-color", 'red');// display 속성을 block 으로 바꾼다.
-
-              }
-            }catch (e) {
-              console.log("read_flag error");
+              console.log(tempHtml)
+              $('#board-main').append(tempHtml)
             }
           }
-        }
-      })
-    }
+        })
+      }
 
-    function logMyErrors(){
-      $(".test").css("background-color", 'black');// display 속성을 block 으로 바꾼다.
-    }
-
-
-
-    function rank_til() {
+      function read_flag() {
+        let today = new Date();
+        let result_date;
         $.ajax({
-                type: "GET",
-                url: "/til/ranker",
-                data: {},
-                success: function (response) {
+          type: "GET",
+          url: "/til/user",
+          data: {},
+          success: function (response) {
+            let all_til = response;
+            if (all_til.length == 0) {
+              $(".test").css("background-color", 'red');
+            }
+            for (let i = 0; i < all_til.length; i++) {
+              let day = all_til[i]['createdAt'];
+              result_date = new Date(day);
+              console.log(today.toDateString());
+              console.log(result_date.toDateString());
+              try {
+                if (today.toDateString() === result_date.toDateString()) {
+                  $(".test").css("background-color", 'blue');
+
+                } else {
+                  $(".test").css("background-color", 'red');// display 속성을 block 으로 바꾼다.
+
+                }
+              } catch (e) {
+                console.log("read_flag error");
+              }
+            }
+          }
+        })
+      }
+
+      function logMyErrors() {
+        $(".test").css("background-color", 'black');// display 속성을 block 으로 바꾼다.
+      }
+
+
+      function rank_til() {
+        $.ajax({
+                  type: "GET",
+                  url: "/til/ranker",
+                  data: {},
+                  success: function (response) {
                     for (let i = 0; i < 3; i++) {
-                        let username = response[i]['username'];
-                        let til = response[i]['til_count'];
-                        if(til===0){
-                          continue
-                        }else{
-                          let temp_html=
-                                  `<h6 class="open"><i class="about_accordion wow fadeIn faq_main_content fa fa-angle-right"></i> ${username}</h6>
+                      let username = response[i]['username'];
+                      let til = response[i]['til_count'];
+                      if (til === 0) {
+                        continue
+                      } else {
+                        let temp_html =
+                                `<h6 class="open"><i class="about_accordion wow fadeIn faq_main_content fa fa-angle-right"></i> ${username}</h6>
                                 <div class="open">
                                   <div class="content">
                                     <p id="rank_countTil">${til}</p>
                                   </div>
                                 </div>`
 
-                          $('#faq_main_content').append(temp_html);
+                        $('#faq_main_content').append(temp_html);
 
-                        }
-                        }
+                      }
+                    }
+                  }
                 }
-            }
         )
-    }
+      }
 
-    function sign_out() {
-      localStorage.removeItem('token');
-      localStorage.removeItem('username');
-      alert('로그아웃!')
-      window.location.href = "/"
-    }
-
-
+      function sign_out() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
+        alert('로그아웃!')
+        window.location.href = "/"
+      }
 
 
-    function REST_Call (path)
-    {
+      function REST_Call(path) {
 
-      let access_token=localStorage.getItem('access_token')
-      console.log(access_token);
-      $.ajax({
-        type: "POST",
-        url: path,
-        contentType: "application/json",
-        data: JSON.stringify({'token':access_token}),
-        success: (data) => { alert('메시지가 전송되었습니다!'); }
-      });
-    }
+        let access_token = localStorage.getItem('access_token')
+        console.log(access_token);
+        $.ajax({
+          type: "POST",
+          url: path,
+          contentType: "application/json",
+          data: JSON.stringify({'token': access_token}),
+          success: (data) => {
+            alert('메시지가 전송되었습니다!');
+          }
+        });
+      }
+
+
 
 
 
@@ -247,6 +266,9 @@
     margin-left: 50px;
     margin-top: 0px;
 
+  }
+  .middle {
+    text-align: center;
   }
 
 </style>
@@ -379,7 +401,9 @@
   </section>
   <!--End off Home Sections-->
 
-
+  <div style="text-align: center" class="page-header">
+    <h2 id="user-count" style="display: inline"><strong>0</strong></h2><h2 style="display: inline"><strong>명이 협업중입니다.</strong></h2>
+  </div>
 
   <!--About Sections-->
   <section id="about" class="about roomy-100">
