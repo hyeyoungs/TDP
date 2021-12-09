@@ -3,16 +3,9 @@ package com.cdp.tdp.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
 @Setter
 @Getter
 public class UserUpdateDto {
-
-
 
     private String nickname;
 
@@ -22,6 +15,6 @@ public class UserUpdateDto {
 
     private String picture;
 
-//    private String picture_real;
+    private String picture_real;
 
 }
