@@ -28,17 +28,15 @@
         });
 
         function create_room() {
-
             let info = {
                 roomName : $('#room').val()
             }
-
             $.ajax({
                 type: "POST",
                 url: `${domainURL}/room`,
                 contentType: "application/json",
                 data: JSON.stringify(info),
-                success: function (response) {// 성공하
+                success: function (response) {
                     // window.location.href = "/rooms.html"
                 }
             });
