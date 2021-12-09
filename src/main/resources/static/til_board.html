@@ -43,13 +43,12 @@
             if (isSearch === 1){
                 url = `${domainURL}/til/search?page=${page}&keyword=${keyword}&setting=${setting}`;
             }
-            console.log(url);
+
             $.ajax({
                     type: "GET",
                     url: url,
                     data: {},
                     success: function (response) {
-                        console.log(response);
                         let til_list = response['tils']['content'];
                         for (let i = 0; i < til_list.length; i++) {
                             let tags = '';
@@ -91,10 +90,12 @@
         function detail(til_idx) {
             location.href = `/detail.html?idx=`+til_idx;
         }
+
         function til_search() {
             isSearch = 1
             read_til_list(1, isSearch)
         }
+
         function search_setting(a) {
             $('#setting-btn').text(a)
         }
@@ -219,5 +220,21 @@
     </div>
 
 </div>
+<!-- toast -->
+<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000000"
+         style="position: absolute; top: 0; right: 0;">
+        <div class="toast-header">
+            <i class="bi bi-x-lg"></i>
+            <strong class="me-auto" id="til_title">${title}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"
+                    onclick="toast_close()"></button>
+        </div>
+        <div class="toast-body" id="til_content">
+            ${content}
+        </div>
+    </div>
+</div>
+<!-- toast end -->
 </body>
 </html>

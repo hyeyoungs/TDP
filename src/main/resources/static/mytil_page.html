@@ -71,7 +71,7 @@
         async function append_github_id(){
             let user_info = await read_user();
             let github_id = user_info['github_id']
-            if (github_id == null || github_id == ""){
+            if (github_id == null || github_id === ""){
                 $('.github_id_tag').hide();
             }
         }
@@ -92,9 +92,9 @@
 
         function make_list_my_til(til){
             let view_str = '';
-            if (til['til_view'] == 1) {
+            if (til['til_view'] === 1) {
                 view_str = '공개';
-            } else if (til['til_view'] == 0) {
+            } else if (til['til_view'] === 0) {
                 view_str = '비공개';
             } else {
                 alert("공개 범위의 값이 잘못된 형식 입니다.");
@@ -382,13 +382,14 @@
     </div>
 </div>
 <!-- toast -->
-<div class="position-fixed bottom-0 end-0 p-3 toast-box" style="z-index: 11">
-    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000000">
+<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000000"
+         style="position: absolute; top: 0; right: 0;">
         <div class="toast-header">
-            <img src="..." class="rounded me-2" alt="...">
+            <i class="bi bi-x-lg"></i>
             <strong class="me-auto" id="til_title">${title}</strong>
-            <small>&times;</small>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" onclick="toast_close()"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"
+                    onclick="toast_close()"></button>
         </div>
         <div class="toast-body" id="til_content">
             ${content}

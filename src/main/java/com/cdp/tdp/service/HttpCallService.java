@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class HttpCallService {
 
     public String Call(String method, String reqURL, String header, String param) {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         try {
             String response = "";
             URL url = new URL(reqURL);
@@ -21,7 +21,6 @@ public class HttpCallService {
             conn.setRequestMethod(method);
             conn.setRequestProperty("Authorization", header);
             if(param != null) {
-                log.info("param : " + param);
                 conn.setDoOutput(true);
                 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
                 bw.write(param);
@@ -36,29 +35,22 @@ public class HttpCallService {
                     scanner.useDelimiter("\\Z");
                     response = scanner.next();
                 }
-                log.info("error response : " + response);
             }
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = "";
             while ((line = br.readLine()) != null) {
-                result += line;
+                result.append(line);
             }
-            System.out.println("response body : " + result);
-            log.info(result);
             br.close();
         } catch (IOException e) {
             return e.getMessage();
         }
-        return result;
+        return result.toString();
     }
-//
-//    public String CallwithToken(String method, String reqURL, String access_Token) {
-//        return CallwithToken(method, reqURL, access_Token, null);
-//    }
+
 
     public String CallwithToken(String method, String reqURL, String access_Token, String param)
     {
-
         String header = "Bearer " + access_Token;
         return Call(method, reqURL, header, param);
     }
