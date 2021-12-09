@@ -1,6 +1,6 @@
 let urlEndpoint = '/subscribe';
 let eventSource = new EventSource(urlEndpoint);
-let domainURL= 'https://api.tildp.shop';
+let domainURL= 'http://api.tildp.shop';
 
 eventSource.addEventListener("latestNews", function (event) {
     let articleData = JSON.parse(event.data);
