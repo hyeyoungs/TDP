@@ -1,16 +1,16 @@
 package com.cdp.tdp.service;
 
-import com.cdp.tdp.domain.Comment;
 import com.cdp.tdp.domain.Tag;
 import com.cdp.tdp.domain.Til;
 import com.cdp.tdp.domain.User;
 import com.cdp.tdp.dto.TilRequestDto;
-import com.cdp.tdp.repository.CommentRepository;
 import com.cdp.tdp.repository.TagRepository;
 import com.cdp.tdp.repository.TilRepository;
 import com.cdp.tdp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,19 +23,20 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class TilService {
+
     private final TilRepository tilRepository;
     private final UserRepository userRepository;
     private final TagRepository tagRepository;
 
-    public List<Til> getAllTil() {
-        return tilRepository.findAllByOrderByIdDesc();
+    public Page<Til> getTilList(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return tilRepository.findAllByOrderByIdDesc(pageable);
     }
 
     public Til createTil(TilRequestDto tilRequestDto, Long id) throws SQLException {
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("no such user"));
 
         Til til = new Til(tilRequestDto, user);
-        //System.out.print(til);
         tilRepository.save(til);
 
         if(!(tilRequestDto.getTags().isEmpty())) {
@@ -57,8 +58,6 @@ public class TilService {
                 () -> new NullPointerException("해당 아이디가 존재하지 않습니다")
         );
     }
-
-
 
     public void deleteTil(Long id) {
         tilRepository.deleteById(id);
@@ -85,30 +84,17 @@ public class TilService {
         tilRepository.save(til);
     }
 
+    public Page<Til> SearchTil(int page, int size, String keyword, String setting) {
+        Pageable pageable = PageRequest.of(page, size);
 
-    public List<Til> SearchTil(String keyword,String setting)
-    {
-        if(setting.equals("제목"))
-        {
-
-            return tilRepository.findAllByTilTitle(keyword);
-        }
-        else if(setting.equals("작성자"))
-        {
-
+        if(setting.equals("제목")) {  return tilRepository.findAllByTilTitle(keyword, pageable);    }
+        else if(setting.equals("작성자")) {
             User user = userRepository.findByUsername(keyword)
                     .orElseThrow(() -> new UsernameNotFoundException("로그인 오류"));
-            return tilRepository.findAllByUser(user);
-
+            return tilRepository.findAllByUser(user, pageable);
         }
-
-        else // 태그
-        {
-
-            return tilRepository.findAllByTagsName(keyword);
-
-
-        }
+        // 태그
+        else {  return tilRepository.findAllByTagsName(keyword, pageable);    }
     }
 
 }
