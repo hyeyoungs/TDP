@@ -29,7 +29,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
+    <script src="back.js" rel="script"></script>
     <script>
         $(document).ready(function () {
             token_check();
@@ -41,7 +41,7 @@
         function token_check(){
             if (localStorage.getItem('token') == null) {
                 alert("로그인 해주세요")
-                location.href = "./index.html"
+                location.href = `${domainURL}/index.html`
             }
         }
 
@@ -50,7 +50,7 @@
                 jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
             } else {
                 alert("로그인 해주세요")
-                location.href = "./index.html"
+                location.href = `${domainURL}/index.html`
             }
         }
 
@@ -61,7 +61,7 @@
         function read_user() {
             $.ajax({
                 type: "GET",
-                url: "/user",
+                url: `${domainURL}/user`,
                 async: false,
                 success: function (response) {
                     user_info = response;
@@ -96,7 +96,7 @@
         async function list_user_til() {
             $.ajax({
                 type: "GET",
-                url: "/til/user",
+                url: `${domainURL}/til/user`,
                 data: {},
                 success: function (response) {
                     let my_til = response;
@@ -168,7 +168,7 @@
         function get_til(idx){
             $.ajax({
                 type: "GET",
-                url: `/til_board/${idx}`,
+                url: `${domainURL}/til_board/${idx}`,
                 data: {},
                 success: function (response){
                     let title = response['tilTitle']
@@ -191,7 +191,7 @@
 
             $.ajax({
                 type: "PUT",
-                url: `/til_board/${idx}`,
+                url: `${domainURL}/til_board/${idx}`,
                 contentType: "application/json",
                 data: JSON.stringify(info),
                 success: function (response){
@@ -204,7 +204,7 @@
         function delete_til(idx){
             $.ajax({
                 type: "DELETE",
-                url: `/til_board/${idx}`,
+                url: `${domainURL}/til_board/${idx}`,
                 success: function (response){
                     alert("삭제 완료!");
                     window.location.reload();
@@ -215,7 +215,7 @@
         function update_view(idx){
             $.ajax({
                 type: "PUT",
-                url: `/til_board/${idx}/view`,
+                url: `${domainURL}/til_board/${idx}/view`,
                 data: {},
                 success: function (response){
                     alert("공개/비공개 변경 완료!");
@@ -229,12 +229,12 @@
             window.history.back();
         }
 
-        function sign_out() {
-            localStorage.removeItem('token');
-            localStorage.removeItem('username');
-            alert('로그아웃!')
-            window.location.href = "/"
-        }
+        // function sign_out() {
+        //     localStorage.removeItem('token');
+        //     localStorage.removeItem('username');
+        //     alert('로그아웃!')
+        //     window.location.href = "/"
+        // }
     </script>
 
     <style>

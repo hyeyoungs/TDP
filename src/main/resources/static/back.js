@@ -1,6 +1,6 @@
 let urlEndpoint = '/subscribe';
 let eventSource = new EventSource(urlEndpoint);
-
+let domainURL= 'https://www.tildp.shop/'
 eventSource.addEventListener("latestNews", function (event) {
     let articleData = JSON.parse(event.data);
     let title = articleData.tilTitle;
@@ -13,4 +13,29 @@ eventSource.addEventListener("latestNews", function (event) {
 
 function toast_close(){
     $('#liveToast').toast('dispose')
+}
+
+
+function token_check(){
+    if (localStorage.getItem('token') == null) {
+        alert("로그인 해주세요")
+        location.href = `${domainURL}/index.html`
+    }
+}
+
+function login_check(options, originalOptions, jqXHR){
+    if(localStorage.getItem('token')) {
+        jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    } else {
+        alert("로그인 해주세요")
+        location.href =  `${domainURL}/index.html`
+    }
+}
+
+
+function sign_out() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    alert('로그아웃!')
+    window.location.href = "/"
 }
