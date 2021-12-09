@@ -77,7 +77,7 @@
     //2. connection이 맺어지면 실행
     stomp.connect({}, function () {
       //4. subscribe(path, callback)으로 메세지를 받을 수 있음
-      stomp.subscribe("http://api.tildp.shop/sub/chat/home/", function (chat) {
+      stomp.subscribe("/sub/chat/home/", function (chat) {
         let content = JSON.parse(chat.body);
         count = content.userCount;
         let connector = content.message;

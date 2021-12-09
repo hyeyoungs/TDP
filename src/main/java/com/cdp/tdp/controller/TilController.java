@@ -58,7 +58,6 @@ public class TilController {
                 .page(tils.getNumber())
                 .size(tils.getSize())
                 .totalPages(tils.getTotalPages()).build();
-        log.info("tilList Value = {}", tilList);
         return tilList;
     }
 
