@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Title | TIL.D.P</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap tags -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+          crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="
+    https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet"
+          id="bootstrap-css">
+    <script src="back.js" rel="script"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+    <!-- Bulma CSS tags -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Toast CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="back.js" rel="script"></script>
+    <style>
+        body {
+            background-color: #9fcdff;
+        }
+
+        .navbar-brand {
+            margin-left: 50px;
+        }
+
+        .nav-link {
+
+            margin-left: 100px;
+        }
+
+        section {
+            width: 600px;
+            max-width: 100vw;
+            max-height: 100vh;
+            margin: auto;
+        }
+
+        figure{
+            margin-right: 50px;
+        }
+
+        /* Reset Bootstrap */
+        .dropdown-toggle::after {
+            content: none;
+            display: none;
+        }
+    </style>
+</head>
+<script>
+    $(document).ready(function () {
+        token_check();
+        read_user_profile();
+        append_github_id();
+    });
+
+
+
+    $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+        login_check(options, originalOptions, jqXHR);
+    });
+
+    function read_user() {
+        $.ajax({
+            type: "GET",
+            url: `${domainURL}/user`,
+            async: false,
+            success: function (response) {
+                user_info = response;
+                console.log(user_info);
+            }
+        });
+        return user_info;
+    }
+
+    async function read_user_profile(){
+        let user_info = await read_user();
+        $('.user_id_append').text(user_info['username']);
+        $('.user_nickname_append').text(user_info['nickname']);
+        $('.user_profile_info_append').text(user_info['introduce']);
+        $('.user_profile_pic_append').text(user_info['picture']);
+        $('.github_id_append').text(user_info['github_id']);
+        $('.user_id_append').val(user_info['username']);
+        $('.user_nickname_append').val(user_info['nickname']);
+        $('.user_profile_info_append').val(user_info['introduce']);
+        $('.user_profile_pic_append').val(user_info['picture']);
+        $('.user_profile_pic_real_append').attr('src', user_info['picture_real']);
+        $('.github_id_append').val(user_info['github_id']);
+    }
+
+    async function append_github_id(){
+        let user_info = await read_user();
+        let github_id = user_info['github_id']
+        if (github_id == null || github_id == ""){
+            $('.github_id_tag').hide();
+        }
+    }
+
+    function goback() {
+        window.history.back();
+    }
+
+    function update_profile() {
+        let info = new FormData();
+        info.append("nickname", $('#input-nickname').val());
+        info.append("github_id", $('#input-github-id').val());
+        info.append("file", $('#input-pic')[0].files[0]);
+        info.append("about", $("#textarea-about").val())
+        console.log($('#input-pic')[0].files[0]);
+        console.log(info);
+        $.ajax({
+            type: "PUT",
+            url: `${domainURL}/user/profile`,
+            enctype: 'multipart/form-data',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: info,
+            success: function (response) {
+                alert('업데이트 되었습니다!')
+                window.location.reload();
+            },
+            fail: function (err) {
+                alert("fail");
+            }
+        });
+    }
+
+
+    // function sign_out() {
+    //     localStorage.removeItem('token');
+    //     localStorage.removeItem('username');
+    //     alert('로그아웃!')
+    //     window.location.href = "/"
+    // }
+
+</script>
+<body>
+<!-- navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="./home.html">TIL.D.P</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div id="navbar-nav" class="navbar-nav">
+                <a class="nav-link " href="./til_board.html">Write TIL</a>
+                <a class="nav-link" href="./mytil_page.html">My TIL</a>
+                <a class="nav-link" href="https://github.com/">Github</a>
+                <a class="nav-link" href="./my_page.html">myPage</a>
+                <a class="nav-link" onclick="sign_out()">logout</a>
+                <a class="nav-link" onclick="goback()">Back</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Profile -->
+<section class="hero">
+    <div class="hero-body" style="padding-bottom:1rem;margin:auto;min-width: 400px">
+        <article class="media">
+            <figure style="align-self: center">
+                <a class="image is-96x96" href="#">
+                    <img class="is-rounded user_profile_pic_real_append" src="">
+                </a>
+            </figure>
+
+            <div class="media-content">
+                <div class="content">
+                    <div>
+                        <strong style="font-size: xx-large"><label class="user_nickname_append" id="nickname"></label></strong><small> @<label class="user_id_append" id="username"></label></small>
+                    </div>
+                    <div id="introduce"><label class = "user_profile_info_append"></label></div>
+                    <div class="github_id_tag"><strong>Github ID:</strong> <label class="github_id_append" id="github_id"></label></div>
+                    <div><strong>Followers : </strong> <label>10000</label></div>
+                    <div><strong>Following : </strong><label>20000</label></div>
+
+                </div>
+
+            </div>
+        </article>
+        <!-- Button -->
+        <nav id="btns-me" class="level is-mobile" style="margin-top:2rem">
+            <a class="button level-item has-text-centered is-sparta" aria-label="edit"
+               onclick='$("#modal-edit").addClass("is-active")'>
+                프로필 수정&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="fa fa-pencil"
+                                                                       aria-hidden="true"></i></span>
+            </a>
+
+            <a class="button level-item has-text-centered is-sparta is-outlined" aria-label="logout"
+               onclick="sign_out()">
+                로그아웃&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="fa fa-sign-out"
+                                                                     aria-hidden="true"></i></span>
+            </a>
+        </nav>
+
+        <!-- Edit Modal -->
+        <div class="modal" id="modal-edit">
+            <div class="modal-background" onclick='$("#modal-edit").removeClass("is-active")'></div>
+            <div class="modal-content">
+                <div class="box">
+                    <article class="media">
+                        <div class="media-content">
+                            <div class="field">
+                                <label class="label" for="input-nickname">닉네임</label>
+
+                                <p class="control">
+
+                                    <input id="input-nickname" class="input user_nickname_append"
+                                           placeholder="" value="">
+                                </p>
+                            </div>
+                            <div class="field">
+                                <label class="label" for="input-github-id">Github ID</label>
+                                <p class="control">
+                                    <input id="input-github-id" class="input  github_id_append"
+                                           placeholder="" value="">
+                                </p>
+                            </div>
+                            <div class="field">
+                                <label class="label" for="input-pic">프로필 사진</label>
+
+                                <div class="control is-expanded">
+                                    <div class="file has-name">
+                                        <label class="file-label" style="width:100%">
+                                            <input id="input-pic" class="file-input" type="file"
+                                                   name="resume">
+                                            <span class="file-cta">
+                                                <span class="file-icon"><i class="fa fa-upload"></i></span>
+                                                <span class="file-label">파일 선택</span>
+                                            </span>
+                                            <span id="file-name" class="file-name user_profile_pic_append"
+                                                  style="width:100%;max-width:100%"></span>
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label" for="textarea-about">자기 소개</label>
+
+                                <p class="control">
+
+                        <textarea id="textarea-about" class="textarea user_profile_info_append"
+                                  placeholder="자기소개하기"></textarea>
+                                </p>
+                            </div>
+                            <nav class="level is-mobile">
+                                <div class="level-left">
+
+                                </div>
+                                <div class="level-right">
+                                    <div class="level-item">
+                                        <a class="button is-sparta" onclick="update_profile()">업데이트</a>
+                                    </div>
+                                    <div class="level-item">
+                                        <a class="button is-sparta is-outlined"
+                                           onclick='$("#modal-edit").removeClass("is-active")'>취소</a>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    </article>
+                </div>
+            </div>
+            <button class="modal-close is-large" aria-label="close"
+                    onclick='$("#modal-edit").removeClass("is-active")'></button>
+        </div>
+    </div>
+</section>
+<!-- toast -->
+<div class="position-fixed bottom-0 end-0 p-3 toast-box" style="z-index: 11">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000000">
+        <div class="toast-header">
+            <img src="..." class="rounded me-2" alt="...">
+            <strong class="me-auto" id="til_title">${title}</strong>
+            <small>&times;</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" onclick="toast_close()"></button>
+        </div>
+        <div class="toast-body" id="til_content">
+            ${content}
+        </div>
+    </div>
+</div>
+<!-- toast end -->
+</body>
