@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CommentService {
@@ -29,8 +28,7 @@ public class CommentService {
     }
 
     public List<Comment> getComment(Long id) {
-        List<Comment> comments = commentRepository.findByTilId(id);
-        return comments;
+        return commentRepository.findByTilId(id);
     }
 
     public Comment createComment(CommentRequestDto requestDto, Long id) {
@@ -42,9 +40,8 @@ public class CommentService {
         return comment;
     }
 
-    public Long deleteComment(Long id)  {
+    public void deleteComment(Long id)  {
         commentRepository.deleteById(id);
-        return id;
     }
 
 

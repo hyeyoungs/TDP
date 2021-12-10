@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TilRepository extends JpaRepository<Til, Long> {
+    List<Til> findAllByOrderByIdDesc();
     Page<Til> findAllByOrderByIdDesc(Pageable pageable);
     Optional<Til> findById(Long til_id);
     @Transactional

@@ -23,10 +23,8 @@ public class LikeService {
         Til til = tilRepository.findById(til_id).get();
 
         //중복 좋아요 방지
-        if(isNotAlreadyLike(user,til)==false) {
+        if(!isNotAlreadyLike(user, til)) {
             likeRepository.save(new Likes(til,user));
-//            int count_num=likeRepository.countByTilId(til_id);
-//            til.UpdateLike(count_num);
             plusLike(til_id);
             return til;
         }
@@ -47,7 +45,7 @@ public class LikeService {
         //좋아요를 취소할 til 가져오기
         Til til = tilRepository.findById(til_id).get();
 
-        if(isNotAlreadyLike(user,til)==true) {
+        if(isNotAlreadyLike(user, til)) {
             likeRepository.deleteByTilAndUser(til,user);
             minusLike(til_id);
             return til;
@@ -61,8 +59,8 @@ public class LikeService {
     }
 
     @Transactional
-    public int minusLike(Long id) {
-        return tilRepository.minusLike(id);
+    public void minusLike(Long id) {
+        tilRepository.minusLike(id);
     }
 
 

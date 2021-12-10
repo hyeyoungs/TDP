@@ -29,6 +29,10 @@ public class TilService {
     private final UserRepository userRepository;
     private final TagRepository tagRepository;
 
+    public List<Til> getAllTil() {
+        return tilRepository.findAllByOrderByIdDesc();
+    }
+
     public Page<Til> getTilList(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return tilRepository.findAllByOrderByIdDesc(pageable);
@@ -42,11 +46,9 @@ public class TilService {
 
         if(!(tilRequestDto.getTags().isEmpty())) {
             String[] tagArray = tilRequestDto.getTags().split("\\s*,\\s*");
-
-
             List<Tag> tagList = new ArrayList<>();
-            for (int i = 0; i < tagArray.length; i++) {
-                Tag tag = new Tag(tagArray[i], til);
+            for (String s : tagArray) {
+                Tag tag = new Tag(s, til);
                 tagList.add(tag);
             }
             tagRepository.saveAll(tagList);
@@ -65,12 +67,11 @@ public class TilService {
     }
 
     @Transactional
-    public Til updateTil(Long id, TilRequestDto tilRequestDto)throws SQLException{
+    public void updateTil(Long id, TilRequestDto tilRequestDto)throws SQLException{
         Til til = tilRepository.findById(id).orElseThrow(
                 ()->new NullPointerException("해당 아이디가 존재하지 않습니다.")
         );
         til.updateMyTil(tilRequestDto);
-        return til;
     }
 
     public List<Til> getUserTil(User user){
