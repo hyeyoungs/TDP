@@ -17,4 +17,4 @@
 
 ## How To Use
 
-더 많은 예시와 사용 예제는 [Wiki](https://github.com/0sunzero0/TDP/wiki)를 참고하세요 📚
+더 많은 예시와 사용 예제는 [Wiki](https://github.com/0sunzero0/TDP-Spring/wiki)를 참고하세요 📚
