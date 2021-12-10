@@ -20,38 +20,24 @@
 
 
         $(document).ready(function () {
-            token_check();
             read_all_rooms();
-
         });
 
-        // function token_check(){
-        //     if (localStorage.getItem('token') == null) {
-        //         alert("로그인 해주세요")
-        //         location.href = "./index.html"
-        //     }
-        // }
-        //
-        // function sign_out() {
-        //     localStorage.removeItem('token');
-        //     localStorage.removeItem('username');
-        //     alert('로그아웃!')
-        //     window.location.href = "/"
-        // }
-        function create_room() {
+        $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+            login_check(options, originalOptions, jqXHR);
+        });
 
+        function create_room() {
             let info = {
                 roomName : $('#room').val()
             }
-
             $.ajax({
                 type: "POST",
                 url: `${domainURL}/room`,
                 contentType: "application/json",
                 data: JSON.stringify(info),
-                success: function (response) { // 성공하면
-                    alert("채팅방 개설 완료!")
-                    window.location.href = "/rooms.html"
+                success: function (response) {
+                     window.location.href = "/rooms.html"
                 }
             });
         }
@@ -62,17 +48,10 @@
                     data: {},
                     success: function (response) {
                         let all_rooms = response;
-                        console.log(all_rooms);
                         for (let i = 0; i < all_rooms.length; i++) {
-                            console.log(all_rooms[i]);
-
-
-
-                            let idx=all_rooms[i]['roomId'];
+                            let idx = all_rooms[i]['roomId'];
                             let name = all_rooms[i]['name'];
-                            let date=all_rooms[i]['createdAt']
-
-
+                            let date = all_rooms[i]['createdAt']
                             if (i < 4) {
                                 let temp_html = `<tr onClick="detail(${idx})" style="cursor:pointer;">
 
@@ -81,7 +60,6 @@
 
                                             </tr>`
                                 $('#til-box').append(temp_html)
-
                             } else {
                                 let temp_html = `<tr onClick="detail(${idx})" style="cursor:pointer;">
                                                 <th scope="row">${name}</th>
@@ -96,22 +74,13 @@
             )
         }
 
-
         function detail(idx) {
-            location.href = `${domainURL}/room.html?id=`+idx;
+            location.href = `/room.html?id=`+idx;
         }
+
     </script>
     <style>
         .wrap {
-            margin: 50px auto;
-        }
-
-        .input-box {
-            margin: 50px auto;
-            width: 350px;
-        }
-
-        .col-lg-6 {
             margin: 50px auto;
         }
 
@@ -177,8 +146,6 @@
             <tr>
                 <th scope="col">채팅방 이름</th>
                 <th scope="col">개설날짜</th>
-
-
             </tr>
             </thead>
             <tbody id="til-box">
@@ -188,6 +155,21 @@
     </div>
         </div>
 </table>
-
+<!-- toast -->
+<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000000"
+         style="position: absolute; top: 0; right: 0;">
+        <div class="toast-header">
+            <i class="bi bi-x-lg"></i>
+            <strong class="me-auto" id="til_title">${title}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"
+                    onclick="toast_close()"></button>
+        </div>
+        <div class="toast-body" id="til_content">
+            ${content}
+        </div>
+    </div>
+</div>
+<!-- toast end -->
 </body>
 </html>
