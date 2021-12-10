@@ -186,14 +186,16 @@
                           continue
                         }else{
                           let temp_html=
-                                  `<h6 class="open"><i class="about_accordion wow fadeIn faq_main_content fa fa-angle-right"></i> ${username}</h6>
-                                <div class="open">
-                                  <div class="content">
-                                    <p id="rank_countTil">${til}</p>
-                                  </div>
-                                </div>`
+                                  `<div class="about_accordion wow fadeIn">
+              <div id="faq_main_content" class="faq_main_content">
+                <h6 id="rank_username "><i class="fa fa-angle-right"></i> ${username}</h6>
+                <div>
+                  <div class="content">
+                    <p id="rank_countTil">${til}</p>
 
-                          $('#faq_main_content').append(temp_html);
+                  </div>
+                </div>`
+                          $('#rank-user').append(temp_html);
 
                         }
                         }
@@ -219,7 +221,7 @@
       console.log(access_token);
       $.ajax({
         type: "POST",
-        url: `${domainURL}/message`,
+        url: `${domainURL}/path`,
         contentType: "application/json",
         data: JSON.stringify({'token':access_token}),
         success: (data) => { alert('메시지가 전송되었습니다!'); }
@@ -394,16 +396,17 @@
               <p>가장 많은 til 보유자</p>
             </div>
           </div>
-          <div class="col-md-6">
+          <div id="rank-user">
+          <div class="col-md-6" >
             <div class="about_accordion wow fadeIn">
               <div id="faq_main_content" class="faq_main_content">
-<!--                <h6 id="rank_username "><i class="fa fa-angle-right"></i> </h6>-->
-<!--                <div>-->
-<!--                  <div class="content">-->
-<!--                    <p id="rank_countTil"></p>-->
+                <h6 id="rank_username "><i class="fa fa-angle-right"></i> </h6>
+                <div>
+                  <div class="content">
+                    <p id="rank_countTil"></p>
 
-<!--                  </div>-->
-<!--                </div>-->
+                  </div>
+                </div>
                 <!-- End off accordion item-1 -->
 
 <!--                <h6 class="open"><i class="fa fa-angle-right"></i> EXPERIENCE TEAM</h6>-->
@@ -420,6 +423,7 @@
           </div>
         </div>
       </div>
+      </div>
       <!--End off row-->
     </div>
     <!--End off container -->
@@ -429,6 +433,57 @@
   <!--End off About section -->
 
 
+
+
+
+
+
+  <section id="about_chat" class="about roomy-100">
+    <div class="container">
+      <div class="row">
+        <div class="main_about">
+          <div class="col-md-6">
+            <div class="about_content">
+              <h2><strong>Chatting Room</strong></h2>
+              <div class="separator_left"></div>
+              <p>다양한 개발자들과 자유롭게 소통해보세요!</p>
+            </div>
+          </div>
+
+            <div class="col-md-6" >
+              <div class="about_accordion wow fadeIn">
+                <div id="chatroom" class="faq_main_content">
+                  <h6 id="chat_room_name"><i class="fa fa-angle-right"></i> 채팅방이름</h6>
+                  <div>
+                    <div class="content">
+                      <p id="chat_room_num">채팅방 접속자 수</p>
+
+                    </div>
+                  </div>
+
+
+                  <h6 class="open"><i class="fa fa-angle-right"></i> EXPERIENCE TEAM</h6>
+                  <div class="open">
+                    <div class="content">
+                      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
+                        tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, </p>
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--End off row-->
+
+    <!--End off container -->
+
+
+  </section>
+  <!--End off About section -->
 
 
   <!--Service Section-->
@@ -454,69 +509,6 @@
     <!--End off container -->
   </section>
   <!--End off Featured section-->
-
-  <!--Blog Section-->
-  <section id="blog" class="blog">
-    <div class="container">
-      <div class="row">
-        <div class="main_blog text-center roomy-100">
-          <div class="col-sm-8 mr-sm-auto ml-sm-auto">
-            <div class="head_title text-center">
-              <h2>RECENT BLOGS</h2>
-              <div class="separator_auto"></div>
-              <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. </p>
-            </div>
-          </div>
-
-          <div class="row">
-
-            <div class="col-md-4">
-              <div class="blog_item m-top-20">
-                <div class="blog_item_img">
-                  <img src="assets/images/Blog/1.jpg" alt="" />
-                </div>
-                <div class="blog_text roomy-40">
-                  <h6>PLEASUARE WITHOUT CONSCIENCE</h6>
-                  <p><em><a href="">May 15, 2016</a> /<a href="">admin</a>/<a href=""> Co-working</a></em></p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="blog_item m-top-20">
-                <div class="blog_item_img">
-                  <img src="assets/images/Blog/2.jpg" alt="" />
-                </div>
-                <div class="blog_text roomy-40">
-                  <h6>PLEASUARE WITHOUT CONSCIENCE</h6>
-                  <p><em><a href="">May 15, 2016</a> /<a href="">admin</a>/<a href=""> Co-working</a></em></p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="blog_item m-top-20">
-                <div class="blog_item_img">
-                  <img src="assets/images/Blog/3.jpg" alt="" />
-                </div>
-                <div class="blog_text roomy-40">
-                  <h6>PLEASUARE WITHOUT CONSCIENCE</h6>
-                  <p><em><a href="">May 15, 2016</a> /<a href="">admin</a>/<a href=""> Co-working</a></em></p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-      <!--End off row -->
-    </div>
-    <!--End off container -->
-  </section>
-  <!-- End off Blog section-->
-
-
-
-
-
 
   <!-- scroll up-->
   <div class="scrollup">
