@@ -63,7 +63,7 @@
                 stomp.send("/pub/chat/enter", {}, JSON.stringify({
                     roomId: roomId, writer: username, message:"enter", userCount:0}))
             });
-        });
+
             $("#button-send").on("click", function (e) {
                 console.log('전송 버튼 눌림')
                 let msg = document.getElementById("msg");
@@ -76,6 +76,7 @@
                 }));
                 msg.value = '';
             });
+        });
 
         function disconnect() {
             stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message:"exit"}))
