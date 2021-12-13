@@ -14,9 +14,9 @@ import java.util.Optional;
 
 public interface TilRepository extends JpaRepository<Til, Long> {
     // get all til
-    List<Til> findByTilViewOrderByIdDesc(boolean tilView);
+    List<Til> findByTilViewOrUserIdOrderByIdDesc(boolean tilView, Long userId);
     // get all til using pagination
-    Page<Til> findByTilViewOrderByIdDesc(boolean tilView, Pageable pageable);
+    Page<Til> findByTilViewOrUserIdOrderByIdDesc(boolean tilView, Long userId, Pageable pageable);
     // get one til by id
     Optional<Til> findById(Long til_id);
 
@@ -31,13 +31,11 @@ public interface TilRepository extends JpaRepository<Til, Long> {
     int minusLike(Long id);
 
     // get my til
-    @Query("select til from Til til order by til.id DESC")
-    List<Til> findByUser(User user);
+    List<Til> findByUserOrderByIdDesc(User user);
 
     // get search output
-    Page<Til> findByUserOrderByIdDesc(User user, Pageable pageable);
-    Page<Til> findByTilTitleOrderByIdDesc(String til_title, Pageable pageable);
-    Page<Til> findByTagsNameOrderByIdDesc(String keyword, Pageable pageable);
-//    findAllByTil_viewOrUserId(boolean true, Long id)
+    Page<Til> findByUserOrUserIdOrderByIdDesc(User user, boolean tilView, Long userId, Pageable pageable);
+    Page<Til> findByTilTitleOrUserIdOrderByIdDesc(String tilTitle, boolean tilView, Long userId, Pageable pageable);
+    Page<Til> findByTagsNameOrUserIdOrderByIdDesc(String keyword, boolean tilView, Long userId, Pageable pageable);
 }
 
