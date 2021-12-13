@@ -45,7 +45,6 @@ function read_user() {
         async: false,
         success: function (response) {
             user_info = response;
-
         }
     });
     return user_info;
