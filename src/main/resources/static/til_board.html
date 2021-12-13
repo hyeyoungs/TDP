@@ -50,8 +50,8 @@
                     data: {},
                     success: function (response) {
                         let til_list = response['tils']['content'];
+                        let count = 0;
                         for (let i = 0; i < til_list.length; i++) {
-                            var count = 0;
                             let tags = '';
                             let title = til_list[i]['tilTitle'];
                             let user = til_list[i]['user']['nickname'];
@@ -72,6 +72,7 @@
                                             </tr>`;
                                 $('#til-box').append(temp_html);
                                 count += 1;
+                                console.log(count);
                             } else {
                                 if(til_view == false){  // lock
                                     let temp_html = `<tr onClick="detail(${til_idx})" style="cursor:pointer;">
