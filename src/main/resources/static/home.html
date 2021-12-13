@@ -99,7 +99,7 @@
                     for (let i = 0; i < max; i++) {
                         let title = all_til[i]['tilTitle'];
                         let user = all_til[i]['user']['nickname'];
-                        let content = all_til[i]['til_content'];
+                        let content = all_til[i]['tilContent'];
                         let tempHtml = `
             <div class="col-md-4">
               <div class="service_item">
@@ -155,7 +155,7 @@
                         console.log(response)
                         for (let i = 0; i < 3; i++) {
                             let nickname = response[i]['nickname'];
-                            let til = response[i]['til_count'];
+                            let til = response[i]['tilCount'];
                             if (til === 0) {
                             } else {
                                 let temp_html =

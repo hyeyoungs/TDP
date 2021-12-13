@@ -88,14 +88,14 @@ public class TilService {
     public Page<Til> SearchTil(int page, int size, String keyword, String setting) {
         Pageable pageable = PageRequest.of(page, size);
 
-        if(setting.equals("제목")) {  return tilRepository.findAllByTilTitle(keyword, pageable);    }
+        if(setting.equals("제목")) {  return tilRepository.findByTilTitleOrderByIdDesc(keyword, pageable);    }
         else if(setting.equals("작성자")) {
             User user = userRepository.findByUsername(keyword)
                     .orElseThrow(() -> new UsernameNotFoundException("로그인 오류"));
-            return tilRepository.findAllByUser(user, pageable);
+            return tilRepository.findByUserOrderByIdDesc(user, pageable);
         }
         // 태그
-        else {  return tilRepository.findAllByTagsName(keyword, pageable);    }
+        else {  return tilRepository.findByTagsNameOrderByIdDesc(keyword, pageable);    }
     }
 
 }
