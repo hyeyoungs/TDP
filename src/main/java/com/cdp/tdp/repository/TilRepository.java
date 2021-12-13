@@ -13,19 +13,19 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TilRepository extends JpaRepository<Til, Long> {
-    List<Til> findAllByOrderByIdDesc();
-    Page<Til> findAllByOrderByIdDesc(Pageable pageable);
+    // get all til
+    List<Til> findByTilViewOrUserIdOrderByIdDesc(boolean tilView, Long userId);
+    // get all til using pagination
+    Page<Til> findByTilViewOrUserIdOrderByIdDesc(boolean tilView, Long userId, Pageable pageable);
+    // get one til by id
     Optional<Til> findById(Long til_id);
-    @Transactional
-    @Modifying
-    @Query("update Til til set til.til_like = til.til_like + 1 where til.id = :id")
-    int plusLike(Long id);
-    @Transactional
-    @Modifying
-    @Query("update Til til set til.til_like = til.til_like - 1 where til.id = :id")
-    int minusLike(Long id);
-    List<Til> findByUser(User user);
-    Page<Til> findAllByUser(User user, Pageable pageable);
-    Page<Til> findAllByTilTitle(String til_title, Pageable pageable);
-    Page<Til> findAllByTagsName(String keyword, Pageable pageable);
+
+    // get my til
+    List<Til> findByUserOrderByIdDesc(User user);
+
+    // get search output
+    Page<Til> findByUserOrUserIdOrderByIdDesc(User user, boolean tilView, Long userId, Pageable pageable);
+    Page<Til> findByTilTitleOrUserIdOrderByIdDesc(String tilTitle, boolean tilView, Long userId, Pageable pageable);
+    Page<Til> findByTagsNameOrUserIdOrderByIdDesc(String keyword, boolean tilView, Long userId, Pageable pageable);
 }
+
