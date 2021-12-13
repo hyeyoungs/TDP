@@ -21,16 +21,6 @@ public interface TilRepository extends JpaRepository<Til, Long> {
     // get one til by id
     Optional<Til> findById(Long til_id);
 
-    // like update
-    @Transactional
-    @Modifying
-    @Query("update Til til set til.tilLike = til.tilLike + 1 where til.id = :id")
-    int plusLike(Long id);
-    @Transactional
-    @Modifying
-    @Query("update Til til set til.tilLike = til.tilLike - 1 where til.id = :id")
-    int minusLike(Long id);
-
     // get my til
     @Query("select til from Til til order by til.id DESC")
     List<Til> findByUser(User user);
