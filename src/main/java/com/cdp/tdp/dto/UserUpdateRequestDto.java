@@ -1,5 +1,4 @@
 package com.cdp.tdp.dto;
-import com.cdp.tdp.domain.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
