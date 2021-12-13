@@ -39,7 +39,7 @@
             stomp.connect({}, function () {
                 //4. subscribe(path, callback)으로 메세지를 받을 수 있음
                 console.log(roomId)
-                stomp.subscribe(`${domainURL}/sub/chat/room/` + roomId, function (chat) {
+                stomp.subscribe(`/sub/chat/room/` + roomId, function (chat) {
                     console.log(roomId)
                     let content = JSON.parse(chat.body);
                     let writer = content.writer;
