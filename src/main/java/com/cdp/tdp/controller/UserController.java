@@ -66,8 +66,6 @@ public class UserController {
     //access 토큰을 발급받아야함
 
         String token = socialLoginDto.getToken();
-
-        log.info(token);
         String message= userService.sendmessage(token);
 
     }
@@ -97,5 +95,10 @@ public class UserController {
                            @RequestParam("about") String about){
         userService.updateUser(userDetails.getUser(), nickname, githubId, imageFile, about);
     }
+
+
+
+
+
 
 }
