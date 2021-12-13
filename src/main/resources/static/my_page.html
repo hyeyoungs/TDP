@@ -103,7 +103,7 @@
         info.append("github_id", $('#input-github-id').val());
         info.append("file", $('#input-pic')[0].files[0]);
         info.append("about", $("#textarea-about").val())
-   
+
         $.ajax({
             type: "PUT",
             url: `${domainURL}/user/profile`,
