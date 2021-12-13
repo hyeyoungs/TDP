@@ -26,39 +26,26 @@ public class StompChatController {
     public void enter(ChatMessageDTO message){
         count.add(message.getWriter());
         message.setUserCount((long) count.size());
-
         String json = new Gson().toJson(count);
         message.setMessage(json);
         template.convertAndSend("/sub/chat/home/", message);
-
         message.setMessage(message.getWriter() + "님이 채팅방에 참여하였습니다.");
         template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
-
     }
 
     @MessageMapping(value = "/chat/exit")
     public void exit(ChatMessageDTO message) {
-
         count.remove(message.getWriter());
         message.setUserCount((long) count.size());
-
         String json = new Gson().toJson(count);
         message.setMessage(json);
         template.convertAndSend("/sub/chat/home/", message);
-
         message.setMessage(message.getWriter() + "님이 채팅방을 나갔습니다.");
         template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
-
     }
-
 
     @MessageMapping(value = "/chat/message")
     public void message(ChatMessageDTO message){
-
-        log.info("send message");
         template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
-
     }
-
-
 }

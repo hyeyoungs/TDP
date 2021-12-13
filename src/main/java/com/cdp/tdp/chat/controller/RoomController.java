@@ -21,28 +21,18 @@ public class RoomController {
     //채팅방 목록 조회
     @GetMapping(value = "/rooms")
     public List<ChatRoom> rooms() {
-
-        log.info("# All Chat Rooms");
-
-        //ModelAndView mv = new ModelAndView("chat/rooms");
-        //mv.addObject("list", repository.findAllRooms());
-
         return chatRoomService.getAllRooms();
     }
 
     //채팅방 개설
     @PostMapping(value = "/room")
     public ChatRoom create(@RequestBody ChatRoomDTO chatRoomDTO) {
-
-        log.info("# Create Chat Room , name: " + chatRoomDTO.getRoomName());
         return chatRoomService.createRoom(chatRoomDTO);
     }
 
     //채팅방 조회
     @GetMapping("/room/{id}")
     public ChatRoom getRoom(@PathVariable final Long id) {
-
-        log.info("# get Chat Room, roomID : " + id);
 
         return chatRoomService.getRoom(id);
     }

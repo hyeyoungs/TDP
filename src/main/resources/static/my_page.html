@@ -31,7 +31,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
+    <script src="back.js" rel="script"></script>
     <style>
         body {
             background-color: #9fcdff;
@@ -66,46 +66,16 @@
 </head>
 <script>
     $(document).ready(function () {
-        token_check();
         read_user_profile();
         append_github_id();
     });
-
-    function token_check(){
-        if (localStorage.getItem('token') == null) {
-            alert("로그인 해주세요")
-            location.href = "./index.html"
-        }
-    }
-
-    function login_check(options, originalOptions, jqXHR){
-        if(localStorage.getItem('token')) {
-            jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
-        } else {
-            alert("로그인 해주세요")
-            location.href = "./index.html"
-        }
-    }
 
     $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
         login_check(options, originalOptions, jqXHR);
     });
 
-    function read_user() {
-        $.ajax({
-            type: "GET",
-            url: "/user",
-            async: false,
-            success: function (response) {
-                user_info = response;
-                console.log(user_info);
-            }
-        });
-        return user_info;
-    }
-
-    async function read_user_profile(){
-        let user_info = await read_user();
+    function read_user_profile(){
+        let user_info = read_user();
         $('.user_id_append').text(user_info['username']);
         $('.user_nickname_append').text(user_info['nickname']);
         $('.user_profile_info_append').text(user_info['introduce']);
@@ -119,16 +89,12 @@
         $('.github_id_append').val(user_info['github_id']);
     }
 
-    async function append_github_id(){
-        let user_info = await read_user();
+    function append_github_id(){
+        let user_info = read_user();
         let github_id = user_info['github_id']
-        if (github_id == null || github_id == ""){
+        if (github_id == null || github_id === ""){
             $('.github_id_tag').hide();
         }
-    }
-
-    function goback() {
-        window.history.back();
     }
 
     function update_profile() {
@@ -141,7 +107,7 @@
         console.log(info);
         $.ajax({
             type: "PUT",
-            url: "/user/profile",
+            url: `${domainURL}/user/profile`,
             enctype: 'multipart/form-data',
             cache: false,
             contentType: false,
@@ -155,14 +121,6 @@
                 alert("fail");
             }
         });
-    }
-
-
-    function sign_out() {
-        localStorage.removeItem('token');
-        localStorage.removeItem('username');
-        alert('로그아웃!')
-        window.location.href = "/"
     }
 
 </script>
@@ -302,13 +260,14 @@
     </div>
 </section>
 <!-- toast -->
-<div class="position-fixed bottom-0 end-0 p-3 toast-box" style="z-index: 11">
-    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000000">
+<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000000"
+         style="position: absolute; top: 0; right: 0;">
         <div class="toast-header">
-            <img src="..." class="rounded me-2" alt="...">
+            <i class="bi bi-x-lg"></i>
             <strong class="me-auto" id="til_title">${title}</strong>
-            <small>&times;</small>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" onclick="toast_close()"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"
+                    onclick="toast_close()"></button>
         </div>
         <div class="toast-body" id="til_content">
             ${content}

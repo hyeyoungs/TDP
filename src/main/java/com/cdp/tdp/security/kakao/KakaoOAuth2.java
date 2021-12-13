@@ -17,15 +17,12 @@ public class KakaoOAuth2 {
 
     public KakaoUserInfo getUserInfo(String token) {
         // 2. 액세스 토큰 -> 카카오 사용자 정보
-        KakaoUserInfo userInfo = getUserInfoByToken(token);
-
-        return userInfo;
+        return getUserInfoByToken(token);
     }
 
 
     private KakaoUserInfo getUserInfoByToken(String accessToken) {
         // HttpHeader 오브젝트 생성
-        log.info(accessToken);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + accessToken);
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");

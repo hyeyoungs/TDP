@@ -1,0 +1,16 @@
+= TDP API Documents
+:toc: left
+:doctype: book
+
+= 사용자 페이지
+
+== 계정관리
+=== 로그인
+include::{snippets}/user/login/http-request.adoc[]
+include::{snippets}/user/login/request-fields.adoc[]
+include::{snippets}/user/login/http-response.adoc[]
+
+=== 회원가입
+include::{snippets}/user/signup/http-request.adoc[]
+include::{snippets}/user/signup/request-fields.adoc[]
+include::{snippets}/user/signup/http-response.adoc[]
