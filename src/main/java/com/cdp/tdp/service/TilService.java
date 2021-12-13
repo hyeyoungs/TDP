@@ -85,7 +85,7 @@ public class TilService {
         tilRepository.save(til);
     }
 
-    public Page<Til> SearchTil(int page, int size, String keyword, String setting, User user) {
+    public Page<Til> searchTil(int page, int size, String keyword, String setting, User user) {
         Pageable pageable = PageRequest.of(page, size);
 
         if(setting.equals("제목")) {  return tilRepository.findByTilTitleOrUserIdOrderByIdDesc(keyword, true, user.getId(), pageable);    }

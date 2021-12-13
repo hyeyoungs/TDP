@@ -100,11 +100,11 @@ public class TilController {
     }
 
     @GetMapping("/til/search")
-    public TilListDto SearchTil(@RequestParam int page, @RequestParam String keyword, @RequestParam String setting, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public TilListDto searchTil(@RequestParam int page, @RequestParam String keyword, @RequestParam String setting, @AuthenticationPrincipal UserDetailsImpl userDetails){
         page --;
         int size = 10;
 
-        Page<Til> tils = tilService.SearchTil(page, size, keyword, setting, userDetails.getUser());
+        Page<Til> tils = tilService.searchTil(page, size, keyword, setting, userDetails.getUser());
         TilListDto tilList = TilListDto.builder()
                 .tils(tils)
                 .page(tils.getNumber())
