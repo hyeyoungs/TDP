@@ -71,19 +71,19 @@
         }
       }, 86400000);
     });
-    // var sockJs = new SockJS('/stomp/chat');
-    // //1. SockJS를 내부에 들고있는 stomp를 내어줌
-    // stomp = Stomp.over(sockJs);
-    // //2. connection이 맺어지면 실행
-    // stomp.connect({}, function () {
-    //   //4. subscribe(path, callback)으로 메세지를 받을 수 있음
-    //   stomp.subscribe("/sub/chat/home/", function (chat) {
-    //     let content = JSON.parse(chat.body);
-    //     count = content.userCount;
-    //     let connector = content.message;
-    //     $('#user-count').text(count);
-    //   });
-    // })
+    var sockJs = new SockJS(`${domainURL}/stomp/chat`);
+    //1. SockJS를 내부에 들고있는 stomp를 내어줌
+    stomp = Stomp.over(sockJs);
+    //2. connection이 맺어지면 실행
+    stomp.connect({}, function () {
+      //4. subscribe(path, callback)으로 메세지를 받을 수 있음
+      stomp.subscribe("/sub/chat/home/", function (chat) {
+        let content = JSON.parse(chat.body);
+        count = content.userCount;
+        let connector = content.message;
+        $('#user-count').text(count);
+      });
+    })
 
         function list_til() {
             $.ajax({
@@ -101,15 +101,16 @@
                         let user = all_til[i]['user']['nickname'];
                         let content = all_til[i]['tilContent'];
                         let tempHtml = `
-            <div class="col-md-4">
-              <div class="service_item">
-                <i class="icofont icofont-light-bulb"></i>
-                <h3 class="m-top-30">${title}</h3>
-                <div class="separator_small"></div>
-                <p>${content} </p>
-                <h5>${user}</h5>
-              </div>
-            </div>`
+                                        <div class="col-md-4">
+                                          <div class="service_item">
+                                            <i class="icofont icofont-light-bulb"></i>
+                                            <h3 class="m-top-30">${title}</h3>
+                                            <div class="separator_small"></div>
+                                            <p>${content} </p>
+                                            <h5>${user}</h5>
+                                          </div>
+                                        </div>
+                                        `
                         $('#board-main').append(tempHtml)
                     }
                 }
@@ -158,32 +159,31 @@
                             let til = response[i]['tilCount'];
                             if (til === 0) {
                             } else {
-                                let temp_html =
-                                    '<div class="col-md-4 col-sm-12">\n' +
-                                    '                    <div class="pricing_item">\n' +
-                                    '                        <div class="pricing_head p-top-30 p-bottom-100 text-center">\n' +
-                                    '                            <h3 class="text-uppercase">${nickname}</h3>\n' +
-                                    '                        </div>\n' +
-                                    '                        <div class="pricing_price_border text-center">\n' +
-                                    '                            <div class="pricing_price">\n' +
-                                    '                                <h3 class="text-white">$19</h3>\n' +
-                                    '                                <p class="text-white">per month</p>\n' +
-                                    '                            </div>\n' +
-                                    '                        </div>\n' +
-                                    '\n' +
-                                    '                        <div class="pricing_body bg-white p-top-110 p-bottom-60">\n' +
-                                    '                            <ul>\n' +
-                                    '                                <li><i class="fa fa-check-circle text-primary"></i> <span>10</span> user</li>\n' +
-                                    '                                <li class="disabled"><i class="fa fa-times-circle"></i> Unlimited Bandwidth</li>\n' +
-                                    '                                <li class="disabled"><i class="fa fa-times-circle"></i> Full Statistics</li>\n' +
-                                    '\n' +
-                                    '                            </ul>\n' +
-                                    '                            <div class="pricing_btn text-center m-top-40">\n' +
-                                    '                                <a href="" class="btn btn-primary">CHOOSE PLAN</a>\n' +
-                                    '                            </div>\n' +
-                                    '                        </div>\n' +
-                                    '                    </div>\n' +
-                                    '                </div>'
+                                let temp_html =`<div class="col-md-4 col-sm-12">
+                                                    <div class="pricing_item">
+                                                        <div class="pricing_head p-top-30 p-bottom-100 text-center">
+                                                            <h3 class="text-uppercase">${nickname}</h3>
+                                                        </div>
+                                                        <div class="pricing_price_border text-center">
+                                                            <div class="pricing_price">
+                                                                <h3 class="text-white">${til}</h3>
+                                                                <p class="text-white"> 개</p>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="pricing_body bg-white p-top-110 p-bottom-60">
+                                                            <ul>
+                                                                <li><i class="fa fa-check-circle text-primary"></i> <span>10</span> user</li>
+                                                                <li class="disabled"><i class="fa fa-times-circle"></i> Unlimited Bandwidth</li>
+                                                                <li class="disabled"><i class="fa fa-times-circle"></i> Full Statistics</li>
+
+                                                            </ul>
+                                                            <div class="pricing_btn text-center m-top-40">
+                                                                <a href="" class="btn btn-primary">보러가기</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>`
                                 $('#rank_user').append(temp_html);
                             }
                         }
@@ -364,38 +364,11 @@
         <!--End off container -->
     </section>
     <!--End off Home Sections-->
-<div style="text-align: center" class="page-header">
-    <h2 class="user-count" style="display: inline"><strong>0</strong></h2><h2 style="display: inline"><strong>명 채팅서버 접속중</strong></h2>
-    <p><button type="button" class="home_btn_chatlist btn-primary" onClick="location.href='./rooms.html'" >채팅 리스트</button></p>
-</div>
 
-<!--    &lt;!&ndash;About Sections&ndash;&gt;-->
-<!--    <section id="about" class="about roomy-100">-->
-<!--        <div class="container">-->
-<!--            <div class="row">-->
-<!--                <div class="main_about">-->
-<!--                    <div class="col-md-6">-->
-<!--                        <div class="about_content">-->
-<!--                            <h2><strong>RANK</strong></h2>-->
-<!--                            <div class="separator_left"></div>-->
-<!--                            <p>가장 많은 til 보유자</p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-md-6">-->
-<!--                        <div class="about_accordion wow fadeIn">-->
-<!--                            <div id="faq_main_content" class="faq_main_content">-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            &lt;!&ndash;End off row&ndash;&gt;-->
-<!--        </div>-->
-<!--        &lt;!&ndash;End off container &ndash;&gt;-->
-
-
-<!--    </section>-->
-<!--    &lt;!&ndash;End off About section &ndash;&gt;-->
+    <div style="text-align: center" class="page-header">
+        <h2 class="user-count" style="display: inline"><strong>0</strong></h2><h2 style="display: inline"><strong>명 채팅서버 접속중</strong></h2>
+        <p><button type="button" class="home_btn_chatlist btn-primary" onClick="location.href='./rooms.html'" >채팅 리스트</button></p>
+    </div>
 
 
     <!--RANK 부분 -->
@@ -413,85 +386,7 @@
                 </div>
             </div>
             <div class="row" id="rank_user">
-<!--                <div class="col-md-4 col-sm-12">-->
-<!--                    <div class="pricing_item">-->
-<!--                        <div class="pricing_head p-top-30 p-bottom-100 text-center">-->
-<!--                            <h3 class="text-uppercase">STARTER</h3>-->
-<!--                        </div>-->
-<!--                        <div class="pricing_price_border text-center">-->
-<!--                            <div class="pricing_price">-->
-<!--                                <h3 class="text-white">$19</h3>-->
-<!--                                <p class="text-white">per month</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
 
-<!--                        <div class="pricing_body bg-white p-top-110 p-bottom-60">-->
-<!--                            <ul>-->
-<!--                                <li><i class="fa fa-check-circle text-primary"></i> <span>10</span> user</li>-->
-<!--                                <li class="disabled"><i class="fa fa-times-circle"></i> Unlimited Bandwidth</li>-->
-<!--                                <li class="disabled"><i class="fa fa-times-circle"></i> Full Statistics</li>-->
-
-<!--                            </ul>-->
-<!--                            <div class="pricing_btn text-center m-top-40">-->
-<!--                                <a href="" class="btn btn-primary">CHOOSE PLAN</a>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                &lt;!&ndash; End off col-md-4 &ndash;&gt;-->
-
-<!--                <div class="col-md-4 col-sm-12">-->
-<!--                    <div class="pricing_item sm-m-top-30">-->
-<!--                        <div class="pricing_top_border"></div>-->
-<!--                        <div class="pricing_head p-top-30 p-bottom-100 text-center">-->
-<!--                            <h3 class="text-uppercase">PREMIUM</h3>-->
-<!--                        </div>-->
-<!--                        <div class="pricing_price_border text-center">-->
-<!--                            <div class="pricing_price">-->
-<!--                                <h3 class="text-white">$39</h3>-->
-<!--                                <p class="text-white">per month</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-
-<!--                        <div class="pricing_body bg-white p-top-110 p-bottom-60">-->
-<!--                            <ul>-->
-<!--                                <li><i class="fa fa-check-circle text-primary"></i> <span>50</span> user</li>-->
-<!--                                <li><i class="fa fa-check-circle text-primary"></i> Unlimited Bandwidth</li>-->
-<!--                                <li class="disabled"><i class="fa fa-times-circle"></i> Full Statistics</li>-->
-<!--                            </ul>-->
-<!--                            <div class="pricing_btn text-center m-top-40">-->
-<!--                                <a href="" class="btn btn-primary">CHOOSE PLAN</a>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                &lt;!&ndash; End off col-md-4 &ndash;&gt;-->
-
-<!--                <div class="col-md-4 col-sm-12">-->
-<!--                    <div class="pricing_item sm-m-top-30">-->
-<!--                        <div class="pricing_head p-top-30 p-bottom-100 text-center">-->
-<!--                            <h3 class="text-uppercase">bUSINESS</h3>-->
-<!--                        </div>-->
-<!--                        <div class="pricing_price_border text-center">-->
-<!--                            <div class="pricing_price">-->
-<!--                                <h3 class="text-white">$99</h3>-->
-<!--                                <p class="text-white">per month</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-
-<!--                        <div class="pricing_body bg-white p-top-110 p-bottom-60">-->
-<!--                            <ul>-->
-<!--                                <li><i class="fa fa-check-circle text-primary"></i> Unlimited Users</li>-->
-<!--                                <li><i class="fa fa-check-circle text-primary"></i> Unlimited Bandwidth</li>-->
-<!--                                <li><i class="fa fa-check-circle text-primary"></i> Full Statistics</li>-->
-<!--                            </ul>-->
-<!--                            <div class="pricing_btn text-center m-top-40">-->
-<!--                                <a href="" class="btn btn-primary">CHOOSE PLAN</a>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                &lt;!&ndash; End off col-md-4 &ndash;&gt;-->
             </div>
             <!--End off row-->
         </div>
