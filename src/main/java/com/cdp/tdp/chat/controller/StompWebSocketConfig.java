@@ -1,4 +1,4 @@
-package com.cdp.tdp.chat;
+package com.cdp.tdp.chat.controller;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -17,7 +17,7 @@ public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/stomp/chat")
-                .setAllowedOrigins("http://api.tildp.shop","http://www.tildp.shop","http://localhost:8080")
+                .setAllowedOrigins("*")
                 .withSockJS();
     }
 
