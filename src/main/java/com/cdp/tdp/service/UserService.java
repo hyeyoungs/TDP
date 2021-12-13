@@ -9,6 +9,7 @@ import com.cdp.tdp.repository.TilRepository;
 import com.cdp.tdp.repository.UserRepository;
 import com.cdp.tdp.security.kakao.KakaoOAuth2;
 import com.cdp.tdp.security.kakao.KakaoUserInfo;
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,7 +134,8 @@ public class UserService {
         return user_tils.size();
     }
 
-    @Transactional
+    @Timed
+    @Transactional(timeout = 15)
     public void updateUser(User user, String nickname, String githubId, MultipartFile imageFile, String about) {
         UserUpdateDto userUpdateDto = new UserUpdateDto();
 

@@ -1,9 +1,11 @@
 package com.cdp.tdp.service;
 
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -19,6 +21,8 @@ public class FileService {
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
 
+    @Timed
+    @Transactional(timeout = 15)
     public String uploadImage(MultipartFile file) {
         String fileName = createFileName(file.getOriginalFilename());
         ObjectMetadata objectMetadata = new ObjectMetadata();
