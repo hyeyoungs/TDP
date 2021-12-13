@@ -28,14 +28,13 @@ public class TilService {
     private final TilRepository tilRepository;
     private final UserRepository userRepository;
     private final TagRepository tagRepository;
-
     public List<Til> getAllTil() {
-        return tilRepository.findAllByOrderByIdDesc();
+        return tilRepository.findByTilViewOrderByIdDesc(true);
     }
 
     public Page<Til> getTilList(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return tilRepository.findAllByOrderByIdDesc(pageable);
+        return tilRepository.findByTilViewOrderByIdDesc(true, pageable);
     }
 
     public Til createTil(TilRequestDto tilRequestDto, Long id) throws SQLException {
