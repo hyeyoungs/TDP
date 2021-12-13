@@ -39,10 +39,10 @@ public class Til extends Timestamped {
     private User user;
 
     @JsonIgnore
-    @OneToMany(mappedBy="til")
+    @OneToMany(mappedBy="til", cascade = CascadeType.REMOVE)
     private List<Comment> comments;
 
-    @OneToMany(mappedBy="til")
+    @OneToMany(mappedBy="til", cascade = CascadeType.REMOVE)
     private List<Tag> tags;
 
     public Til(Long id, String tilTitle, String tilContent, boolean tilView, int tilLike, User user, List<Comment> comments, List<Tag> tags) {
