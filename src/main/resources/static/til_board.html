@@ -51,16 +51,18 @@
                     success: function (response) {
                         let til_list = response['tils']['content'];
                         for (let i = 0; i < til_list.length; i++) {
+                            let count = 1;
                             let tags = '';
                             let title = til_list[i]['tilTitle'];
                             let user = til_list[i]['user']['nickname'];
                             let day = til_list[i]['createdAt'];
                             let til_idx = til_list[i]['id'];
                             let til_tags = til_list[i]['tags'];
+                            let til_view = til_list[i]['tilView'];
                             for(let j = 0 ;  j < til_tags.length ; j++){
                                 tags += " #"+ til_tags[j]['name'];
                             }
-                            if (i < 4) {
+                            if (count < 4 && til_view === true) { // new
                                 let temp_html = `<tr onClick="detail(${til_idx})" style="cursor:pointer;">
 
                                                 <th scope="row">${title}<img src="new.png" height="30" width="30"></th>
@@ -69,16 +71,29 @@
                                                 <td>${tags}</td>
                                             </tr>`
                                 $('#til-box').append(temp_html)
-
+                                count += 1;
                             } else {
-                                let temp_html = `<tr onClick="detail(${til_idx})" style="cursor:pointer;">
+                                if(til_view == false){  // lock
+                                    let temp_html = `<tr onClick="detail(${til_idx})" style="cursor:pointer;">
+                                                <th scope="row">${title}<img src="lock.png" height="30" width="30"></th>
+                                                <td>${user}</td>
+                                                <td>${day}</td>
+                                                <td>${tags}</td>
+                                            </tr>`
+                                    $('#til-box').append(temp_html)
+                                }
+                                else {
+                                    let temp_html = `<tr onClick="detail(${til_idx})" style="cursor:pointer;">
+}
                                                 <th scope="row">${title}</th>
                                                 <td>${user}</td>
                                                 <td>${day}</td>
                                                 <td>${tags}</td>
                                             </tr>`
-                                $('#til-box').append(temp_html)
+                                    $('#til-box').append(temp_html)
+                                }
                             }
+
                         }
                         makePagingButtons(response['totalPages'], response['page'] + 1)
                     }
