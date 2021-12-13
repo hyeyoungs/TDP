@@ -26,13 +26,13 @@ public class Til extends Timestamped {
     private String tilTitle;
 
     @Column(nullable = false)
-    private String til_content;
+    private String tilContent;
 
     @Column(nullable = false)
-    private boolean til_view;
+    private boolean tilView;
 
     @Column(nullable = false)
-    private int til_like;
+    private int tilLike;
 
     @JoinColumn(name = "user_id")
     @ManyToOne
@@ -45,12 +45,12 @@ public class Til extends Timestamped {
     @OneToMany(mappedBy="til")
     private List<Tag> tags;
 
-    public Til(Long id, String tilTitle, String til_content, boolean til_view, int til_like, User user, List<Comment> comments,List<Tag> tags) {
+    public Til(Long id, String tilTitle, String tilContent, boolean tilView, int tilLike, User user, List<Comment> comments, List<Tag> tags) {
         this.id = id;
         this.tilTitle = tilTitle;
-        this.til_content = til_content;
-        this.til_view = til_view;
-        this.til_like = til_like;
+        this.tilContent = tilContent;
+        this.tilView = tilView;
+        this.tilLike = tilLike;
         this.user = user;
         this.comments = comments;
         this.tags=tags;
@@ -59,20 +59,20 @@ public class Til extends Timestamped {
     @Builder
     public Til(TilRequestDto tilRequestDto, User user) {
         this.tilTitle = tilRequestDto.getTilTitle();
-        this.til_content = tilRequestDto.getTil_content();
-        this.til_view = tilRequestDto.isTil_view();
+        this.tilContent = tilRequestDto.getTilContent();
+        this.tilView = tilRequestDto.isTilView();
         this.user = user;
     }
 
 
     public void updateMyTil(TilRequestDto tilRequestDto){
         this.tilTitle= tilRequestDto.getTilTitle();
-        this.til_content=tilRequestDto.getTil_content();
+        this.tilContent=tilRequestDto.getTilContent();
     }
 
 
     public void updateMyTilView(){
-        til_view = !(til_view);
+        tilView = !(tilView);
     }
 
 }
