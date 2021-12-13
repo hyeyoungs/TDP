@@ -71,19 +71,19 @@
         }
       }, 86400000);
     });
-    var sockJs = new SockJS('/stomp/chat');
-    //1. SockJS를 내부에 들고있는 stomp를 내어줌
-    stomp = Stomp.over(sockJs);
-    //2. connection이 맺어지면 실행
-    stomp.connect({}, function () {
-      //4. subscribe(path, callback)으로 메세지를 받을 수 있음
-      stomp.subscribe("/sub/chat/home/", function (chat) {
-        let content = JSON.parse(chat.body);
-        count = content.userCount;
-        let connector = content.message;
-        $('#user-count').text(count);
-      });
-    })
+    // var sockJs = new SockJS('/stomp/chat');
+    // //1. SockJS를 내부에 들고있는 stomp를 내어줌
+    // stomp = Stomp.over(sockJs);
+    // //2. connection이 맺어지면 실행
+    // stomp.connect({}, function () {
+    //   //4. subscribe(path, callback)으로 메세지를 받을 수 있음
+    //   stomp.subscribe("/sub/chat/home/", function (chat) {
+    //     let content = JSON.parse(chat.body);
+    //     count = content.userCount;
+    //     let connector = content.message;
+    //     $('#user-count').text(count);
+    //   });
+    // })
 
         function list_til() {
             $.ajax({
@@ -158,13 +158,32 @@
                             if (til === 0) {
                             } else {
                                 let temp_html =
-                                    `<h6 class="open"><i class="about_accordion wow fadeIn faq_main_content fa fa-angle-right"></i> ${nickname}</h6>
-                                <div class="open">
-                                  <div class="content">
-                                    <p id="rank_countTil">${til}</p>
-                                  </div>
-                                </div>`
-                                $('#faq_main_content').append(temp_html);
+                                    '<div class="col-md-4 col-sm-12">\n' +
+                                    '                    <div class="pricing_item">\n' +
+                                    '                        <div class="pricing_head p-top-30 p-bottom-100 text-center">\n' +
+                                    '                            <h3 class="text-uppercase">${nickname}</h3>\n' +
+                                    '                        </div>\n' +
+                                    '                        <div class="pricing_price_border text-center">\n' +
+                                    '                            <div class="pricing_price">\n' +
+                                    '                                <h3 class="text-white">$19</h3>\n' +
+                                    '                                <p class="text-white">per month</p>\n' +
+                                    '                            </div>\n' +
+                                    '                        </div>\n' +
+                                    '\n' +
+                                    '                        <div class="pricing_body bg-white p-top-110 p-bottom-60">\n' +
+                                    '                            <ul>\n' +
+                                    '                                <li><i class="fa fa-check-circle text-primary"></i> <span>10</span> user</li>\n' +
+                                    '                                <li class="disabled"><i class="fa fa-times-circle"></i> Unlimited Bandwidth</li>\n' +
+                                    '                                <li class="disabled"><i class="fa fa-times-circle"></i> Full Statistics</li>\n' +
+                                    '\n' +
+                                    '                            </ul>\n' +
+                                    '                            <div class="pricing_btn text-center m-top-40">\n' +
+                                    '                                <a href="" class="btn btn-primary">CHOOSE PLAN</a>\n' +
+                                    '                            </div>\n' +
+                                    '                        </div>\n' +
+                                    '                    </div>\n' +
+                                    '                </div>'
+                                $('#rank_user').append(temp_html);
                             }
                         }
                     }
@@ -349,36 +368,139 @@
     <p><button type="button" class="home_btn_chatlist btn-primary" onClick="location.href='./rooms.html'" >채팅 리스트</button></p>
 </div>
 
-    <!--About Sections-->
-    <section id="about" class="about roomy-100">
+<!--    &lt;!&ndash;About Sections&ndash;&gt;-->
+<!--    <section id="about" class="about roomy-100">-->
+<!--        <div class="container">-->
+<!--            <div class="row">-->
+<!--                <div class="main_about">-->
+<!--                    <div class="col-md-6">-->
+<!--                        <div class="about_content">-->
+<!--                            <h2><strong>RANK</strong></h2>-->
+<!--                            <div class="separator_left"></div>-->
+<!--                            <p>가장 많은 til 보유자</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-md-6">-->
+<!--                        <div class="about_accordion wow fadeIn">-->
+<!--                            <div id="faq_main_content" class="faq_main_content">-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            &lt;!&ndash;End off row&ndash;&gt;-->
+<!--        </div>-->
+<!--        &lt;!&ndash;End off container &ndash;&gt;-->
+
+
+<!--    </section>-->
+<!--    &lt;!&ndash;End off About section &ndash;&gt;-->
+
+
+    <!--RANK 부분 -->
+    <section id="pricing" class="pricing lightbg">
         <div class="container">
             <div class="row">
-                <div class="main_about">
-                    <div class="col-md-6">
-                        <div class="about_content">
-                            <h2><strong>RANK</strong></h2>
-                            <div class="separator_left"></div>
-                            <p>가장 많은 til 보유자</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="about_accordion wow fadeIn">
-                            <div id="faq_main_content" class="faq_main_content">
-                            </div>
+                <div class="main_pricing">
+                    <div class="col-md-8 ml-md-auto mr-md-auto">
+                        <div class="head_title text-center">
+                            <h2>RANK</h2>
+                            <div class="separator_auto"></div>
+                            <p> 최다 TIL 보유자를 소개합니다. </p>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="row" id="rank_user">
+<!--                <div class="col-md-4 col-sm-12">-->
+<!--                    <div class="pricing_item">-->
+<!--                        <div class="pricing_head p-top-30 p-bottom-100 text-center">-->
+<!--                            <h3 class="text-uppercase">STARTER</h3>-->
+<!--                        </div>-->
+<!--                        <div class="pricing_price_border text-center">-->
+<!--                            <div class="pricing_price">-->
+<!--                                <h3 class="text-white">$19</h3>-->
+<!--                                <p class="text-white">per month</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        <div class="pricing_body bg-white p-top-110 p-bottom-60">-->
+<!--                            <ul>-->
+<!--                                <li><i class="fa fa-check-circle text-primary"></i> <span>10</span> user</li>-->
+<!--                                <li class="disabled"><i class="fa fa-times-circle"></i> Unlimited Bandwidth</li>-->
+<!--                                <li class="disabled"><i class="fa fa-times-circle"></i> Full Statistics</li>-->
+
+<!--                            </ul>-->
+<!--                            <div class="pricing_btn text-center m-top-40">-->
+<!--                                <a href="" class="btn btn-primary">CHOOSE PLAN</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                &lt;!&ndash; End off col-md-4 &ndash;&gt;-->
+
+<!--                <div class="col-md-4 col-sm-12">-->
+<!--                    <div class="pricing_item sm-m-top-30">-->
+<!--                        <div class="pricing_top_border"></div>-->
+<!--                        <div class="pricing_head p-top-30 p-bottom-100 text-center">-->
+<!--                            <h3 class="text-uppercase">PREMIUM</h3>-->
+<!--                        </div>-->
+<!--                        <div class="pricing_price_border text-center">-->
+<!--                            <div class="pricing_price">-->
+<!--                                <h3 class="text-white">$39</h3>-->
+<!--                                <p class="text-white">per month</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        <div class="pricing_body bg-white p-top-110 p-bottom-60">-->
+<!--                            <ul>-->
+<!--                                <li><i class="fa fa-check-circle text-primary"></i> <span>50</span> user</li>-->
+<!--                                <li><i class="fa fa-check-circle text-primary"></i> Unlimited Bandwidth</li>-->
+<!--                                <li class="disabled"><i class="fa fa-times-circle"></i> Full Statistics</li>-->
+<!--                            </ul>-->
+<!--                            <div class="pricing_btn text-center m-top-40">-->
+<!--                                <a href="" class="btn btn-primary">CHOOSE PLAN</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                &lt;!&ndash; End off col-md-4 &ndash;&gt;-->
+
+<!--                <div class="col-md-4 col-sm-12">-->
+<!--                    <div class="pricing_item sm-m-top-30">-->
+<!--                        <div class="pricing_head p-top-30 p-bottom-100 text-center">-->
+<!--                            <h3 class="text-uppercase">bUSINESS</h3>-->
+<!--                        </div>-->
+<!--                        <div class="pricing_price_border text-center">-->
+<!--                            <div class="pricing_price">-->
+<!--                                <h3 class="text-white">$99</h3>-->
+<!--                                <p class="text-white">per month</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        <div class="pricing_body bg-white p-top-110 p-bottom-60">-->
+<!--                            <ul>-->
+<!--                                <li><i class="fa fa-check-circle text-primary"></i> Unlimited Users</li>-->
+<!--                                <li><i class="fa fa-check-circle text-primary"></i> Unlimited Bandwidth</li>-->
+<!--                                <li><i class="fa fa-check-circle text-primary"></i> Full Statistics</li>-->
+<!--                            </ul>-->
+<!--                            <div class="pricing_btn text-center m-top-40">-->
+<!--                                <a href="" class="btn btn-primary">CHOOSE PLAN</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                &lt;!&ndash; End off col-md-4 &ndash;&gt;-->
+            </div>
             <!--End off row-->
         </div>
         <!--End off container -->
-
-
     </section>
-    <!--End off About section -->
+    <!--End off Pricing section -->
 
 
-    <!--Service Section-->
+
+<!--Service Section-->
     <section id="service" class="service">
         <div class="container">
             <div class="row">
@@ -401,69 +523,6 @@
         <!--End off container -->
     </section>
     <!--End off Featured section-->
-
-    <!--Blog Section-->
-    <section id="blog" class="blog">
-        <div class="container">
-            <div class="row">
-                <div class="main_blog text-center roomy-100">
-                    <div class="col-sm-8 mr-sm-auto ml-sm-auto">
-                        <div class="head_title text-center">
-                            <h2>RECENT BLOGS</h2>
-                            <div class="separator_auto"></div>
-                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
-                                tincidunt tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo
-                                consequat. </p>
-                        </div>
-                    </div>
-
-                    <div class="row">
-
-                        <div class="col-md-4">
-                            <div class="blog_item m-top-20">
-                                <div class="blog_item_img">
-                                    <img src="assets/images/Blog/1.jpg" alt=""/>
-                                </div>
-                                <div class="blog_text roomy-40">
-                                    <h6>PLEASUARE WITHOUT CONSCIENCE</h6>
-                                    <p><em><a href="">May 15, 2016</a> /<a href="">admin</a>/<a href=""> Co-working</a></em>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="blog_item m-top-20">
-                                <div class="blog_item_img">
-                                    <img src="assets/images/Blog/2.jpg" alt=""/>
-                                </div>
-                                <div class="blog_text roomy-40">
-                                    <h6>PLEASUARE WITHOUT CONSCIENCE</h6>
-                                    <p><em><a href="">May 15, 2016</a> /<a href="">admin</a>/<a href=""> Co-working</a></em>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="blog_item m-top-20">
-                                <div class="blog_item_img">
-                                    <img src="assets/images/Blog/3.jpg" alt=""/>
-                                </div>
-                                <div class="blog_text roomy-40">
-                                    <h6>PLEASUARE WITHOUT CONSCIENCE</h6>
-                                    <p><em><a href="">May 15, 2016</a> /<a href="">admin</a>/<a href=""> Co-working</a></em>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <!--End off row -->
-        </div>
-        <!--End off container -->
-    </section>
-    <!-- End off Blog section-->
 
 
     <!-- scroll up-->
