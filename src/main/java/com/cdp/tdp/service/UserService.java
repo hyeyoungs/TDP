@@ -136,14 +136,13 @@ public class UserService {
     }
 
 
-    public void updateUser(User user, UserUpdateRequestDto userUpdateRequestDto) throws IOException {
+    public void updateUser(User user, String nickname, String githubId, MultipartFile imageFile, String about) throws IOException {
         UserUpdateDto userUpdateDto = new UserUpdateDto();
 
-        userUpdateDto.setNickname(userUpdateRequestDto.getNickname());
-        userUpdateDto.setGithub_id(userUpdateRequestDto.getGithub_id());
-        userUpdateDto.setIntroduce(userUpdateRequestDto.getAbout());
+        userUpdateDto.setNickname(nickname);
+        userUpdateDto.setGithub_id(githubId);
+        userUpdateDto.setIntroduce(about);
 
-        MultipartFile imageFile = userUpdateRequestDto.getFile();
         if (imageFile == null) {
             userUpdateDto.setPicture(user.getPicture());
             userUpdateDto.setPicture_real(user.getPicture_real());
