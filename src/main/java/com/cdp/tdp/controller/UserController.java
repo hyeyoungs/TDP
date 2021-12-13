@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -28,6 +29,7 @@ import java.util.List;
 @RestController
 @Component
 public class UserController {
+
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
@@ -86,20 +88,11 @@ public class UserController {
         return userService.getAllUser();
     }
 
-    @Timed
-    @Transactional(timeout = 15)
+
     @PutMapping("/user/profile")
     public void updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                           @RequestParam("nickname") String nickname,
-                           @RequestParam("github_id") String githubId,
-                           @RequestParam(value = "file", required = false) MultipartFile imageFile,
-                           @RequestParam("about") String about){
-        userService.updateUser(userDetails.getUser(), nickname, githubId, imageFile, about);
+                           UserUpdateRequestDto userUpdateRequestDto) throws IOException {
+        userService.updateUser(userDetails.getUser(), userUpdateRequestDto);
     }
-
-
-
-
-
 
 }
