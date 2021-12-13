@@ -45,6 +45,7 @@ function read_user() {
         async: false,
         success: function (response) {
             user_info = response;
+            let username=user_info['username'];
         }
     });
     return user_info;
