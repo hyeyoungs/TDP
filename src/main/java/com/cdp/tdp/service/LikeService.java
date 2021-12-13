@@ -54,6 +54,7 @@ public class LikeService {
             like_num=like_num-1;
             til.setTilLike(like_num);
             tilRepository.save(til);
+            likeRepository.deleteByTilAndUser(til,user);
             return til;
         }
         return til;
