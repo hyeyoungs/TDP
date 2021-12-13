@@ -28,13 +28,13 @@ public class TilService {
     private final TilRepository tilRepository;
     private final UserRepository userRepository;
     private final TagRepository tagRepository;
-    public List<Til> getAllTil() {
-        return tilRepository.findByTilViewOrderByIdDesc(true);
+    public List<Til> getAllTil(User user) {
+        return tilRepository.findByTilViewOrUserIdOrderByIdDesc(true, user.getId());
     }
 
-    public Page<Til> getTilList(int page, int size) {
+    public Page<Til> getTilList(int page, int size, User user) {
         Pageable pageable = PageRequest.of(page, size);
-        return tilRepository.findByTilViewOrderByIdDesc(true, pageable);
+        return tilRepository.findByTilViewOrUserIdOrderByIdDesc(true, user.getId(), pageable);
     }
 
     public Til createTil(TilRequestDto tilRequestDto, Long id) throws SQLException {
@@ -74,7 +74,7 @@ public class TilService {
     }
 
     public List<Til> getUserTil(User user){
-        return tilRepository.findByUser(user);
+        return tilRepository.findByUserOrderByIdDesc(user);
     }
 
     public void updateTilView(Long id){
@@ -85,17 +85,17 @@ public class TilService {
         tilRepository.save(til);
     }
 
-    public Page<Til> SearchTil(int page, int size, String keyword, String setting) {
+    public Page<Til> SearchTil(int page, int size, String keyword, String setting, User user) {
         Pageable pageable = PageRequest.of(page, size);
 
-        if(setting.equals("제목")) {  return tilRepository.findByTilTitleOrderByIdDesc(keyword, pageable);    }
+        if(setting.equals("제목")) {  return tilRepository.findByTilTitleOrUserIdOrderByIdDesc(keyword, true, user.getId(), pageable);    }
         else if(setting.equals("작성자")) {
-            User user = userRepository.findByUsername(keyword)
+            User writer = userRepository.findByUsername(keyword)
                     .orElseThrow(() -> new UsernameNotFoundException("로그인 오류"));
-            return tilRepository.findByUserOrderByIdDesc(user, pageable);
+            return tilRepository.findByUserOrUserIdOrderByIdDesc(writer, true, user.getId(), pageable);
         }
         // 태그
-        else {  return tilRepository.findByTagsNameOrderByIdDesc(keyword, pageable);    }
+        else {  return tilRepository.findByTagsNameOrUserIdOrderByIdDesc(keyword, true, user.getId(), pageable);    }
     }
 
 }
