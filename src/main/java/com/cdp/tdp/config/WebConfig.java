@@ -10,7 +10,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://api.tildp.shop","http://www.tildp.shop","http://localhost:8080")
+                .allowedOrigins("*")
                 .allowedMethods("POST", "PUT", "GET", "HEAD", "OPTIONS", "DELETE");
     }
 }
