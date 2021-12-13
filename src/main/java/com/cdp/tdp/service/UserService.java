@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.*;
 
 
@@ -134,15 +135,15 @@ public class UserService {
         return user_tils.size();
     }
 
-    @Timed
-    @Transactional(timeout = 15)
-    public void updateUser(User user, String nickname, String githubId, MultipartFile imageFile, String about) {
+
+    public void updateUser(User user, UserUpdateRequestDto userUpdateRequestDto) throws IOException {
         UserUpdateDto userUpdateDto = new UserUpdateDto();
 
-        userUpdateDto.setNickname(nickname);
-        userUpdateDto.setGithub_id(githubId);
-        userUpdateDto.setIntroduce(about);
+        userUpdateDto.setNickname(userUpdateRequestDto.getNickname());
+        userUpdateDto.setGithub_id(userUpdateRequestDto.getGithub_id());
+        userUpdateDto.setIntroduce(userUpdateRequestDto.getAbout());
 
+        MultipartFile imageFile = userUpdateRequestDto.getFile();
         if (imageFile == null) {
             userUpdateDto.setPicture(user.getPicture());
             userUpdateDto.setPicture_real(user.getPicture_real());
