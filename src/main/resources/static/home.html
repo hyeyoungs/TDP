@@ -152,6 +152,7 @@
                     url: `${domainURL}/til/ranker`,
                     data: {},
                     success: function (response) {
+                        console.log(response)
                         for (let i = 0; i < 3; i++) {
                             let nickname = response[i]['nickname'];
                             let til = response[i]['til_count'];
