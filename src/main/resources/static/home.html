@@ -71,19 +71,19 @@
         }
       }, 86400000);
     });
-    var sockJs = new SockJS('/stomp/chat');
-    //1. SockJS를 내부에 들고있는 stomp를 내어줌
-    stomp = Stomp.over(sockJs);
-    //2. connection이 맺어지면 실행
-    stomp.connect({}, function () {
-      //4. subscribe(path, callback)으로 메세지를 받을 수 있음
-      stomp.subscribe("/sub/chat/home/", function (chat) {
-        let content = JSON.parse(chat.body);
-        count = content.userCount;
-        let connector = content.message;
-        $('#user-count').text(count);
-      });
-    })
+    // var sockJs = new SockJS('/stomp/chat');
+    // //1. SockJS를 내부에 들고있는 stomp를 내어줌
+    // stomp = Stomp.over(sockJs);
+    // //2. connection이 맺어지면 실행
+    // stomp.connect({}, function () {
+    //   //4. subscribe(path, callback)으로 메세지를 받을 수 있음
+    //   stomp.subscribe("/sub/chat/home/", function (chat) {
+    //     let content = JSON.parse(chat.body);
+    //     count = content.userCount;
+    //     let connector = content.message;
+    //     $('#user-count').text(count);
+    //   });
+    // })
 
         function list_til() {
             $.ajax({
@@ -368,36 +368,36 @@
     <p><button type="button" class="home_btn_chatlist btn-primary" onClick="location.href='./rooms.html'" >채팅 리스트</button></p>
 </div>
 
-    <!--About Sections-->
-    <section id="about" class="about roomy-100">
-        <div class="container">
-            <div class="row">
-                <div class="main_about">
-                    <div class="col-md-6">
-                        <div class="about_content">
-                            <h2><strong>RANK</strong></h2>
-                            <div class="separator_left"></div>
-                            <p>가장 많은 til 보유자</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="about_accordion wow fadeIn">
-                            <div id="faq_main_content" class="faq_main_content">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--End off row-->
-        </div>
-        <!--End off container -->
+<!--    &lt;!&ndash;About Sections&ndash;&gt;-->
+<!--    <section id="about" class="about roomy-100">-->
+<!--        <div class="container">-->
+<!--            <div class="row">-->
+<!--                <div class="main_about">-->
+<!--                    <div class="col-md-6">-->
+<!--                        <div class="about_content">-->
+<!--                            <h2><strong>RANK</strong></h2>-->
+<!--                            <div class="separator_left"></div>-->
+<!--                            <p>가장 많은 til 보유자</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-md-6">-->
+<!--                        <div class="about_accordion wow fadeIn">-->
+<!--                            <div id="faq_main_content" class="faq_main_content">-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            &lt;!&ndash;End off row&ndash;&gt;-->
+<!--        </div>-->
+<!--        &lt;!&ndash;End off container &ndash;&gt;-->
 
 
-    </section>
-    <!--End off About section -->
+<!--    </section>-->
+<!--    &lt;!&ndash;End off About section &ndash;&gt;-->
 
 
-    <!--Pricing Section-->
+    <!--RANK 부분 -->
     <section id="pricing" class="pricing lightbg">
         <div class="container">
             <div class="row">
@@ -406,7 +406,7 @@
                         <div class="head_title text-center">
                             <h2>RANK</h2>
                             <div class="separator_auto"></div>
-                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. </p>
+                            <p> 최다 TIL 보유자를 소개합니다. </p>
                         </div>
                     </div>
                 </div>
