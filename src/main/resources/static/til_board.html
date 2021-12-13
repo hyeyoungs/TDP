@@ -51,7 +51,7 @@
                     success: function (response) {
                         let til_list = response['tils']['content'];
                         for (let i = 0; i < til_list.length; i++) {
-                            let count = 1;
+                            var count = 0;
                             let tags = '';
                             let title = til_list[i]['tilTitle'];
                             let user = til_list[i]['user']['nickname'];
@@ -69,8 +69,8 @@
                                                 <td>${user}</td>
                                                 <td>${day}</td>
                                                 <td>${tags}</td>
-                                            </tr>`
-                                $('#til-box').append(temp_html)
+                                            </tr>`;
+                                $('#til-box').append(temp_html);
                                 count += 1;
                             } else {
                                 if(til_view == false){  // lock
@@ -79,8 +79,8 @@
                                                 <td>${user}</td>
                                                 <td>${day}</td>
                                                 <td>${tags}</td>
-                                            </tr>`
-                                    $('#til-box').append(temp_html)
+                                            </tr>`;
+                                    $('#til-box').append(temp_html);
                                 }
                                 else {
                                     let temp_html = `<tr onClick="detail(${til_idx})" style="cursor:pointer;">
@@ -90,7 +90,7 @@
                                                 <td>${day}</td>
                                                 <td>${tags}</td>
                                             </tr>`
-                                    $('#til-box').append(temp_html)
+                                    $('#til-box').append(temp_html);
                                 }
                             }
 
