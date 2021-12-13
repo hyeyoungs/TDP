@@ -6,6 +6,7 @@ import com.cdp.tdp.security.UserDetailsImpl;
 import com.cdp.tdp.security.UserDetailsServiceImpl;
 import com.cdp.tdp.service.UserService;
 import com.cdp.tdp.util.JwtTokenUtil;
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
@@ -87,6 +89,8 @@ public class UserController {
         return userService.getAllUser();
     }
 
+    @Timed
+    @Transactional(timeout = 10)
     @PutMapping("/user/profile")
     public void updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails,
                            @RequestParam("nickname") String nickname,
