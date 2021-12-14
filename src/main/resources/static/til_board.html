@@ -15,14 +15,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+    <!-- Toast CSS -->
 
-    <!-- total js -->
     <script src="back.js" rel="script"></script>
-
-    <!-- Toast Bulma -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-    <link rel="stylesheet" href="./back.css">
-
     <script>
         size = 10
         current_page = 1
@@ -195,7 +190,7 @@
     <div class="row" id="create_button">
         <div class="col-auto mr-auto"></div>
         <div class="col-auto">
-            <button class="btn btn-primary" onclick="location.href='./create.html'">글쓰기</button>
+            <button type="button" class="btn btn-primary" onclick="location.href='./create.html'">글쓰기</button>
         </div>
     </div>
     <div class="container">
@@ -242,14 +237,20 @@
 
 </div>
 <!-- toast -->
-<article class="message is-danger" id="toast">
-    <div class="message-header">
-        <strong class="me-auto" id="til_title"></strong>
-        <button class="delete" aria-label="delete" onclick="toast_close()"></button>
+<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000000"
+         style="position: absolute; top: 0; right: 0;">
+        <div class="toast-header">
+            <i class="bi bi-x-lg"></i>
+            <strong class="me-auto" id="til_title">${title}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"
+                    onclick="toast_close()"></button>
+        </div>
+        <div class="toast-body" id="til_content">
+            ${content}
+        </div>
     </div>
-    <div class="message-body" id="til_content">
-    </div>
-</article>
+</div>
 <!-- toast end -->
 </body>
 </html>
