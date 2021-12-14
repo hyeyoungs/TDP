@@ -43,16 +43,16 @@ public class TilController {
     private final TilService tilService;
 
     @GetMapping("/tils")
-    public List<Til> getAllTil(){
-        return tilService.getAllTil();
+    public List<Til> getAllTil(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        return tilService.getAllTil(userDetails.getUser());
     }
 
     @GetMapping("/til_board")
-    public TilListDto getTilList(@RequestParam int page) {
+    public TilListDto getTilList(@RequestParam int page, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         page --;
         int size = 10;
 
-        Page<Til> tils = tilService.getTilList(page, size);
+        Page<Til> tils = tilService.getTilList(page, size, userDetails.getUser());
         TilListDto tilList = TilListDto.builder()
                 .tils(tils)
                 .page(tils.getNumber())
@@ -100,11 +100,11 @@ public class TilController {
     }
 
     @GetMapping("/til/search")
-    public TilListDto SearchTil(@RequestParam int page, @RequestParam String keyword, @RequestParam String setting){
+    public TilListDto searchTil(@RequestParam int page, @RequestParam String keyword, @RequestParam String setting, @AuthenticationPrincipal UserDetailsImpl userDetails){
         page --;
         int size = 10;
 
-        Page<Til> tils = tilService.SearchTil(page, size, keyword, setting);
+        Page<Til> tils = tilService.searchTil(page, size, keyword, setting, userDetails.getUser());
         TilListDto tilList = TilListDto.builder()
                 .tils(tils)
                 .page(tils.getNumber())
