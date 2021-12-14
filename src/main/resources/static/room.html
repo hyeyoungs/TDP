@@ -79,6 +79,18 @@
             });
         });
 
+        document.querySelector('#button-send').addEventListener('keydown',function (e) {
+            if (e.key === 'Enter') {
+                let msg = document.getElementById("msg");
+                stomp.send('/pub/chat/message', {}, JSON.stringify({
+                    roomId: roomId,
+                    message: msg.value,
+                    writer: username,
+                    userCount: 0
+                }));
+                msg.value = '';
+            }
+        });
         function disconnect() {
             stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message:"exit"}))
             if (stomp !== null) {
@@ -105,19 +117,7 @@
                 }
             });
         }
-        function enterkey() {
-            if (window.event.keyCode == 13) {
-                let msg = document.getElementById("msg");
-                stomp.send('/pub/chat/message', {}, JSON.stringify({
-                    roomId: roomId,
-                    message: msg.value,
-                    writer: username,
-                    userCount: 0
 
-                }));
-                msg.value = '';
-            }
-        }
     </script>
     <style>
         .navbar-brand {
@@ -187,7 +187,7 @@
                     <div class="input-group mb-3">
                         <input type="text" id="msg" class="form-control">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-danger" type="button" id="button-send" onkeyup="enterkey()">전송</button>
+                            <button class="btn btn-outline-danger" type="button" id="button-send">전송</button>
                         </div>
                     </div>
                 </div>
