@@ -34,10 +34,11 @@
         function create_room() {
             let room_name= $('#room_name').val()
 
-            if (room_name!=null){
+            if (room_name!== ""){
                 let info = {
                     roomName : room_name
                 }
+                console.log("이름은 들어옴");
                 console.log(room_name);
                 $.ajax({
 
@@ -51,6 +52,7 @@
                 });
             }
             else{
+                console.log("공백 이름");
                 alert("채팅방 이름을 입력해주세요!")
             }
 
