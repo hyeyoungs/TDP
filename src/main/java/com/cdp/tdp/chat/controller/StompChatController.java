@@ -25,7 +25,7 @@ public class StompChatController {
     @MessageMapping(value = "/chat/enter")
     public void enter(ChatMessageDTO message){
         count.add(message.getWriter());
-        message.setUserCount((long) count.size());
+        message.setUserCount(count.size());
         String json = new Gson().toJson(count);
         message.setMessage(json);
         template.convertAndSend("/sub/chat/home/", message);
@@ -36,7 +36,7 @@ public class StompChatController {
     @MessageMapping(value = "/chat/exit")
     public void exit(ChatMessageDTO message) {
         count.remove(message.getWriter());
-        message.setUserCount((long) count.size());
+        message.setUserCount(count.size());
         String json = new Gson().toJson(count);
         message.setMessage(json);
         template.convertAndSend("/sub/chat/home/", message);

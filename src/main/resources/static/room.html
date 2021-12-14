@@ -80,7 +80,7 @@
         });
 
         function disconnect() {
-            stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message:"exit"}))
+            stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message:"exit", userCount:0}))
             if (stomp !== null) {
                 stomp.disconnect();
             }
