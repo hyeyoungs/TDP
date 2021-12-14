@@ -22,13 +22,17 @@ public class ChatRoom extends Timestamped {
     @Column // 컬럼 값이고 반드시 값이 존재해야 함을 나타냅니다.
     private String name;
 
+    @Column
+    private int count;
 
     public ChatRoom(ChatRoomDTO chatRoomDTO) {
 
         this.name = chatRoomDTO.getRoomName();
-
+        this.count=0;
 
     }
+
+
 
 
 }
