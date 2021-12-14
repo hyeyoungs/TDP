@@ -28,8 +28,8 @@ public class TilService {
     private final TilRepository tilRepository;
     private final UserRepository userRepository;
     private final TagRepository tagRepository;
-    public List<Til> getAllTil(User user) {
-        return tilRepository.findByTilViewOrUserIdOrderByIdDesc(true, user.getId());
+    public List<Til> getAllTil() {
+        return tilRepository.findByTilViewOrderByIdDesc(true);
     }
 
     public Page<Til> getTilList(int page, int size, User user) {
