@@ -64,20 +64,26 @@
                 //3. send(path, header, message)로 메세지를 보낼 수 있음
                 stomp.send("/pub/chat/enter", {}, JSON.stringify({
                     roomId: roomId, writer: username, message:"enter", userCount:0}))
+                read_room();
             });
 
-            $("#button-send").on("click", function (e) {
-                let msg = document.getElementById("msg");
-                stomp.send('/pub/chat/message', {}, JSON.stringify({
-                    roomId: roomId,
-                    message: msg.value,
-                    writer: username,
-                    userCount: 0
 
-                }));
-                msg.value = '';
-            });
+
         });
+
+
+        function send_message(){
+            let msg = document.getElementById("msg");
+            stomp.send('/pub/chat/message', {}, JSON.stringify({
+                roomId: roomId,
+                message: msg.value,
+                writer: username,
+                userCount: 0
+
+            }));
+            msg.value = '';
+
+        }
 
         function disconnect() {
             stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message:"exit", userCount:0}))
@@ -85,9 +91,7 @@
                 stomp.disconnect();
             }
         }
-        window.onbeforeunload = function(){
-                disconnect();
-        }
+
 
         $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
             login_check(options, originalOptions, jqXHR);
@@ -170,7 +174,7 @@
     <div class="center">
         <div class="chat-room">
             <div class="col-6" style="margin-top: 20px; margin-bottom: 20px">
-                <h1 id="room"><strong>Room : </strong><span id="room-name" style="color: #ff6863">name</span><span id="user_count">  &#128512; </span></h1>
+                <h1 id="room"><strong>Room : </strong><span id="room-name" style="color: #ff6863">name </span><span> &#128512 </span><span id="user_count">   </span></h1>
 
 
 
@@ -181,7 +185,8 @@
                     <div class="input-group mb-3">
                         <input type="text" id="msg" class="form-control">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-danger" type="button" id="button-send">전송</button>
+                            <button class="btn btn-outline-danger" type="button" id="button-send" onclick="send_message()" >전송</button>
+                            <span style="margin-left: 15px"><button class="btn btn-outline-danger" type="button"  onclick="disconnect()" >채팅방 나가기</button></span>
                         </div>
                     </div>
                 </div>
