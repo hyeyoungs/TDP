@@ -256,15 +256,24 @@
          style="position: absolute; top: 0; right: 0;">
         <div class="toast-header">
             <i class="bi bi-x-lg"></i>
-            <strong class="me-auto" id="til_title">${title}</strong>
+            <strong class="me-auto" id="til_title"></strong>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"
                     onclick="toast_close()"></button>
         </div>
         <div class="toast-body" id="til_content">
-            ${content}
+
         </div>
     </div>
 </div>
+<article class="message is-medium">
+    <div class="message-header">
+        <p>${title}</p>
+        <button class="delete is-medium" aria-label="delete"></button>
+    </div>
+    <div class="message-body">
+        ${content}
+    </div>
+</article>
 <!-- toast end -->
 
 </body>
