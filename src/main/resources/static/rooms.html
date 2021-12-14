@@ -32,18 +32,26 @@
         });
 
         function create_room() {
-            let info = {
-                roomName : $('#room').val()
-            }
-            $.ajax({
-                type: "POST",
-                url: `${domainURL}/room`,
-                contentType: "application/json",
-                data: JSON.stringify(info),
-                success: function (response) {
-                     window.location.href = "/rooms.html"
+            let room_name= $('#room').val()
+            if (room_name!=null){
+                let info = {
+                    roomName : room_name
                 }
-            });
+
+                $.ajax({
+                    type: "POST",
+                    url: `${domainURL}/room`,
+                    contentType: "application/json",
+                    data: JSON.stringify(info),
+                    success: function (response) {
+                        window.location.href = "/rooms.html"
+                    }
+                });
+            }
+            else{
+                alert("채팅방 이름을 입력해주세요!")
+            }
+
         }
         function read_all_rooms() {
             $.ajax({
