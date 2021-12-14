@@ -1,20 +1,22 @@
 let urlEndpoint = 'http://api.tildp.shop/subscribe';
+//let urlEndpoint = 'http://localhost:8080/subscribe';
 let eventSource = new EventSource(urlEndpoint);
+
 let domainURL= 'http://api.tildp.shop';
 // let domainURL= 'http://localhost:8080';
 
 eventSource.addEventListener("latestNews", function (event) {
     let articleData = JSON.parse(event.data);
     let title = articleData.tilTitle;
-    let content = articleData.til_content;
+    let content = articleData.tilContent;
     $('#til_title').text(title);
     $('#til_content').text(content);
-    $('#liveToast').toast('show');
+    $('#toast').css("display", "block");
 });
 
 
 function toast_close(){
-    $('#liveToast').toast('dispose')
+    $('#toast').css("display", "none");
 }
 
 
