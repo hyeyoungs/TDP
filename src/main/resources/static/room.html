@@ -28,6 +28,7 @@
         let username;
         let id;
         let stomp;
+        let user_info;
         $(document).ready(function () {
             id = window.location.search.split("=")[1]
             read_room();
@@ -38,9 +39,10 @@
             //1. SockJS를 내부에 들고있는 stomp를 내어줌
 
 
-            var stomp = Stomp.over(sockJs);
+            stomp = Stomp.over(sockJs);
             //2. connection이 맺어지면 실행
             stomp.connect({}, function () {
+                read_room();
                 //4. subscribe(path, callback)으로 메세지를 받을 수 있음
                 stomp.subscribe(`/sub/chat/room/` + roomId, function (chat) {
                     console.log(roomId)
@@ -64,7 +66,7 @@
                 //3. send(path, header, message)로 메세지를 보낼 수 있음
                 stomp.send("/pub/chat/enter", {}, JSON.stringify({
                     roomId: roomId, writer: username, message:"enter", userCount:0}))
-                read_room();
+
             });
 
 
@@ -86,10 +88,12 @@
         }
 
         function disconnect() {
+            read_room();
             stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message:"exit", userCount:0}))
             if (stomp !== null) {
                 stomp.disconnect();
             }
+            window.location.href="./rooms.html"
         }
 
         $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
