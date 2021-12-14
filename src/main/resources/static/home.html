@@ -75,48 +75,26 @@
             sendMessage = setInterval(function () {
                 if ($(".test").css("background-color") === 'rgb(255, 0, 0)') {
                     REST_Call('/message');
+                } else {
                 }
             }, 86400000);
 
-
-
         });
-       
-        })
-  
-  <script>
-  let flag = 0;
-    let user_info = localStorage.getItem("username");
-    let count;
-    
-    $(document).ready(function () {
-      list_til();
-      read_flag();
-      rank_til();
-      sendMessage = setInterval(function() {
-        if ( $(".test").css("background-color")==='rgb(255, 0, 0)'){
-          REST_Call('/message');
-      }
-        else{
-        }
-      }, 86400000);
-
-    });
 
 
-      // var sockJs = new SockJS(`${domainURL}/stomp/chat`);
-      // //1. SockJS를 내부에 들고있는 stomp를 내어줌
-      // stomp = Stomp.over(sockJs);
-      // //2. connection이 맺어지면 실행
-      // stomp.connect({}, function () {
-      //     //4. subscribe(path, callback)으로 메세지를 받을 수 있음
-      //     stomp.subscribe("/sub/chat/home/", function (chat) {
-      //         let content = JSON.parse(chat.body);
-      //         count = content.userCount;
-      //         let connector = content.message;
-      //         $('#user-count').text(count);
-      //     });
-      // })
+        // var sockJs = new SockJS(`${domainURL}/stomp/chat`);
+        // //1. SockJS를 내부에 들고있는 stomp를 내어줌
+        // stomp = Stomp.over(sockJs);
+        // //2. connection이 맺어지면 실행
+        // stomp.connect({}, function () {
+        //     //4. subscribe(path, callback)으로 메세지를 받을 수 있음
+        //     stomp.subscribe("/sub/chat/home/", function (chat) {
+        //         let content = JSON.parse(chat.body);
+        //         count = content.userCount;
+        //         let connector = content.message;
+        //         $('#user-count').text(count);
+        //     });
+        // })
 
 
         function list_til() {
@@ -133,7 +111,7 @@
                     for (let i = 0; i < max; i++) {
                         let title = all_til[i]['tilTitle'];
                         let user = all_til[i]['user']['nickname'];
-                        
+
                         let tempHtml = `
                                         <div class="col-md-4">
                                           <div class="service_item">
