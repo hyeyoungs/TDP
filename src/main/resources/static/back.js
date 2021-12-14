@@ -47,7 +47,7 @@ function read_user() {
         url: `${domainURL}/user`,
         async: false,
         success: function (response) {
-            let user_info = response;
+            user_info = response;
             $('.user_id_append').text(user_info['username']);
             $('.user_nickname_append').text(user_info['nickname']);
             $('.user_profile_info_append').text(user_info['introduce']);
@@ -71,4 +71,16 @@ function read_user() {
 
     return user_info;
 
+}
+
+function chat_user() {
+    $.ajax({
+        type: "GET",
+        url: `${domainURL}/user`,
+        async: false,
+        success: function (response) {
+            user_info = response;
+        }
+    });
+    return user_info;
 }
