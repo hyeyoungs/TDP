@@ -153,21 +153,23 @@
       }, 86400000);
 
 
-
-    });
     var sockJs = new SockJS(`${domainURL}/stomp/chat`);
     //1. SockJS를 내부에 들고있는 stomp를 내어줌
     stomp = Stomp.over(sockJs);
     //2. connection이 맺어지면 실행
     stomp.connect({}, function () {
-      //4. subscribe(path, callback)으로 메세지를 받을 수 있음
-      stomp.subscribe("/sub/chat/home/", function (chat) {
-        let content = JSON.parse(chat.body);
-        count = content.userCount;
-        let connector = content.message;
-        $('#user-count').text(count);
-      });
+        //4. subscribe(path, callback)으로 메세지를 받을 수 있음
+        stomp.subscribe("/sub/chat/home/", function (chat) {
+            let content = JSON.parse(chat.body);
+            count = content.userCount;
+            let connector = content.message;
+            $('#user-count').text(count);
+        });
     })
+
+
+    });
+
 
         function list_til() {
             $.ajax({
@@ -238,12 +240,13 @@
                     data: {},
                     success: function (response) {
                         console.log(response)
-                        for (let i = 0; i < 3; i++) {
-                            let nickname = response[i]['nickname'];
-                            let til = response[i]['tilCount'];
-                            if (til === 0) {
-                            } else {
-                                let temp_html = `<div class="col-md-4 col-sm-12">
+                        if (response.length < 3) {
+                            for (let i = 0; i < response.length; i++) {
+                                let nickname = response[i]['nickname'];
+                                let til = response[i]['tilCount'];
+                                if (til === 0) {
+                                } else {
+                                    let temp_html = `<div class="col-md-4 col-sm-12">
                                                     <div class="pricing_item">
                                                         <div class="pricing_head p-top-30 p-bottom-100 text-center">
                                                             <h3 class="text-uppercase" ><strong>${nickname}</strong></h3>
@@ -260,7 +263,35 @@
                                                         </div>
                                                     </div>
                                                 </div>`
-                                $('#rank_user').append(temp_html);
+                                    $('#rank_user').append(temp_html);
+                                }
+                            }
+                        }
+                        else {
+                            for (let i = 0; i < 3; i++) {
+                                let nickname = response[i]['nickname'];
+                                let til = response[i]['tilCount'];
+                                if (til === 0) {
+                                } else {
+                                    let temp_html = `<div class="col-md-4 col-sm-12">
+                                                    <div class="pricing_item">
+                                                        <div class="pricing_head p-top-30 p-bottom-100 text-center">
+                                                            <h3 class="text-uppercase" ><strong>${nickname}</strong></h3>
+                                                        </div>
+                                                        <div class="pricing_price_border text-center " >
+                                                            <div class="pricing_price">
+                                                                <h3 class="text-white">${til}</h3>
+                                                                <p class="text-white"> 개</p>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="pricing_body bg-white p-top-80 p-bottom-60">
+
+                                                        </div>
+                                                    </div>
+                                                </div>`
+                                    $('#rank_user').append(temp_html);
+                                }
                             }
                         }
                     }
