@@ -33,6 +33,7 @@
             id = window.location.search.split("=")[1]
             read_room();
             user_info=read_user();
+            console.log(user_info);
             username=user_info['username']
 
             var sockJs = new SockJS(`${domainURL}/stomp/chat`);
