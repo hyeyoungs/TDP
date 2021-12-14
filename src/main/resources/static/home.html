@@ -12,6 +12,7 @@
 <!--Designerd by: https://bootstrapthemes.co-->
 
 <head>
+
     <meta charset="utf-8">
     <title>TIL Management Service</title>
     <meta name="description" content="">
@@ -92,6 +93,81 @@
                 $('#user-count').text(count);
             });
         })
+  <meta charset="utf-8">
+  <title>TIL Management Service</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="favicon.ico">
+  <!--Google Font link-->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/slick.css">
+  <link rel="stylesheet" href="assets/css/slick-theme.css">
+  <link rel="stylesheet" href="assets/css/animate.css">
+  <link rel="stylesheet" href="assets/css/fonticons.css">
+  <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+  <link rel="stylesheet" href="assets/css/bootstrap.css">
+  <link rel="stylesheet" href="assets/css/magnific-popup.css">
+  <link rel="stylesheet" href="assets/css/bootsnav.css">
+  <!--For Plugins external css-->
+  <!--<link rel="stylesheet" href="assets/css/plugins.css" />-->
+  <!--Theme custom css -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <!--<link rel="stylesheet" href="assets/css/colors/maron.css">-->
+  <!--Theme Responsive css-->
+  <link rel="stylesheet" href="assets/css/responsive.css" />
+  <!-- JS includes -->
+  <script src="assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="assets/js/vendor/jquery-1.11.2.min.js"></script>
+  <script src="assets/js/vendor/popper.min.js"></script>
+  <script src="assets/js/vendor/bootstrap.min.js"></script>
+  <script src="assets/js/jquery.magnific-popup.js"></script>
+  <script src="assets/js/jquery.easing.1.3.js"></script>
+  <script src="assets/js/slick.min.js"></script>
+  <script src="assets/js/jquery.collapse.js"></script>
+  <script src="assets/js/bootsnav.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+  <!-- paradise slider js -->
+  <script src="assets/js/plugins.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="back.js" rel="script"></script>
+  
+  <script>
+  let flag = 0;
+    let user_info = localStorage.getItem("username");
+    let count;
+    
+    $(document).ready(function () {
+      list_til();
+      read_flag();
+      rank_til();
+      sendMessage = setInterval(function() {
+        if ( $(".test").css("background-color")==='rgb(255, 0, 0)'){
+          REST_Call('/message');
+      }
+        else{
+        }
+      }, 86400000);
+
+
+
+    });
+    var sockJs = new SockJS(`${domainURL}/stomp/chat`);
+    //1. SockJS를 내부에 들고있는 stomp를 내어줌
+    stomp = Stomp.over(sockJs);
+    //2. connection이 맺어지면 실행
+    stomp.connect({}, function () {
+      //4. subscribe(path, callback)으로 메세지를 받을 수 있음
+      stomp.subscribe("/sub/chat/home/", function (chat) {
+        let content = JSON.parse(chat.body);
+        count = content.userCount;
+        let connector = content.message;
+        $('#user-count').text(count);
+      });
+    })
 
         function list_til() {
             $.ajax({
