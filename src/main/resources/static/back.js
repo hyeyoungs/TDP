@@ -1,9 +1,9 @@
-let urlEndpoint = 'http://api.tildp.shop/subscribe';
-// let urlEndpoint = 'http://localhost:8080/subscribe';
+// let urlEndpoint = 'http://api.tildp.shop/subscribe';
+let urlEndpoint = 'http://localhost:8080/subscribe';
 let eventSource = new EventSource(urlEndpoint);
 
-let domainURL= 'http://api.tildp.shop';
-// let domainURL= 'http://localhost:8080';
+// let domainURL= 'http://api.tildp.shop';
+let domainURL= 'http://localhost:8080';
 
 eventSource.addEventListener("latestNews", function (event) {
     let articleData = JSON.parse(event.data);
@@ -45,10 +45,24 @@ function read_user() {
     $.ajax({
         type: "GET",
         url: `${domainURL}/user`,
-        async: false,
         success: function (response) {
-            user_info = response;
+            let user_info = response;
+            $('.user_id_append').text(user_info['username']);
+            $('.user_nickname_append').text(user_info['nickname']);
+            $('.user_profile_info_append').text(user_info['introduce']);
+            $('.user_profile_pic_append').text(user_info['picture']);
+            $('.github_id_append').text(user_info['github_id']);
+            $('.user_id_append').val(user_info['username']);
+            $('.user_nickname_append').val(user_info['nickname']);
+            $('.user_profile_info_append').val(user_info['introduce']);
+            $('.user_profile_pic_append').val(user_info['picture']);
+            $('.user_profile_pic_real_append').attr('src', user_info['picture_real']);
+            $('.github_id_append').val(user_info['github_id']);
+
+            let github_id = user_info['github_id']
+            if (github_id == null || github_id === ""){
+                $('.github_id_tag').hide();
+            }
         }
     });
-    return user_info;
 }
