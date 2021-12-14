@@ -32,13 +32,15 @@
         });
 
         function create_room() {
-            let room_name= $('#room').val()
+            let room_name= $('#room_name').val()
+
             if (room_name!=null){
                 let info = {
                     roomName : room_name
                 }
-
+                console.log(room_name);
                 $.ajax({
+
                     type: "POST",
                     url: `${domainURL}/room`,
                     contentType: "application/json",
@@ -145,9 +147,8 @@
     <div class="row">
         <div class="col-auto mr-auto"></div>
         <div class="col-auto">
-
-                <input type="text" id="room" name="room" class="form-control">
-                <span><button class="btn btn-secondary" onclick="create_room()">개설하기</button></span>
+            <input type="text" id="room_name" name="room" class="form-control">
+            <span><button class="btn btn-secondary" onclick="create_room()">개설하기</button></span>
 
         </div>
 
