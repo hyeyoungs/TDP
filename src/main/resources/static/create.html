@@ -24,11 +24,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
     <link rel="stylesheet" href="bootstrap-tagsinput.css">
     <script src="bootstrap-tagsinput.js"></script>
-    <script src="back.js" rel="script"></script>
+
+
     <link rel="stylesheet" href="assets/css/bootstrap.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
 
+    <!-- total js -->
+    <script src="back.js" rel="script"></script>
 
+    <!-- Toast Bulma -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="./back.css">
+
+    <!-- Icon -->
+    <link rel="shortcut icon" href="#">
 
     <!-- Toast CSS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -140,6 +149,17 @@
     </div>
   </div>
 </footer>
+        
+<!-- toast -->
+<article class="message is-danger" id="toast">
+    <div class="message-header">
+        <strong class="me-auto" id="til_title"></strong>
+        <button class="delete" aria-label="delete" onclick="toast_close()"></button>
+    </div>
+    <div class="message-body" id="til_content">
+    </div>
+</article>
+<!-- toast end -->
 
 </body>
 </html>

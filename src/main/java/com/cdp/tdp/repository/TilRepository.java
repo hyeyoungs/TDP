@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public interface TilRepository extends JpaRepository<Til, Long> {
     // get all til
-    List<Til> findByTilViewOrUserIdOrderByIdDesc(boolean tilView, Long userId);
+    List<Til> findByTilViewOrderByIdDesc(boolean tilView);
     // get all til using pagination
     Page<Til> findByTilViewOrUserIdOrderByIdDesc(boolean tilView, Long userId, Pageable pageable);
     // get one til by id

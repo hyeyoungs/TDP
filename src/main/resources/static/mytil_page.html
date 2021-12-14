@@ -23,14 +23,15 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 
     <!-- JS -->
-    <script src="back.js" rel="script"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-
-    <!-- Toast CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- total js -->
     <script src="back.js" rel="script"></script>
+
+    <!-- Toast Bulma -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="./back.css">
+
     <script>
         $(document).ready(function () {
             list_user_til();
@@ -366,19 +367,13 @@
     </div>
 </div>
 <!-- toast -->
-<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
-    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000000"
-         style="position: absolute; top: 0; right: 0;">
-        <div class="toast-header">
-            <i class="bi bi-x-lg"></i>
-            <strong class="me-auto" id="til_title">${title}</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"
-                    onclick="toast_close()"></button>
-        </div>
-        <div class="toast-body" id="til_content">
-            ${content}
-        </div>
+<article class="message is-danger" id="toast">
+    <div class="message-header">
+        <strong class="me-auto" id="til_title"></strong>
+        <button class="delete" aria-label="delete" onclick="toast_close()"></button>
     </div>
-</div>
+    <div class="message-body" id="til_content">
+    </div>
+</article>
 <!-- toast end -->
 </body>
