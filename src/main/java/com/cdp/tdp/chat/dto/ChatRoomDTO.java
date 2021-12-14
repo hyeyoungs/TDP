@@ -13,4 +13,5 @@ import java.util.UUID;
 @Setter
 public class ChatRoomDTO {
     private String roomName;
+    private int count;
 }
