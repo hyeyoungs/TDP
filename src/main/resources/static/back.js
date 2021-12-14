@@ -65,4 +65,5 @@ function read_user() {
             }
         }
     });
+    return user_info;
 }
