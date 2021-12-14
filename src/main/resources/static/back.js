@@ -45,6 +45,7 @@ function read_user() {
     $.ajax({
         type: "GET",
         url: `${domainURL}/user`,
+        async: false,
         success: function (response) {
             let user_info = response;
             $('.user_id_append').text(user_info['username']);
