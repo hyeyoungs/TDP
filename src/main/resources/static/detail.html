@@ -221,8 +221,8 @@
             success: function (response) {
 
                 let title = response['tilTitle']
-                let content = response['til_content']
-                let num_heart = response['til_like']
+                let content = response['tilContent']
+                let num_heart = response['tilLike']
 
                 $("#now-title").text(title);
                 $("#now-content").text(content);
@@ -311,7 +311,7 @@
     function delete_til() {
         $.ajax({
             type: "DELETE",
-            url: `${domainURL}/til/${idx}`,
+            url: `${domainURL}/til_board/${idx}`,
             success: function (response) {
                 alert(response["msg"]);
                 window.history.back();
@@ -324,8 +324,8 @@
         let til_content = $('#new-til-content').val();
         $.ajax({
             type: "PUT",
-            url: `${domainURL}/til/${idx}`,
-            data: {til_title_give: til_title, til_content_give: til_content},
+            url: `${domainURL}/til_board/${idx}`,
+            data: {tilTitle: til_title, tilContent: til_content},
             success: function (response) {
                 alert(response["msg"]);
                 window.location.reload();
@@ -355,7 +355,7 @@
         $('#new-box').show();
     }
 
-    function cancle() {
+    function cancel() {
         $('#new-box').hide();
     }
 
@@ -493,7 +493,7 @@
                             <p id="new-content-button"><span class="two-button">
                                 <button type="button" onclick='update_til()'
                                         class="btn btn-primary">변경</button>
-                                <button type="button" onclick='cancle()' class="btn btn-primary">취소</button>
+                                <button type="button" onclick='cancel()' class="btn btn-primary">취소</button>
                             </span></p>
                             <br>
                             <p>til_day</p>

@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.*;
 
 
@@ -101,24 +102,24 @@ public class UserService {
 
     public List<UserTilCountDto> getAllUser() {
         List<User> user_list = userRepository.findAll(); // 모든 user 를 리스트에 담음
-        int til_count;
+        int tilCount;
         List<UserTilCountDto> CountTilList = new ArrayList<>();
 
         for (User user : user_list) { //모든 user 조회
             // user의 til갯수 가져오기
             String nickname = user.getNickname();
-            til_count = TilCount(user);
+            tilCount = TilCount(user);
             UserTilCountDto userTilCountDto = new UserTilCountDto();
-            userTilCountDto.setTil_count(til_count);
+            userTilCountDto.setTilCount(tilCount);
             userTilCountDto.setNickname(nickname);
             CountTilList.add(userTilCountDto);
         }
         CountTilList.sort(new Comparator<UserTilCountDto>() {
             @Override
             public int compare(UserTilCountDto o1, UserTilCountDto o2) {
-                if (o1.getTil_count() < o2.getTil_count()) {
+                if (o1.getTilCount() < o2.getTilCount()) {
                     return 1;
-                } else if (o1.getTil_count() > o2.getTil_count()) {
+                } else if (o1.getTilCount() > o2.getTilCount()) {
                     return -1;
                 }
                 return 0;
@@ -133,8 +134,8 @@ public class UserService {
         return user_tils.size();
     }
 
-    @Transactional
-    public void updateUser(User user, String nickname, String githubId, MultipartFile imageFile, String about) {
+
+    public void updateUser(User user, String nickname, String githubId, MultipartFile imageFile, String about) throws IOException {
         UserUpdateDto userUpdateDto = new UserUpdateDto();
 
         userUpdateDto.setNickname(nickname);

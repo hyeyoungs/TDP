@@ -18,22 +18,24 @@ public class LikeService {
     private final LikeRepository likeRepository;
     private final TilService tilService;
 
+    @Transactional
     public Til addLike(User user, Long til_id) {
         //좋아요를 등록할 til 가져오기
-        Til til = tilRepository.findById(til_id).get();
+
+        Til til = tilRepository.findById(til_id).orElseThrow(
+                ()->new NullPointerException("해당 아이디가 존재하지 않습니다.")
+        );
 
         //중복 좋아요 방지
         if(!isNotAlreadyLike(user, til)) {
             likeRepository.save(new Likes(til,user));
-            plusLike(til_id);
+            int like_num=til.getTilLike()+1;
+            til.setTilLike(like_num);
+            tilRepository.save(til);
             return til;
+
         }
         return til;
-
-        //좋아요 수 증가 로직
-        // 레포지토리에서 til_id로 찾아서 좋아요 갯수 가져옴
-
-
 
     }
 
@@ -41,27 +43,24 @@ public class LikeService {
     public boolean isNotAlreadyLike(User user,Til til) {
         return likeRepository.findByTilAndUser(til,user).isPresent();
     }
+
+    @Transactional
     public Til CancelLike(User user, Long til_id) {
         //좋아요를 취소할 til 가져오기
         Til til = tilRepository.findById(til_id).get();
+        int like_num=til.getTilLike();
 
-        if(isNotAlreadyLike(user, til)) {
+        if(isNotAlreadyLike(user, til) && like_num>0) {
+            like_num=like_num-1;
+            til.setTilLike(like_num);
+            tilRepository.save(til);
             likeRepository.deleteByTilAndUser(til,user);
-            minusLike(til_id);
             return til;
         }
         return til;
 
     }
-    @Transactional
-    public int plusLike(Long id) {
-        return tilRepository.plusLike(id);
-    }
 
-    @Transactional
-    public void minusLike(Long id) {
-        tilRepository.minusLike(id);
-    }
 
 
 }
