@@ -43,8 +43,8 @@ public class TilController {
     private final TilService tilService;
 
     @GetMapping("/tils")
-    public List<Til> getAllTil(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        return tilService.getAllTil(userDetails.getUser());
+    public List<Til> getAllTil(){
+        return tilService.getAllTil();
     }
 
     @GetMapping("/til_board")
