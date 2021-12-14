@@ -49,9 +49,12 @@ public class LikeService {
         //좋아요를 취소할 til 가져오기
         Til til = tilRepository.findById(til_id).get();
         int like_num=til.getTilLike();
-        if(!isNotAlreadyLike(user, til) && like_num>0) {
-            til.setTilLike(like_num-1);
+
+        if(isNotAlreadyLike(user, til) && like_num>0) {
+            like_num=like_num-1;
+            til.setTilLike(like_num);
             tilRepository.save(til);
+            likeRepository.deleteByTilAndUser(til,user);
             return til;
         }
         return til;

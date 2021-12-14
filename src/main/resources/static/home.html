@@ -8,7 +8,7 @@
 <!--[if gt IE 8]><!-->
 <html class="no-js" lang="en">
 <!--<![endif]-->
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 <!--Designerd by: https://bootstrapthemes.co-->
 
 <head>
@@ -173,19 +173,17 @@
                                 let temp_html = `<div class="col-md-4 col-sm-12">
                                                     <div class="pricing_item">
                                                         <div class="pricing_head p-top-30 p-bottom-100 text-center">
-                                                            <h3 class="text-uppercase"><strong>${nickname}</strong></h3>
+                                                            <h3 class="text-uppercase" ><strong>${nickname}</strong></h3>
                                                         </div>
-                                                        <div class="pricing_price_border text-center">
+                                                        <div class="pricing_price_border text-center " >
                                                             <div class="pricing_price">
                                                                 <h3 class="text-white">${til}</h3>
                                                                 <p class="text-white"> 개</p>
                                                             </div>
                                                         </div>
 
-                                                        <div class="pricing_body bg-white p-top-110 p-bottom-60">
-                                                            <div class="pricing_btn text-center m-top-40">
-                                                                <a href="" class="btn btn-primary">보러가기</a>
-                                                            </div>
+                                                        <div class="pricing_body bg-white p-top-80 p-bottom-60">
+
                                                         </div>
                                                     </div>
                                                 </div>`
@@ -348,40 +346,65 @@
 
 <!--Home Sections-->
 
-<section id="hello" class="home bg-mega">
+    <section id="hello" class="home bg-mega">
 
-    <div class="overlay"></div>
-    <div class="container">
-        <div class="row">
-            <div class="main_home">
-                <div class="home_text">
-                    <h1 class="text-white">WE’RE <br/> TIL Management Service!<span>
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="main_home">
+                    <div class="home_text">
+                        <h1 class="text-white">WE ’ RE <br/> TIL  Management  Service!<span>
 
           <div class="test rounded-circle"></div>
 
           </span></h1>
+
+                    </div>
 
                 </div>
 
             </div>
 
         </div>
+        <!--End off row-->
 
+        <!--End off container -->
+    </section>
+    <!--End off Home Sections-->
+
+
+
+
+
+    <!--채팅 section-->
+    <div style="text-align: center" class="page-header">
+        <h2 class="user-count" style="display: inline"><strong>0</strong></h2><h2 style="display: inline"><strong>명 채팅서버 접속중</strong></h2>
+        <p><button type="button" class="home_btn_chatlist btn-primary" onClick="location.href='./rooms.html'" >채팅 리스트</button></p>
     </div>
-    <!--End off row-->
 
-    <!--End off container -->
-</section>
-<!--End off Home Sections-->
+    <!--Service Section-->
+    <section id="service" class="service">
+        <div class="container">
+            <div class="row">
+                <div class="main_service roomy-100">
+                    <div class="col-md-8 col-sm-10 mr-md-auto ml-md-auto mr-sm-auto ml-sm-auto">
+                        <div class="head_title text-center">
+                            <h2><strong>OUR TILS</strong></h2>
+                            <div class="separator_auto"></div>
+                            <p>사용자들이 작성한 TIL 입니다.</p>
+                        </div>
+                    </div>
+                    <div class="row" id="board-main">
 
-<div style="text-align: center" class="page-header">
-    <h2 class="user-count" style="display: inline"><strong>0</strong></h2>
-    <h2 style="display: inline"><strong>명 채팅서버 접속중</strong></h2>
-    <p>
-        <button type="button" class="home_btn_chatlist btn-primary" onClick="location.href='./rooms.html'">채팅 리스트
-        </button>
-    </p>
-</div>
+
+                    </div>
+                </div>
+            </div>
+            <!--End off row -->
+        </div>
+        <!--End off container -->
+    </section>
+    <!--End off Featured section-->
 
 
 <!--RANK 부분 -->
@@ -407,31 +430,6 @@
 </section>
 <!--End off Pricing section -->
 
-
-<!--Service Section-->
-<section id="service" class="service">
-    <div class="container">
-        <div class="row">
-            <div class="main_service roomy-100">
-                <div class="col-md-8 col-sm-10 mr-md-auto ml-md-auto mr-sm-auto ml-sm-auto">
-                    <div class="head_title text-center">
-                        <h2><strong>OUR TILS</strong></h2>
-                        <div class="separator_auto"></div>
-                        <p>사용자들이 작성한 TIL 입니다.</p>
-                    </div>
-                </div>
-                <div class="row" id="board-main">
-
-
-                </div>
-            </div>
-        </div>
-        <!--End off row -->
-    </div>
-    <!--End off container -->
-</section>
-<!--End off Featured section-->
-
 <!-- toast -->
 <article class="message is-danger" id="toast">
     <div class="message-header">
@@ -444,26 +442,26 @@
 <!-- toast end -->
 
 <!-- scroll up-->
-<div class="scrollup">
-    <a href="#"><i class="fa fa-chevron-up"></i></a>
-</div>
-<!-- End off scroll up -->
+    <div class="scrollup">
+        <a href="#"><i class="fa fa-chevron-up"></i></a>
+    </div>
+    <!-- End off scroll up -->
 
 
-<footer id="footer" class="footer bg-black">
-    <div class="container">
-        <div class="row">
-            <div class="main_footer text-center p-top-40 p-bottom-30">
-                <p class="wow fadeInRight" data-wow-duration="1s">
-                    Made with
-                    <i class="fa fa-heart"></i> by
-                    <a target="_blank" href="https://bootstrapthemes.co">Bootstrap Themes</a> 2016. All Rights
-                    Reserved
-                </p>
+    <footer id="footer" class="footer bg-black">
+        <div class="container">
+            <div class="row">
+                <div class="main_footer text-center p-top-40 p-bottom-30">
+                    <p class="wow fadeInRight" data-wow-duration="1s">
+                        Made with
+                        <i class="fa fa-heart"></i> by
+                        <a target="_blank" href="https://github.com/0sunzero0/TDP-Spring">CDP</a> 2021. All Rights
+                        Reserved
+                    </p>
+                </div>
             </div>
         </div>
-    </div>
-</footer>
+    </footer>
 
 </div>
 </body>
