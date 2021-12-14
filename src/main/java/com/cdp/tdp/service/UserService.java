@@ -9,7 +9,6 @@ import com.cdp.tdp.repository.TilRepository;
 import com.cdp.tdp.repository.UserRepository;
 import com.cdp.tdp.security.kakao.KakaoOAuth2;
 import com.cdp.tdp.security.kakao.KakaoUserInfo;
-import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.*;
 
 
@@ -134,9 +134,8 @@ public class UserService {
         return user_tils.size();
     }
 
-    @Timed
-    @Transactional(timeout = 15)
-    public void updateUser(User user, String nickname, String githubId, MultipartFile imageFile, String about) {
+
+    public void updateUser(User user, String nickname, String githubId, MultipartFile imageFile, String about) throws IOException {
         UserUpdateDto userUpdateDto = new UserUpdateDto();
 
         userUpdateDto.setNickname(nickname);

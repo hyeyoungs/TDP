@@ -6,7 +6,6 @@ import com.cdp.tdp.security.UserDetailsImpl;
 import com.cdp.tdp.security.UserDetailsServiceImpl;
 import com.cdp.tdp.service.UserService;
 import com.cdp.tdp.util.JwtTokenUtil;
-import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +15,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -28,6 +27,7 @@ import java.util.List;
 @RestController
 @Component
 public class UserController {
+
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
@@ -86,20 +86,14 @@ public class UserController {
         return userService.getAllUser();
     }
 
-    @Timed
-    @Transactional(timeout = 15)
+
     @PutMapping("/user/profile")
     public void updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails,
                            @RequestParam("nickname") String nickname,
                            @RequestParam("github_id") String githubId,
                            @RequestParam(value = "file", required = false) MultipartFile imageFile,
-                           @RequestParam("about") String about){
+                           @RequestParam("about") String about) throws IOException {
         userService.updateUser(userDetails.getUser(), nickname, githubId, imageFile, about);
     }
-
-
-
-
-
 
 }
