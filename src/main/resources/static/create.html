@@ -37,9 +37,9 @@
         read_user_profile();
       });
 
-      // $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
-      //   login_check(options, originalOptions, jqXHR);
-      // });
+      $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+        login_check(options, originalOptions, jqXHR);
+      });
 
       function read_user_profile(){
         let user_info = read_user();
@@ -116,8 +116,8 @@
               <input name="title" id="title" type="text" placeholder="제목을 입력해주세요. ">
             </div>
             <div class="field half">
-              <p><span> Writer : </span><label class="user_nickname_append" id="user_nickname_append">작성자</label>
-              <p>
+              <p><span> Writer : </span><label for="content" class="user_nickname_append" id="user_nickname_append"></label>
+              </p>
             </div>
             <div class="field half">
               <label for="tags">Tag</label>
@@ -136,7 +136,7 @@
       </div>
     </section>
     <div class="copyright">
-      &copy; Untitled Design: <a href="https://templated.co/"> CDP </a>.
+      &copy; Made By : <a href="https://github.com/0sunzero0/TDP-Spring"> CDP </a>.
     </div>
   </div>
 </footer>
