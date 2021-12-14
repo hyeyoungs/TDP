@@ -152,23 +152,22 @@
         }
       }, 86400000);
 
-
-    var sockJs = new SockJS(`${domainURL}/stomp/chat`);
-    //1. SockJS를 내부에 들고있는 stomp를 내어줌
-    stomp = Stomp.over(sockJs);
-    //2. connection이 맺어지면 실행
-    stomp.connect({}, function () {
-        //4. subscribe(path, callback)으로 메세지를 받을 수 있음
-        stomp.subscribe("/sub/chat/home/", function (chat) {
-            let content = JSON.parse(chat.body);
-            count = content.userCount;
-            let connector = content.message;
-            $('#user-count').text(count);
-        });
-    })
-
-
     });
+
+
+      // var sockJs = new SockJS(`${domainURL}/stomp/chat`);
+      // //1. SockJS를 내부에 들고있는 stomp를 내어줌
+      // stomp = Stomp.over(sockJs);
+      // //2. connection이 맺어지면 실행
+      // stomp.connect({}, function () {
+      //     //4. subscribe(path, callback)으로 메세지를 받을 수 있음
+      //     stomp.subscribe("/sub/chat/home/", function (chat) {
+      //         let content = JSON.parse(chat.body);
+      //         count = content.userCount;
+      //         let connector = content.message;
+      //         $('#user-count').text(count);
+      //     });
+      // })
 
 
         function list_til() {
@@ -192,7 +191,6 @@
                                             <i class="icofont icofont-light-bulb"></i>
                                             <h3 class="m-top-30">${title}</h3>
                                             <div class="separator_small"></div>
-                                            <p>${content} </p>
                                             <h5>${user}</h5>
                                           </div>
                                         </div>
@@ -483,7 +481,7 @@
     <!--채팅 section-->
     <div style="text-align: center" class="page-header">
         <h2 class="user-count" style="display: inline"><strong>0</strong></h2><h2 style="display: inline"><strong>명 채팅서버 접속중</strong></h2>
-        <p><button type="button" class="home_btn_chatlist btn-primary" onClick="location.href='./rooms.html'" >채팅 리스트</button></p>
+        <p><button type="button" class="home_btn_chatlist btn-primary" onClick="location.href='./rooms.html'" >채팅방 입장</button></p>
     </div>
 
     <!--Service Section-->

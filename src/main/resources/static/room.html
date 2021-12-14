@@ -86,7 +86,7 @@
             }
         }
         window.onbeforeunload = function(){
-            disconnect();
+                disconnect();
         }
 
         $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
@@ -101,7 +101,9 @@
                 success: function (response) {
                     roomId = response['roomId'];
                     roomName = response['name'];
+                    let room_count= response['count'];
                     $('#room-name').text(roomName);
+                    $('#user_count').text(room_count);
                 }
             });
         }
@@ -167,7 +169,10 @@
     <div class="center">
         <div class="chat-room">
             <div class="col-6" style="margin-top: 20px; margin-bottom: 20px">
-                <h1 id="room"><strong>Room : </strong><span id="room-name" style="color: #ff6863">name</span></h1>
+                <h1 id="room"><strong>Room : </strong><span id="room-name" style="color: #ff6863">name</span><span id="user_count">  &#128512; </span></h1>
+
+
+
             </div>
             <div>
                 <div id="msgArea" class="col"></div>
