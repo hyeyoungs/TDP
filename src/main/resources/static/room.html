@@ -114,6 +114,26 @@
             margin-left: 100px;
         }
 
+        .center {
+            border-radius: 20%;
+            background-color: rgb(255,242,233);
+            width: 800px;
+            height: 800px;
+            position: absolute;
+            left: 15%; //parent인 document기준으로 50% 이동
+            margin-left: -120px;
+            top: 20%; //parent인 documnet기준으로 50% 이동
+            margin-top: -120px;
+        }
+        .chat-room {
+            display:inline-block;
+            width: 120%;
+            margin: 0 auto;
+            text-align: center;
+            padding-left: 210px;
+
+
+        }
     </style>
 </head>
 
@@ -140,39 +160,43 @@
     </div>
 </nav>
 
-<div class="container align-middle">
-    <div class="col-6">
-        <h1 id="room-name">name</h1>
-    </div>
-    <div>
-        <div id="msgArea" class="col"></div>
-        <div class="col-6">
-            <div class="input-group mb-3">
-                <input type="text" id="msg" class="form-control">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" id="button-send">전송</button>
+
+    <div class="center">
+        <div class="chat-room">
+            <div class="col-6" style="margin-top: 20px; margin-bottom: 20px">
+                <h1 id="room"><strong>Room : </strong><span id="room-name" style="color: #ff6863">name</span></h1>
+            </div>
+            <div>
+                <div id="msgArea" class="col"></div>
+                <div class="col-6">
+                    <div class="input-group mb-3">
+                        <input type="text" id="msg" class="form-control">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-danger" type="button" id="button-send">전송</button>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            <div class="col-6"></div>
+        </div>
+    </div>
+
+    <!-- toast -->
+    <div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000000"
+             style="position: absolute; top: 0; right: 0;">
+            <div class="toast-header">
+                <i class="bi bi-x-lg"></i>
+                <strong class="me-auto" id="til_title">${title}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"
+                        onclick="toast_close()"></button>
+            </div>
+            <div class="toast-body" id="til_content">
+                ${content}
             </div>
         </div>
     </div>
-    <div class="col-6"></div>
-</div>
-<!-- toast -->
-<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
-    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000000"
-         style="position: absolute; top: 0; right: 0;">
-        <div class="toast-header">
-            <i class="bi bi-x-lg"></i>
-            <strong class="me-auto" id="til_title">${title}</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"
-                    onclick="toast_close()"></button>
-        </div>
-        <div class="toast-body" id="til_content">
-            ${content}
-        </div>
-    </div>
-</div>
-<!-- toast end -->
+    <!-- toast end -->
 </body>
 
 </html>

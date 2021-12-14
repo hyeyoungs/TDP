@@ -1170,7 +1170,7 @@ Home Section style
 ==================*/
 
 .home {
-	background: url(../images/background/header.jpg) no-repeat bottom center;
+	background: url(../images/background/22.jpg) no-repeat bottom center;
 	background-size: cover;
 	position: relative;
 }
@@ -1236,109 +1236,6 @@ About section style
 }
 
 
-
-/*
-FAQ Page
---------*/
-
-.faq_main_content h6 {
-	margin-bottom: 0rem;
-	border: 1px solid;
-	border-color: #eee;
-	position: relative;
-}
-
-.faq_main_content h6 + div {
-	height: 0px;
-	padding: 0px;
-	overflow: hidden;
-	display: block!important;
-	-webkit-transform: translateZ(0);
-	-webkit-transition: all 0.3s ease;
-	transition: all 0.3s ease;
-	margin-bottom: 10px;
-	border: 0px solid #cdcdcd;
-}
-
-.faq_main_content h6 + div.open {
-	height: 133px;
-	border: 1px solid;
-	border-top: 0;
-	border-color: #eee;
-}
-
-.faq_main_content h6 a {
-	display: block;
-	color: #6a6a6a;
-	text-decoration: none;
-	font-weight: normal;
-	overflow: hidden;
-}
-
-.faq_main_content h6 span {
-	font-weight: 600;
-}
-
-.faq_main_content h6 a i {
-	width: 50px;
-	height: 50px;
-	line-height: 50px;
-	background-color: #eeeeee;
-	text-align: center;
-	color: #444444;
-	margin-right: 15px;
-	font-size: 1.5rem;
-}
-
-.faq_main_content h6.open a {
-	color: #444;
-}
-
-.faq_main_content h6.open a i {
-	color: #fff;
-	background-color: #444444;
-}
-
-
-.faq_main_content h6.open a i {
-	-webkit-transform: rotate(90deg);
-	transform: rotate(90deg);
-}
-
-.faq_main_content .content {
-	padding: 25px;
-	color: #4a4a4a;
-}
-
-
-/*!**/
-/*Video Section style*/
-/*======================*!*/
-
-/*.video {*/
-/*	background: url(../images/background/video.jpg) no-repeat center center;*/
-/*	background-size: cover;*/
-/*	position: relative;*/
-/*}*/
-
-/*.main_video {*/
-/*	display: block;*/
-/*	!*z-index: 2;*!*/
-/*	!*position: relative;*!*/
-/*}*/
-
-/*.main_video i,*/
-/*.main_video span.fa,*/
-/*.main_video span.icon {*/
-/*	color: #fff;*/
-/*	font-size: 3rem;*/
-/*	border: 2px solid #fff;*/
-/*	width: 80px;*/
-/*	height: 80px;*/
-/*	line-height: 80px;*/
-/*	border-radius: 50%;*/
-/*	position: relative;*/
-/*}*/
 
 
 /*
@@ -1444,181 +1341,7 @@ service section style
 .service_item p {}
 
 
-/*
-Impress section style
-========================*/
 
-.impress {
-	background: url(../images/background/work-together.jpg) no-repeat center center;
-	background-size: cover;
-	position: relative;
-}
-
-.main_impress {
-	display: flex;
-	flex-basis: 100%;
-	flex-wrap: wrap;
-}
-
-.main_impress h2 {
-	font-size: 2.286rem
-}
-
-.impress_btns .btn {
-	padding: 1rem 4rem;
-}
-
-
-
-/*
-Portfolio section style
-========================*/
-
-.main_portfolio {
-	display: flex;
-	flex-basis: 100%;
-	flex-wrap: wrap;
-}
-
-.portfolio_content {
-	display: flex;
-	flex-basis: 100%;
-	flex-wrap: wrap;
-	]
-}
-
-.portfolio_item {
-	display: flex;
-	flex-basis: 100%;
-	flex-wrap: wrap;
-	position: relative;
-	overflow: hidden;
-}
-
-.portfolio_item:hover img {
-	-webkit-transform: scale(1.1) rotate(2deg);
-	-moz-transform: scale(1.1) rotate(2deg);
-	-o-transform: scale(1.1) rotate(2deg);
-	-ms-transform: scale(1.1) rotate(2deg);
-	transform: scale(1.1) rotate(2deg);
-}
-
-.portfolio_item img {
-	width: 100%;
-	-webkit-transition: all 0.6s;
-	-o-transition: all 0.6s;
-	-moz-transition: all 0.6s;
-	-ms-transition: all 0.6s;
-	transition: all 0.6s;
-}
-
-.portfolio_hover {
-	position: absolute;
-	left: 0%;
-	right: 0%;
-	top: 0%;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.30);
-	padding-top: 12%;
-	opacity: 0;
-	-webkit-transition: all 0.4s;
-	-moz-transition: all 0.4s;
-	-o-transition: all 0.4s;
-	-ms-transition: all 0.4s;
-	transition: all 0.4s;
-}
-
-.portfolio_item:hover .portfolio_hover {
-	opacity: 1;
-}
-
-.portfolio_item2 .portfolio_hover {
-	padding-top: 25%;
-}
-
-.portfolio_item3 .portfolio_hover {
-	padding-top: 65%;
-}
-
-.home_btns,
-.impress_btns,
-.portfolio_hover_icon {
-	margin-left: -10px;
-}
-
-.subscribe_btns button.btn,
-.home_btns a,
-.impress_btns a,
-.portfolio_hover_icon a {
-	margin-left: 10px;
-}
-
-.portfolio_hover_icon a i {
-	width: 40px;
-	height: 40px;
-	line-height: 40px;
-	text-align: center;
-	border: 1px solid;
-	border-color: #fff;
-	display: inline-block;
-	color: #fff;
-	border-radius: 50%;
-}
-
-
-
-
-/*
-Skill Section style
-=======================*/
-
-/* Skill bar*/
-
-.main_skill {
-	display: flex;
-	flex-basis: 100%;
-	flex-wrap: wrap;
-}
-
-.teamskillbar {
-	position: relative;
-	display: block;
-	margin-bottom: 15px;
-	width: 100%;
-	background: #f2f2f2;
-	height: 10px;
-	-webkit-transition: 0.4s linear;
-	transition: 0.4s linear;
-	-webkit-transition-property: width, background-color;
-	transition-property: width, background-color;
-}
-
-.teamskillbar h6 {
-	position: absolute;
-	top: -25px;
-	left: 0;
-}
-
-.teamskillbar-bar {
-	height: 10px;
-	width: 0px;
-	background: #ff6863;
-	position: absolute;
-	left: 0px;
-	top: 0px;
-}
-
-
-.skill_bottom_content {
-	display: flex;
-	flex-basis: 100%;
-	flex-wrap: wrap;
-}
-
-.skill_bottom_item .separator_small {
-	margin: 20px auto;
-}
 
 
 /*
@@ -1710,7 +1433,7 @@ Pricing Section style
 	background-color: #ff6863;
 	padding: 10px;
 	border-radius: 50%;
-	margin: 0 auto;
+	margin-top: 15px;
 	width: 150px;
 	height: 150px;
 	position: absolute;
