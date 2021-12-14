@@ -45,6 +45,7 @@ function read_user() {
     $.ajax({
         type: "GET",
         url: `${domainURL}/user`,
+        async: false,
         success: function (response) {
             let user_info = response;
             $('.user_id_append').text(user_info['username']);
@@ -62,8 +63,10 @@ function read_user() {
             let github_id = user_info['github_id']
             if (github_id == null || github_id === ""){
                 $('.github_id_tag').hide();
+
             }
+            return user_info;
         }
     });
-    return user_info;
+
 }
