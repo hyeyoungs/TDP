@@ -65,8 +65,10 @@ function read_user() {
                 $('.github_id_tag').hide();
 
             }
-            return user_info;
+
         }
     });
+
+    return user_info;
 
 }
