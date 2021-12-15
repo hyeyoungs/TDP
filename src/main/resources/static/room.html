@@ -31,16 +31,16 @@
         $(document).ready(function () {
             id = window.location.search.split("=")[1]
             read_room();
-            user_info=read_user();
+            user_info=chat_user();
+            console.log(user_info);
             username=user_info['username']
 
             var sockJs = new SockJS(`${domainURL}/stomp/chat`);
             //1. SockJS를 내부에 들고있는 stomp를 내어줌
-
-
-            var stomp = Stomp.over(sockJs);
+            stomp = Stomp.over(sockJs);
             //2. connection이 맺어지면 실행
             stomp.connect({}, function () {
+                read_room();
                 //4. subscribe(path, callback)으로 메세지를 받을 수 있음
                 stomp.subscribe(`/sub/chat/room/` + roomId, function (chat) {
                     console.log(roomId)
@@ -61,10 +61,10 @@
                     }
                     $("#msgArea").append(str);
                 });
-                //3. send(path, header, message)로 메세지를 보낼 수 있음
                 stomp.send("/pub/chat/enter", {}, JSON.stringify({
                     roomId: roomId, writer: username, message:"enter", userCount:0}))
             });
+          
             $(document).keydown(function (event){
                 if(event.keyCode===13){
                     let msg = document.getElementById("msg");
@@ -77,26 +77,60 @@
                     msg.value ='';
                 }
             });
-            $("#button-send").on("click", function (e) {
+
+             $("#button-send").on("click", function (e) {
                 let msg = document.getElementById("msg");
+                 stomp.send('/pub/chat/message', {}, JSON.stringify({
+                    roomId: roomId,
+                     message: msg.value,
+                    writer: username,
+                    userCount: 0
+           
+                 }));
+                msg.value = '';
+             });
+
+            $("#button-exit").on("click", function (e) {
+                read_room();
+                stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message:"exit", userCount:0}))
+                if (stomp !== null) {
+                    stomp.disconnect();
+                }
+                window.location.href="./rooms.html"
+            });
+
+
+
+
+        });
+
+
+        function send_message(){
+            var sockJs = new SockJS(`${domainURL}/stomp/chat`);
+            //1. SockJS를 내부에 들고있는 stomp를 내어줌
+            stomp = Stomp.over(sockJs);
+            //2. connection이 맺어지면 실행
+            let msg = document.getElementById("msg");
+            stomp.connect({}, function () {
                 stomp.send('/pub/chat/message', {}, JSON.stringify({
                     roomId: roomId,
                     message: msg.value,
                     writer: username,
                     userCount: 0
                 }));
+
                 msg.value = '';
+
             });
-        });
+        }
 
         function disconnect() {
-            stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message:"exit"}))
+            read_room();
+            stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message:"exit", userCount:0}))
             if (stomp !== null) {
                 stomp.disconnect();
             }
-        }
-        window.onbeforeunload = function(){
-            disconnect();
+            window.location.href="./rooms.html"
         }
 
         $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
@@ -109,9 +143,14 @@
                 url: `${domainURL}/room/${id}`,
                 data: {},
                 success: function (response) {
+                    console.log(response);
                     roomId = response['roomId'];
                     roomName = response['name'];
+
+                    let room_count= response['count'];
                     $('#room-name').text(roomName);
+
+                    $('#user_count').text(room_count);
                 }
             });
         }
@@ -138,6 +177,7 @@
             top: 20%; //parent인 documnet기준으로 50% 이동
             margin-top: -120px;
         }
+
         .chat-room {
             display:inline-block;
             width: 120%;
@@ -155,7 +195,8 @@
 <!-- navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="./home.html">TIL.D.P</a>
+        <a class="navbar-brand" href="./home.html
+">TIL.D.P</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -177,7 +218,15 @@
     <div class="center">
         <div class="chat-room">
             <div class="col-6" style="margin-top: 20px; margin-bottom: 20px">
-                <h1 id="room"><strong>Room : </strong><span id="room-name" style="color: #ff6863">name</span></h1>
+                <h1 id="room"><strong>Room : </strong><span id="room-name" style="color: #ff6863">name </span>
+                    <span> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-check" viewBox="0 0 16 16">
+  <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+  <path fill-rule="evenodd" d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+</svg> </span>
+                    <span id="user_count">   </span></h1>
+
+
+
             </div>
             <div>
                 <div id="msgArea" class="col"></div>
@@ -185,7 +234,8 @@
                     <div class="input-group mb-3">
                         <input type="text" id="msg" class="form-control">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-danger" type="button" id="button-send">전송</button>
+                            <button class="btn btn-outline-danger" type="button" id="button-send" onclick="send_message()">전송</button>
+                            <span style="margin-left: 15px"><button class="btn btn-outline-danger" type="button"  id="button-exit" >채팅방 나가기</button></span>
                         </div>
                     </div>
                 </div>
