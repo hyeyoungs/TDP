@@ -19,6 +19,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <script src="back.js" rel="script"></script>
 
+    <!-- Bulma -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+
     <script>
         let roomId;
         let roomName;
@@ -28,16 +31,18 @@
         $(document).ready(function () {
             id = window.location.search.split("=")[1]
             read_room();
-            user_info=read_user();
+            user_info=chat_user();
+            console.log(user_info);
             username=user_info['username']
 
             var sockJs = new SockJS(`${domainURL}/stomp/chat`);
             //1. SockJS를 내부에 들고있는 stomp를 내어줌
 
 
-            var stomp = Stomp.over(sockJs);
+            stomp = Stomp.over(sockJs);
             //2. connection이 맺어지면 실행
             stomp.connect({}, function () {
+                read_room();
                 //4. subscribe(path, callback)으로 메세지를 받을 수 있음
                 stomp.subscribe(`/sub/chat/room/` + roomId, function (chat) {
                     console.log(roomId)
@@ -61,6 +66,7 @@
                 //3. send(path, header, message)로 메세지를 보낼 수 있음
                 stomp.send("/pub/chat/enter", {}, JSON.stringify({
                     roomId: roomId, writer: username, message:"enter", userCount:0}))
+
             });
 
             $("#button-send").on("click", function (e) {
@@ -74,17 +80,43 @@
                 }));
                 msg.value = '';
             });
+
+            $("#button-exit").on("click", function (e) {
+                read_room();
+                stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message:"exit", userCount:0}))
+                if (stomp !== null) {
+                    stomp.disconnect();
+                }
+                window.location.href="./rooms.html"
+            });
+
+
+
+
         });
 
-        function disconnect() {
-            stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message:"exit"}))
-            if (stomp !== null) {
-                stomp.disconnect();
-            }
-        }
-        window.onbeforeunload = function(){
-            disconnect();
-        }
+
+        // function send_message(){
+        //     let msg = document.getElementById("msg");
+        //     stomp.send('/pub/chat/message', {}, JSON.stringify({
+        //         roomId: roomId,
+        //         message: msg.value,
+        //         writer: username,
+        //         userCount: 0
+        //
+        //     }));
+        //     msg.value = '';
+        //
+        // }
+        //
+        // function disconnect() {
+        //     read_room();
+        //     stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message:"exit", userCount:0}))
+        //     if (stomp !== null) {
+        //         stomp.disconnect();
+        //     }
+        //     window.location.href="./rooms.html"
+        // }
 
         $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
             login_check(options, originalOptions, jqXHR);
@@ -98,7 +130,9 @@
                 success: function (response) {
                     roomId = response['roomId'];
                     roomName = response['name'];
+                    let room_count= response['count'];
                     $('#room-name').text(roomName);
+                    $('#user_count').text(room_count);
                 }
             });
         }
@@ -114,6 +148,27 @@
             margin-left: 100px;
         }
 
+        .center {
+            border-radius: 20%;
+            background-color: rgb(255,242,233);
+            width: 800px;
+            height: 800px;
+            position: absolute;
+            left: 15%; //parent인 document기준으로 50% 이동
+            margin-left: -120px;
+            top: 20%; //parent인 documnet기준으로 50% 이동
+            margin-top: -120px;
+        }
+
+        .chat-room {
+            display:inline-block;
+            width: 120%;
+            margin: 0 auto;
+            text-align: center;
+            padding-left: 210px;
+
+
+        }
     </style>
 </head>
 
@@ -122,7 +177,8 @@
 <!-- navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="./home.html">TIL.D.P</a>
+        <a class="navbar-brand" href="./home.html
+">TIL.D.P</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -140,39 +196,47 @@
     </div>
 </nav>
 
-<div class="container align-middle">
-    <div class="col-6">
-        <h1 id="room-name">name</h1>
-    </div>
-    <div>
-        <div id="msgArea" class="col"></div>
-        <div class="col-6">
-            <div class="input-group mb-3">
-                <input type="text" id="msg" class="form-control">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" id="button-send">전송</button>
+
+    <div class="center">
+        <div class="chat-room">
+            <div class="col-6" style="margin-top: 20px; margin-bottom: 20px">
+                <h1 id="room"><strong>Room : </strong><span id="room-name" style="color: #ff6863">name </span><span> &#128512 </span><span id="user_count">   </span></h1>
+
+
+
+            </div>
+            <div>
+                <div id="msgArea" class="col"></div>
+                <div class="col-6">
+                    <div class="input-group mb-3">
+                        <input type="text" id="msg" class="form-control">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-danger" type="button" id="button-send" >전송</button>
+                            <span style="margin-left: 15px"><button class="btn btn-outline-danger" type="button"  id="button-exit" >채팅방 나가기</button></span>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            <div class="col-6"></div>
+        </div>
+    </div>
+
+    <!-- toast -->
+    <div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000000"
+             style="position: absolute; top: 0; right: 0;">
+            <div class="toast-header">
+                <i class="bi bi-x-lg"></i>
+                <strong class="me-auto" id="til_title">${title}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"
+                        onclick="toast_close()"></button>
+            </div>
+            <div class="toast-body" id="til_content">
+                ${content}
             </div>
         </div>
     </div>
-    <div class="col-6"></div>
-</div>
-<!-- toast -->
-<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
-    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000000"
-         style="position: absolute; top: 0; right: 0;">
-        <div class="toast-header">
-            <i class="bi bi-x-lg"></i>
-            <strong class="me-auto" id="til_title">${title}</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"
-                    onclick="toast_close()"></button>
-        </div>
-        <div class="toast-body" id="til_content">
-            ${content}
-        </div>
-    </div>
-</div>
-<!-- toast end -->
+    <!-- toast end -->
 </body>
 
 </html>

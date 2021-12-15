@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.*;
 
 
@@ -133,8 +134,8 @@ public class UserService {
         return user_tils.size();
     }
 
-    @Transactional
-    public void updateUser(User user, String nickname, String githubId, MultipartFile imageFile, String about) {
+
+    public void updateUser(User user, String nickname, String githubId, MultipartFile imageFile, String about) throws IOException {
         UserUpdateDto userUpdateDto = new UserUpdateDto();
 
         userUpdateDto.setNickname(nickname);

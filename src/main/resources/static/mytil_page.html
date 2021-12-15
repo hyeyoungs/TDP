@@ -23,47 +23,24 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 
     <!-- JS -->
-    <script src="back.js" rel="script"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-
-    <!-- Toast CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- total js -->
     <script src="back.js" rel="script"></script>
+
+    <!-- Toast Bulma -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="./back.css">
+
     <script>
         $(document).ready(function () {
             list_user_til();
-            read_user_profile();
-            append_github_id();
+            read_user();
         });
 
         $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
             login_check(options, originalOptions, jqXHR);
         });
-
-        function read_user_profile(){
-            let user_info = read_user();
-            $('.user_id_append').text(user_info['username']);
-            $('.user_nickname_append').text(user_info['nickname']);
-            $('.user_profile_info_append').text(user_info['introduce']);
-            $('.user_profile_pic_append').text(user_info['picture']);
-            $('.github_id_append').text(user_info['github_id']);
-            $('.user_id_append').val(user_info['username']);
-            $('.user_nickname_append').val(user_info['nickname']);
-            $('.user_profile_info_append').val(user_info['introduce']);
-            $('.user_profile_pic_append').val(user_info['picture']);
-            $('.user_profile_pic_real_append').attr('src', user_info['picture_real']);
-            $('.github_id_append').val(user_info['github_id']);
-        }
-
-        function append_github_id(){
-            let user_info =  read_user();
-            let github_id = user_info['github_id']
-            if (github_id == null || github_id === ""){
-                $('.github_id_tag').hide();
-            }
-        }
 
         function list_user_til() {
             $.ajax({
@@ -263,8 +240,8 @@
                 </button>
             </div>
         </div>
-        </form>
-    </nav>
+    </form>
+</nav>
 
 
 
@@ -293,49 +270,49 @@
             </div>
         </div>
 
-            <!-- Post List -->
-            <div class="col-md-6 gedf-main" id="post-list">
+        <!-- Post List -->
+        <div class="col-md-6 gedf-main" id="post-list">
 
-            </div>
+        </div>
 
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Edit Form</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form name="form" id="form" role="form" method="post">
-                                <div class="mb-3">
-                                    <label for="modal-title">제목</label>
-                                    <input type="text" class="form-control" name="title" id="modal-title"
-                                           placeholder="제목을 입력해 주세요" value="">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="modal-user">작성자</label>
-                                    <p id="modal-user"></p>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="modal-content">내용</label>
-                                    <textarea class="form-control" rows="5" name="content" id="modal-content"
-                                              placeholder="내용을 입력해 주세요"></textarea>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <input type="submit" class="btn btn-primary" id="modal-save" onclick=""
-                                   value="Save changes"></button>
-                        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Form</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form name="form" id="form" role="form" method="post">
+                            <div class="mb-3">
+                                <label for="modal-title">제목</label>
+                                <input type="text" class="form-control" name="title" id="modal-title"
+                                       placeholder="제목을 입력해 주세요" value="">
+                            </div>
+                            <div class="mb-3">
+                                <label for="modal-user">작성자</label>
+                                <p id="modal-user"></p>
+                            </div>
+                            <div class="mb-3">
+                                <label for="modal-content">내용</label>
+                                <textarea class="form-control" rows="5" name="content" id="modal-content"
+                                          placeholder="내용을 입력해 주세요"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" id="modal-save" onclick=""
+                               value="Save changes"></button>
                     </div>
                 </div>
             </div>
-            <!-- Modal END -->
+        </div>
+        <!-- Modal END -->
 
         <!-- Card List -->
         <div class="col-md-3">
@@ -366,19 +343,13 @@
     </div>
 </div>
 <!-- toast -->
-<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
-    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000000"
-         style="position: absolute; top: 0; right: 0;">
-        <div class="toast-header">
-            <i class="bi bi-x-lg"></i>
-            <strong class="me-auto" id="til_title">${title}</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"
-                    onclick="toast_close()"></button>
-        </div>
-        <div class="toast-body" id="til_content">
-            ${content}
-        </div>
+<article class="message is-danger" id="toast">
+    <div class="message-header">
+        <strong class="me-auto" id="til_title"></strong>
+        <button class="delete" aria-label="delete" onclick="toast_close()"></button>
     </div>
-</div>
+    <div class="message-body" id="til_content">
+    </div>
+</article>
 <!-- toast end -->
 </body>
