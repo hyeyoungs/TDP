@@ -8,7 +8,6 @@
 <!--[if gt IE 8]><!-->
 <html class="no-js" lang="en">
 <!--<![endif]-->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 <!--Designerd by: https://bootstrapthemes.co-->
 
 <head>
@@ -81,6 +80,9 @@
 
         });
 
+        $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+            login_check(options, originalOptions, jqXHR);
+        });
 
         // var sockJs = new SockJS(`${domainURL}/stomp/chat`);
         // //1. SockJS를 내부에 들고있는 stomp를 내어줌
@@ -128,35 +130,7 @@
             })
         }
 
-        function read_flag() {
-            let today = new Date();
-            let result_date;
-            $.ajax({
-                type: "GET",
-                url: `${domainURL}/til/user`,
-                data: {},
-                success: function (response) {
-                    let all_til = response;
-                    if (all_til.length === 0) {
-                        $(".test").css("background-color", 'red');
-                    }
-                    for (let i = 0; i < all_til.length; i++) {
-                        let day = all_til[i]['createdAt'];
-                        result_date = new Date(day);
-                        try {
-                            if (today.toDateString() === result_date.toDateString()) {
-                                $(".test").css("background-color", 'blue');
 
-                            } else {
-                                $(".test").css("background-color", 'red');// display 속성을 block 으로 바꾼다.
-                            }
-                        } catch (e) {
-
-                        }
-                    }
-                }
-            });
-        }
 
         function rank_til() {
             $.ajax({
@@ -211,31 +185,30 @@
             });
         }
     </script>
+    <style>
+
+        .test {
+
+            float: right;
+            width: 200px;
+            height: 200px;
+            background-color: yellow;
+            display: block;
+            margin-left: 50px;
+            margin-top: 0;
+        }
+
+        .page-header {
+            margin-top: 100px;
+        }
+
+        .home_btn_chatlist {
+            margin-top: 25px;
+            margin-bottom: 25px;
+        }
+
+    </style>
 </head>
-<style>
-
-    .test {
-
-        float: right;
-        width: 200px;
-        height: 200px;
-        background-color: yellow;
-        display: block;
-        margin-left: 50px;
-        margin-top: 0;
-    }
-
-    .page-header {
-        margin-top: 100px;
-    }
-
-    .home_btn_chatlist {
-        margin-top: 25px;
-        margin-bottom: 25px;
-    }
-
-</style>
-
 <body data-spy="scroll" data-target=".navbar-collapse">
 
 
@@ -347,18 +320,13 @@
         <div class="row">
             <div class="main_home">
                 <div class="home_text">
-                    <h1 class="text-white">WE ’ RE <br/> TIL Management Service!<span>
-
-          <div class="test rounded-circle"></div>
-
-          </span></h1>
-
+                    <h1 class="text-white">WE ’ RE <br/> TIL Management Service!
+                        <span>
+                            <div class="test rounded-circle"></div></span>
+                    </h1>
                 </div>
-
             </div>
-
         </div>
-
     </div>
     <!--End off row-->
 
