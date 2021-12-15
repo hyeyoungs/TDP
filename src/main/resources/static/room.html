@@ -62,7 +62,7 @@
                     $("#msgArea").append(str);
                 });
                 stomp.send("/pub/chat/enter", {}, JSON.stringify({
-                    roomId: roomId, writer: username, message:"enter", userCount:0}))
+                    roomId: roomId, writer: username, message:"enter"}))
             });
 
             $(document).keydown(function (event){
@@ -71,8 +71,7 @@
                     stomp.send('/pub/chat/message',{},JSON.stringify({
                         roomId: roomId,
                         message: msg.value,
-                        writer: username,
-                        userCount: 0
+                        writer: username
                     }));
                     msg.value ='';
                 }
@@ -85,8 +84,7 @@
                     stomp.send('/pub/chat/message', {}, JSON.stringify({
                         roomId: roomId,
                         message: msg.value,
-                        writer: username,
-                        userCount: 0
+                        writer: username
 
                     }));
                     msg.value = '';
@@ -100,7 +98,7 @@
 
             $("#button-exit").on("click", function (e) {
                 read_room();
-                stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message:"exit", userCount:0}))
+                stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message:"exit"}))
                 if (stomp !== null) {
                     stomp.disconnect();
                 }

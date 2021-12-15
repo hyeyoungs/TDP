@@ -33,19 +33,22 @@ public class StompChatController {
     @MessageMapping(value = "/chat/enter")
     public void enter(ChatMessageDTO message) {
         String id = message.getRoomId();
+        log.info("id "+id);
         Long room_id = Long.valueOf(id);
-
+        log.info("room_id "+room_id);
         // chat user 정보 저장 (채팅유저 , 채팅방)
-        ChatRoom chatRoom = chatRoomRepository.findById(room_id).orElseThrow(
+        ChatRoom chatRoom = chatRoomRepository.findByRoomId(room_id).orElseThrow(
                 () -> new NullPointerException("해당 채팅방이 존재하지 않습니다."));
         User user = userRepository.findByUsername(message.getWriter()).orElseThrow(
                 () -> new NullPointerException("해당 사용자가 존재하지 않습니다."));
 
 
         if (!(chatUserRepository.findByChatRoomAndUser(chatRoom, user).isPresent())) { //채팅방 처음입장
+
+            log.info("chat first come");
             ChatUser chatUser = new ChatUser(user, chatRoom);
             chatUserRepository.save(chatUser);
-
+            log.info("chatuser 생성 후 저장");
             List<ChatUser> chatusers =chatUserRepository.findAllByChatRoom(room_id);
             int count=chatusers.size();
             log.info("chatusers "+chatusers+" count "+count);
