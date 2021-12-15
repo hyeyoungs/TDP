@@ -65,7 +65,21 @@
                     roomId: roomId, writer: username, message:"enter", userCount:0}))
             });
 
-            $("#button-send").on("click", function (e) {
+            $(document).keydown(function (event){
+                if(event.keyCode===13){
+                    let msg = document.getElementById("msg");
+                    stomp.send('/pub/chat/message',{},JSON.stringify({
+                        roomId: roomId,
+                        message: msg.value,
+                        writer: username,
+                        userCount: 0
+                    }));
+                    msg.value ='';
+                }
+            });
+
+
+             $("#button-send").on("click", function (e) {
                 let msg = document.getElementById("msg");
                 if(msg!=="") {
                     stomp.send('/pub/chat/message', {}, JSON.stringify({
@@ -82,6 +96,7 @@
                 }
 
             });
+
 
             $("#button-exit").on("click", function (e) {
                 read_room();
