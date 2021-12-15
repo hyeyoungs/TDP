@@ -78,6 +78,7 @@
                 }
             });
 
+
              $("#button-send").on("click", function (e) {
                 let msg = document.getElementById("msg");
                  stomp.send('/pub/chat/message', {}, JSON.stringify({
@@ -89,6 +90,7 @@
                  }));
                 msg.value = '';
              });
+
 
             $("#button-exit").on("click", function (e) {
                 read_room();
@@ -103,6 +105,7 @@
 
 
         });
+
 
 
         function send_message(){
@@ -132,6 +135,8 @@
             }
             window.location.href="./rooms.html"
         }
+
+       
 
         $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
             login_check(options, originalOptions, jqXHR);
@@ -234,7 +239,7 @@
                     <div class="input-group mb-3">
                         <input type="text" id="msg" class="form-control">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-danger" type="button" id="button-send" onclick="send_message()">전송</button>
+                            <button class="btn btn-outline-danger" type="button" id="button-send">전송</button>
                             <span style="margin-left: 15px"><button class="btn btn-outline-danger" type="button"  id="button-exit" >채팅방 나가기</button></span>
                         </div>
                     </div>
