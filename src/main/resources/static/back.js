@@ -45,8 +45,9 @@ function read_user() {
     $.ajax({
         type: "GET",
         url: `${domainURL}/user`,
+        async: false,
         success: function (response) {
-            let user_info = response;
+            user_info = response;
             $('.user_id_append').text(user_info['username']);
             $('.user_nickname_append').text(user_info['nickname']);
             $('.user_profile_info_append').text(user_info['introduce']);
@@ -62,7 +63,24 @@ function read_user() {
             let github_id = user_info['github_id']
             if (github_id == null || github_id === ""){
                 $('.github_id_tag').hide();
+
             }
+
         }
     });
+
+    return user_info;
+
+}
+
+function chat_user() {
+    $.ajax({
+        type: "GET",
+        url: `${domainURL}/user`,
+        async: false,
+        success: function (response) {
+            user_info = response;
+        }
+    });
+    return user_info;
 }

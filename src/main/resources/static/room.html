@@ -31,16 +31,18 @@
         $(document).ready(function () {
             id = window.location.search.split("=")[1]
             read_room();
-            user_info=read_user();
+            user_info=chat_user();
+            console.log(user_info);
             username=user_info['username']
 
             var sockJs = new SockJS(`${domainURL}/stomp/chat`);
             //1. SockJS를 내부에 들고있는 stomp를 내어줌
 
 
-            var stomp = Stomp.over(sockJs);
+            stomp = Stomp.over(sockJs);
             //2. connection이 맺어지면 실행
             stomp.connect({}, function () {
+                read_room();
                 //4. subscribe(path, callback)으로 메세지를 받을 수 있음
                 stomp.subscribe(`/sub/chat/room/` + roomId, function (chat) {
                     console.log(roomId)
@@ -64,6 +66,7 @@
                 //3. send(path, header, message)로 메세지를 보낼 수 있음
                 stomp.send("/pub/chat/enter", {}, JSON.stringify({
                     roomId: roomId, writer: username, message:"enter", userCount:0}))
+
             });
 
             $("#button-send").on("click", function (e) {
@@ -77,17 +80,43 @@
                 }));
                 msg.value = '';
             });
+
+            $("#button-exit").on("click", function (e) {
+                read_room();
+                stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message:"exit", userCount:0}))
+                if (stomp !== null) {
+                    stomp.disconnect();
+                }
+                window.location.href="./rooms.html"
+            });
+
+
+
+
         });
 
-        function disconnect() {
-            stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message:"exit", userCount:0}))
-            if (stomp !== null) {
-                stomp.disconnect();
-            }
-        }
-        window.onbeforeunload = function(){
-                disconnect();
-        }
+
+        // function send_message(){
+        //     let msg = document.getElementById("msg");
+        //     stomp.send('/pub/chat/message', {}, JSON.stringify({
+        //         roomId: roomId,
+        //         message: msg.value,
+        //         writer: username,
+        //         userCount: 0
+        //
+        //     }));
+        //     msg.value = '';
+        //
+        // }
+        //
+        // function disconnect() {
+        //     read_room();
+        //     stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message:"exit", userCount:0}))
+        //     if (stomp !== null) {
+        //         stomp.disconnect();
+        //     }
+        //     window.location.href="./rooms.html"
+        // }
 
         $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
             login_check(options, originalOptions, jqXHR);
@@ -148,7 +177,8 @@
 <!-- navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="./home.html">TIL.D.P</a>
+        <a class="navbar-brand" href="./home.html
+">TIL.D.P</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -170,7 +200,7 @@
     <div class="center">
         <div class="chat-room">
             <div class="col-6" style="margin-top: 20px; margin-bottom: 20px">
-                <h1 id="room"><strong>Room : </strong><span id="room-name" style="color: #ff6863">name</span><span id="user_count">  &#128512; </span></h1>
+                <h1 id="room"><strong>Room : </strong><span id="room-name" style="color: #ff6863">name </span><span> &#128512 </span><span id="user_count">   </span></h1>
 
 
 
@@ -181,7 +211,8 @@
                     <div class="input-group mb-3">
                         <input type="text" id="msg" class="form-control">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-danger" type="button" id="button-send">전송</button>
+                            <button class="btn btn-outline-danger" type="button" id="button-send" >전송</button>
+                            <span style="margin-left: 15px"><button class="btn btn-outline-danger" type="button"  id="button-exit" >채팅방 나가기</button></span>
                         </div>
                     </div>
                 </div>
