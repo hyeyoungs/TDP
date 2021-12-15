@@ -65,17 +65,17 @@
                     roomId: roomId, writer: username, message:"enter", userCount:0}))
             });
 
-            $("#button-send").on("click", function (e) {
-                let msg = document.getElementById("msg");
-                stomp.send('/pub/chat/message', {}, JSON.stringify({
-                    roomId: roomId,
-                    message: msg.value,
-                    writer: username,
-                    userCount: 0
-
-                }));
-                msg.value = '';
-            });
+            // $("#button-send").on("click", function (e) {
+            //     let msg = document.getElementById("msg");
+            //     stomp.send('/pub/chat/message', {}, JSON.stringify({
+            //         roomId: roomId,
+            //         message: msg.value,
+            //         writer: username,
+            //         userCount: 0
+            //
+            //     }));
+            //     msg.value = '';
+            // });
 
             $("#button-exit").on("click", function (e) {
                 read_room();
@@ -92,27 +92,34 @@
         });
 
 
-        // function send_message(){
-        //     let msg = document.getElementById("msg");
-        //     stomp.send('/pub/chat/message', {}, JSON.stringify({
-        //         roomId: roomId,
-        //         message: msg.value,
-        //         writer: username,
-        //         userCount: 0
-        //
-        //     }));
-        //     msg.value = '';
-        //
-        // }
-        //
-        // function disconnect() {
-        //     read_room();
-        //     stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message:"exit", userCount:0}))
-        //     if (stomp !== null) {
-        //         stomp.disconnect();
-        //     }
-        //     window.location.href="./rooms.html"
-        // }
+        function send_message(){
+            var sockJs = new SockJS(`${domainURL}/stomp/chat`);
+            //1. SockJS를 내부에 들고있는 stomp를 내어줌
+            stomp = Stomp.over(sockJs);
+            //2. connection이 맺어지면 실행
+            let msg = document.getElementById("msg");
+            stomp.connect({}, function () {
+                stomp.send('/pub/chat/message', {}, JSON.stringify({
+                    roomId: roomId,
+                    message: msg.value,
+                    writer: username,
+                    userCount: 0
+
+                }));
+
+                msg.value = '';
+
+            });
+        }
+
+        function disconnect() {
+            read_room();
+            stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message:"exit", userCount:0}))
+            if (stomp !== null) {
+                stomp.disconnect();
+            }
+            window.location.href="./rooms.html"
+        }
 
         $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
             login_check(options, originalOptions, jqXHR);
@@ -215,7 +222,7 @@
                     <div class="input-group mb-3">
                         <input type="text" id="msg" class="form-control">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-danger" type="button" id="button-send" >전송</button>
+                            <button class="btn btn-outline-danger" type="button" id="button-send" onclick="send_message()">전송</button>
                             <span style="margin-left: 15px"><button class="btn btn-outline-danger" type="button"  id="button-exit" >채팅방 나가기</button></span>
                         </div>
                     </div>
