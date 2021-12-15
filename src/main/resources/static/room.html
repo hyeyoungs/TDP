@@ -64,18 +64,31 @@
                 stomp.send("/pub/chat/enter", {}, JSON.stringify({
                     roomId: roomId, writer: username, message:"enter", userCount:0}))
             });
+          
+            $(document).keydown(function (event){
+                if(event.keyCode===13){
+                    let msg = document.getElementById("msg");
+                    stomp.send('/pub/chat/message',{},JSON.stringify({
+                        roomId: roomId,
+                        message: msg.value,
+                        writer: username,
+                        userCount: 0
+                    }));
+                    msg.value ='';
+                }
+            });
 
-            // $("#button-send").on("click", function (e) {
-            //     let msg = document.getElementById("msg");
-            //     stomp.send('/pub/chat/message', {}, JSON.stringify({
-            //         roomId: roomId,
-            //         message: msg.value,
-            //         writer: username,
-            //         userCount: 0
-            //
-            //     }));
-            //     msg.value = '';
-            // });
+             $("#button-send").on("click", function (e) {
+                let msg = document.getElementById("msg");
+                 stomp.send('/pub/chat/message', {}, JSON.stringify({
+                    roomId: roomId,
+                     message: msg.value,
+                    writer: username,
+                    userCount: 0
+           
+                 }));
+                msg.value = '';
+             });
 
             $("#button-exit").on("click", function (e) {
                 read_room();
@@ -104,7 +117,6 @@
                     message: msg.value,
                     writer: username,
                     userCount: 0
-
                 }));
 
                 msg.value = '';
