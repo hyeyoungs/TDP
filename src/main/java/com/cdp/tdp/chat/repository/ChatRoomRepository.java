@@ -16,4 +16,5 @@ import java.util.stream.Stream;
 
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
     Optional<ChatRoom> findByName(String name);
+
 }
