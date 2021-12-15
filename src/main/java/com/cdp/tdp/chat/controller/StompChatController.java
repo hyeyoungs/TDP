@@ -48,13 +48,11 @@ public class StompChatController {
 
             List<ChatUser> chatusers =chatUserRepository.findAllByChatRoom(room_id);
             int count=chatusers.size();
-
-
-
+            log.info("chatusers "+chatusers+" count "+count);
 
             chatRoom.setCount(count);
             chatRoomRepository.save(chatRoom);
-
+            log.info("chatroom"+chatRoom);
             message.setMessage("채팅방에 참여하였습니다3.");
             template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
         }

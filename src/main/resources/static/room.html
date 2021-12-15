@@ -80,7 +80,8 @@
 
             $("#button-send").on("click", function (e) {
                 let msg = document.getElementById("msg");
-                if(msg.value === "") {
+                console.log(msg)
+                if(msg.value !== "") {
                     stomp.send('/pub/chat/message', {}, JSON.stringify({
                         roomId: roomId,
                         message: msg.value,
