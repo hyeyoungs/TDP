@@ -63,8 +63,8 @@
                     }
                     $("#msgArea").append(str);
                 });
-
-
+                stomp.send("/pub/chat/enter", {}, JSON.stringify({
+                    roomId: roomId, writer: username, message:"enter", userCount:0}))
             });
 
             $("#button-send").on("click", function (e) {
