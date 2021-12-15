@@ -31,7 +31,6 @@ public class ChatRoom extends Timestamped {
 
 
     public ChatRoom(ChatRoomDTO chatRoomDTO) {
-
         this.name = chatRoomDTO.getRoomName();
         this.count=0;
 
