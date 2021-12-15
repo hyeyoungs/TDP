@@ -40,19 +40,18 @@ public class StompChatController {
                 ()->new NullPointerException("해당 채팅방이 존재하지 않습니다."));
         User user= userRepository.findByUsername(message.getWriter()).orElseThrow(
                 ()->new NullPointerException("해당 사용자가 존재하지 않습니다."));
-        if(!chatUserRepository.findByChatRoomAndUser(chatRoom,user).isPresent())
-        {
-            ChatUser chatUser = new ChatUser(user,chatRoom);
-            chatUserRepository.save(chatUser);
 
-            // 채팅방에 있는 chat_user 세기
-            int count=chatUserRepository.countByChatRoom(room_id);
-            chatRoom.setCount(count);
-            chatRoomRepository.save(chatRoom);
+        ChatUser chatUser = new ChatUser(user,chatRoom);
+        chatUserRepository.save(chatUser);
 
-            message.setMessage("채팅방에 참여하였습니다.");
-            template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
-        }
+        // 채팅방에 있는 chat_user 세기
+        int count=chatUserRepository.countByChatRoom(room_id);
+        chatRoom.setCount(count);
+        chatRoomRepository.save(chatRoom);
+
+        message.setMessage("채팅방에 참여하였습니다.");
+        template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+
 
 
         message.setMessage("채팅방에 다시 참여하였습니다.");
