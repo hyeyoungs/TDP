@@ -25,7 +25,6 @@ import java.util.List;
 @Service
 public class ChatRoomService {
 
-
     private final ChatRoomRepository chatRoomRepository;
 
     public List<ChatRoom> getAllRooms() {
@@ -33,11 +32,8 @@ public class ChatRoomService {
     }
 
     public ChatRoom createRoom(ChatRoomDTO chatRoomDTO)  {
-
         ChatRoom room=new ChatRoom(chatRoomDTO);
         chatRoomRepository.save(room);
-
-
         return room;
     }
 

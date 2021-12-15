@@ -46,16 +46,16 @@ public class StompChatController {
             ChatUser chatUser = new ChatUser(user, chatRoom);
             chatUserRepository.save(chatUser);
 
-            // 채팅방에 있는 chat_user 세기
-            int count = chatUserRepository.countByChatRoom(room_id);
-            chatRoom.setCount(count);
+            Long count=chatUserRepository.countByChatRoom(room_id);
+            int new_count= count.intValue();
+            chatRoom.setCount(new_count);
             chatRoomRepository.save(chatRoom);
 
             message.setMessage("채팅방에 참여하였습니다.");
             template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
         }
         else {
-            message.setMessage("채팅방에 다시 참여하였습니다.");
+            message.setMessage("채팅방에 재입장하였습니다.");
             template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
         }
 
@@ -73,8 +73,9 @@ public class StompChatController {
                 ()->new NullPointerException("해당 사용자가 존재하지 않습니다."));
         chatUserRepository.deleteByChatRoomAndUser(chatRoom,user);
 
-        int count=chatUserRepository.countByChatRoom(room_id);
-        chatRoom.setCount(count);
+        Long count=chatUserRepository.countByChatRoom(room_id);
+        int new_count= count.intValue();
+        chatRoom.setCount(new_count);
         chatRoomRepository.save(chatRoom);
 
         message.setMessage("채팅방을 나갔습니다.");

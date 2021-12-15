@@ -124,10 +124,13 @@
                 url: `${domainURL}/room/${id}`,
                 data: {},
                 success: function (response) {
+                    console.log(response);
                     roomId = response['roomId'];
                     roomName = response['name'];
+
                     let room_count= response['count'];
                     $('#room-name').text(roomName);
+
                     $('#user_count').text(room_count);
                 }
             });
