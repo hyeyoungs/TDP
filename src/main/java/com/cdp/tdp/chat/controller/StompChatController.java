@@ -48,10 +48,11 @@ public class StompChatController {
             log.info("chat first come");
             ChatUser chatUser = new ChatUser(user, chatRoom);
             chatUserRepository.save(chatUser);
-            log.info("chatuser 생성 후 저장");
-            List<ChatUser> chatusers =chatUserRepository.findAllByChatRoom(room_id);
-            int count=chatusers.size();
-            log.info("chatusers "+chatusers+" count "+count);
+            log.info("chatuser created");
+            log.info("room_id");
+            int count  =chatUserRepository.countByChatRoom(chatRoom);
+
+            log.info(" count "+count);
 
             chatRoom.setCount(count);
             chatRoomRepository.save(chatRoom);
@@ -79,8 +80,7 @@ public class StompChatController {
                 ()->new NullPointerException("해당 사용자가 존재하지 않습니다."));
         chatUserRepository.deleteByChatRoomAndUser(chatRoom,user);
 
-        List<ChatUser> chatusers =chatUserRepository.findAllByChatRoom(room_id);
-        int count=chatusers.size();
+        int count  =chatUserRepository.countByChatRoom(chatRoom);
         chatRoom.setCount(count);
         chatRoomRepository.save(chatRoom);
 
