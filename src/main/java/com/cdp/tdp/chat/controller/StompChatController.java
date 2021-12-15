@@ -46,10 +46,9 @@ public class StompChatController {
             ChatUser chatUser = new ChatUser(user, chatRoom);
             chatUserRepository.save(chatUser);
 
-
-
-            List<ChatUser> chatusers =chatUserRepository.findByChatRoom(room_id);
+            List<ChatUser> chatusers =chatUserRepository.findAllByChatRoom(room_id);
             int count=chatusers.size();
+
 
 
 
@@ -79,7 +78,7 @@ public class StompChatController {
                 ()->new NullPointerException("해당 사용자가 존재하지 않습니다."));
         chatUserRepository.deleteByChatRoomAndUser(chatRoom,user);
 
-        List<ChatUser> chatusers =chatUserRepository.findByChatRoom(room_id);
+        List<ChatUser> chatusers =chatUserRepository.findAllByChatRoom(room_id);
         int count=chatusers.size();
         chatRoom.setCount(count);
         chatRoomRepository.save(chatRoom);
