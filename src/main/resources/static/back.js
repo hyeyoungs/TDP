@@ -79,3 +79,28 @@ function chat_user() {
     });
     return user_info;
 }
+
+function read_flag() {
+    let today = new Date();
+    let result_date;
+    $.ajax({
+        type: "GET",
+        url: `${domainURL}/til/user`,
+        data: {},
+        success: function (response) {
+            let all_til = response;
+            if (all_til.length === 0) {
+                $(".test").css("background-color", 'red');
+            }
+            for (let i = 0; i < all_til.length; i++) {
+                let day = all_til[i]['createdAt'];
+                result_date = new Date(day);
+                if (today.toDateString() === result_date.toDateString()) {
+                    $(".test").css("background-color", 'blue');
+                } else {
+                    $(".test").css("background-color", 'red');// display 속성을 block 으로 바꾼다.
+                }
+            }
+        }
+    });
+}

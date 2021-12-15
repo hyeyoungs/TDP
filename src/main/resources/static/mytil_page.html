@@ -1,32 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+<!--Designerd by: https://bootstrapthemes.co-->
+
 <head>
-    <title>Title | TIL.D.P</title>
-
-    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Title | TIL.D.P</title>
-
-    <meta name="keywords" content=""/>
-    <meta name="description" content=""/>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <title>TIL Management Service</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="favicon.ico">
+    <!--Google Font link-->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
-    <!-- page CSS -->
-    <link rel="stylesheet" href="./assets/css/create.css">
-    <link rel="stylesheet" href="./assets/css/mytil.css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/slick.css">
+    <link rel="stylesheet" href="assets/css/slick-theme.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/fonticons.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/bootsnav.css">
+    <!--For Plugins external css-->
+    <!--<link rel="stylesheet" href="assets/css/plugins.css" />-->
+    <!--Theme custom css -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!--<link rel="stylesheet" href="assets/css/colors/maron.css">-->
+    <!--Theme Responsive css-->
+    <link rel="stylesheet" href="assets/css/responsive.css"/>
+    <!-- JS includes -->
+    <script src="assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="assets/js/vendor/jquery-1.11.2.min.js"></script>
+    <script src="assets/js/vendor/popper.min.js"></script>
+    <script src="assets/js/vendor/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.magnific-popup.js"></script>
+    <script src="assets/js/jquery.easing.1.3.js"></script>
+    <script src="assets/js/slick.min.js"></script>
+    <script src="assets/js/jquery.collapse.js"></script>
+    <script src="assets/js/bootsnav.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
-    <!-- JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-
-    <!-- font -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+    <!-- paradise slider js -->
+    <script src="assets/js/plugins.js"></script>
+    <script src="assets/js/main.js"></script>
 
     <!-- total js -->
     <script src="back.js" rel="script"></script>
@@ -38,8 +63,16 @@
     <!-- Icon -->
     <link rel="shortcut icon" href="#">
 
+    <!-- page CSS -->
+    <link rel="stylesheet" href="./mytil.css">
+
+    <!-- tag -->
+    <link rel="stylesheet" href="bootstrap-tagsinput.css">
+    <script src="bootstrap-tagsinput.js"></script>
+
     <script>
         $(document).ready(function () {
+            read_flag();
             list_user_til();
             read_user();
         });
@@ -55,8 +88,13 @@
                 data: {},
                 success: function (response) {
                     let my_til = response;
-                    for (let i = 0; i < my_til.length; i++) {
-                        make_list_my_til(my_til[i]);
+                    let total = my_til.length;
+                    $('.til_count_append').text(total);
+                    if(total !== 0) {
+                        $('#post-list').empty();
+                        for (let i = 0; i < total; i++) {
+                            make_list_my_til(my_til[i]);
+                        }
                     }
                 }
             });
@@ -71,47 +109,30 @@
             } else {
                 alert("공개 범위의 값이 잘못된 형식 입니다.");
             }
+            let month_arr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            let total_date = til['createdAt'].split(' ');
+            let date = total_date[0].split('-');
+            let month = month_arr[parseInt(date[1])-1];
+            let detail_url = `/detail.html?idx=` + til['id'];
             let temp_html = `
-                            <!--- Post-->
-                            <div class="card gedf-card">
-                                <div class="card-header">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="mr-2">
-                                                <!-- Profile Image -->
-                                                <img class="rounded-circle" width="45" src="${til['user']['picture_real']}" alt="">
-                                            </div>
-                                            <div class="ml-2">
-                                                <div class="h5 m-0">@${til['user']['username']}</div>
-                                                <div class="h7 text-muted user_nickname_append">${til['user']['nickname']}</div>
-                                            </div>
-                                        </div>
-                                        <!-- Dropdown -->
-                                        <div class="btn-group">
-                                            <ul>
-                                             <li><button class="dropdown-item" onclick = "get_til('${til['id']}')" data-toggle="modal" data-target="#exampleModal">수정</button></li>
-                                             <li><a class="dropdown-item" onclick = "delete_til('${til['id']}')">삭제</a></li>
-                                             <li><a class="dropdown-item" onclick = "update_view('${til['id']}')">${view_str}</a></li>
-                                            </ul>
-                                        </div>
+                            <!-- Post -->
+                            <li>
+                                <p class="date">
+                                    <a href="#">${month}<b>${date[2]}</b></a>
+                                    <div class="dropdown">
+                                        <button class="dropdown-item" onclick = "get_til('${til['id']}')" data-toggle="modal" data-target="#exampleModal">수정</button>
+                                        <a class="dropdown-item" onclick = "delete_til('${til['id']}')">삭제</a>
+                                        <a class="dropdown-item" onclick = "update_view('${til['id']}')">${view_str}</a>
                                     </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>${til['createdAt']}</div>
-                                    <a class="card-link" href="#">
-                                        <h5 class="card-title">${til['tilTitle']}</h5>
-                                    </a>
-                                    <p class="card-text">
-                                        ${ til['tilContent']}
-                                    </p>
-                                </div>
-                                <div class="card-footer">
-                                    <a href="#" class="card-link"><i class="fa fa-gittip"></i> Like</a>
-                                    <a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
-                                    <a href="#" class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
-                                </div>
-                            </div>
-                            <!-- Post End -->`;
+
+                                </p>
+                                <h3>${til['tilTitle']}</h3>
+                                <p class="text"><a href=${detail_url}>${ til['tilContent']}</a></p>
+
+                            </li>
+                            <!-- Post END -->
+                            `;
+
             $('#post-list').append(temp_html);
         }
 
@@ -121,14 +142,22 @@
                 url: `${domainURL}/til_board/${idx}`,
                 data: {},
                 success: function (response){
-                    let title = response['tilTitle']
-                    let content = response['tilContent']
+                    let title = response['tilTitle'];
+                    let content = response['tilContent'];
                     let user = response['user']['nickname'];
-                    let idx = response['id']
+                    let idx = response['id'];
+                    let tags = response['tags'];
                     $("#modal-title").val(title);
                     $("#modal-content").val(content);
                     $("#modal-user").text(user);
                     $("#modal-save").attr("onclick", `update_til('${idx}');`);
+                    let total_tag_value = "";
+                    for(let i = 0; i < tags.length; i++){
+                        let tag_value = tags[i]["name"] + "\\s";
+                        total_tag_value += tag_value;
+                    }
+                    console.log(total_tag_value);
+                    $("#tags").val(total_tag_value);
                 }
             });
         }
@@ -136,7 +165,8 @@
         function update_til(idx){
             let info = {
                 tilTitle : $('input#modal-title').val(),
-                tilContent : $('textarea#modal-content').val()
+                tilContent : $('textarea#modal-content').val(),
+                tags: $("input#tags").val()
             }
 
             $.ajax({
@@ -175,54 +205,187 @@
         }
 
     </script>
+    <style>
+        .test {
 
+            float: right;
+            width: 200px;
+            height: 200px;
+            background-color: yellow;
+            display: block;
+            margin-left: 50px;
+            margin-top: 0;
+        }
+
+    </style>
 </head>
-<body>
+<body data-spy="scroll" data-target=".navbar-collapse">
 
-<!-- navigation -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="./home.html">TIL.D.P</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div id="navbar-nav" class="navbar-nav">
-                <a class="nav-link " href="./til_board.html">Write TIL</a>
-                <a class="nav-link" href="./mytil_page.html">My TIL</a>
-                <a class="nav-link" href="https://github.com/">Github</a>
-                <a class="nav-link" href="./my_page.html">myPage</a>
-                <a class="nav-link" onclick="sign_out()">logout</a>
-                <a class="nav-link" onclick="goback()">Back</a>
+
+<!-- Preloader -->
+<div id="loading">
+    <div id="loading-center">
+        <div id="loading-center-absolute">
+            <div class="object" id="object_one"></div>
+            <div class="object" id="object_two"></div>
+            <div class="object" id="object_three"></div>
+            <div class="object" id="object_four"></div>
+        </div>
+    </div>
+</div>
+<!--End off Preloader -->
+
+
+<div class="culmn">
+    <!--Home page style-->
+
+
+    <nav class="navbar navbar-light navbar-expand-lg  navbar-fixed white no-background bootsnav">
+        <!-- Start Top Search -->
+        <div class="top-search">
+            <div class="container">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    <input type="text" class="form-control" placeholder="Search">
+                    <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>
+                </div>
+            </div>
+        </div>
+        <!-- End Top Search -->
+
+        <div class="container">
+            <!-- Start Atribute Navigation -->
+            <div class="attr-nav">
+                <ul>
+
+                    <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
+                    <li class="side-menu"><a href="#"><i class="fa fa-bars"></i></a></li>
+                </ul>
+            </div>
+            <!-- End Atribute Navigation -->
+
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <a class="navbar-brand" style="color: whitesmoke;font-size: x-large;"
+                   href="./home.html"><strong>TDP</strong></a>
+            </div>
+            <!-- End Header Navigation -->
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
+
+                    <li><a class="nav-link " href="./til_board.html">Write TIL</a></li>
+                    <li><a class="nav-link" href="./mytil_page.html">My TIL</a></li>
+                    <li><a class="nav-link" href="https://github.com/">Github</a></li>
+                    <li><a class="nav-link" href="./my_page.html">myPage</a></li>
+                    <li><a class="nav-link" onclick="sign_out()">logout</a></li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+    </nav>
+</div>
+
+<!-- Start Side Menu -->
+<div class="side">
+    <a href="#" class="close-side"><i class="fa fa-times"></i></a>
+    <div class="widget">
+        <h6 class="title">Custom Pages</h6>
+        <ul class="link">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Portfolio</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </div>
+    <div class="widget">
+        <h6 class="title">Additional Links</h6>
+        <ul class="link">
+            <li><a href="#">Retina Homepage</a></li>
+            <li><a href="#">New Page Examples</a></li>
+            <li><a href="#">Parallax Sections</a></li>
+            <li><a href="#">Shortcode Central</a></li>
+            <li><a href="#">Ultimate Font Collection</a></li>
+        </ul>
+    </div>
+</div>
+<!-- End Side Menu -->
+
+</nav>
+
+<!--Home Sections-->
+
+<section id="hello" class="home bg-mega">
+
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="main_home">
+                <div class="home_text">
+                    <h1 class="text-white">WE ’ RE <br/> TIL Management Service!
+                        <span>
+                            <div class="test rounded-circle"></div></span>
+                    </h1>
+                </div>
             </div>
         </div>
     </div>
-    <form class="form-inline">
-        <div class="input-group">
-            <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
-            <div class="input-group-append">
-                <button class="btn btn-outline-primary" type="button" id="button-addon2">
-                    <i class="fa fa-search"></i>
-                </button>
+    <!--End off row-->
+
+    <!--End off container -->
+</section>
+<!--End off Home Sections-->
+
+<!-- my til list -->
+<div class="container">
+    <div id="main">
+<!--        <div id="banner">-->
+<!--            <img src="images/pic01.jpg" alt="" class="image-full"/>-->
+<!--        </div>-->
+<!--        <div id="welcome">-->
+<!--            <div class="title">-->
+<!--                <h2>Fusce ultrices fringilla metus</h2>-->
+<!--                <span class="byline">Donec leo, vivamus fermentum nibh in augue praesent a lacus at urna congue</span>-->
+<!--            </div>-->
+<!--            <p>This is <strong>Privy</strong>, a free, fully standards-compliant CSS template designed by <a-->
+<!--                    href="http://templated.co" rel="nofollow">TEMPLATED</a>. The photos in this template are from <a-->
+<!--                    href="http://fotogrph.com/"> Fotogrph</a>. This free template is released under the <a-->
+<!--                    href="http://templated.co/license">Creative Commons Attribution</a> license, so you're pretty much-->
+<!--                free to do whatever you want with it (even use it commercially) provided you give us credit for it. Have-->
+<!--                fun :) </p>-->
+<!--        </div>-->
+        <div id="featured">
+            <div class="title">
+                <h2><span class="user_nickname_append">Joy</span>'s Today I Learned List</h2>
+                <span class="byline">Total : <span class="til_count_append"></span></span>
+            </div>
+            <div>
+                <ul class="style1" id="post-list">
+                    <img src="./noTIL.png" alt="" class="image-full"/>
+                </ul>
             </div>
         </div>
-    </form>
-</nav>
-
-
+        <div id="copyright">
+            &copy; Made By : <a href="https://github.com/0sunzero0/TDP-Spring"> CDP </a>.
+        </div>
+    </div>
+</div>
+<!-- my til list END -->
 
 <div class="container-fluid gedf-wrapper">
     <!-- container -->
     <div class="row">
 
-        <!-- Post List -->
-        <div class="col-md-6 gedf-main" id="post-list">
-
-        </div>
-
         <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
              aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -248,11 +411,15 @@
                                 <textarea class="form-control" rows="5" name="content" id="modal-content"
                                           placeholder="내용을 입력해 주세요"></textarea>
                             </div>
+                            <div class="mb-3">
+                                <label for="tags">Tag</label>
+                                <input type="text" class="form-control" id="tags" data-role="tagsinput" placeholder="TAGS" >
+                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <input type="submit" class="btn btn-primary" id="modal-save" onclick=""
+                        <input type="submit" class="btn btn-secondary" id="modal-save" onclick=""
                                value="Save changes"></button>
                     </div>
                 </div>
@@ -262,14 +429,4 @@
 
     </div>
 </div>
-<!-- toast -->
-<article class="message is-danger" id="toast">
-    <div class="message-header">
-        <strong class="me-auto" id="til_title"></strong>
-        <button class="delete" aria-label="delete" onclick="toast_close()"></button>
-    </div>
-    <div class="message-body" id="til_content">
-    </div>
-</article>
-<!-- toast end -->
 </body>

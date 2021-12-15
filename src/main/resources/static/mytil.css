@@ -9,8 +9,7 @@ body
     padding: 0px;
     font-size: 12pt;
     font-weight: 300;
-    background: #fff;
-
+    color: #444444;
 }
 
 
@@ -113,8 +112,8 @@ ul.style1
 
 ul.style1 li
 {
-    padding: 1.6em 0em 0em 0em;
-    margin: 0 0 2.5em 0;
+    padding: 2.5em 0em 0em 0em;
+    margin: 2.5em 0 2.5em 0;
     border-top: 1px solid rgba(0,0,0,.1);
 }
 
@@ -159,7 +158,7 @@ ul.style1 .date
     float: left;
     position: relative;
     width: 80px;
-    height: 70px;
+    height: 170px;
     margin: 0.5em 1.5em 0em 0.5em;
     padding: 1.5em 0em 1.5em 0em;
     box-shadow: 0px 0px 0px 5px rgba(255,255,255,0.1);
@@ -194,91 +193,26 @@ ul.style1 .date b
     font-weight: 700;
 }
 
-ul.style1 .date a
-{
-}
-
 ul.style1 .date a:hover
 {
     text-decoration: none;
 }
 
-
-/*********************************************************************************/
-/* Social Icon Styles                                                            */
-/*********************************************************************************/
-
-ul.contact
-{
-    margin: 0;
-    padding: 2em 0em 0em 0em;
-    list-style: none;
+ul.style1 .text a{
+    height: 100px;
 }
 
-ul.contact li
-{
-    display: inline-block;
-    padding: 0em 0.30em;
-    font-size: 1em;
+ul.style1 .dropdown{
+    margin : 0;
+    padding : 0;
 }
 
-ul.contact li span
-{
-    display: none;
-    margin: 0;
-    padding: 0;
+ul.style1 .dropdown-item{
+    width : 20px;
 }
 
-ul.contact li a
-{
-    color: #FFF;
-}
-
-ul.contact li a:before
-{
-    display: inline-block;
-    background: #3f3f3f;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    border-radius: 20px;
-    text-align: center;
-    color: #FFFFFF;
-}
-
-ul.contact li a.icon-twitter:before { background: #2DAAE4; }
-ul.contact li a.icon-facebook:before { background: #39599F; }
-ul.contact li a.icon-dribbble:before { background: #C4376B;	}
-ul.contact li a.icon-tumblr:before { background: #31516A; }
-ul.contact li a.icon-rss:before { background: #F2600B; }
-
-/*********************************************************************************/
-/* Button Style                                                                  */
-/*********************************************************************************/
-
-.button
-{
-    display: inline-block;
-    padding: 1em 3em 1em 2em;
-    letter-spacing: 0.20em;
-    text-decoration: none;
-    text-transform: uppercase;
-    font-weight: 400;
-    font-size: 0.90em;
-    color: #FFF;
-}
-
-.button:before
-{
-    display: inline-block;
-    background: #FFC31F;
-    margin-right: 1em;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    border-radius: 20px;
-    text-align: center;
-    color: #272925;
+ul.style1 .tags{
+    width : 50px;
 }
 
 /*********************************************************************************/
@@ -358,101 +292,12 @@ ul.contact li a.icon-rss:before { background: #F2600B; }
     margin-bottom: 3em;
 }
 
-.title h2
-{
-    text-transform: lowercase;
-    font-size: 2.8em;
-}
-
 .title .byline
 {
-    font-size: 1.3em;
+    font-size: 25px;
     color: #6F6F6F;
 }
 
-
-/*********************************************************************************/
-/* Logo                                                                          */
-/*********************************************************************************/
-
-#logo
-{
-    text-align: center;
-    margin-bottom: 4em;
-}
-
-#logo h1
-{
-    display: block;
-}
-
-#logo a
-{
-    text-decoration: none;
-    color: #FFF;
-}
-
-#logo span
-{
-    padding-right: 0.5em;
-    text-transform: uppercase;
-    font-size: 0.90em;
-    color: rgba(255,255,255,0.3);
-}
-
-#logo span a
-{
-    color: rgba(255,255,255,0.5);
-}
-
-#logo img
-{
-    display: inline-block;
-    margin-bottom: 1em;
-    border-radius: 50%;
-}
-
-/*********************************************************************************/
-/* Menu                                                                          */
-/*********************************************************************************/
-
-#menu
-{
-}
-
-#menu ul
-{
-}
-
-#menu li
-{
-    border-top: 1px solid rgba(255,255,255,0.08);
-}
-
-#menu li a, #menu li span
-{
-    display: block;
-    padding: 2em 1.5em;
-    text-align: center;
-    text-decoration:  none;
-    text-transform: uppercase;
-    font-weight: 700;
-    color: rgba(255,255,255,0.5);
-}
-
-#menu li:hover a, #menu li.active a, #menu li.active span
-{
-}
-
-#menu .current_page_item a
-{
-    background: #2980b9;
-    color: rgba(255,255,255,1);
-}
-
-#menu .icon
-{
-}
 
 /*********************************************************************************/
 /* Banner                                                                        */
@@ -490,10 +335,9 @@ ul.contact li a.icon-rss:before { background: #F2600B; }
     border-top: 1px solid rgba(0,0,0,0.08);
 }
 
-
-/* Reset Bootstrap */
-.dropdown-toggle::after {
-    content: none;
-    display: none;
+/*********************************************************************************/
+/* only til.css */
+/*********************************************************************************/
+.user_nickname_append{
+    color : #333333;
 }
-
