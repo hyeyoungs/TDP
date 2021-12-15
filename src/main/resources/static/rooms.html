@@ -91,6 +91,20 @@
         }
 
         function detail(idx) {
+
+            var sockJs = new SockJS(`${domainURL}/stomp/chat`);
+            //1. SockJS를 내부에 들고있는 stomp를 내어줌
+
+
+            stomp = Stomp.over(sockJs);
+            //2. connection이 맺어지면 실행
+            stomp.connect({}, function () {
+
+                stomp.send("/pub/chat/enter", {}, JSON.stringify({
+                    roomId: roomId, writer: username, message:"enter", userCount:0}))
+                read_room();
+
+            });
             location.href = `/room.html?id=`+idx;
         }
 

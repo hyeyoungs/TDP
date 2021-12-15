@@ -1,8 +1,12 @@
 package com.cdp.tdp.chat.controller;
 
 import com.cdp.tdp.chat.domain.ChatRoom;
+import com.cdp.tdp.chat.domain.ChatUser;
 import com.cdp.tdp.chat.dto.ChatMessageDTO;
 import com.cdp.tdp.chat.repository.ChatRoomRepository;
+import com.cdp.tdp.chat.repository.ChatUserRepository;
+import com.cdp.tdp.domain.User;
+import com.cdp.tdp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,45 +24,58 @@ import java.util.Optional;
 public class StompChatController {
 
     private final SimpMessagingTemplate template; //특정 Broker로 메세지를 전달
-//    public List<String> count = new ArrayList<>();
     private final ChatRoomRepository chatRoomRepository;
-    //Client가 SEND할 수 있는 경로
+    private final ChatUserRepository chatUserRepository;
+    private final UserRepository userRepository;
+
     //stompConfig에서 설정한 applicationDestinationPrefixes와 @MessageMapping 경로가 병합됨
     //"/pub/chat/enter"
     @MessageMapping(value = "/chat/enter")
     public void enter(ChatMessageDTO message){
-//        count.add(message.getWriter());
-//        message.setUserCount(count.size());
-//        String json = new Gson().toJson(count);
-//        message.setMessage(json);
         String id=message.getRoomId();
         Long room_id = Long.valueOf(id);
+
+        // chat user 정보 저장 (채팅유저 , 채팅방)
         ChatRoom chatRoom = chatRoomRepository.findById(room_id).orElseThrow(
                 ()->new NullPointerException("해당 채팅방이 존재하지 않습니다."));
-        int count=chatRoom.getCount()+1;
-        chatRoom.setCount(count);
-        chatRoomRepository.save(chatRoom);
-//        template.convertAndSend("/sub/chat/home/", message);
-        message.setMessage(message.getWriter() + "님이 채팅방에 참여하였습니다.");
+        User user= userRepository.findByUsername(message.getWriter()).orElseThrow(
+                ()->new NullPointerException("해당 사용자가 존재하지 않습니다."));
+        if(!chatUserRepository.findByChatRoomAndUser(chatRoom,user).isPresent())
+        {
+            ChatUser chatUser = new ChatUser(user,chatRoom);
+            chatUserRepository.save(chatUser);
+
+            // 채팅방에 있는 chat_user 세기
+            int count=chatUserRepository.countByChatRoom(room_id);
+            chatRoom.setCount(count);
+            chatRoomRepository.save(chatRoom);
+
+            message.setMessage("채팅방에 참여하였습니다.");
+            template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+        }
+
+
+        message.setMessage("채팅방에 다시 참여하였습니다.");
         template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
     }
 
     @MessageMapping(value = "/chat/exit")
     public void exit(ChatMessageDTO message) {
-//        count.remove(message.getWriter());
-//        message.setUserCount(count.size());
-//        String json = new Gson().toJson(count);
-//        message.setMessage(json);
-//        template.convertAndSend("/sub/chat/home/", message);
         String id=message.getRoomId();
         Long room_id = Long.valueOf(id);
+
+        // chat user 정보 삭제 (채팅유저 , 채팅방)
         ChatRoom chatRoom = chatRoomRepository.findById(room_id).orElseThrow(
                 ()->new NullPointerException("해당 채팅방이 존재하지 않습니다."));
-        int count=chatRoom.getCount()-1;
+        User user= userRepository.findByUsername(message.getWriter()).orElseThrow(
+                ()->new NullPointerException("해당 사용자가 존재하지 않습니다."));
+        chatUserRepository.deleteByChatRoomAndUser(chatRoom,user);
+
+        int count=chatUserRepository.countByChatRoom(room_id);
         chatRoom.setCount(count);
         chatRoomRepository.save(chatRoom);
 
-        message.setMessage(message.getWriter() + "님이 채팅방을 나갔습니다.");
+        message.setMessage("채팅방을 나갔습니다.");
         template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
     }
 
