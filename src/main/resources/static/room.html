@@ -67,14 +67,20 @@
 
             $("#button-send").on("click", function (e) {
                 let msg = document.getElementById("msg");
-                stomp.send('/pub/chat/message', {}, JSON.stringify({
-                    roomId: roomId,
-                    message: msg.value,
-                    writer: username,
-                    userCount: 0
+                if(msg!=="") {
+                    stomp.send('/pub/chat/message', {}, JSON.stringify({
+                        roomId: roomId,
+                        message: msg.value,
+                        writer: username,
+                        userCount: 0
 
-                }));
-                msg.value = '';
+                    }));
+                    msg.value = '';
+                }
+                else{
+                    alert("메시지를 입력해주세요!")
+                }
+
             });
 
             $("#button-exit").on("click", function (e) {
