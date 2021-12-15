@@ -12,11 +12,8 @@ import java.util.Optional;
 
 public interface ChatUserRepository extends JpaRepository<ChatUser, Long> {
 
-    List<ChatUser> findAllByChatRoom(long id);
-
     Optional<ChatUser> deleteByChatRoomAndUser(ChatRoom chatRoom, User user);
     Optional<ChatUser> findByChatRoomAndUser(ChatRoom chatRoom, User user);
 
-
-
+    int countByChatRoom(ChatRoom chatRoom);
 }
