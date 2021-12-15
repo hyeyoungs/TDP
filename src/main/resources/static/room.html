@@ -78,8 +78,7 @@
                 }
             });
 
-
-             $("#button-send").on("click", function (e) {
+            $("#button-send").on("click", function (e) {
                 let msg = document.getElementById("msg");
                 if(msg!=="") {
                     stomp.send('/pub/chat/message', {}, JSON.stringify({
