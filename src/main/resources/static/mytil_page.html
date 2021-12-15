@@ -6,24 +6,27 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Title | TIL.D.P</title>
 
-    <!-- Bootstrap tags -->
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
-          crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-            crossorigin="anonymous"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet"
-          id="bootstrap-css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+    <!-- page CSS -->
+    <link rel="stylesheet" href="./assets/css/create.css">
+    <link rel="stylesheet" href="./assets/css/mytil.css">
 
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+
+    <!-- font -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
 
     <!-- total js -->
     <script src="back.js" rel="script"></script>
@@ -31,6 +34,9 @@
     <!-- Toast Bulma -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link rel="stylesheet" href="./back.css">
+
+    <!-- Icon -->
+    <link rel="shortcut icon" href="#">
 
     <script>
         $(document).ready(function () {
@@ -170,45 +176,6 @@
 
     </script>
 
-    <style>
-        body {
-            background-color: #eeeeee;
-        }
-
-        .h7 {
-            font-size: 0.8rem;
-        }
-
-        .gedf-wrapper {
-            margin-top: 0.97rem;
-        }
-
-        @media (min-width: 992px) {
-            .gedf-main {
-                padding-left: 4rem;
-                padding-right: 4rem;
-            }
-
-            .gedf-card {
-                margin-bottom: 2.77rem;
-            }
-        }
-
-        .navbar-brand {
-            margin-left: 50px;
-        }
-
-        .nav-link {
-
-            margin-left: 100px;
-        }
-
-        /* Reset Bootstrap */
-        .dropdown-toggle::after {
-            content: none;
-            display: none;
-        }
-    </style>
 </head>
 <body>
 
@@ -248,27 +215,6 @@
 <div class="container-fluid gedf-wrapper">
     <!-- container -->
     <div class="row">
-        <!-- User Profile -->
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body">
-                    <div class="h5">@<label class ="text-label user_id_append"></label></div>
-                    <div class="h7 text-muted">Nickname : <label class ="text-label user_nickname_append"></label></div>
-                    <div class="h7"><label class ="text-label user_profile_info_append"></label></div>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        <div class="h6 text-muted">Followers</div>
-                        <div class="h5">10000</div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="h6 text-muted">Following</div>
-                        <div class="h5">20000</div>
-                    </li>
-                    <li class="list-group-item github_id_tag">Github : <label class ="text-label github_id_append"></label></li>
-                </ul>
-            </div>
-        </div>
 
         <!-- Post List -->
         <div class="col-md-6 gedf-main" id="post-list">
@@ -313,32 +259,6 @@
             </div>
         </div>
         <!-- Modal END -->
-
-        <!-- Card List -->
-        <div class="col-md-3">
-            <!-- Card -->
-            <div class="card gedf-card">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
-                </div>
-            </div>
-            <!-- Card -->
-            <div class="card gedf-card">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
-                </div>
-            </div>
-        </div>
 
     </div>
 </div>
