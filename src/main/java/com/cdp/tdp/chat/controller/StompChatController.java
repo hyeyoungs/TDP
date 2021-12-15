@@ -14,6 +14,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import com.google.gson.Gson;
+
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,9 +35,8 @@ public class StompChatController {
     @MessageMapping(value = "/chat/enter")
     public void enter(ChatMessageDTO message) {
         String id = message.getRoomId();
-        log.info("id "+id);
         Long room_id = Long.valueOf(id);
-        log.info("room_id "+room_id);
+
         // chat user 정보 저장 (채팅유저 , 채팅방)
         ChatRoom chatRoom = chatRoomRepository.findByRoomId(room_id).orElseThrow(
                 () -> new NullPointerException("해당 채팅방이 존재하지 않습니다."));
@@ -48,16 +49,12 @@ public class StompChatController {
             log.info("chat first come");
             ChatUser chatUser = new ChatUser(user, chatRoom);
             chatUserRepository.save(chatUser);
-            log.info("chatuser created");
-            log.info("room_id");
             int count  =chatUserRepository.countByChatRoom(chatRoom);
-
-            log.info(" count "+count);
 
             chatRoom.setCount(count);
             chatRoomRepository.save(chatRoom);
-            log.info("chatroom"+chatRoom);
-            message.setMessage("채팅방에 참여하였습니다3.");
+
+            message.setMessage("채팅방에 참여하였습니다.");
             template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
         }
         else
@@ -68,6 +65,7 @@ public class StompChatController {
 
     }
 
+    @Transactional
     @MessageMapping(value = "/chat/exit")
     public void exit(ChatMessageDTO message) {
         String id=message.getRoomId();
@@ -78,8 +76,9 @@ public class StompChatController {
                 ()->new NullPointerException("해당 채팅방이 존재하지 않습니다."));
         User user= userRepository.findByUsername(message.getWriter()).orElseThrow(
                 ()->new NullPointerException("해당 사용자가 존재하지 않습니다."));
-        chatUserRepository.deleteByChatRoomAndUser(chatRoom,user);
 
+
+        chatUserRepository.deleteByChatRoomAndUser(chatRoom,user);
         int count  =chatUserRepository.countByChatRoom(chatRoom);
         chatRoom.setCount(count);
         chatRoomRepository.save(chatRoom);

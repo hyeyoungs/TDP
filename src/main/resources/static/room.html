@@ -60,9 +60,12 @@
                         str += "</div></div>";
                     }
                     $("#msgArea").append(str);
+
                 });
                 stomp.send("/pub/chat/enter", {}, JSON.stringify({
                     roomId: roomId, writer: username, message:"enter"}))
+
+                read_room();
             });
 
             $(document).keydown(function (event){
@@ -88,6 +91,7 @@
 
                     }));
                     msg.value = '';
+
                 }
                 else{
                     alert("메시지를 입력해주세요!")
@@ -97,11 +101,12 @@
 
 
             $("#button-exit").on("click", function (e) {
-                read_room();
+
                 stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message:"exit"}))
                 if (stomp !== null) {
                     stomp.disconnect();
                 }
+                read_room();
                 window.location.href="./rooms.html"
             });
 
