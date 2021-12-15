@@ -60,6 +60,7 @@
                         str += "</div></div>";
                     }
                     $("#msgArea").append(str);
+                    read_room();
 
                 });
                 stomp.send("/pub/chat/enter", {}, JSON.stringify({
