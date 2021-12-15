@@ -45,8 +45,6 @@ public class StompChatController {
 
 
         if (!(chatUserRepository.findByChatRoomAndUser(chatRoom, user).isPresent())) { //채팅방 처음입장
-
-            log.info("chat first come");
             ChatUser chatUser = new ChatUser(user, chatRoom);
             chatUserRepository.save(chatUser);
             int count  =chatUserRepository.countByChatRoom(chatRoom);
@@ -62,7 +60,6 @@ public class StompChatController {
             message.setMessage("채팅방에 재입장하였습니다.");
             template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
         }
-
     }
 
     @Transactional
