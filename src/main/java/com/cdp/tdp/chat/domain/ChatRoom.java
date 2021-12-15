@@ -29,10 +29,6 @@ public class ChatRoom extends Timestamped {
     @Column
     private int count;
 
-    @Column
-    private ArrayList<String> integers3 = new ArrayList<>(10); // 초기 용량(Capacity) 설정
-
-
 
     public ChatRoom(ChatRoomDTO chatRoomDTO) {
 
