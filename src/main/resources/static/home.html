@@ -12,7 +12,6 @@
 <!--Designerd by: https://bootstrapthemes.co-->
 
 <head>
-
     <meta charset="utf-8">
     <title>TIL Management Service</title>
     <meta name="description" content="">
@@ -30,17 +29,17 @@
     <link rel="stylesheet" href="assets/css/bootstrap.css">
     <link rel="stylesheet" href="assets/css/magnific-popup.css">
     <link rel="stylesheet" href="assets/css/bootsnav.css">
-
+    <!--For Plugins external css-->
+    <!--<link rel="stylesheet" href="assets/css/plugins.css" />-->
     <!--Theme custom css -->
     <link rel="stylesheet" href="assets/css/style.css">
-
+    <!--<link rel="stylesheet" href="assets/css/colors/maron.css">-->
     <!--Theme Responsive css-->
     <link rel="stylesheet" href="assets/css/responsive.css"/>
-
     <!-- JS includes -->
     <script src="assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="assets/js/vendor/jquery-1.11.2.min.js"></script>
-
     <script src="assets/js/vendor/popper.min.js"></script>
     <script src="assets/js/vendor/bootstrap.min.js"></script>
     <script src="assets/js/jquery.magnific-popup.js"></script>
@@ -48,10 +47,8 @@
     <script src="assets/js/slick.min.js"></script>
     <script src="assets/js/jquery.collapse.js"></script>
     <script src="assets/js/bootsnav.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-
 
     <!-- paradise slider js -->
     <script src="assets/js/plugins.js"></script>
@@ -81,96 +78,23 @@
                 } else {
                 }
             }, 86400000);
+
         });
-        var sockJs = new SockJS(`${domainURL}/stomp/chat`);
-        //1. SockJS를 내부에 들고있는 stomp를 내어줌
-        stomp = Stomp.over(sockJs);
-        //2. connection이 맺어지면 실행
-        stomp.connect({}, function () {
-            //4. subscribe(path, callback)으로 메세지를 받을 수 있음
-            stomp.subscribe("/sub/chat/home/", function (chat) {
-                let content = JSON.parse(chat.body);
-                count = content.userCount;
-                let connector = content.message;
-                $('#user-count').text(count);
-            });
-        })
-  <meta charset="utf-8">
-  <title>TIL Management Service</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/png" href="favicon.ico">
-  <!--Google Font link-->
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/slick.css">
-  <link rel="stylesheet" href="assets/css/slick-theme.css">
-  <link rel="stylesheet" href="assets/css/animate.css">
-  <link rel="stylesheet" href="assets/css/fonticons.css">
-  <link rel="stylesheet" href="assets/css/font-awesome.min.css">
-  <link rel="stylesheet" href="assets/css/bootstrap.css">
-  <link rel="stylesheet" href="assets/css/magnific-popup.css">
-  <link rel="stylesheet" href="assets/css/bootsnav.css">
-  <!--For Plugins external css-->
-  <!--<link rel="stylesheet" href="assets/css/plugins.css" />-->
-  <!--Theme custom css -->
-  <link rel="stylesheet" href="assets/css/style.css">
-  <!--<link rel="stylesheet" href="assets/css/colors/maron.css">-->
-  <!--Theme Responsive css-->
-  <link rel="stylesheet" href="assets/css/responsive.css" />
-  <!-- JS includes -->
-  <script src="assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="assets/js/vendor/jquery-1.11.2.min.js"></script>
-  <script src="assets/js/vendor/popper.min.js"></script>
-  <script src="assets/js/vendor/bootstrap.min.js"></script>
-  <script src="assets/js/jquery.magnific-popup.js"></script>
-  <script src="assets/js/jquery.easing.1.3.js"></script>
-  <script src="assets/js/slick.min.js"></script>
-  <script src="assets/js/jquery.collapse.js"></script>
-  <script src="assets/js/bootsnav.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-  <!-- paradise slider js -->
-  <script src="assets/js/plugins.js"></script>
-  <script src="assets/js/main.js"></script>
-  <script src="back.js" rel="script"></script>
-  
-  <script>
-  let flag = 0;
-    let user_info = localStorage.getItem("username");
-    let count;
-    
-    $(document).ready(function () {
-      list_til();
-      read_flag();
-      rank_til();
-      sendMessage = setInterval(function() {
-        if ( $(".test").css("background-color")==='rgb(255, 0, 0)'){
-          REST_Call('/message');
-      }
-        else{
-        }
-      }, 86400000);
 
 
-    var sockJs = new SockJS(`${domainURL}/stomp/chat`);
-    //1. SockJS를 내부에 들고있는 stomp를 내어줌
-    stomp = Stomp.over(sockJs);
-    //2. connection이 맺어지면 실행
-    stomp.connect({}, function () {
-        //4. subscribe(path, callback)으로 메세지를 받을 수 있음
-        stomp.subscribe("/sub/chat/home/", function (chat) {
-            let content = JSON.parse(chat.body);
-            count = content.userCount;
-            let connector = content.message;
-            $('#user-count').text(count);
-        });
-    })
-
-
-    });
+        // var sockJs = new SockJS(`${domainURL}/stomp/chat`);
+        // //1. SockJS를 내부에 들고있는 stomp를 내어줌
+        // stomp = Stomp.over(sockJs);
+        // //2. connection이 맺어지면 실행
+        // stomp.connect({}, function () {
+        //     //4. subscribe(path, callback)으로 메세지를 받을 수 있음
+        //     stomp.subscribe("/sub/chat/home/", function (chat) {
+        //         let content = JSON.parse(chat.body);
+        //         count = content.userCount;
+        //         let connector = content.message;
+        //         $('#user-count').text(count);
+        //     });
+        // })
 
 
         function list_til() {
@@ -187,14 +111,13 @@
                     for (let i = 0; i < max; i++) {
                         let title = all_til[i]['tilTitle'];
                         let user = all_til[i]['user']['nickname'];
-                        let content = all_til[i]['tilContent'];
+
                         let tempHtml = `
                                         <div class="col-md-4">
                                           <div class="service_item">
                                             <i class="icofont icofont-light-bulb"></i>
                                             <h3 class="m-top-30">${title}</h3>
                                             <div class="separator_small"></div>
-                                            <p>${content} </p>
                                             <h5>${user}</h5>
                                           </div>
                                         </div>
@@ -237,18 +160,19 @@
 
         function rank_til() {
             $.ajax({
-                    type: "GET",
-                    url: `${domainURL}/til/ranker`,
-                    data: {},
-                    success: function (response) {
-                        console.log(response)
-                        if (response.length < 3) {
-                            for (let i = 0; i < response.length; i++) {
-                                let nickname = response[i]['nickname'];
-                                let til = response[i]['tilCount'];
-                                if (til === 0) {
-                                } else {
-                                    let temp_html = `<div class="col-md-4 col-sm-12">
+                type: "GET",
+                url: `${domainURL}/til/ranker`,
+                data: {},
+                success: function (response) {
+                    let min = response.length;
+                    if (min > 3) {
+                        min = 3;
+                    }
+                    for (let i = 0; i < min; i++) {
+                        let nickname = response[i]['nickname'];
+                        let til = response[i]['tilCount'];
+                        if (til !== 0) {
+                            let temp_html = `<div class="col-md-4 col-sm-12">
                                                     <div class="pricing_item">
                                                         <div class="pricing_head p-top-30 p-bottom-100 text-center">
                                                             <h3 class="text-uppercase" ><strong>${nickname}</strong></h3>
@@ -265,40 +189,12 @@
                                                         </div>
                                                     </div>
                                                 </div>`
-                                    $('#rank_user').append(temp_html);
-                                }
-                            }
-                        }
-                        else {
-                            for (let i = 0; i < 3; i++) {
-                                let nickname = response[i]['nickname'];
-                                let til = response[i]['tilCount'];
-                                if (til === 0) {
-                                } else {
-                                    let temp_html = `<div class="col-md-4 col-sm-12">
-                                                    <div class="pricing_item">
-                                                        <div class="pricing_head p-top-30 p-bottom-100 text-center">
-                                                            <h3 class="text-uppercase" ><strong>${nickname}</strong></h3>
-                                                        </div>
-                                                        <div class="pricing_price_border text-center " >
-                                                            <div class="pricing_price">
-                                                                <h3 class="text-white">${til}</h3>
-                                                                <p class="text-white"> 개</p>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="pricing_body bg-white p-top-80 p-bottom-60">
-
-                                                        </div>
-                                                    </div>
-                                                </div>`
-                                    $('#rank_user').append(temp_html);
-                                }
-                            }
+                            $('#rank_user').append(temp_html);
                         }
                     }
+
                 }
-            )
+            })
         }
 
         function REST_Call(path) {
@@ -318,10 +214,6 @@
 </head>
 <style>
 
-    .left_write {
-        margin-right: 100px;
-    }
-
     .test {
 
         float: right;
@@ -331,10 +223,6 @@
         display: block;
         margin-left: 50px;
         margin-top: 0;
-    }
-
-    .middle {
-        text-align: center;
     }
 
     .page-header {
@@ -452,65 +340,67 @@
 
 <!--Home Sections-->
 
-    <section id="hello" class="home bg-mega">
+<section id="hello" class="home bg-mega">
 
-        <div class="overlay"></div>
-        <div class="container">
-            <div class="row">
-                <div class="main_home">
-                    <div class="home_text">
-                        <h1 class="text-white">WE ’ RE <br/> TIL  Management  Service!<span>
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="main_home">
+                <div class="home_text">
+                    <h1 class="text-white">WE ’ RE <br/> TIL Management Service!<span>
 
           <div class="test rounded-circle"></div>
 
           </span></h1>
 
-                    </div>
-
                 </div>
 
             </div>
 
         </div>
-        <!--End off row-->
 
-        <!--End off container -->
-    </section>
-    <!--End off Home Sections-->
-
-
-
-
-
-    <!--채팅 section-->
-    <div style="text-align: center" class="page-header">
-        <h2 class="user-count" style="display: inline"><strong>0</strong></h2><h2 style="display: inline"><strong>명 채팅서버 접속중</strong></h2>
-        <p><button type="button" class="home_btn_chatlist btn-primary" onClick="location.href='./rooms.html'" >채팅 리스트</button></p>
     </div>
+    <!--End off row-->
 
-    <!--Service Section-->
-    <section id="service" class="service">
-        <div class="container">
-            <div class="row">
-                <div class="main_service roomy-100">
-                    <div class="col-md-8 col-sm-10 mr-md-auto ml-md-auto mr-sm-auto ml-sm-auto">
-                        <div class="head_title text-center">
-                            <h2><strong>OUR TILS</strong></h2>
-                            <div class="separator_auto"></div>
-                            <p>사용자들이 작성한 TIL 입니다.</p>
-                        </div>
-                    </div>
-                    <div class="row" id="board-main">
+    <!--End off container -->
+</section>
+<!--End off Home Sections-->
 
 
+<!--채팅 section-->
+<div style="text-align: center" class="page-header">
+<!--    <h2 class="user-count" style="display: inline"><strong>0</strong></h2>-->
+<!--    <h2 style="display: inline"><strong>명 채팅서버 접속중</strong></h2>-->
+    <p>
+        <button type="button" class="home_btn_chatlist btn-primary" onClick="location.href='./rooms.html'">채팅방 입장
+        </button>
+    </p>
+</div>
+
+
+<!--Service Section-->
+<section id="service" class="service">
+    <div class="container">
+        <div class="row">
+            <div class="main_service roomy-100">
+                <div class="col-md-8 col-sm-10 mr-md-auto ml-md-auto mr-sm-auto ml-sm-auto">
+                    <div class="head_title text-center">
+                        <h2><strong>OUR TILS</strong></h2>
+                        <div class="separator_auto"></div>
+                        <p>사용자들이 작성한 TIL 입니다.</p>
                     </div>
                 </div>
+                <div class="row" id="board-main">
+
+
+                </div>
             </div>
-            <!--End off row -->
         </div>
-        <!--End off container -->
-    </section>
-    <!--End off Featured section-->
+        <!--End off row -->
+    </div>
+    <!--End off container -->
+</section>
+<!--End off Featured section-->
 
 
 <!--RANK 부분 -->
@@ -548,26 +438,26 @@
 <!-- toast end -->
 
 <!-- scroll up-->
-    <div class="scrollup">
-        <a href="#"><i class="fa fa-chevron-up"></i></a>
-    </div>
-    <!-- End off scroll up -->
+<div class="scrollup">
+    <a href="#"><i class="fa fa-chevron-up"></i></a>
+</div>
+<!-- End off scroll up -->
 
 
-    <footer id="footer" class="footer bg-black">
-        <div class="container">
-            <div class="row">
-                <div class="main_footer text-center p-top-40 p-bottom-30">
-                    <p class="wow fadeInRight" data-wow-duration="1s">
-                        Made with
-                        <i class="fa fa-heart"></i> by
-                        <a target="_blank" href="https://github.com/0sunzero0/TDP-Spring">CDP</a> 2021. All Rights
-                        Reserved
-                    </p>
-                </div>
+<footer id="footer" class="footer bg-black">
+    <div class="container">
+        <div class="row">
+            <div class="main_footer text-center p-top-40 p-bottom-30">
+                <p class="wow fadeInRight" data-wow-duration="1s">
+                    Made with
+                    <i class="fa fa-heart"></i> by
+                    <a target="_blank" href="https://github.com/0sunzero0/TDP-Spring">CDP</a> 2021. All Rights
+                    Reserved
+                </p>
             </div>
         </div>
-    </footer>
+    </div>
+</footer>
 
 </div>
 </body>
