@@ -31,32 +31,34 @@ public class StompChatController {
     //stompConfig에서 설정한 applicationDestinationPrefixes와 @MessageMapping 경로가 병합됨
     //"/pub/chat/enter"
     @MessageMapping(value = "/chat/enter")
-    public void enter(ChatMessageDTO message){
-        String id=message.getRoomId();
+    public void enter(ChatMessageDTO message) {
+        String id = message.getRoomId();
         Long room_id = Long.valueOf(id);
 
         // chat user 정보 저장 (채팅유저 , 채팅방)
         ChatRoom chatRoom = chatRoomRepository.findById(room_id).orElseThrow(
-                ()->new NullPointerException("해당 채팅방이 존재하지 않습니다."));
-        User user= userRepository.findByUsername(message.getWriter()).orElseThrow(
-                ()->new NullPointerException("해당 사용자가 존재하지 않습니다."));
-        if(!chatUserRepository.findByChatRoomAndUser(chatRoom,user).isPresent())
-        {
-            ChatUser chatUser = new ChatUser(user,chatRoom);
+                () -> new NullPointerException("해당 채팅방이 존재하지 않습니다."));
+        User user = userRepository.findByUsername(message.getWriter()).orElseThrow(
+                () -> new NullPointerException("해당 사용자가 존재하지 않습니다."));
+
+
+        if (!(chatUserRepository.findByChatRoomAndUser(chatRoom, user).isPresent())) { //채팅방 처음입장
+            ChatUser chatUser = new ChatUser(user, chatRoom);
             chatUserRepository.save(chatUser);
 
             // 채팅방에 있는 chat_user 세기
-            int count=chatUserRepository.countByChatRoom(room_id);
+            int count = chatUserRepository.countByChatRoom(room_id);
             chatRoom.setCount(count);
             chatRoomRepository.save(chatRoom);
 
             message.setMessage("채팅방에 참여하였습니다.");
             template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
         }
+        else {
+            message.setMessage("채팅방에 다시 참여하였습니다.");
+            template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+        }
 
-
-        message.setMessage("채팅방에 다시 참여하였습니다.");
-        template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
     }
 
     @MessageMapping(value = "/chat/exit")
