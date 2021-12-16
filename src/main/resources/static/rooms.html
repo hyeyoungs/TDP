@@ -6,7 +6,23 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-
+    <link rel="icon" type="image/png" href="assets/images/icons/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/select2/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/perfect-scrollbar/perfect-scrollbar.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/util.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/slick.css">
+    <link rel="stylesheet" href="assets/css/slick-theme.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/fonticons.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/bootsnav.css">
+    <meta name="robots" content="noindex, follow">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -23,7 +39,22 @@
     <!-- Bulma -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 
+    <script defer
+            src="https://static.cloudflareinsights.com/beacon.min.js/v64f9daad31f64f81be21cbef6184a5e31634941392597"
+            integrity="sha512-gV/bogrUTVP2N3IzTDKzgP0Js1gg4fbwtYB6ftgLbKQu/V8yH2+lrKCfKHelh4SO3DPzKj4/glTO+tNJGDnb0A=="
+            data-cf-beacon='{"rayId":"6bcb8825a8700fac","token":"cd0b4b3a733644fc843ef0b185f98241","version":"2021.11.0","si":100}'
+            crossorigin="anonymous"></script>
+
     <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-23581568-13');
 
 
         $(document).ready(function () {
@@ -71,6 +102,7 @@
                             let idx = all_rooms[i]['roomId'];
                             let name = all_rooms[i]['name'];
                             let date = all_rooms[i]['createdAt']
+                            let user_count=all_rooms[i]['count'];
                             if (i < 4) {
                                 let temp_html = `<tr onClick="detail(${idx})" style="cursor:pointer;">
 
@@ -82,10 +114,11 @@
                             } else {
                                 let temp_html = `<tr onClick="detail(${idx})" style="cursor:pointer;">
                                                 <th scope="row">${name}</th>
+                                                <td>${user_count}</td>
                                                 <td>${date}</td>
 
                                             </tr>`
-                                $('#til-box').append(temp_html)
+                                $('#rooom-box').append(temp_html)
                             }
                         }
                     }
@@ -143,35 +176,87 @@
 </nav>
 
 
-<table class="table">
-    <thead class="thead-light">
-    <tr class="text-center">
-        <th scope="col">채팅방</th>
+<!--<table class="table">-->
+<!--    <thead class="thead-light">-->
+<!--    <tr class="text-center">-->
+<!--        <th scope="col">채팅방</th>-->
 
-        <div class="wrap">
-    <div class="row">
-        <div class="col-auto mr-auto"></div>
-        <div class="col-auto">
-            <input type="text" id="room_name" name="room" class="form-control">
-            <span><button class="btn btn-secondary" onclick="create_room()">개설하기</button></span>
+<!--        <div class="wrap">-->
+<!--    <div class="row">-->
+<!--        <div class="col-auto mr-auto"></div>-->
+<!--        <div class="col-auto">-->
+<!--            <input type="text" id="room_name" name="room" class="form-control">-->
+<!--            <span><button class="btn btn-secondary" onclick="create_room()">개설하기</button></span>-->
 
+<!--        </div>-->
+
+<!--    </div>-->
+<!--    <div class="container">-->
+<!--        <table id="til-table" class="table">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th scope="col">채팅방 이름</th>-->
+<!--                <th scope="col">개설날짜</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody id="til-box">-->
+<!--            </tbody>-->
+<!--        </table>-->
+
+<!--    </div>-->
+<!--        </div>-->
+<!--</table>-->
+
+
+<div class="head_title text-center" style="margin-top: 100px">
+    <h1><strong>ChatRoom LIST</strong></h1>
+</div>
+
+
+<div class="col-lg-6">
+    <div class="input-group">
+        <div class="input-group-btn">
+            <input id="room_name" type="text" class="form-control" placeholder="채팅방 이름을 입력해주세요" aria-label="...">
+            <button onclick="create_room()" type="button" class="btn btn-primary">개설하기</button>
+        </div><!-- /btn-group -->
+
+    </div><!-- /input-group -->
+</div><!-- /.col-lg-6 -->
+<!--<div class="row" id="create_button">-->
+<!--    <div class="col-auto mr-auto"></div>-->
+<!--    <div class="col-auto">-->
+<!--        <a class="btn btn-primary" href="./create.html" role="button">글쓰기</a>-->
+<!--    </div>-->
+<!--</div>-->
+<div class="margin">
+
+    <div class="table100 ver2 m-b-110">
+        <div class="table100-head">
+            <table>
+                <thead>
+                <tr class="row100 head">
+                    <th class="cell100 column1">ROOM NAME</th>
+                    <th class="cell100 column2">USERS</th>
+                    <th class="cell100 column3">DATE</th>
+
+                </tr>
+                </thead>
+            </table>
         </div>
-
-    </div>
-    <div class="container">
-        <table id="til-table" class="table">
-            <thead>
-            <tr>
-                <th scope="col">채팅방 이름</th>
-                <th scope="col">개설날짜</th>
-            </tr>
-            </thead>
-            <tbody id="til-box">
-            </tbody>
-        </table>
-
-    </div>
+        <div class="table100-body">
+            <table>
+                <tbody id="room-box" class="row100 body">
+                </tbody>
+            </table>
         </div>
-</table>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination" style="justify-content: center;" id="pagination-buttons">
+
+            </ul>
+        </nav>
+    </div>
+</div>
+</div>
+
 </body>
 </html>
