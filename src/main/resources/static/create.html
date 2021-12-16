@@ -11,24 +11,24 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <!-- page CSS -->
+    <link rel="stylesheet" href="./assets/css/create.css">
 
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="./assets/css/create.css">
 
-    <!-- 구글폰트 -->
-    <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
-
+    <!-- socket -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
 
+    <!-- tag -->
     <link rel="stylesheet" href="bootstrap-tagsinput.css">
     <script src="bootstrap-tagsinput.js"></script>
 
-
-    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <!-- font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
 
     <!-- total js -->
@@ -42,110 +42,110 @@
     <link rel="shortcut icon" href="#">
 
     <script>
-      $(document).ready(function () {
-        read_user();
-      });
-
-      $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
-        login_check(options, originalOptions, jqXHR);
-      });
-
-      function create_til() {
-        let info = {
-          tilTitle : $('#title').val(),
-          tilContent : $('#content').val(),
-          tilView : true,
-          tilLike : 0,
-          tags: $("#tags").val()
-        }
-        $.ajax({
-          type: "POST",
-          url: `${domainURL}/til`,
-          contentType: "application/json",
-          data: JSON.stringify(info),
-          success: function (response) { // 성공하면
-            alert("작성 완료!")
-            window.location.href = `/til_board.html`
-          }
+        $(document).ready(function () {
+            read_user();
         });
-      }
 
-      $(document).on('click', '#btnList', function (e) {
-        e.preventDefault();
-        window.location.href = `${domainURL}/til_board.html`
-      });
+        $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+            login_check(options, originalOptions, jqXHR);
+        });
+
+        function create_til() {
+            let info = {
+                tilTitle : $('#title').val(),
+                tilContent : $('#content').val(),
+                tilView : true,
+                tilLike : 0,
+                tags: $("#tags").val()
+            }
+            $.ajax({
+                type: "POST",
+                url: `${domainURL}/til`,
+                contentType: "application/json",
+                data: JSON.stringify(info),
+                success: function (response) { // 성공하면
+                    alert("작성 완료!")
+                    window.location.href = `/til_board.html`
+                }
+            });
+        }
+
+        $(document).on('click', '#btnList', function (e) {
+            e.preventDefault();
+            window.location.href = `${domainURL}/til_board.html`
+        });
 
     </script>
 
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="./home.html">TIL.D.P</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div id="navbar-nav" class="navbar-nav">
-        <a class="nav-link " href="./til_board.html">Write TIL</a>
-        <a class="nav-link" href="./mytil_page.html">My TIL</a>
-        <a class="nav-link" href="https://github.com/">Github</a>
-        <a class="nav-link" href="./my_page.html">myPage</a>
-        <a class="nav-link" onclick="sign_out()">logout</a>
-      </div>
+    <div class="container-fluid">
+        <a class="navbar-brand" href="./home.html">TIL.D.P</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div id="navbar-nav" class="navbar-nav">
+                <a class="nav-link " href="./til_board.html">Write TIL</a>
+                <a class="nav-link" href="./mytil_page.html">My TIL</a>
+                <a class="nav-link" href="https://github.com/">Github</a>
+                <a class="nav-link" href="./my_page.html">myPage</a>
+                <a class="nav-link" onclick="sign_out()">logout</a>
+            </div>
+        </div>
     </div>
-  </div>
 </nav>
 <div id="footer" class="wrapper">
-  <div class="inner">
-    <section>
-      <div class="box">
-        <div class="content">
-          <h2 class="align-center">BOARD FORM</h2>
-          <hr />
-          <form action="#" method="post">
-            <div class="field">
-              <label for="title">Title</label>
-              <input name="title" id="title" type="text" placeholder="제목을 입력해주세요. ">
+    <div class="inner">
+        <section>
+            <div class="box">
+                <div class="content">
+                    <h2 class="align-center">BOARD FORM</h2>
+                    <hr />
+                    <form action="#" method="post">
+                        <div class="field">
+                            <label for="title">Title</label>
+                            <input name="title" id="title" type="text" placeholder="제목을 입력해주세요. ">
+                        </div>
+                        <div class="field half">
+                            <p><span> Writer : </span><label for="content" class="user_nickname_append" id="user_nickname_append"></label>
+                            </p>
+                        </div>
+                        <div class="field half">
+                            <label for="tags">Tag</label>
+                            <input type="text" value="" id="tags" data-role="tagsinput" placeholder="TAGS" >
+                        </div>
+                        <div class="field">
+                            <label for="content">Content</label>
+                            <textarea name="message" id="content" rows="6" placeholder="내용을 입력해주세요."></textarea>
+                        </div>
+                        <ul class="actions align-center">
+                            <button type="button" class="btn-primary" onclick="create_til()" >SAVE</button>
+                            <button type="button" class="btn-primary" id="btnList" >목록</button>
+                        </ul>
+                    </form>
+                </div>
             </div>
-            <div class="field half">
-              <p><span> Writer : </span><label for="content" class="user_nickname_append" id="user_nickname_append"></label>
-              </p>
-            </div>
-            <div class="field half">
-              <label for="tags">Tag</label>
-              <input type="text" value="" id="tags" data-role="tagsinput" placeholder="TAGS" >
-            </div>
-            <div class="field">
-              <label for="content">Content</label>
-              <textarea name="message" id="content" rows="6" placeholder="내용을 입력해주세요."></textarea>
-            </div>
-            <ul class="actions align-center">
-              <button type="button" class="btn-primary" onclick="create_til()" >SAVE</button>
-                <button type="button" class="btn-primary" id="btnList" >목록</button>
-            </ul>
-          </form>
+        </section>
+        <div class="copyright">
+            &copy; Made By : <a href="https://github.com/0sunzero0/TDP-Spring"> CDP </a>.
         </div>
-      </div>
-    </section>
-    <div class="copyright">
-      &copy; Made By : <a href="https://github.com/0sunzero0/TDP-Spring"> CDP </a>.
     </div>
-  </div>
 
-</footer>
-        
-<!-- toast -->
-<article class="message is-danger" id="toast">
-    <div class="message-header">
-        <strong class="me-auto" id="til_title"></strong>
-        <button class="delete" aria-label="delete" onclick="toast_close()"></button>
-    </div>
-    <div class="message-body" id="til_content">
-    </div>
-</article>
-<!-- toast end -->
+    </footer>
+
+    <!-- toast -->
+    <article class="message is-danger" id="toast">
+        <div class="message-header">
+            <strong class="me-auto" id="til_title"></strong>
+            <button class="delete" aria-label="delete" onclick="toast_close()"></button>
+        </div>
+        <div class="message-body" id="til_content">
+        </div>
+    </article>
+    <!-- toast end -->
 
 </div>
 
