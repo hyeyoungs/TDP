@@ -71,6 +71,7 @@
             list_til();
             read_flag();
             rank_til();
+            get_ChatUsers();
             sendMessage = setInterval(function () {
                 if ($(".test").css("background-color") === 'rgb(255, 0, 0)') {
                     REST_Call('/message');
@@ -83,21 +84,6 @@
         $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
             login_check(options, originalOptions, jqXHR);
         });
-
-        // var sockJs = new SockJS(`${domainURL}/stomp/chat`);
-        // //1. SockJS를 내부에 들고있는 stomp를 내어줌
-        // stomp = Stomp.over(sockJs);
-        // //2. connection이 맺어지면 실행
-        // stomp.connect({}, function () {
-        //     //4. subscribe(path, callback)으로 메세지를 받을 수 있음
-        //     stomp.subscribe("/sub/chat/home/", function (chat) {
-        //         let content = JSON.parse(chat.body);
-        //         count = content.userCount;
-        //         let connector = content.message;
-        //         $('#user-count').text(count);
-        //     });
-        // })
-
 
         function list_til() {
             $.ajax({
@@ -129,8 +115,6 @@
                 }
             })
         }
-
-
 
         function rank_til() {
             $.ajax({
@@ -184,6 +168,20 @@
                 }
             });
         }
+
+        function get_ChatUsers() {
+            $.ajax({
+                type: "GET",
+                url: `${domainURL}/rooms/users`,
+                data: {},
+                success: function (response) {
+                    let all_users = response;
+                    $('#user_count').append(tempHtml)
+
+                }
+            })
+        }
+
     </script>
     <style>
 
@@ -337,8 +335,8 @@
 
 <!--채팅 section-->
 <div style="text-align: center" class="page-header">
-<!--    <h2 class="user-count" style="display: inline"><strong>0</strong></h2>-->
-<!--    <h2 style="display: inline"><strong>명 채팅서버 접속중</strong></h2>-->
+    <h2 class="user-count" style="display: inline"><strong>0</strong></h2>
+    <h2 style="display: inline"><strong> Chatting Users </strong></h2>
     <p>
         <button type="button" class="home_btn_chatlist btn-primary" onClick="location.href='./rooms.html'">채팅방 입장
         </button>
