@@ -60,9 +60,13 @@
                         str += "</div></div>";
                     }
                     $("#msgArea").append(str);
+                    read_room();
+
                 });
                 stomp.send("/pub/chat/enter", {}, JSON.stringify({
-                    roomId: roomId, writer: username, message:"enter", userCount:0}))
+                    roomId: roomId, writer: username, message:"enter"}))
+
+                read_room();
             });
 
             $(document).keydown(function (event){
@@ -71,8 +75,7 @@
                     stomp.send('/pub/chat/message',{},JSON.stringify({
                         roomId: roomId,
                         message: msg.value,
-                        writer: username,
-                        userCount: 0
+                        writer: username
                     }));
                     msg.value ='';
                 }
@@ -80,15 +83,16 @@
 
             $("#button-send").on("click", function (e) {
                 let msg = document.getElementById("msg");
-                if(msg.value === "") {
+                console.log(msg)
+                if(msg.value !== "") {
                     stomp.send('/pub/chat/message', {}, JSON.stringify({
                         roomId: roomId,
                         message: msg.value,
-                        writer: username,
-                        userCount: 0
+                        writer: username
 
                     }));
                     msg.value = '';
+
                 }
                 else{
                     alert("메시지를 입력해주세요!")
@@ -96,50 +100,16 @@
 
             });
 
-
             $("#button-exit").on("click", function (e) {
-                read_room();
-                stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message:"exit", userCount:0}))
+
+                stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message:"exit"}))
                 if (stomp !== null) {
                     stomp.disconnect();
                 }
+                read_room();
                 window.location.href="./rooms.html"
             });
-
-
-
-
         });
-
-
-        // function send_message(){
-        //     var sockJs = new SockJS(`${domainURL}/stomp/chat`);
-        //     //1. SockJS를 내부에 들고있는 stomp를 내어줌
-        //     stomp = Stomp.over(sockJs);
-        //     //2. connection이 맺어지면 실행
-        //     let msg = document.getElementById("msg");
-        //     stomp.connect({}, function () {
-        //         stomp.send('/pub/chat/message', {}, JSON.stringify({
-        //             roomId: roomId,
-        //             message: msg.value,
-        //             writer: username,
-        //             userCount: 0
-        //
-        //         }));
-        //
-        //         msg.value = '';
-        //
-        //     });
-        // }
-        //
-        // function disconnect() {
-        //     read_room();
-        //     stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message:"exit", userCount:0}))
-        //     if (stomp !== null) {
-        //         stomp.disconnect();
-        //     }
-        //     window.location.href="./rooms.html"
-        // }
 
         $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
             login_check(options, originalOptions, jqXHR);
