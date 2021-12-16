@@ -56,35 +56,6 @@
             background-color: white;
         }
 
-        .h7 {
-            font-size: 0.8rem;
-        }
-
-        .gedf-wrapper {
-            margin-top: 0.97rem;
-        }
-
-        @media (min-width: 992px) {
-            .gedf-main {
-                padding-left: 4rem;
-                padding-right: 4rem;
-            }
-
-            .gedf-card {
-                margin-bottom: 2.77rem;
-            }
-        }
-
-        .navbar-brand {
-            margin-left: 50px;
-        }
-
-        .nav-link {
-
-            margin-left: 100px;
-        }
-
-        /* Reset Bootstrap */
         .dropdown-toggle::after {
             content: none;
             display: none;
@@ -190,9 +161,9 @@
         get_status();
     });
 
-    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
-        login_check(options, originalOptions, jqXHR);
-    });
+    // $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+    //     login_check(options, originalOptions, jqXHR);
+    // });
     let github_id
     function read_writer() {
         $.ajax({
@@ -675,7 +646,7 @@
 
     <div class="social-icons">
         <a class="social-icon" href="#!"><i class="fab fa-linkedin-in"></i></a>
-        <a class="social-icon" href="https://github.com/{github_id}"><i class="fab fa-github"></i></a>
+        <a class="social-icon" href=""><i class="fab fa-github"></i></a>
         <a class="social-icon" href="#!"><i class="fab fa-facebook-f"></i></a>
     </div>
 
