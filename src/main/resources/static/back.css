@@ -5,3 +5,6 @@
     margin : 20px auto;
 }
 
+.modal-backdrop{
+    z-index : 10;
+}

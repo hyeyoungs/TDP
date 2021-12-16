@@ -2,12 +2,16 @@ package com.cdp.tdp.chat.domain;
 
 
 import com.cdp.tdp.chat.dto.ChatRoomDTO;
+import com.cdp.tdp.domain.Comment;
 import com.cdp.tdp.domain.Timestamped;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -25,8 +29,8 @@ public class ChatRoom extends Timestamped {
     @Column
     private int count;
 
-    public ChatRoom(ChatRoomDTO chatRoomDTO) {
 
+    public ChatRoom(ChatRoomDTO chatRoomDTO) {
         this.name = chatRoomDTO.getRoomName();
         this.count=0;
 
