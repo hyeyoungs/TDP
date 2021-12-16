@@ -7,6 +7,24 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 
+    <link rel="icon" type="image/png" href="assets/images/icons/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/select2/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/perfect-scrollbar/perfect-scrollbar.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/util.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/slick.css">
+    <link rel="stylesheet" href="assets/css/slick-theme.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/fonticons.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/bootsnav.css">
+    <meta name="robots" content="noindex, follow">
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -15,13 +33,27 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
-
-    <!-- total js -->
+  
     <script src="back.js" rel="script"></script>
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
-    <!-- Toast Bulma -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-    <link rel="stylesheet" href="./back.css">
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-23581568-13');
+    </script>
+    <script src="assets/js/til_board.js"></script>
+    <script defer
+            src="https://static.cloudflareinsights.com/beacon.min.js/v64f9daad31f64f81be21cbef6184a5e31634941392597"
+            integrity="sha512-gV/bogrUTVP2N3IzTDKzgP0Js1gg4fbwtYB6ftgLbKQu/V8yH2+lrKCfKHelh4SO3DPzKj4/glTO+tNJGDnb0A=="
+            data-cf-beacon='{"rayId":"6bcb8825a8700fac","token":"cd0b4b3a733644fc843ef0b185f98241","version":"2021.11.0","si":100}'
+            crossorigin="anonymous"></script>
 
     <script>
         size = 10
@@ -41,11 +73,13 @@
             $('#til-box').empty();
             let keyword = $('#keyword').val()
             let setting = $('#setting-btn').text()
-            if (keyword === '' || keyword == null){  isSearch = 0    }
+            if (keyword === '' || keyword == null) {
+                isSearch = 0
+            }
 
             let url = `${domainURL}/til_board?page=${page}`;
 
-            if (isSearch === 1){
+            if (isSearch === 1) {
                 url = `${domainURL}/til/search?page=${page}&keyword=${keyword}&setting=${setting}`;
             }
 
@@ -64,37 +98,35 @@
                             let til_idx = til_list[i]['id'];
                             let til_tags = til_list[i]['tags'];
                             let til_view = til_list[i]['tilView'];
-                            for(let j = 0 ;  j < til_tags.length ; j++){
-                                tags += " #"+ til_tags[j]['name'];
+                            for (let j = 0; j < til_tags.length; j++) {
+                                tags += " #" + til_tags[j]['name'];
                             }
                             if (count < 4 && til_view === true) { // new
                                 let temp_html = `<tr onClick="detail(${til_idx})" style="cursor:pointer;">
-
-                                                <th scope="row">${title}<img src="new.png" height="30" width="30"></th>
-                                                <td>${user}</td>
-                                                <td>${day}</td>
-                                                <td>${tags}</td>
+                                                <th class="cell100 column1" scope="row">${title}<img src="new.png" height="30" width="30"></th>
+                                                <td class="cell100 column2">${user}</td>
+                                                <td class="cell100 column3">${day}</td>
+                                                <td class="cell100 column4">${tags}</td>
                                             </tr>`;
                                 $('#til-box').append(temp_html);
                                 count += 1;
                                 console.log(count);
                             } else {
-                                if(til_view == false){  // lock
+                                if (til_view == false) {  // lock
                                     let temp_html = `<tr onClick="detail(${til_idx})" style="cursor:pointer;">
-                                                <th scope="row">${title}<img src="lock.png" height="30" width="30"></th>
-                                                <td>${user}</td>
-                                                <td>${day}</td>
-                                                <td>${tags}</td>
+                                                <th class="cell100 column1" scope="row">${title}<img src="lock.png" height="30" width="30"></th>
+                                                <td class="cell100 column2">${user}</td>
+                                                <td class="cell100 column3">${day}</td>
+                                                <td class="cell100 column4">${tags}</td>
                                             </tr>`;
                                     $('#til-box').append(temp_html);
-                                }
-                                else {
+                                } else {
                                     let temp_html = `<tr onClick="detail(${til_idx})" style="cursor:pointer;">
 }
-                                                <th scope="row">${title}</th>
-                                                <td>${user}</td>
-                                                <td>${day}</td>
-                                                <td>${tags}</td>
+                                                <th class="cell100 column1" scope="row">${title}</th>
+                                                <td class="cell100 column2">${user}</td>
+                                                <td class="cell100 column3">${day}</td>
+                                                <td class="cell100 column4">${tags}</td>
                                             </tr>`
                                     $('#til-box').append(temp_html);
                                 }
@@ -109,7 +141,7 @@
         }
 
         function detail(til_idx) {
-            location.href = `/detail.html?idx=`+til_idx;
+            location.href = `/detail.html?idx=` + til_idx;
         }
 
         function til_search() {
@@ -159,8 +191,23 @@
         }
 
         #create_button {
-            margin-right : 100px;
+            margin-right: 290px;
+
         }
+
+        .margin {
+            margin: 100px 300px 0px 300px;
+
+        }
+        .btn-primary{
+            background-color: #d14149;
+            border-color: #d14149;
+        }
+        #til-box{
+            text-align-all: center;
+        }
+
+
 
     </style>
 </head>
@@ -189,67 +236,100 @@
 </nav>
 
 
+<!--<div class="wrap">-->
+<!--    <div class="row" id="create_button">-->
+<!--        <div class="col-auto mr-auto"></div>-->
+<!--        <div class="col-auto">-->
+<!--            <a class="btn btn-primary" href="./create.html" role="button">글쓰기</a>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="container">-->
+<!--        <table class="table">-->
+<!--            <tr class="text-center">-->
+<!--                <th scope="col">TIL LIST</th>-->
+<!--            </tr>-->
+<!--        </table>-->
+<!--    </div>-->
+<!--    <div class="container">-->
+<!--        <table class="table">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th scope="col">제목</th>-->
+<!--                <th scope="col">작성자</th>-->
+<!--                <th scope="col">작성일</th>-->
+<!--                <th scope="col">태그</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            &lt;!&ndash;            <tbody id="til-box">&ndash;&gt;-->
+<!--            </tbody>-->
+<!--        </table>-->
+<!--        &lt;!&ndash;        <nav aria-label="Page navigation example">&ndash;&gt;-->
+<!--        &lt;!&ndash;            <ul class="pagination" style="justify-content: center;" id="pagination-buttons">&ndash;&gt;-->
+
+<!--        &lt;!&ndash;            </ul>&ndash;&gt;-->
+<!--        &lt;!&ndash;        </nav>&ndash;&gt;-->
+
+<!--    </div>-->
+
+<!--</div>-->
 
 
-<div class="wrap">
-    <div class="row" id="create_button">
-        <div class="col-auto mr-auto"></div>
-        <div class="col-auto">
-            <button type="button" class="btn btn-primary" onClick="location.href='./create.html'">글쓰기</button>
+<div class="head_title text-center" style="margin-top: 100px">
+    <h1><strong>TIL LIST</strong></h1>
+</div>
+
+
+<div class="col-lg-6">
+    <div class="input-group">
+        <div class="input-group-btn">
+            <button id="setting-btn" type="button" class="btn btn-default dropdown-toggle"
+                    data-toggle="dropdown" aria-expanded="false">제목<span class="caret"></span></button>
+            <ul class="dropdown-menu" role="menu">
+                <li><a style="cursor:pointer" onclick="search_setting('제목')">제목</a></li>
+                <li><a style="cursor:pointer" onclick="search_setting('작성자')">작성자</a></li>
+                <li><a style="cursor:pointer" onclick="search_setting('태그')">태그</a></li>
+            </ul>
+        </div><!-- /btn-group -->
+        <input id="keyword" type="text" class="form-control" placeholder="검색어를 입력해주세요" aria-label="...">
+        <button onclick="til_search()" type="button" id="btn-search" class="btn btn-primary">검색</button>
+    </div><!-- /input-group -->
+</div><!-- /.col-lg-6 -->
+<div class="row" id="create_button">
+    <div class="col-auto mr-auto"></div>
+    <div class="col-auto">
+        <a class="btn btn-primary" href="./create.html" role="button">글쓰기</a>
+    </div>
+</div>
+<div class="margin">
+
+    <div class="table100 ver2 m-b-110">
+        <div class="table100-head">
+            <table>
+                <thead>
+                <tr class="row100 head">
+                    <th class="cell100 column1">TITLE</th>
+                    <th class="cell100 column2">Writer</th>
+                    <th class="cell100 column3">DAY</th>
+                    <th class="cell100 column4">TAG</th>
+                </tr>
+                </thead>
+            </table>
         </div>
-    </div>
-    <div class="container">
-        <table class="table">
-            <tr class="text-center">
-                <th scope="col">TIL LIST</th>
-            </tr>
-        </table>
-    </div>
-    <div class="container">
-        <table id="til-table" class="table">
-            <thead>
-            <tr>
-                <th scope="col">제목</th>
-                <th scope="col">작성자</th>
-                <th scope="col">작성일</th>
-                <th scope="col">태그</th>
-            </tr>
-            </thead>
-            <tbody id="til-box">
-            </tbody>
-        </table>
+        <div class="table100-body">
+            <table>
+                <tbody id="til-box" class="row100 body">
+                </tbody>
+            </table>
+        </div>
         <nav aria-label="Page navigation example">
             <ul class="pagination" style="justify-content: center;" id="pagination-buttons">
 
             </ul>
         </nav>
-        <div class="col-lg-6">
-            <div class="input-group">
-                <div class="input-group-btn">
-                    <button id="setting-btn" type="button" class="btn btn-default dropdown-toggle"
-                            data-toggle="dropdown" aria-expanded="false">제목<span class="caret"></span></button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a style="cursor:pointer" onclick="search_setting('제목')">제목</a></li>
-                        <li><a style="cursor:pointer" onclick="search_setting('작성자')">작성자</a></li>
-                        <li><a style="cursor:pointer" onclick="search_setting('태그')">태그</a></li>
-                    </ul>
-                </div><!-- /btn-group -->
-                <input id="keyword" type="text" class="form-control" placeholder="검색어를 입력해주세요" aria-label="...">
-                <button onclick="til_search()" type="button" id="btn-search" class="btn btn-primary">검색</button>
-            </div><!-- /input-group -->
-        </div><!-- /.col-lg-6 -->
     </div>
-
 </div>
-<!-- toast -->
-<article class="message is-danger" id="toast">
-    <div class="message-header">
-        <strong class="me-auto" id="til_title"></strong>
-        <button class="delete" aria-label="delete" onclick="toast_close()"></button>
-    </div>
-    <div class="message-body" id="til_content">
-    </div>
-</article>
-<!-- toast end -->
+</div>
+
+
 </body>
 </html>
