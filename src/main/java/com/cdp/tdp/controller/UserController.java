@@ -96,4 +96,9 @@ public class UserController {
         userService.updateUser(userDetails.getUser(), nickname, githubId, imageFile, about);
     }
 
+    @DeleteMapping("/user")
+    public void deleteUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        userService.deleteUser(userDetails.getUser());
+    }
+
 }
