@@ -58,9 +58,9 @@
             read_all_rooms();
         });
 
-        $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
-            login_check(options, originalOptions, jqXHR);
-        });
+        // $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+        //     login_check(options, originalOptions, jqXHR);
+        // });
 
         function create_room() {
             let room_name= $('#room_name').val()
@@ -192,7 +192,7 @@
 
 
 <div class="head_title text-center" style="margin-top: 100px">
-    <h1><strong>ChatRoom LIST</strong></h1>
+    <h1 style="font-size: xx-large"><strong>ChatRoom LIST</strong></h1>
 </div>
 
 
