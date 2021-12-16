@@ -78,9 +78,9 @@
             read_user();
         });
 
-        // $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
-        //     login_check(options, originalOptions, jqXHR);
-        // });
+        $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+            login_check(options, originalOptions, jqXHR);
+        });
 
         function list_user_til() {
             $.ajax({
@@ -206,19 +206,6 @@
         }
 
     </script>
-    <style>
-        .test {
-
-            float: right;
-            width: 200px;
-            height: 200px;
-            background-color: yellow;
-            display: block;
-            margin-left: 50px;
-            margin-top: 0;
-        }
-
-    </style>
 </head>
 <body>
 
@@ -323,7 +310,7 @@
 </nav>
 
 <!-- my til list -->
-<div class="container">
+<div class="container" id="my-til-list">
     <div id="main">
 <!--        <div id="banner">-->
 <!--            <img src="images/pic01.jpg" alt="" class="image-full"/>-->

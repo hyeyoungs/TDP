@@ -51,15 +51,31 @@
     <!-- Icon -->
     <link rel="shortcut icon" href="#">
 
+
     <style>
         body {
             background-color: white;
         }
 
-        .dropdown-toggle::after {
-            content: none;
-            display: none;
+        @media (min-width: 992px) {
+            .gedf-main {
+                padding-left: 4rem;
+                padding-right: 4rem;
+            }
+
+            .gedf-card {
+                margin-bottom: 2.77rem;
+            }
         }
+
+        .navbar-brand{
+            margin-top: 16px;
+        }
+
+        nav.navbar.bootsnav.navbar-fixed{
+            position : relative;
+        }
+
 
         .section {
             float: right;
@@ -67,37 +83,6 @@
 
         .two-button {
             float: right;
-        }
-
-        .like {
-            float: right;
-        }
-
-        .new-content {
-            border-style: solid;
-            border-width: 2px;
-            padding: 12px;
-            word-break: break-all;
-            border-color: LightGray;
-            background-color: rgba(211, 211, 211, 0.2)
-        }
-
-        .new-box {
-            border-color: DodgerBlue;
-            background-color: rgba(30, 144, 255, 0.2);
-        }
-
-        .center {
-            text-align: center;
-        }
-
-        .navbar-brand {
-            margin-left: 50px;
-        }
-
-        .nav-link {
-
-            margin-left: 100px;
         }
 
         .level-left {
@@ -144,7 +129,125 @@
             color: #ba3925;
             font-size: large;
         }
+        input[id="menuicon"] {
+            display: none;
+        }
 
+        input[id="menuicon"] + label {
+            display: block;
+            margin: 30px;
+            width: 60px;
+            height: 50px;
+            top: 300px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        input[id="menuicon"] + label span {
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 5px;
+            border-radius: 30px;
+            background: #000;
+            transition: all .35s;
+        }
+
+        input[id="menuicon"] + label span:nth-child(1) {
+            top: 0px;
+        }
+
+        input[id="menuicon"] + label span:nth-child(2) {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* ����ϰ� ����� �� �ִ� style top:calc(50% - 2.5px); margin-top:-2.5px;*/
+        input[id="menuicon"] + label span:nth-child(3) {
+            bottom: 0;
+        }
+
+        input[id="menuicon"]:checked + label {
+            z-index: 2;
+        }
+
+        input[id="menuicon"]:checked + label span {
+            background: #fff;
+        }
+
+        input[id="menuicon"]:checked + label span:nth-child(1) {
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+        }
+
+        input[id="menuicon"]:checked + label span:nth-child(2) {
+            opacity: 0;
+        }
+
+        input[id="menuicon"]:checked + label span:nth-child(3) {
+            bottom: 50%;
+            transform: translateY(50%) rotate(-45deg);
+        }
+
+        div[class="sidebar"] {
+            width: 300px;
+            height: 600px;
+            background: #222;
+            /*position: fixed;*/
+            top: 0px;
+            left: 0px;
+            transition: all .35s;
+
+        }
+
+        input[id="menuicon"]:checked + label + div {
+            left: 0;
+        }
+        .navbar-nav{
+            z-index: 0;
+        }
+        .sidebar{
+            z-index: 0;
+            width: 400px;
+            position: relative;
+            color: #d14149;
+        }
+        .til-section{
+            width:1000px;
+            margin-left: 100px;
+        }
+        .comment-section{
+            margin-left: 400px;
+            margin-right: 300px;
+            padding-top: 100px;
+        }
+
+        .right{
+            float: right;
+        }
+
+        td{
+            height: 30px;
+        }
+
+        .content-box{
+            padding: 30px 0px 30px 0px;
+            text-align: left;
+            border-top: 2px solid black;
+            border-bottom: 2px solid black;
+        }
+
+        .resume-section-content{
+            margin-bottom: 100px;
+            width: 1200px;
+        }
+
+        .comment-button{
+            font-family: "Muli", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            background-color: #ba3925;
+            border-color: #ba3925;
+            color: white;
+        }
     </style>
 </head>
 
@@ -161,9 +264,10 @@
         get_status();
     });
 
-    // $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
-    //     login_check(options, originalOptions, jqXHR);
-    // });
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+        login_check(options, originalOptions, jqXHR);
+    });
+
     let github_id
     function read_writer() {
         $.ajax({
@@ -420,7 +524,6 @@
 </div>
 <!--End off Preloader -->
 
-
 <div class="culmn">
     <!--Home page style-->
 
@@ -504,125 +607,6 @@
 <!--</div>-->
 <!-- End Side Menu -->
 
-
-
-<style>
-    input[id="menuicon"] {
-        display: none;
-    }
-
-    input[id="menuicon"] + label {
-        display: block;
-        margin: 30px;
-        width: 60px;
-        height: 50px;
-        top: 300px;
-        position: relative;
-        cursor: pointer;
-    }
-
-    input[id="menuicon"] + label span {
-        display: block;
-        position: absolute;
-        width: 100%;
-        height: 5px;
-        border-radius: 30px;
-        background: #000;
-        transition: all .35s;
-    }
-
-    input[id="menuicon"] + label span:nth-child(1) {
-        top: 0px;
-    }
-
-    input[id="menuicon"] + label span:nth-child(2) {
-        top: 50%;
-        transform: translateY(-50%);
-    }
-
-    /* ����ϰ� ����� �� �ִ� style top:calc(50% - 2.5px); margin-top:-2.5px;*/
-    input[id="menuicon"] + label span:nth-child(3) {
-        bottom: 0;
-    }
-
-    input[id="menuicon"]:checked + label {
-        z-index: 2;
-    }
-
-    input[id="menuicon"]:checked + label span {
-        background: #fff;
-    }
-
-    input[id="menuicon"]:checked + label span:nth-child(1) {
-        top: 50%;
-        transform: translateY(-50%) rotate(45deg);
-    }
-
-    input[id="menuicon"]:checked + label span:nth-child(2) {
-        opacity: 0;
-    }
-
-    input[id="menuicon"]:checked + label span:nth-child(3) {
-        bottom: 50%;
-        transform: translateY(50%) rotate(-45deg);
-    }
-
-    div[class="sidebar"] {
-        width: 300px;
-        height: 600px;
-        background: #222;
-        /*position: fixed;*/
-        top: 0px;
-        left: 0px;
-        transition: all .35s;
-
-    }
-
-    input[id="menuicon"]:checked + label + div {
-        left: 0;
-    }
-    .navbar-nav{
-        z-index: 0;
-    }
-    .sidebar{
-        z-index: 0;
-        width: 400px;
-        position: relative;
-        color: #d14149;
-    }
-    .til-section{
-        width:1000px;
-        margin-left: 100px;
-    }
-    .comment-section{
-        margin-left: 400px;
-        margin-right: 300px;
-        padding-top: 100px;
-    }
-    .right{
-        float: right;
-    }
-    td{
-        height: 30px;
-    }
-    .content-box{
-        padding: 30px 0px 30px 0px;
-        text-align: left;
-        border-top: 2px solid black;
-        border-bottom: 2px solid black;
-    }
-    .resume-section-content{
-        margin-bottom: 100px;
-        width: 1200px;
-    }
-    .comment-button{
-        font-family: "Muli", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-        background-color: #ba3925;
-        border-color: #ba3925;
-        color: white;
-    }
-</style>
-
 <input type="checkbox" id="menuicon">
 <label for="menuicon">
     <span></span>
@@ -646,7 +630,7 @@
 
     <div class="social-icons">
         <a class="social-icon" href="#!"><i class="fab fa-linkedin-in"></i></a>
-        <a class="social-icon" href=""><i class="fab fa-github"></i></a>
+        <a class="social-icon" href="https://github.com/{github_id}"><i class="fab fa-github"></i></a>
         <a class="social-icon" href="#!"><i class="fab fa-facebook-f"></i></a>
     </div>
 
