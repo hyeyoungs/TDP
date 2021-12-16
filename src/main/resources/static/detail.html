@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap tags -->
+
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
           crossorigin="anonymous">
@@ -21,6 +22,20 @@
             crossorigin="anonymous"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet"
           id="bootstrap-css">
+    <link rel="stylesheet" href="./assets/css/create.css">
+    <link rel="stylesheet" href="bootstrap-tagsinput.css">
+    <script src="bootstrap-tagsinput.js"></script>
+    <script src="assets/js/bootsnav.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet"
+          type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css"/>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="assets/css/styles.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="assets/css/bootsnav.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
 
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -32,12 +47,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link rel="stylesheet" href="./back.css">
 
+
     <!-- Icon -->
     <link rel="shortcut icon" href="#">
 
     <style>
         body {
-            background-color: #eeeeee;
+            background-color: white;
         }
 
         .h7 {
@@ -133,6 +149,30 @@
             border: 5px;
             double: orange;
         }
+        .user-intro{
+            color: white;
+            text-align: center;
+        }
+        .social-icon{
+            margin : 30px auto 50px 17px;
+
+        }
+        table { table-layout:fixed; }
+
+        .comment-table tbody td{
+            font-size: 13px;
+            font-family: Arial;
+        }
+        .comment-table thead th {
+            font-size: large;
+        }
+        #nav-bar{
+            padding : 0px 0px 0px 0px;
+        }
+        .fa{
+            color: #ba3925;
+            font-size: large;
+        }
 
     </style>
 </head>
@@ -142,23 +182,24 @@
 
     $(document).ready(function () {
         idx = window.location.search.split("=")[1]
-        $('#new-box').hide();
+        // $('#new-box').hide();
         read_writer();
         get_til();
         get_heart();
         get_comment();
+        get_status();
     });
 
     $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
         login_check(options, originalOptions, jqXHR);
     });
-
+    let github_id
     function read_writer() {
         $.ajax({
             type: "GET",
             url: `${domainURL}/til_board/${idx}`,
             success: function (response) {
-                let github_id = response['user']['github_id'];
+                github_id = response['user']['github_id'];
                 let introduce = response['user']['introduce'];
                 if (github_id == null || github_id === "") {
                     $('.github_id_tag').hide();
@@ -266,6 +307,7 @@
                                 <td>${nickname}</td>
                                 <td>${comment}</td>
                                 <td>${day}</td>
+                                <td> - </td>
                                 </tr>`
 
                         $('#comment-box').append(temp_html)
@@ -390,171 +432,357 @@
     }
 
 </script>
+
 <body>
 
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="./home.html">TIL.D.P</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div id="navbar-nav" class="navbar-nav">
-                <a class="nav-link " href="./til_board.html">Write TIL</a>
-                <a class="nav-link" href="./mytil_page.html">My TIL</a>
-                <a class="nav-link" href="https://github.com/">Github</a>
-                <a class="nav-link" href="./my_page.html">myPage</a>
-                <a class="nav-link" onclick="sign_out()">logout</a>
-            </div>
+<!-- Preloader -->
+<div id="loading">
+    <div id="loading-center">
+        <div id="loading-center-absolute">
+            <div class="object" id="object_one"></div>
+            <div class="object" id="object_two"></div>
+            <div class="object" id="object_three"></div>
+            <div class="object" id="object_four"></div>
         </div>
     </div>
-</nav>
+</div>
+<!--End off Preloader -->
 
 
-<div class="container-fluid gedf-wrapper">
-    <!-- container -->
-    <div class="row">
-        <!-- Writer Profile -->
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body">
-                    <span>Nickname</span>
-                    <div id="user-nickname" class="h5 writer_nickname_append"></div>
-                    <span class="introduce_tag">Introduce</span>
-                    <div id="user-profile" class="h7 text-muted introduce_tag writer_profile_info_append"></div>
-                    <span class="github_id_tag">Github Id</span>
-                    <div id="user-github_id" class="h7 text-muted github_id_tag writer_github_id_append"></div>
+<div class="culmn">
+    <!--Home page style-->
+
+    <nav id="nav-bar" class="navbar navbar-light navbar-expand-lg  navbar-fixed white bootsnav">
+        <!-- Start Top Search -->
+        <div class="top-search">
+            <div class="container">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    <input type="text" class="form-control" placeholder="Search">
+                    <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>
                 </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        <div class="h6 text-muted">Followers</div>
-                        <div class="h5">10000</div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="h6 text-muted">Followings</div>
-                        <div class="h5">20000</div>
-                    </li>
-                    <li class="list-group-item">Today I Learned Deserter Pursuit</li>
+            </div>
+        </div>
+        <!-- End Top Search -->
+
+        <div class="container">
+            <!-- Start Atribute Navigation -->
+
+            <!-- End Atribute Navigation -->
+
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <a class="navbar-brand" style="color: whitesmoke;font-size: x-large;"
+                   href="./home.html"><strong>TDP</strong></a>
+            </div>
+            <!-- End Header Navigation -->
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
+
+                    <li><a class="nav-link " href="./til_board.html">Write TIL</a></li>
+                    <li><a class="nav-link" href="./mytil_page.html">My TIL</a></li>
+                    <li><a class="nav-link" href="https://github.com/">Github</a></li>
+                    <li><a class="nav-link" href="./my_page.html">myPage</a></li>
+                    <li><a class="nav-link" onclick="sign_out()">logout</a></li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+            <div class="attr-nav">
+                <ul>
+
+                    <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
+                    <li class="side-menu"><a href="#"><i class="fa fa-bars"></i></a></li>
                 </ul>
             </div>
         </div>
-        <div id="message-pane" class="column is-6 message hero is-fullheight">
+    </nav>
+</div>
 
-            <div class="box message-preview">
-                <div class="top">
-                    <div class="address">
-                        <div id="mine">
-                        </div>
-
-                        <div class="til-title" id="now-title">til-title</div>
-                        &nbsp
-
-                        <div id="til-idx-box">
-                            <div id="til-listing-box">
-                                <nav class="level is-mobile">
-                                    <div class="level-left">
-
-
-                                        <a class="level-item is-sparta" id="heart" aria-label="heart"
-                                           onclick="toggle_like(idx, 'heart')">&nbsp
-                                            <div id="now-heart"></div>
-                                            &nbsp
-                                            <div id="heart-count" class="like-num">count</div>
-                                        </a>
-                                    </div>
-                                </nav>
-                                <hr class="hr6">
-                                <h3>글 내용</h3>
-                                <div id="now-content" class="content-box">
-                                    til_content
-                                </div>
-                                <hr class="hr6">
-
-                            </div>
-
-                        </div>
-
-                    </div>
+<!-- Start Side Menu -->
+<!--<div class="side">-->
+<!--    <a href="#" class="close-side"><i class="fa fa-times"></i></a>-->
+<!--    <div class="widget">-->
+<!--        <h6 class="title">Custom Pages</h6>-->
+<!--        <ul class="link">-->
+<!--            <li><a href="#">About</a></li>-->
+<!--            <li><a href="#">Services</a></li>-->
+<!--            <li><a href="#">Blog</a></li>-->
+<!--            <li><a href="#">Portfolio</a></li>-->
+<!--            <li><a href="#">Contact</a></li>-->
+<!--        </ul>-->
+<!--    </div>-->
+<!--    <div class="widget">-->
+<!--        <h6 class="title">Additional Links</h6>-->
+<!--        <ul class="link">-->
+<!--            <li><a href="#">Retina Homepage</a></li>-->
+<!--            <li><a href="#">New Page Examples</a></li>-->
+<!--            <li><a href="#">Parallax Sections</a></li>-->
+<!--            <li><a href="#">Shortcode Central</a></li>-->
+<!--            <li><a href="#">Ultimate Font Collection</a></li>-->
+<!--        </ul>-->
+<!--    </div>-->
+<!--</div>-->
+<!-- End Side Menu -->
 
 
-                    <div id="new-box" class="new-content">
-                        <div class="new-box">
-                            <label for="new-til-title" class="center">제목</label>
-                            <p><textarea class="form-control" id="new-til-title" rows="1">til_title</textarea>
-                            </p>
-                            <label for="new-til-content" class="center">content</label>
 
-                            <textarea class="form-control" id="new-til-content"
-                                      rows="8">til_content</textarea><br>
-                            <p id="new-content-button"><span class="two-button">
-                                <button type="button" onclick='update_til()'
-                                        class="btn btn-primary">변경</button>
-                                <button type="button" onclick='cancel()' class="btn btn-primary">취소</button>
-                            </span></p>
-                            <br>
-                            <p>til_day</p>
+<style>
+    input[id="menuicon"] {
+        display: none;
+    }
 
-                        </div>
+    input[id="menuicon"] + label {
+        display: block;
+        margin: 30px;
+        width: 60px;
+        height: 50px;
+        top: 300px;
+        position: relative;
+        cursor: pointer;
+    }
 
-                    </div>
+    input[id="menuicon"] + label span {
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 5px;
+        border-radius: 30px;
+        background: #000;
+        transition: all .35s;
+    }
 
-                    <div>
-                        <table id="til-table" class="table">
-                            <thead>
-                            <tr>
-                                <th scope="col"></th>
+    input[id="menuicon"] + label span:nth-child(1) {
+        top: 0px;
+    }
 
-                            </tr>
-                            </thead>
-                            <tbody id="comment-box">
-                            </tbody>
-                        </table>
-                    </div>
+    input[id="menuicon"] + label span:nth-child(2) {
+        top: 50%;
+        transform: translateY(-50%);
+    }
 
-                </div>
+    /* ����ϰ� ����� �� �ִ� style top:calc(50% - 2.5px); margin-top:-2.5px;*/
+    input[id="menuicon"] + label span:nth-child(3) {
+        bottom: 0;
+    }
 
-                <section class="section">
-                    <article class="media">
-                        <div class="media-content">
-                            <div class="field">
-                                <p class="control">
-                                    <button type="button" id="input-post"
-                                            onclick='$("#modal-post").addClass("is-active")' class="btn btn-primary">
-                                        댓글달기
-                                    </button>
-                            </div>
-                        </div>
-                    </article>
-                </section>
+    input[id="menuicon"]:checked + label {
+        z-index: 2;
+    }
+
+    input[id="menuicon"]:checked + label span {
+        background: #fff;
+    }
+
+    input[id="menuicon"]:checked + label span:nth-child(1) {
+        top: 50%;
+        transform: translateY(-50%) rotate(45deg);
+    }
+
+    input[id="menuicon"]:checked + label span:nth-child(2) {
+        opacity: 0;
+    }
+
+    input[id="menuicon"]:checked + label span:nth-child(3) {
+        bottom: 50%;
+        transform: translateY(50%) rotate(-45deg);
+    }
+
+    div[class="sidebar"] {
+        width: 300px;
+        height: 600px;
+        background: #222;
+        /*position: fixed;*/
+        top: 0px;
+        left: 0px;
+        transition: all .35s;
+
+    }
+
+    input[id="menuicon"]:checked + label + div {
+        left: 0;
+    }
+    .navbar-nav{
+        z-index: 0;
+    }
+    .sidebar{
+        z-index: 0;
+        width: 400px;
+        position: relative;
+        color: #d14149;
+    }
+    .til-section{
+        width:1000px;
+        margin-left: 100px;
+    }
+    .comment-section{
+        margin-left: 400px;
+        margin-right: 300px;
+        padding-top: 100px;
+    }
+    .right{
+        float: right;
+    }
+    td{
+        height: 30px;
+    }
+    .content-box{
+        padding: 30px 0px 30px 0px;
+        text-align: left;
+        border-top: 2px solid black;
+        border-bottom: 2px solid black;
+    }
+    .resume-section-content{
+        margin-bottom: 100px;
+        width: 1200px;
+    }
+    .comment-button{
+        font-family: "Muli", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        background-color: #ba3925;
+        border-color: #ba3925;
+        color: white;
+    }
+</style>
+
+<input type="checkbox" id="menuicon">
+<label for="menuicon">
+    <span></span>
+    <span></span>
+    <span></span>
+</label>
+<div class="sidebar" style="float: left">
+    <figure style="align-self: center">
+        <a class="image is-96x96" href="#">
+            <img class="is-rounded user_profile_pic_real_append" src="">
+        </a>
+    </figure>
+    <span class="subheading mb-5 nav-link">Nickname</span>
+    <div id="user-nickname" class="user-intro writer_nickname_append">닉네임</div>
+    <hr color="red">
+    <span class="subheading mb-5 nav-link">Introduce</span>
+    <div id="user-profile" class="user-intro writer_profile_info_append">소개글</div>
+    <hr color="red">
+    <span class="subheading mb-5 nav-link">Github ID</span>
+    <div id="user-github_id" class="user-intro writer_github_id_append">깃허브 아이디</div>
+
+    <div class="social-icons">
+        <a class="social-icon" href="#!"><i class="fab fa-linkedin-in"></i></a>
+        <a class="social-icon" href="https://github.com/{github_id}"><i class="fab fa-github"></i></a>
+        <a class="social-icon" href="#!"><i class="fab fa-facebook-f"></i></a>
+    </div>
+
+</div>
+
+<div class="til-section" id="about" style="float: left">
+    <div class="resume-section-content">
+        <h1 id="now-title" class="mb-0">
+            title
+        </h1><span id="mine"></span>
+        <nav class="level is-mobile">
+            <div>
+                <a class="level-item is-sparta" id="heart" aria-label="heart"
+                   onclick="toggle_like(idx, 'heart')">&nbsp
+                    <div id="now-heart"></div>
+                    &nbsp
+                    <div id="heart-count" class="like-num">count</div>
+                </a>
             </div>
-
+        </nav>
+        <div class="subheading mb-5">
+            태그
         </div>
-        <div class="col-md-3">
-            <!-- Card -->
-            <div class="card gedf-card">
-                <div class="card-body">
-                    <h5 class="card-title">팔로우한 사람</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">팔로우한 사람 리스트</h6>
-                    <p class="card-text">이진권, 이주권, 이정권, 이주건</p>
-                </div>
-            </div>
-            <!-- Card -->
-            <div class="card gedf-card">
-                <div class="card-body">
-                    <h5 class="card-title">비슷한 글</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">키워드 리스트</h6>
-                    <a href="#" class="card-link">??? 사용법</a>
-                </div>
-            </div>
+        <div id="now-content" class="lead mb-5 content-box">
+            til_content
         </div>
-        <!-- Post List -->
-        <div class="col-md-6 gedf-main" id="post-list">
-        </div>
-
     </div>
 </div>
+
+<section class="comment-section" id="comment-list">
+
+    <div>
+
+        <table class="comment-table">
+            <colgroup>
+                <col style="width:10%;">
+                <col style="width:60%;">
+                <col style="width:20%;">
+                <col style="width:10%;">
+            </colgroup>
+            <thead>
+            <tr class="subheading">
+                <th scope="col" class="subheading">Nickname</th>
+                <th scope="col" class="subheading">Comment</th>
+                <th scope="col" class="subheading">DAY</th>
+                <th scope="col"class="subheading">Setting</th>
+            </tr>
+            </thead>
+            <tbody id="comment-box">
+            <tr>
+                <td>닉네임</td>
+                <td>댓글</td>
+                <td>날짜</td>
+                <td>버튼</td>
+            </tr>
+            </tbody>
+        </table>
+        <article class="media right">
+            <div class="media-content">
+                <div class="field">
+                    <p class="control">
+                        <button type="button" id="input-post"
+                                onclick='$("#modal-post").addClass("is-active")' class="btn btn-primary comment-button">
+                            COMMENT
+                        </button>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>
+
+
+<!--<section>-->
+<!--    <div id="new-box" class="box">-->
+<!--        <div class="content">-->
+<!--            <h2 class="align-center">BOARD FORM</h2>-->
+<!--            <hr />-->
+<!--            <form action="#" method="post">-->
+<!--                <div class="field">-->
+<!--                    <label for="new-til-title">Title</label>-->
+<!--                    <input name="title" id="new-til-title" type="text" placeholder="제목을 입력해주세요. ">-->
+<!--                </div>-->
+
+<!--                <div class="field half">-->
+<!--                    <label for="tags">Tag</label>-->
+<!--                    <input type="text" value="" id="tags" data-role="tagsinput" placeholder="TAGS" >-->
+<!--                </div>-->
+
+<!--                <div class="field">-->
+<!--                    <label for="new-til-content">Content</label>-->
+<!--                    <textarea name="message" id="new-til-content" rows="6" placeholder="내용을 입력해주세요."></textarea>-->
+<!--                </div>-->
+<!--                <p id="new-content-button"><span class="two-button">-->
+<!--                                <button type="button" onclick='update_til()'-->
+<!--                                        class="btn btn-primary">변경</button>-->
+<!--                                <button type="button" onclick='cancel()' class="btn btn-primary">취소</button>-->
+<!--                            </span></p>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+
+
+<section class="section">
+
+</section>
+
 
 
 <div class="modal" id="modal-post">
@@ -600,5 +828,46 @@
     </div>
 </article>
 <!-- toast end -->
+
+<div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Form</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form name="form" id="form" role="form" method="post">
+                    <div class="mb-3">
+                        <label for="modal-title">제목</label>
+                        <input type="text" class="form-control" name="title" id="modal-title"
+                               placeholder="제목을 입력해 주세요" value="">
+                    </div>
+                    <div class="mb-3">
+                        <label for="modal-user">작성자</label>
+                        <p id="modal-user"></p>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modal-content">내용</label>
+                        <textarea class="form-control" rows="5" name="content" id="modal-content"
+                                  placeholder="내용을 입력해 주세요"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tags">Tag</label>
+                        <input type="text" class="form-control" id="tags" data-role="tagsinput" placeholder="TAGS" >
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <input type="submit" class="btn btn-secondary" id="modal-save" onclick=""
+                       value="Save changes"></button>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
