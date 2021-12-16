@@ -54,4 +54,8 @@ public class ChatRoomService {
        }
        return false;
     }
+
+    public void deleteRoom(Long id) {
+        chatRoomRepository.deleteByRoomId(id);
+    }
 }

@@ -32,7 +32,7 @@ public class ChatRoom extends Timestamped {
 
     @JoinColumn(name = "user_id")
     @ManyToOne
-    private User user;
+    private User user; //룸 개설자
 
 
     public ChatRoom(ChatRoomDTO chatRoomDTO,User user) {
