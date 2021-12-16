@@ -14,6 +14,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import com.google.gson.Gson;
+
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +38,7 @@ public class StompChatController {
         Long room_id = Long.valueOf(id);
 
         // chat user 정보 저장 (채팅유저 , 채팅방)
-        ChatRoom chatRoom = chatRoomRepository.findById(room_id).orElseThrow(
+        ChatRoom chatRoom = chatRoomRepository.findByRoomId(room_id).orElseThrow(
                 () -> new NullPointerException("해당 채팅방이 존재하지 않습니다."));
         User user = userRepository.findByUsername(message.getWriter()).orElseThrow(
                 () -> new NullPointerException("해당 사용자가 존재하지 않습니다."));
@@ -45,29 +47,22 @@ public class StompChatController {
         if (!(chatUserRepository.findByChatRoomAndUser(chatRoom, user).isPresent())) { //채팅방 처음입장
             ChatUser chatUser = new ChatUser(user, chatRoom);
             chatUserRepository.save(chatUser);
+            int count  =chatUserRepository.countByChatRoom(chatRoom);
 
-            message.setMessage("채팅방에 참여하였습니다1.");
-            template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
-
-            Long count=chatUserRepository.countByChatRoom(room_id);
-            int new_count= count.intValue();
-
-            message.setMessage("채팅방에 참여하였습니다2.");
-            template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
-
-            chatRoom.setCount(new_count);
+            chatRoom.setCount(count);
             chatRoomRepository.save(chatRoom);
 
-            message.setMessage("채팅방에 참여하였습니다3.");
+            message.setMessage("채팅방에 참여하였습니다.");
             template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
         }
-        else {
+        else
+        {
             message.setMessage("채팅방에 재입장하였습니다.");
             template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
         }
-
     }
 
+    @Transactional
     @MessageMapping(value = "/chat/exit")
     public void exit(ChatMessageDTO message) {
         String id=message.getRoomId();
@@ -78,11 +73,11 @@ public class StompChatController {
                 ()->new NullPointerException("해당 채팅방이 존재하지 않습니다."));
         User user= userRepository.findByUsername(message.getWriter()).orElseThrow(
                 ()->new NullPointerException("해당 사용자가 존재하지 않습니다."));
-        chatUserRepository.deleteByChatRoomAndUser(chatRoom,user);
 
-        Long count=chatUserRepository.countByChatRoom(room_id);
-        int new_count= count.intValue();
-        chatRoom.setCount(new_count);
+
+        chatUserRepository.deleteByChatRoomAndUser(chatRoom,user);
+        int count  =chatUserRepository.countByChatRoom(chatRoom);
+        chatRoom.setCount(count);
         chatRoomRepository.save(chatRoom);
 
         message.setMessage("채팅방을 나갔습니다.");
