@@ -80,9 +80,9 @@
             read_all_rooms();
         });
 
-        $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
-            login_check(options, originalOptions, jqXHR);
-        });
+        // $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+        //     login_check(options, originalOptions, jqXHR);
+        // });
 
         function create_room() {
             let room_name= $('#room_name').val()
@@ -186,12 +186,35 @@
             text-align-all: center;
         }
 
+        .head_title{
+            margin-top: 100px;
+            padding-bottom: 30px;
+        }
+
+        .head_title h1{
+            margin-top: 100px;
+        }
+
+
     </style>
 </head>
-
-
 <body>
-<!-- navigation -->
+
+
+<!--&lt;!&ndash; Preloader &ndash;&gt;-->
+<!--<div id="loading">-->
+<!--    <div id="loading-center">-->
+<!--        <div id="loading-center-absolute">-->
+<!--            <div class="object" id="object_one"></div>-->
+<!--            <div class="object" id="object_two"></div>-->
+<!--            <div class="object" id="object_three"></div>-->
+<!--            <div class="object" id="object_four"></div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--&lt;!&ndash;End off Preloader &ndash;&gt;-->
+
+
 <div class="culmn">
     <!--Home page style-->
 
@@ -247,7 +270,36 @@
             <!-- /.navbar-collapse -->
         </div>
     </nav>
-</div></nav>
+</div>
+
+<!-- Start Side Menu -->
+<div class="side">
+    <a href="#" class="close-side"><i class="fa fa-times"></i></a>
+    <div class="widget">
+        <h6 class="title">Custom Pages</h6>
+        <ul class="link">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Portfolio</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </div>
+    <div class="widget">
+        <h6 class="title">Additional Links</h6>
+        <ul class="link">
+            <li><a href="#">Retina Homepage</a></li>
+            <li><a href="#">New Page Examples</a></li>
+            <li><a href="#">Parallax Sections</a></li>
+            <li><a href="#">Shortcode Central</a></li>
+            <li><a href="#">Ultimate Font Collection</a></li>
+        </ul>
+    </div>
+</div>
+<!-- End Side Menu -->
+
+</nav>
+
 
 
 <div class="head_title text-center" style="margin-top: 100px">
