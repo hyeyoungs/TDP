@@ -4,8 +4,45 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
+    <!-- Bulma -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="./back.css">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="icon" type="image/png" href="assets/images/icons/favicon.ico"/>
+
+    <link rel="stylesheet" type="text/css" href="assets/css/util.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/slick.css">
+    <link rel="stylesheet" href="assets/css/slick-theme.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/fonticons.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/bootsnav.css">
+    <meta name="robots" content="noindex, follow">
+
+
+
+    <!-- paradise slider js -->
+    <script src="assets/js/plugins.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <script src="assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="assets/js/vendor/jquery-1.11.2.min.js"></script>
+    <script src="assets/js/vendor/popper.min.js"></script>
+    <script src="assets/js/vendor/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.magnific-popup.js"></script>
+    <script src="assets/js/jquery.easing.1.3.js"></script>
+    <script src="assets/js/slick.min.js"></script>
+    <script src="assets/js/jquery.collapse.js"></script>
+    <script src="assets/js/bootsnav.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -20,10 +57,23 @@
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
-    <!-- Bulma -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+
+    <script defer
+            src="https://static.cloudflareinsights.com/beacon.min.js/v64f9daad31f64f81be21cbef6184a5e31634941392597"
+            integrity="sha512-gV/bogrUTVP2N3IzTDKzgP0Js1gg4fbwtYB6ftgLbKQu/V8yH2+lrKCfKHelh4SO3DPzKj4/glTO+tNJGDnb0A=="
+            data-cf-beacon='{"rayId":"6bcb8825a8700fac","token":"cd0b4b3a733644fc843ef0b185f98241","version":"2021.11.0","si":100}'
+            crossorigin="anonymous"></script>
 
     <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-23581568-13');
 
 
         $(document).ready(function () {
@@ -41,8 +91,7 @@
                 let info = {
                     roomName : room_name
                 }
-                console.log("이름은 들어옴");
-                console.log(room_name);
+
                 $.ajax({
 
                     type: "POST",
@@ -55,7 +104,6 @@
                 });
             }
             else{
-                console.log("공백 이름");
                 alert("채팅방 이름을 입력해주세요!")
             }
 
@@ -71,22 +119,18 @@
                             let idx = all_rooms[i]['roomId'];
                             let name = all_rooms[i]['name'];
                             let date = all_rooms[i]['createdAt']
-                            if (i < 4) {
-                                let temp_html = `<tr onClick="detail(${idx})" style="cursor:pointer;">
+                            let user_count=all_rooms[i]['count'];
 
-                                                <th scope="row">${name}<img src="new.png" height="30" width="30"></th>
-                                               <td>${date}</td>
+                            let temp_html = `<tr onClick="detail(${idx})" style="cursor:pointer;">
+                                                <th class="cell100 column1" scope="row">${name}<img src="new.png" height="30" width="30"></th>
+                                                <td class="cell100 column2">${user_count}</td>
+                                                <td class="cell100 column3">${date}</td>
 
-                                            </tr>`
-                                $('#til-box').append(temp_html)
-                            } else {
-                                let temp_html = `<tr onClick="detail(${idx})" style="cursor:pointer;">
-                                                <th scope="row">${name}</th>
-                                                <td>${date}</td>
+                                            </tr>`;
+                            $('#room-box').append(temp_html)
 
-                                            </tr>`
-                                $('#til-box').append(temp_html)
-                            }
+
+
                         }
                     }
                 }
@@ -99,79 +143,193 @@
 
     </script>
     <style>
-        .wrap {
+
+        .col-lg-6 {
             margin: 50px auto;
         }
 
-        .row {
-            float: right;
+
+        .margin {
+            margin: 100px 300px 0px 300px;
+
         }
 
-        .navbar-brand {
-            margin-left: 50px;
+        .btn-primary{
+            background-color: #d14149;
+            border-color: #d14149;
+            margin-top: 15px;
+        }
+        #room-box{
+            text-align-all: center;
         }
 
-        .nav-link {
-
-            margin-left: 100px;
+        .head_title{
+            margin-top: 100px;
+            padding-bottom: 30px;
         }
+
+        .head_title h1{
+            margin-top: 100px;
+        }
+
 
     </style>
 </head>
-
-
 <body>
-<!-- navigation -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="./home.html">TIL.D.P</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div id="navbar-nav" class="navbar-nav">
-                <a class="nav-link " href="./til_board.html">Write TIL</a>
-                <a class="nav-link" href="./mytil_page.html">My TIL</a>
-                <a class="nav-link" href="https://github.com/">Github</a>
-                <a class="nav-link" href="./my_page.html">myPage</a>
-                <a class="nav-link" onclick="sign_out()">logout</a>
-                <a class="nav-link" onclick="goback()">Back</a>
+
+
+<!--&lt;!&ndash; Preloader &ndash;&gt;-->
+<!--<div id="loading">-->
+<!--    <div id="loading-center">-->
+<!--        <div id="loading-center-absolute">-->
+<!--            <div class="object" id="object_one"></div>-->
+<!--            <div class="object" id="object_two"></div>-->
+<!--            <div class="object" id="object_three"></div>-->
+<!--            <div class="object" id="object_four"></div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--&lt;!&ndash;End off Preloader &ndash;&gt;-->
+
+
+<div class="culmn">
+    <!--Home page style-->
+
+
+    <nav class="navbar navbar-light navbar-expand-lg  navbar-fixed white bootsnav">
+        <!-- Start Top Search -->
+        <div class="top-search">
+            <div class="container">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    <input type="text" class="form-control" placeholder="Search">
+                    <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>
+                </div>
             </div>
         </div>
+        <!-- End Top Search -->
+
+        <div class="container">
+            <!-- Start Atribute Navigation -->
+            <div class="attr-nav">
+                <ul>
+
+                    <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
+                    <li class="side-menu"><a href="#"><i class="fa fa-bars"></i></a></li>
+                </ul>
+            </div>
+            <!-- End Atribute Navigation -->
+
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <a class="navbar-brand" style="color: whitesmoke;font-size: x-large;"
+                   href="./home.html"><strong>TDP</strong></a>
+            </div>
+            <!-- End Header Navigation -->
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
+
+                    <li><a class="nav-link " href="./til_board.html">Write TIL</a></li>
+                    <li><a class="nav-link" href="./mytil_page.html">My TIL</a></li>
+                    <li><a class="nav-link" href="https://github.com/">Github</a></li>
+                    <li><a class="nav-link" href="./my_page.html">myPage</a></li>
+                    <li><a class="nav-link" onclick="sign_out()">logout</a></li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+    </nav>
+</div>
+
+<!-- Start Side Menu -->
+<div class="side">
+    <a href="#" class="close-side"><i class="fa fa-times"></i></a>
+    <div class="widget">
+        <h6 class="title">Custom Pages</h6>
+        <ul class="link">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Portfolio</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
     </div>
+    <div class="widget">
+        <h6 class="title">Additional Links</h6>
+        <ul class="link">
+            <li><a href="#">Retina Homepage</a></li>
+            <li><a href="#">New Page Examples</a></li>
+            <li><a href="#">Parallax Sections</a></li>
+            <li><a href="#">Shortcode Central</a></li>
+            <li><a href="#">Ultimate Font Collection</a></li>
+        </ul>
+    </div>
+</div>
+<!-- End Side Menu -->
+
 </nav>
 
 
-<table class="table">
-    <thead class="thead-light">
-    <tr class="text-center">
-        <th scope="col">채팅방</th>
 
-        <div class="wrap">
-    <div class="row">
-        <div class="col-auto mr-auto"></div>
-        <div class="col-auto">
-            <input type="text" id="room_name" name="room" class="form-control">
-            <span><button class="btn btn-secondary" onclick="create_room()">개설하기</button></span>
+<div class="head_title text-center" style="margin-top: 100px">
+    <h1 style="font-size: xx-large"><strong>ChatRoom LIST</strong></h1>
+</div>
 
+
+<div class="col-lg-6">
+    <div class="input-group">
+        <div class="input-group-btn">
+            <input id="room_name" type="text" class="form-control" placeholder="채팅방 이름을 입력해주세요" aria-label="...">
+            <button onclick="create_room()" type="button" class="btn btn-primary">개설하기</button>
+        </div><!-- /btn-group -->
+
+    </div><!-- /input-group -->
+</div><!-- /.col-lg-6 -->
+<!--<div class="row" id="create_button">-->
+<!--    <div class="col-auto mr-auto"></div>-->
+<!--    <div class="col-auto">-->
+<!--        <a class="btn btn-primary" href="./create.html" role="button">글쓰기</a>-->
+<!--    </div>-->
+<!--</div>-->
+<div class="margin">
+
+    <div class="table100 ver2 m-b-110">
+        <div class="table100-head">
+            <table>
+                <thead>
+                <tr class="row100 head">
+                    <th class="cell100 column1">ROOM NAME</th>
+                    <th class="cell100 column2">USERS</th>
+                    <th class="cell100 column3">DATE</th>
+
+                </tr>
+                </thead>
+            </table>
         </div>
-
-    </div>
-    <div class="container">
-        <table id="til-table" class="table">
-            <thead>
-            <tr>
-                <th scope="col">채팅방 이름</th>
-                <th scope="col">개설날짜</th>
-            </tr>
-            </thead>
-            <tbody id="til-box">
-            </tbody>
-        </table>
-
-    </div>
+        <div class="table100-body">
+            <table>
+                <tbody id="room-box" class="row100 body">
+                </tbody>
+            </table>
         </div>
-</table>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination" style="justify-content: center;" id="pagination-buttons">
+
+            </ul>
+        </nav>
+    </div>
+</div>
+</div>
+<div class="copyright">
+    &copy; Made By : <a href="https://github.com/0sunzero0/TDP-Spring"> CDP </a>.
+</div>
 </body>
 </html>

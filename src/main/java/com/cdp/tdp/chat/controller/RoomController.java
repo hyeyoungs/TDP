@@ -2,6 +2,7 @@ package com.cdp.tdp.chat.controller;
 
 import com.cdp.tdp.chat.domain.ChatRoom;
 import com.cdp.tdp.chat.dto.ChatRoomDTO;
+import com.cdp.tdp.chat.repository.ChatUserRepository;
 import com.cdp.tdp.chat.service.ChatRoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -17,6 +18,7 @@ import java.util.List;
 public class RoomController {
 
     private final ChatRoomService chatRoomService;
+    private final ChatUserRepository chatUserRepository;
 
     //채팅방 목록 조회
     @GetMapping(value = "/rooms")
@@ -36,4 +38,14 @@ public class RoomController {
 
         return chatRoomService.getRoom(id);
     }
+
+    // 채팅벙 전체 이용자 수 조회
+    @GetMapping("/rooms/users")
+    public int getChatUsers() {
+        Long users=chatUserRepository.count();
+        int users_count=users.intValue();
+        return users_count;
+    }
+
+
 }
