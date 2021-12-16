@@ -176,7 +176,8 @@
                 data: {},
                 success: function (response) {
                     let all_users = response;
-                    $('#user_count').append(tempHtml)
+                    console.log(all_users);
+                    $('#user_count').append(all_users)
 
                 }
             })
