@@ -55,5 +55,9 @@ public class RoomController {
         return chatRoomService.checkmyroom(id,userDetails.getUser().getId());
     }
 
+    @DeleteMapping("/room/{id}")
+    public void deleteRoom(@PathVariable Long id){
+        chatRoomService.deleteRoom(id);
+    }
 
 }
