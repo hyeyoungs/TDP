@@ -41,7 +41,7 @@ public class RoomController {
 
     // 채팅벙 전체 이용자 수 조회
     @GetMapping("/rooms/users")
-    public int getChatUsers(@PathVariable final Long id) {
+    public int getChatUsers() {
         Long users=chatUserRepository.count();
         int users_count=users.intValue();
         return users_count;
