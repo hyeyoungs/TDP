@@ -63,6 +63,11 @@ function read_user() {
                 $('.github_id_tag').hide();
             }
 
+            let introduce = user_info['introduce']
+            if (introduce == null || introduce === ""){
+                $('#introduce').hide();
+            }
+
         }
     });
 }
