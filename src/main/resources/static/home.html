@@ -177,7 +177,7 @@
                 success: function (response) {
                     let all_users = response;
                     console.log(all_users);
-                    $('#user_count').append(all_users)
+                    $('#user-count').text(all_users)
 
                 }
             })
@@ -336,14 +336,14 @@
 
 <!--채팅 section-->
 <div style="text-align: center" class="page-header">
-    <h2 class="user-count" style="display: inline"><strong>0</strong></h2>
+    <h2 class="user-count" style="display: inline" id="user-count"><strong>0</strong></h2>
     <h2 style="display: inline"><strong> Chatting Users </strong></h2>
     <p>
         <button type="button" class="home_btn_chatlist btn-primary" onClick="location.href='./rooms.html'">채팅방 입장
         </button>
     </p>
 </div>
-
+<!--End off 채팅-->
 
 <!--Service Section-->
 <section id="service" class="service">
