@@ -5,7 +5,6 @@ import com.cdp.tdp.domain.Til;
 import com.cdp.tdp.domain.Trans;
 import com.cdp.tdp.domain.User;
 import com.cdp.tdp.dto.*;
-import com.cdp.tdp.repository.TilRepository;
 import com.cdp.tdp.repository.UserRepository;
 import com.cdp.tdp.security.kakao.KakaoOAuth2;
 import com.cdp.tdp.security.kakao.KakaoUserInfo;
@@ -32,7 +31,6 @@ import java.util.*;
 public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
-    private final TilRepository tilRepository;
     private final FileService fileService;
     private final KakaoOAuth2 kakaoOAuth2;
     private final AuthenticationManager authenticationManager;
@@ -158,5 +156,8 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("no such user"));
     }
 
+    public void deleteUser(User user) {
+        userRepository.deleteById(user.getId());
+    }
 
 }
