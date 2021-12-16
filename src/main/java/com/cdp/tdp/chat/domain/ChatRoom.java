@@ -30,9 +30,13 @@ public class ChatRoom extends Timestamped {
     @Column
     private int count;
 
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "USER_ID" )
     @ManyToOne
     private User user; //룸 개설자
+
+    @JsonIgnore
+    @OneToMany(mappedBy="ChatRoom", cascade = CascadeType.REMOVE)
+    private List<ChatUser> chatUsers;
 
 
     public ChatRoom(ChatRoomDTO chatRoomDTO,User user) {
