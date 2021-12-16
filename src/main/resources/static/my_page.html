@@ -96,6 +96,22 @@
         });
     }
 
+    function delete_user() {
+        $.ajax({
+            type: "DELETE",
+            url: `${domainURL}/user`,
+            success: function () {
+                localStorage.removeItem('token');
+                localStorage.removeItem('username');
+                alert('탈퇴 되었습니다!');
+                window.location.href = `/index.html`;
+            },
+            fail: function () {
+                alert("탈퇴 fail");
+            }
+        });
+    }
+
 </script>
 <body>
 <!-- navigation -->
@@ -231,6 +247,11 @@
             <a class="button level-item has-text-centered is-sparta is-outlined" aria-label="logout"
                onclick="sign_out()">
                 로그아웃&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="fa fa-sign-out"
+                                                                     aria-hidden="true"></i></span>
+            </a>
+            <a class="button level-item has-text-centered is-sparta is-outlined" aria-label="logout"
+               onclick="delete_user()">
+                회원탈퇴&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="fa fa-times-circle"
                                                                      aria-hidden="true"></i></span>
             </a>
         </nav>
