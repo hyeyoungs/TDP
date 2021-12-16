@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap tags -->
+
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
           crossorigin="anonymous">
@@ -24,6 +25,7 @@
     <link rel="stylesheet" href="./assets/css/create.css">
     <link rel="stylesheet" href="bootstrap-tagsinput.css">
     <script src="bootstrap-tagsinput.js"></script>
+    <script src="assets/js/bootsnav.js"></script>
     <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet"
@@ -31,6 +33,9 @@
     <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css"/>
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="assets/css/styles.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="assets/css/bootsnav.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
 
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -161,6 +166,13 @@
         .comment-table thead th {
             font-size: large;
         }
+        #nav-bar{
+            padding : 0px 0px 0px 0px;
+        }
+        .fa{
+            color: #ba3925;
+            font-size: large;
+        }
 
     </style>
 </head>
@@ -181,13 +193,13 @@
     $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
         login_check(options, originalOptions, jqXHR);
     });
-
+    let github_id
     function read_writer() {
         $.ajax({
             type: "GET",
             url: `${domainURL}/til_board/${idx}`,
             success: function (response) {
-                let github_id = response['user']['github_id'];
+                github_id = response['user']['github_id'];
                 let introduce = response['user']['introduce'];
                 if (github_id == null || github_id === "") {
                     $('.github_id_tag').hide();
@@ -420,6 +432,7 @@
     }
 
 </script>
+
 <body>
 
 
@@ -440,7 +453,7 @@
 <div class="culmn">
     <!--Home page style-->
 
-    <nav class="navbar navbar-light navbar-expand-lg  navbar-fixed white bootsnav">
+    <nav id="nav-bar" class="navbar navbar-light navbar-expand-lg  navbar-fixed white bootsnav">
         <!-- Start Top Search -->
         <div class="top-search">
             <div class="container">
@@ -455,13 +468,7 @@
 
         <div class="container">
             <!-- Start Atribute Navigation -->
-            <div class="attr-nav">
-                <ul>
 
-                    <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
-                    <li class="side-menu"><a href="#"><i class="fa fa-bars"></i></a></li>
-                </ul>
-            </div>
             <!-- End Atribute Navigation -->
 
             <!-- Start Header Navigation -->
@@ -489,9 +496,42 @@
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
+            <div class="attr-nav">
+                <ul>
+
+                    <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
+                    <li class="side-menu"><a href="#"><i class="fa fa-bars"></i></a></li>
+                </ul>
+            </div>
         </div>
     </nav>
 </div>
+
+<!-- Start Side Menu -->
+<!--<div class="side">-->
+<!--    <a href="#" class="close-side"><i class="fa fa-times"></i></a>-->
+<!--    <div class="widget">-->
+<!--        <h6 class="title">Custom Pages</h6>-->
+<!--        <ul class="link">-->
+<!--            <li><a href="#">About</a></li>-->
+<!--            <li><a href="#">Services</a></li>-->
+<!--            <li><a href="#">Blog</a></li>-->
+<!--            <li><a href="#">Portfolio</a></li>-->
+<!--            <li><a href="#">Contact</a></li>-->
+<!--        </ul>-->
+<!--    </div>-->
+<!--    <div class="widget">-->
+<!--        <h6 class="title">Additional Links</h6>-->
+<!--        <ul class="link">-->
+<!--            <li><a href="#">Retina Homepage</a></li>-->
+<!--            <li><a href="#">New Page Examples</a></li>-->
+<!--            <li><a href="#">Parallax Sections</a></li>-->
+<!--            <li><a href="#">Shortcode Central</a></li>-->
+<!--            <li><a href="#">Ultimate Font Collection</a></li>-->
+<!--        </ul>-->
+<!--    </div>-->
+<!--</div>-->
+<!-- End Side Menu -->
 
 
 
@@ -592,7 +632,7 @@
         float: right;
     }
     td{
-       height: 30px;
+        height: 30px;
     }
     .content-box{
         padding: 30px 0px 30px 0px;
@@ -612,99 +652,99 @@
     }
 </style>
 
-    <input type="checkbox" id="menuicon">
-    <label for="menuicon">
-        <span></span>
-        <span></span>
-        <span></span>
-    </label>
-    <div class="sidebar" style="float: left">
-        <figure style="align-self: center">
-            <a class="image is-96x96" href="#">
-                <img class="is-rounded user_profile_pic_real_append" src="">
-            </a>
-        </figure>
-        <span class="subheading mb-5 nav-link">Nickname</span>
-        <div id="user-nickname" class="user-intro writer_nickname_append">닉네임</div>
-        <hr color="red">
-        <span class="subheading mb-5 nav-link">Introduce</span>
-        <div id="user-profile" class="user-intro writer_profile_info_append">소개글</div>
-        <hr color="red">
-        <span class="subheading mb-5 nav-link">Github ID</span>
-        <div id="user-github_id" class="user-intro writer_github_id_append">깃허브 아이디</div>
+<input type="checkbox" id="menuicon">
+<label for="menuicon">
+    <span></span>
+    <span></span>
+    <span></span>
+</label>
+<div class="sidebar" style="float: left">
+    <figure style="align-self: center">
+        <a class="image is-96x96" href="#">
+            <img class="is-rounded user_profile_pic_real_append" src="">
+        </a>
+    </figure>
+    <span class="subheading mb-5 nav-link">Nickname</span>
+    <div id="user-nickname" class="user-intro writer_nickname_append">닉네임</div>
+    <hr color="red">
+    <span class="subheading mb-5 nav-link">Introduce</span>
+    <div id="user-profile" class="user-intro writer_profile_info_append">소개글</div>
+    <hr color="red">
+    <span class="subheading mb-5 nav-link">Github ID</span>
+    <div id="user-github_id" class="user-intro writer_github_id_append">깃허브 아이디</div>
 
-        <div class="social-icons">
-            <a class="social-icon" href="#!"><i class="fab fa-linkedin-in"></i></a>
-            <a class="social-icon" href="#!"><i class="fab fa-github"></i></a>
-            <a class="social-icon" href="#!"><i class="fab fa-facebook-f"></i></a>
-        </div>
-
+    <div class="social-icons">
+        <a class="social-icon" href="#!"><i class="fab fa-linkedin-in"></i></a>
+        <a class="social-icon" href="https://github.com/{github_id}"><i class="fab fa-github"></i></a>
+        <a class="social-icon" href="#!"><i class="fab fa-facebook-f"></i></a>
     </div>
 
-    <div class="til-section" id="about" style="float: left">
-        <div class="resume-section-content">
-            <h1 id="now-title" class="mb-0">
-                title
-            </h1><span id="mine"></span>
-            <nav class="level is-mobile">
-                <div>
-                    <a class="level-item is-sparta" id="heart" aria-label="heart"
-                       onclick="toggle_like(idx, 'heart')">&nbsp
-                        <div id="now-heart"></div>
-                        &nbsp
-                        <div id="heart-count" class="like-num">count</div>
-                    </a>
-                </div>
-            </nav>
-            <div class="subheading mb-5">
-                태그
+</div>
+
+<div class="til-section" id="about" style="float: left">
+    <div class="resume-section-content">
+        <h1 id="now-title" class="mb-0">
+            title
+        </h1><span id="mine"></span>
+        <nav class="level is-mobile">
+            <div>
+                <a class="level-item is-sparta" id="heart" aria-label="heart"
+                   onclick="toggle_like(idx, 'heart')">&nbsp
+                    <div id="now-heart"></div>
+                    &nbsp
+                    <div id="heart-count" class="like-num">count</div>
+                </a>
             </div>
-            <div id="now-content" class="lead mb-5 content-box">
-                til_content
-            </div>
+        </nav>
+        <div class="subheading mb-5">
+            태그
+        </div>
+        <div id="now-content" class="lead mb-5 content-box">
+            til_content
         </div>
     </div>
+</div>
 
 <section class="comment-section" id="comment-list">
 
-        <div>
+    <div>
 
-            <table class="comment-table">
-                <colgroup>
-                    <col style="width:10%;">
-                    <col style="width:60%;">
-                    <col style="width:20%;">
-                    <col style="width:10%;">
-                </colgroup>
-                <thead>
-                <tr class="subheading">
-                    <th scope="col" class="subheading">Nickname</th>
-                    <th scope="col" class="subheading">Comment</th>
-                    <th scope="col" class="subheading">DAY</th>
-                    <th scope="col"class="subheading">Setting</th>
-                </tr>
-                </thead>
-                <tbody id="comment-box">
-                <tr>
-                    <td>닉네임</td>
-                    <td>댓글</td>
-                    <td>날짜</td>
-                    <td>버튼</td>
-                </tr>
-                </tbody>
-            </table>
-            <article class="media right">
-                <div class="media-content">
-                    <div class="field">
-                        <p class="control">
-                            <button type="button" id="input-post"
-                                    onclick='$("#modal-post").addClass("is-active")' class="btn btn-primary comment-button">
-                                COMMENT
-                            </button>
-                    </div>
+        <table class="comment-table">
+            <colgroup>
+                <col style="width:10%;">
+                <col style="width:60%;">
+                <col style="width:20%;">
+                <col style="width:10%;">
+            </colgroup>
+            <thead>
+            <tr class="subheading">
+                <th scope="col" class="subheading">Nickname</th>
+                <th scope="col" class="subheading">Comment</th>
+                <th scope="col" class="subheading">DAY</th>
+                <th scope="col"class="subheading">Setting</th>
+            </tr>
+            </thead>
+            <tbody id="comment-box">
+            <tr>
+                <td>닉네임</td>
+                <td>댓글</td>
+                <td>날짜</td>
+                <td>버튼</td>
+            </tr>
+            </tbody>
+        </table>
+        <article class="media right">
+            <div class="media-content">
+                <div class="field">
+                    <p class="control">
+                        <button type="button" id="input-post"
+                                onclick='$("#modal-post").addClass("is-active")' class="btn btn-primary comment-button">
+                            COMMENT
+                        </button>
                 </div>
-            </article>
-        </div>
+            </div>
+        </article>
+    </div>
 </section>
 
 
@@ -788,5 +828,46 @@
     </div>
 </article>
 <!-- toast end -->
+
+<div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Form</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form name="form" id="form" role="form" method="post">
+                    <div class="mb-3">
+                        <label for="modal-title">제목</label>
+                        <input type="text" class="form-control" name="title" id="modal-title"
+                               placeholder="제목을 입력해 주세요" value="">
+                    </div>
+                    <div class="mb-3">
+                        <label for="modal-user">작성자</label>
+                        <p id="modal-user"></p>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modal-content">내용</label>
+                        <textarea class="form-control" rows="5" name="content" id="modal-content"
+                                  placeholder="내용을 입력해 주세요"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tags">Tag</label>
+                        <input type="text" class="form-control" id="tags" data-role="tagsinput" placeholder="TAGS" >
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <input type="submit" class="btn btn-secondary" id="modal-save" onclick=""
+                       value="Save changes"></button>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
