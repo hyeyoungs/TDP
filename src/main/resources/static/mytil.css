@@ -341,3 +341,9 @@ ul.style1 .tags{
 .user_nickname_append{
     color : #333333;
 }
+
+
+/* my til list */
+#my-til-list {
+    margin-top: 50px;
+}
