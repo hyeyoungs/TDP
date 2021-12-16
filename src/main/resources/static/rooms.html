@@ -7,11 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="icon" type="image/png" href="assets/images/icons/favicon.ico"/>
-    <link rel="stylesheet" type="text/css" href="assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/vendor/animate/animate.css">
-    <link rel="stylesheet" type="text/css" href="assets/vendor/select2/select2.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/vendor/perfect-scrollbar/perfect-scrollbar.css">
+
     <link rel="stylesheet" type="text/css" href="assets/css/util.css">
     <link rel="stylesheet" type="text/css" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/slick.css">
@@ -103,23 +99,17 @@
                             let name = all_rooms[i]['name'];
                             let date = all_rooms[i]['createdAt']
                             let user_count=all_rooms[i]['count'];
-                            if (i < 4) {
-                                let temp_html = `<tr onClick="detail(${idx})" style="cursor:pointer;">
 
-                                                <th scope="row">${name}<img src="new.png" height="30" width="30"></th>
-                                               <td>${date}</td>
+                            let temp_html = `<tr onClick="detail(${idx})" style="cursor:pointer;">
 
-                                            </tr>`
-                                $('#til-box').append(temp_html)
-                            } else {
-                                let temp_html = `<tr onClick="detail(${idx})" style="cursor:pointer;">
-                                                <th scope="row">${name}</th>
-                                                <td>${user_count}</td>
-                                                <td>${date}</td>
+                                            <th scope="row">${name}<img src="new.png" height="30" width="30"></th>
+                                           <td>${date}</td>
+                                           <td>${user_count}</td>
+                                        </tr>`
+                            $('#room-box').append(temp_html)
 
-                                            </tr>`
-                                $('#rooom-box').append(temp_html)
-                            }
+
+
                         }
                     }
                 }
@@ -147,6 +137,32 @@
         .nav-link {
 
             margin-left: 100px;
+        }
+
+
+        .col-lg-6 {
+            margin: 50px auto;
+        }
+
+        .row {
+            float: right;
+        }
+
+        #create_button {
+            margin-right: 290px;
+
+        }
+
+        .margin {
+            margin: 100px 300px 0px 300px;
+
+        }
+        .btn-primary{
+            background-color: #d14149;
+            border-color: #d14149;
+        }
+        #room-box{
+            text-align-all: center;
         }
 
     </style>
