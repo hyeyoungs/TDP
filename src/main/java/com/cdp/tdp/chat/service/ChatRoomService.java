@@ -54,8 +54,10 @@ public class ChatRoomService {
        }
        return false;
     }
-
+    @Transactional
     public void deleteRoom(Long id) {
-        chatRoomRepository.deleteByRoomId(id);
+        log.info("delete 전");
+        chatRoomRepository.deleteById(id);
+        log.info("delete");
     }
 }
