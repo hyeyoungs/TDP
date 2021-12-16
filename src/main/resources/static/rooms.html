@@ -10,6 +10,7 @@
 
     <link rel="stylesheet" type="text/css" href="assets/css/util.css">
     <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/slick.css">
     <link rel="stylesheet" href="assets/css/slick-theme.css">
     <link rel="stylesheet" href="assets/css/animate.css">
@@ -68,8 +69,7 @@
                 let info = {
                     roomName : room_name
                 }
-                console.log("이름은 들어옴");
-                console.log(room_name);
+
                 $.ajax({
 
                     type: "POST",
@@ -82,7 +82,6 @@
                 });
             }
             else{
-                console.log("공백 이름");
                 alert("채팅방 이름을 입력해주세요!")
             }
 
@@ -101,11 +100,11 @@
                             let user_count=all_rooms[i]['count'];
 
                             let temp_html = `<tr onClick="detail(${idx})" style="cursor:pointer;">
+                                                <th class="cell100 column1" scope="row">${name}<img src="new.png" height="30" width="30"></th>
+                                                <td class="cell100 column2">${user_count}</td>
+                                                <td class="cell100 column3">${date}</td>
 
-                                            <th scope="row">${name}<img src="new.png" height="30" width="30"></th>
-                                           <td>${date}</td>
-                                           <td>${user_count}</td>
-                                        </tr>`
+                                            </tr>`;
                             $('#room-box').append(temp_html)
 
 
@@ -190,38 +189,6 @@
         </div>
     </div>
 </nav>
-
-
-<!--<table class="table">-->
-<!--    <thead class="thead-light">-->
-<!--    <tr class="text-center">-->
-<!--        <th scope="col">채팅방</th>-->
-
-<!--        <div class="wrap">-->
-<!--    <div class="row">-->
-<!--        <div class="col-auto mr-auto"></div>-->
-<!--        <div class="col-auto">-->
-<!--            <input type="text" id="room_name" name="room" class="form-control">-->
-<!--            <span><button class="btn btn-secondary" onclick="create_room()">개설하기</button></span>-->
-
-<!--        </div>-->
-
-<!--    </div>-->
-<!--    <div class="container">-->
-<!--        <table id="til-table" class="table">-->
-<!--            <thead>-->
-<!--            <tr>-->
-<!--                <th scope="col">채팅방 이름</th>-->
-<!--                <th scope="col">개설날짜</th>-->
-<!--            </tr>-->
-<!--            </thead>-->
-<!--            <tbody id="til-box">-->
-<!--            </tbody>-->
-<!--        </table>-->
-
-<!--    </div>-->
-<!--        </div>-->
-<!--</table>-->
 
 
 <div class="head_title text-center" style="margin-top: 100px">
