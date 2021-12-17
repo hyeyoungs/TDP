@@ -24,7 +24,7 @@ public class ChatUser extends Timestamped {
     @Id
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "ROOM_ID", nullable = false )
     private ChatRoom chatRoom;
 
@@ -38,5 +38,7 @@ public class ChatUser extends Timestamped {
         this.user = user;
 
     }
+
+
 
 }
