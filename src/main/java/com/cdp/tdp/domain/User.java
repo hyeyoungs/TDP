@@ -73,16 +73,15 @@ public class User extends Timestamped {
 
     private String picture_real;
 
-    @Column(nullable = true)
     private Long kakaoId;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Til> til_list;
 
 
     @JsonIgnore
-    @OneToMany(mappedBy="user")
+    @OneToMany(mappedBy="user", cascade = CascadeType.REMOVE)
     private List<Comment> comments;
 
     public void updateUser(UserUpdateDto userUpdateDto){
