@@ -84,6 +84,10 @@ public class User extends Timestamped {
     @OneToMany(mappedBy="user", cascade = CascadeType.REMOVE)
     private List<Comment> comments;
 
+    @JsonIgnore
+    @OneToMany(mappedBy="user", cascade = CascadeType.REMOVE)
+    private List<Likes> likes_list;
+
     public void updateUser(UserUpdateDto userUpdateDto){
         this.nickname = userUpdateDto.getNickname();
         this.github_id = userUpdateDto.getGithub_id();
