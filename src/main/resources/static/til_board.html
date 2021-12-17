@@ -132,9 +132,13 @@
                     url: url,
                     data: {},
                     success: function (response) {
+                        console.log(response)
                         let til_list = response['tils']['content'];
+                        console.log(til_list)
                         let count = 0;
                         for (let i = 0; i < til_list.length; i++) {
+                            let til=til_list[i];
+                            console.log(til)
                             let tags = '';
                             let title = til_list[i]['tilTitle'];
                             let user = til_list[i]['user']['nickname'];
