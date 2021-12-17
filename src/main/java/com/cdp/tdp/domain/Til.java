@@ -64,7 +64,6 @@ public class Til extends Timestamped {
         this.user = user;
     }
 
-
     public void updateMyTil(TilRequestDto tilRequestDto){
         this.tilTitle= tilRequestDto.getTilTitle();
         this.tilContent=tilRequestDto.getTilContent();
