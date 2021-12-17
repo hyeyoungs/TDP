@@ -1,10 +1,12 @@
 package com.cdp.tdp.controller;
 
 import com.cdp.tdp.domain.Til;
+import com.cdp.tdp.domain.User;
 import com.cdp.tdp.dto.TilListDto;
 import com.cdp.tdp.dto.TilRequestDto;
 import com.cdp.tdp.security.UserDetailsImpl;
 import com.cdp.tdp.service.TilService;
+import com.cdp.tdp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,6 +43,7 @@ public class TilController {
     }
 
     private final TilService tilService;
+    private final UserService userService;
 
     @GetMapping("/tils")
     public List<Til> getAllTil(){
@@ -62,7 +65,8 @@ public class TilController {
     }
 
     @GetMapping("/til_board/{id}")
-    public Til getTil(@PathVariable Long id){
+    public Til getTil(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        String username = userDetails.getUsername();
         return tilService.getTil(id);
     }
 

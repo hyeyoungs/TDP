@@ -31,7 +31,7 @@ public class Likes extends Timestamped {
     @JoinColumn(name="USER_ID",nullable = false)
     private User user;
 
-    public Likes(Til til,User user) {
+    public Likes(Til til, User user) {
         this.til = til;
         this.user = user;
 
