@@ -108,7 +108,7 @@
                                         <div class="col-md-4">
                                           <div class="service_item">
                                             <i class="icofont icofont-light-bulb"></i>
-                                            <h3 class="m-top-30">${title}</h3>
+                                            <h3 class="m-top-30"><a href="./detail.html?idx=${all_til[i]['id']}">${title}</a></h3>
                                             <div class="separator_small"></div>
                                             <h5>${user}</h5>
                                           </div>
@@ -218,6 +218,14 @@
             width: 630px;
         }
 
+        .m-top-30 a:hover {
+            text-decoration: underline;
+        }
+
+        .m-top-30 a {
+            color: #797979;
+            text-decoration : none;
+        }
     </style>
 </head>
 <body data-spy="scroll" data-target=".navbar-collapse">
