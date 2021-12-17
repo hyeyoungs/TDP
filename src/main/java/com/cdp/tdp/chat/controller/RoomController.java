@@ -4,9 +4,11 @@ import com.cdp.tdp.chat.domain.ChatRoom;
 import com.cdp.tdp.chat.dto.ChatRoomDTO;
 import com.cdp.tdp.chat.repository.ChatUserRepository;
 import com.cdp.tdp.chat.service.ChatRoomService;
+import com.cdp.tdp.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -28,8 +30,8 @@ public class RoomController {
 
     //채팅방 개설
     @PostMapping(value = "/room")
-    public ChatRoom create(@RequestBody ChatRoomDTO chatRoomDTO) {
-        return chatRoomService.createRoom(chatRoomDTO);
+    public ChatRoom create(@RequestBody ChatRoomDTO chatRoomDTO , @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return chatRoomService.createRoom(chatRoomDTO,userDetails.getUser().getId());
     }
 
     //채팅방 조회
@@ -47,5 +49,15 @@ public class RoomController {
         return users_count;
     }
 
+    // 내가 만든 채팅방인지 확인
+    @GetMapping("/room/my/{id}")
+    public boolean checkmyrooms(@PathVariable final Long id,@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return chatRoomService.checkmyroom(id,userDetails.getUser().getId());
+    }
+
+    @DeleteMapping("/room/{id}")
+    public void deleteRoom(@PathVariable Long id){
+        chatRoomService.deleteRoom(id);
+    }
 
 }

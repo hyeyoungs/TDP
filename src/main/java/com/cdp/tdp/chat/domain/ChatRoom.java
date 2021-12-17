@@ -4,6 +4,7 @@ package com.cdp.tdp.chat.domain;
 import com.cdp.tdp.chat.dto.ChatRoomDTO;
 import com.cdp.tdp.domain.Comment;
 import com.cdp.tdp.domain.Timestamped;
+import com.cdp.tdp.domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,10 +30,20 @@ public class ChatRoom extends Timestamped {
     @Column
     private int count;
 
+    @JoinColumn(name = "USER_ID" )
+    @ManyToOne
+    private User user; //룸 개설자
 
-    public ChatRoom(ChatRoomDTO chatRoomDTO) {
+    @JsonIgnore
+    @OneToMany(mappedBy="ChatRoom", cascade = CascadeType.REMOVE)
+    private List<ChatUser> chatUsers;
+
+
+    public ChatRoom(ChatRoomDTO chatRoomDTO,User user) {
         this.name = chatRoomDTO.getRoomName();
         this.count=0;
+        this.user=user;
+
 
     }
 
