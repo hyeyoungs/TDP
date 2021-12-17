@@ -132,25 +132,35 @@
                     url: url,
                     data: {},
                     success: function (response) {
+                        console.log(response)
                         let til_list = response['tils']['content'];
+                        console.log(til_list)
                         let count = 0;
                         for (let i = 0; i < til_list.length; i++) {
+                            let til=til_list[i];
+                            console.log(til)
                             let tags = '';
                             let title = til_list[i]['tilTitle'];
                             let user = til_list[i]['user']['nickname'];
                             let day = til_list[i]['createdAt'];
                             let til_idx = til_list[i]['id'];
                             let til_tags = til_list[i]['tags'];
+
+                            let comments = til_list[i]['num_comment'];
+
+                            let til_likes = til_list[i]['tilLike'];
                             let til_view = til_list[i]['tilView'];
                             for (let j = 0; j < til_tags.length; j++) {
                                 tags += " #" + til_tags[j]['name'];
                             }
                             if (count < 4 && til_view === true) { // new
                                 let temp_html = `<tr onClick="detail(${til_idx})" style="cursor:pointer;">
-                                                <th class="cell100 column1" scope="row">${title}<img src="new.png" height="30" width="30"></th>
-                                                <td class="cell100 column2">${user}</td>
-                                                <td class="cell100 column3">${day}</td>
-                                                <td class="cell100 column4">${tags}</td>
+                                                <th class="cell100 column2" scope="row">${title}<img src="new.png" height="25" width="25"></th>
+                                                <td class="cell100 column3">${user}</td>
+                                                <td class="cell100 column4">${day}</td>
+                                                <td class="cell100 column5">${tags}</td>
+                                                <td class="cell100 column6">${til_likes}</td>
+                                                <td class="cell100 column7">${comments}</td>
                                             </tr>`;
                                 $('#til-box').append(temp_html);
                                 count += 1;
@@ -158,20 +168,23 @@
                             } else {
                                 if (til_view == false) {  // lock
                                     let temp_html = `<tr onClick="detail(${til_idx})" style="cursor:pointer;">
-                                                <th class="cell100 column1" scope="row">${title}<img src="lock.png" height="30" width="30"></th>
-                                                <td class="cell100 column2">${user}</td>
-                                                <td class="cell100 column3">${day}</td>
-                                                <td class="cell100 column4">${tags}</td>
+                                                <th class="cell100 column2" scope="row">${title}<img src="new.png" height="25" width="25"></th>
+                                                <td class="cell100 column3">${user}</td>
+                                                <td class="cell100 column4">${day}</td>
+                                                <td class="cell100 column5">${tags}</td>
+                                                <td class="cell100 column6">${til_likes}</td>
+                                                <td class="cell100 column7">${comments}</td>
                                             </tr>`;
                                     $('#til-box').append(temp_html);
                                 } else {
                                     let temp_html = `<tr onClick="detail(${til_idx})" style="cursor:pointer;">
-}
-                                                <th class="cell100 column1" scope="row">${title}</th>
-                                                <td class="cell100 column2">${user}</td>
-                                                <td class="cell100 column3">${day}</td>
-                                                <td class="cell100 column4">${tags}</td>
-                                            </tr>`
+                                                <th class="cell100 column2" scope="row">${title}<img src="new.png" height="25" width="25"></th>
+                                                <td class="cell100 column3">${user}</td>
+                                                <td class="cell100 column4">${day}</td>
+                                                <td class="cell100 column5">${tags}</td>
+                                                <td class="cell100 column6">${til_likes}</td>
+                                                <td class="cell100 column7">${comments}</td>
+                                            </tr>`;
                                     $('#til-box').append(temp_html);
                                 }
                             }
@@ -225,7 +238,7 @@
         }
 
         .margin {
-            margin: 50px 300px 0px 300px;
+            margin: 50px 200px 0px 200px;
 
         }
         .btn-primary{
@@ -246,6 +259,9 @@
             margin-top: 100px;
         }
 
+        th, td {
+            text-align: center;
+        }
 
 
     </style>
@@ -425,10 +441,12 @@
             <table>
                 <thead>
                 <tr class="row100 head">
-                    <th class="cell100 column1">TITLE</th>
-                    <th class="cell100 column2">Writer</th>
-                    <th class="cell100 column3">DATE</th>
-                    <th class="cell100 column4">TAG</th>
+                    <th class="cell100 column2">TITLE</th>
+                    <th class="cell100 column3">Writer</th>
+                    <th class="cell100 column4">DATE</th>
+                    <th class="cell100 column5">TAG</th>
+                    <th class="cell100 column6">LIKE</th>
+                    <th class="cell100 column7">COMMENT</th>
                 </tr>
                 </thead>
             </table>

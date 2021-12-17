@@ -34,6 +34,9 @@ public class Til extends Timestamped {
     @Column(nullable = false)
     private int tilLike;
 
+    @Column(nullable = false)
+    private int num_comment;
+
     @JoinColumn(name = "user_id")
     @ManyToOne
     private User user;
@@ -45,7 +48,7 @@ public class Til extends Timestamped {
     @OneToMany(mappedBy="til", cascade = CascadeType.REMOVE)
     private List<Tag> tags;
 
-    public Til(Long id, String tilTitle, String tilContent, boolean tilView, int tilLike, User user, List<Comment> comments, List<Tag> tags) {
+    public Til(Long id, String tilTitle, String tilContent, boolean tilView, int tilLike, int num_comment,User user, List<Comment> comments, List<Tag> tags) {
         this.id = id;
         this.tilTitle = tilTitle;
         this.tilContent = tilContent;
@@ -54,6 +57,7 @@ public class Til extends Timestamped {
         this.user = user;
         this.comments = comments;
         this.tags=tags;
+        this.num_comment=num_comment;
     }
 
     @Builder
@@ -63,7 +67,6 @@ public class Til extends Timestamped {
         this.tilView = tilRequestDto.isTilView();
         this.user = user;
     }
-
 
     public void updateMyTil(TilRequestDto tilRequestDto){
         this.tilTitle= tilRequestDto.getTilTitle();
