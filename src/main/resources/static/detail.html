@@ -191,7 +191,7 @@
 
         div[class="sidebar"] {
             width: 300px;
-            height: 600px;
+            height: 750px;
             background: #222;
             /*position: fixed;*/
             top: 0px;
@@ -275,13 +275,11 @@
             type: "GET",
             url: `${domainURL}/til_board/${idx}`,
             success: function (response) {
-                github_id = response['user']['github_id'];
+                let github_id = response['user']['github_id'];
                 let introduce = response['user']['introduce'];
                 let username = response['user']['username'];
-                let test;
                 let now_user_info = localStorage.getItem("username");
                 if(now_user_info===username){
-                    console.log("같은아이디");
                     let temp_html =
                         `<button type="button" onclick='confirm_delete()' class="btn btn-primary two-button">게시글삭제</button>`
                     $('#mine').append(temp_html)
@@ -296,7 +294,8 @@
                     $('#introduce_tag').hide();
                 }
                 $('.writer_nickname_append').text(response['user']['nickname']);
-                $('.writer_github_id_append').text(github_id);
+                //$('.writer_github_id_append').text(github_id);
+                $('#github-profile').attr('src', `https://github-readme-stats.vercel.app/api?username=${github_id}&show_icons=true&count_private=true&hide_border=true`);
                 $('.writer_profile_info_append').text(response['user']['introduce']);
                 $('.writer_profile_pic_real_append').attr('src', response['user']['picture_real']);
             }
@@ -637,14 +636,18 @@
             <img class="is-rounded user_profile_pic_real_append" src="">
         </a>
     </figure>
+    <hr>
     <span class="subheading mb-5 nav-link">Nickname</span>
-    <div id="user-nickname" class="user-intro writer_nickname_append">닉네임</div>
-    <hr color="red">
+    <div id="user-nickname" class="user-intro"><span class="writer_nickname_append">닉네임</span></div>
+    <hr>
     <span class="subheading mb-5 nav-link">Introduce</span>
-    <div id="user-profile" class="user-intro writer_profile_info_append">소개글</div>
-    <hr color="red">
+    <div id="user-profile" class="user-intro"><span class="writer_profile_info_append">소개글</span></div>
+    <hr>
     <span class="subheading mb-5 nav-link">Github ID</span>
-    <div id="user-github_id" class="user-intro writer_github_id_append">깃허브 아이디</div>
+    <div class="user-intro github_id_tag">
+        <span class="writer_github_id_append"></span>
+        <img id="github-profile" src=""/>
+    </div>
 
     <div class="social-icons">
         <a class="social-icon" href="#!"><i class="fab fa-linkedin-in"></i></a>
