@@ -53,6 +53,7 @@ function read_user() {
             $('.github_id_append').text(user_info['github_id']);
             $('.user_id_append').val(user_info['username']);
             $('.user_nickname_append').val(user_info['nickname']);
+
             $('.user_profile_info_append').val(user_info['introduce']);
             $('.user_profile_pic_append').val(user_info['picture']);
             $('.user_profile_pic_real_append').attr('src', user_info['picture_real']);

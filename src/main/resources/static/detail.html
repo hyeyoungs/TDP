@@ -147,6 +147,8 @@
         get_til();
         get_heart();
         get_comment();
+
+        // get_status();
     });
 
     $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
@@ -160,11 +162,23 @@
             success: function (response) {
                 let github_id = response['user']['github_id'];
                 let introduce = response['user']['introduce'];
-                if (github_id == null || github_id === "") {
+                let username = response['user']['username'];
+                let test;
+                let now_user_info = localStorage.getItem("username");
+                if(now_user_info===username){
+                    console.log("같은아이디");
+                    let temp_html =
+                        `<button type="button" onclick='confirm_delete()' class="btn btn-primary two-button">삭제</button>`
+                    $('#mine').append(temp_html)
+
+                }else{
+                    console.log("다른아이디")
+                }
+                if (github_id == null || github_id === ""){
                     $('.github_id_tag').hide();
                 }
-                if (introduce == null || introduce === "") {
-                    $('.introduce_tag').hide();
+                if (introduce == null || introduce === ""){
+                    $('#introduce_tag').hide();
                 }
                 $('.writer_nickname_append').text(response['user']['nickname']);
                 $('.writer_github_id_append').text(github_id);
@@ -173,24 +187,28 @@
             }
         });
     }
-
-    function get_status() {
-        $.ajax({
-            type: "GET",
-            url: `${domainURL}/status/${idx}`,
-            data: {},
-            success: function (response) {
-
-                let status = response['status']
-                if (status) {
-                    let temp_html =
-                        `<button type="button" onclick='new_box()' class="btn btn-primary two-button">수정</button>
-                            <button type="button" onclick='delete_til()' class="btn btn-primary two-button">삭제</button>`
-                    $('#mine').append(temp_html)
-                }
-            }
-        });
+    function confirm_delete(){
+      if(confirm("삭제하시겠습니까?")){
+          delete_til();
+          alert("삭제되었습니다.")
+      }
     }
+    // function get_status() {
+    //     $.ajax({
+    //         type: "GET",
+    //         url: `${domainURL}/status/${idx}`,
+    //         data: {},
+    //         success: function (response) {
+    //             let status = response['status']
+    //             if (status) {
+    //                 let temp_html =
+    //                     `<button type="button" onclick='new_box()' class="btn btn-primary two-button">수정</button>
+    //                         <button type="button" onclick='delete_til()' class="btn btn-primary two-button">삭제</button>`
+    //                 $('#mine').append(temp_html)
+    //             }
+    //         }
+    //     });
+    // }
 
     function get_heart() {
 
@@ -221,7 +239,6 @@
                 let title = response['tilTitle']
                 let content = response['tilContent']
                 let num_heart = response['tilLike']
-
                 $("#now-title").text(title);
                 $("#now-content").text(content);
                 $("#new-til-title").text(title);
@@ -311,7 +328,6 @@
             type: "DELETE",
             url: `${domainURL}/til_board/${idx}`,
             success: function (response) {
-                alert(response["msg"]);
                 window.history.back();
             }
         });
@@ -520,6 +536,10 @@
                         <div class="media-content">
                             <div class="field">
                                 <p class="control">
+<!--                                    <button type="button" id="input-delete"-->
+<!--                                            class="btn btn-primary" onclick="">-->
+<!--                                        삭제하기-->
+<!--                                    </button>-->
                                     <button type="button" id="input-post"
                                             onclick='$("#modal-post").addClass("is-active")' class="btn btn-primary">
                                         댓글달기
