@@ -35,19 +35,14 @@ public class ChatRoom extends Timestamped {
     private User user; //룸 개설자
 
     @JsonIgnore
-    @OneToMany(mappedBy="ChatRoom", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.REMOVE)
     private List<ChatUser> chatUsers;
-
 
     public ChatRoom(ChatRoomDTO chatRoomDTO,User user) {
         this.name = chatRoomDTO.getRoomName();
         this.count=0;
         this.user=user;
 
-
     }
-
-
-
 
 }
