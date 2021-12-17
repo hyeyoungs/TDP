@@ -1,14 +1,11 @@
 package com.cdp.tdp.domain;
 
-import com.cdp.tdp.dto.TilRequestDto;
-import com.cdp.tdp.dto.UserDto;
+import com.cdp.tdp.chat.domain.ChatRoom;
 import com.cdp.tdp.dto.UserUpdateDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Setter
 @Getter
@@ -79,10 +76,17 @@ public class User extends Timestamped {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Til> til_list;
 
-
     @JsonIgnore
     @OneToMany(mappedBy="user", cascade = CascadeType.REMOVE)
     private List<Comment> comments;
+
+    @JsonIgnore
+    @OneToMany(mappedBy="user", cascade = CascadeType.REMOVE)
+    private List<Likes> likes_list;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<ChatRoom> chatRooms;
 
     public void updateUser(UserUpdateDto userUpdateDto){
         this.nickname = userUpdateDto.getNickname();
