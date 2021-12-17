@@ -250,7 +250,8 @@
         }
     </style>
 </head>
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<!-- detail markdown -->
+<!--<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>-->
 
 <script>
     let idx;
@@ -345,8 +346,9 @@
                 $('#new-til-content').text(content)
                 $("#heart-count").text(num_heart);
 
-                document.getElementById('now-content').innerHTML =
-                    marked.parse($("#now-content").text());
+                <!-- detail markdown -->
+                // document.getElementById('now-content').innerHTML =
+                //     marked.parse($("#now-content").text());
             }
         });
     }
