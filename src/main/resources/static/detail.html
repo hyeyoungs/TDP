@@ -283,7 +283,7 @@
                 if(now_user_info===username){
                     console.log("같은아이디");
                     let temp_html =
-                        `<button type="button" onclick='confirm_delete()' class="btn btn-primary two-button">삭제</button>`
+                        `<button type="button" onclick='confirm_delete()' class="btn btn-primary two-button">게시글삭제</button>`
                     $('#mine').append(temp_html)
 
                 }else{
@@ -658,7 +658,7 @@
     <div class="resume-section-content">
         <h1 id="now-title" class="mb-0">
             title
-        </h1><span id="mine"></span>
+        </h1>
         <nav class="level is-mobile">
             <div>
                 <a class="level-item is-sparta" id="heart" aria-label="heart"
@@ -675,6 +675,7 @@
         <div id="now-content" class="lead mb-5 content-box">
             til_content
         </div>
+        <span id="mine"></span>
     </div>
 </div>
 
@@ -722,10 +723,6 @@
                         <div class="media-content">
                             <div class="field">
                                 <p class="control">
-                                    <button type="button" id="input-post"
-                                            onclick='$("#modal-post").addClass("is-active")' class="btn btn-primary">
-                                        댓글달기
-                                    </button>
                             </div>
                         </div>
                     </article>
