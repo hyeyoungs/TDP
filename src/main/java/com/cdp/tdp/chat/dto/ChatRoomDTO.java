@@ -14,4 +14,5 @@ import java.util.UUID;
 public class ChatRoomDTO {
     private String roomName;
     private int count;
+
 }

@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
+    <!-- Bulma -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="./back.css">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="icon" type="image/png" href="assets/images/icons/favicon.ico"/>
@@ -20,6 +24,7 @@
     <link rel="stylesheet" href="assets/css/magnific-popup.css">
     <link rel="stylesheet" href="assets/css/bootsnav.css">
     <meta name="robots" content="noindex, follow">
+
 
 
     <!-- paradise slider js -->
@@ -52,8 +57,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
-    <!-- Bulma -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 
     <script defer
             src="https://static.cloudflareinsights.com/beacon.min.js/v64f9daad31f64f81be21cbef6184a5e31634941392597"
@@ -75,6 +78,8 @@
 
         $(document).ready(function () {
             read_all_rooms();
+
+
         });
 
         $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
@@ -86,11 +91,12 @@
 
             if (room_name!== ""){
                 let info = {
-                    roomName : room_name
+                    roomName : room_name,
+                    count : 0,
+
                 }
 
                 $.ajax({
-
                     type: "POST",
                     url: `${domainURL}/room`,
                     contentType: "application/json",
@@ -125,9 +131,6 @@
 
                                             </tr>`;
                             $('#room-box').append(temp_html)
-
-
-
                         }
                     }
                 }
@@ -140,6 +143,8 @@
 
     </script>
     <style>
+
+
         .wrap {
             margin: 50px auto;
         }
@@ -148,52 +153,61 @@
             float: right;
         }
 
-        .navbar-brand {
-            margin-left: 50px;
-        }
-
-        .nav-link {
-
-            margin-left: 100px;
-        }
 
 
         .col-lg-6 {
             margin: 50px auto;
         }
 
-        .row {
-            float: right;
-        }
-
-        #create_button {
-            margin-right: 290px;
-
-        }
 
         .margin {
             margin: 100px 300px 0px 300px;
 
         }
+
         .btn-primary{
             background-color: #d14149;
             border-color: #d14149;
+            margin-top: 15px;
         }
         #room-box{
             text-align-all: center;
         }
 
+        .head_title{
+            margin-top: 100px;
+            padding-bottom: 30px;
+        }
+
+        .head_title h1{
+            margin-top: 100px;
+        }
+
+
     </style>
 </head>
+<body>
 
 
-<body data-spy="scroll" data-target=".navbar-collapse">
-<!-- navigation -->
+<!--&lt;!&ndash; Preloader &ndash;&gt;-->
+<!--<div id="loading">-->
+<!--    <div id="loading-center">-->
+<!--        <div id="loading-center-absolute">-->
+<!--            <div class="object" id="object_one"></div>-->
+<!--            <div class="object" id="object_two"></div>-->
+<!--            <div class="object" id="object_three"></div>-->
+<!--            <div class="object" id="object_four"></div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--&lt;!&ndash;End off Preloader &ndash;&gt;-->
+
+
 <div class="culmn">
     <!--Home page style-->
 
 
-    <nav class="navbar navbar-light navbar-expand-lg  navbar-fixed white no-background bootsnav">
+    <nav class="navbar navbar-light navbar-expand-lg  navbar-fixed white bootsnav">
         <!-- Start Top Search -->
         <div class="top-search">
             <div class="container">
@@ -244,7 +258,36 @@
             <!-- /.navbar-collapse -->
         </div>
     </nav>
-</div></nav>
+</div>
+
+<!-- Start Side Menu -->
+<div class="side">
+    <a href="#" class="close-side"><i class="fa fa-times"></i></a>
+    <div class="widget">
+        <h6 class="title">Custom Pages</h6>
+        <ul class="link">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Portfolio</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </div>
+    <div class="widget">
+        <h6 class="title">Additional Links</h6>
+        <ul class="link">
+            <li><a href="#">Retina Homepage</a></li>
+            <li><a href="#">New Page Examples</a></li>
+            <li><a href="#">Parallax Sections</a></li>
+            <li><a href="#">Shortcode Central</a></li>
+            <li><a href="#">Ultimate Font Collection</a></li>
+        </ul>
+    </div>
+</div>
+<!-- End Side Menu -->
+
+</nav>
+
 
 
 <div class="head_title text-center" style="margin-top: 100px">
@@ -296,6 +339,8 @@
     </div>
 </div>
 </div>
-
+<div class="copyright">
+    &copy; Made By : <a href="https://github.com/0sunzero0/TDP-Spring"> CDP </a>.
+</div>
 </body>
 </html>

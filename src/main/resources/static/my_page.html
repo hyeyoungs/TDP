@@ -55,36 +55,9 @@
     <link rel="shortcut icon" href="#">
 
     <style>
-        /*body {*/
-        /*    background-color: #9fcdff;*/
-        /*}*/
-
-        /*.navbar-brand {*/
-        /*    margin-left: 50px;*/
-        /*}*/
-
-        /*.nav-link {*/
-
-        /*    margin-left: 100px;*/
-        /*}*/
-
-        /*section {*/
-        /*    width: 600px;*/
-        /*    max-width: 100vw;*/
-        /*    max-height: 100vh;*/
-        /*    margin: auto;*/
-        /*}*/
-
         figure{
             margin-right: 50px;
         }
-
-        /*!* Reset Bootstrap *!*/
-        /*.dropdown-toggle::after {*/
-        /*    content: none;*/
-        /*    display: none;*/
-        /*}*/
-
 
         .hero{
             margin-top : 150px;
@@ -119,6 +92,22 @@
             },
             fail: function (err) {
                 alert("fail");
+            }
+        });
+    }
+
+    function delete_user() {
+        $.ajax({
+            type: "DELETE",
+            url: `${domainURL}/user`,
+            success: function () {
+                localStorage.removeItem('token');
+                localStorage.removeItem('username');
+                alert('탈퇴 되었습니다!');
+                window.location.href = `/index.html`;
+            },
+            fail: function () {
+                alert("탈퇴 fail");
             }
         });
     }
@@ -260,6 +249,11 @@
                 로그아웃&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="fa fa-sign-out"
                                                                      aria-hidden="true"></i></span>
             </a>
+            <a class="button level-item has-text-centered is-sparta is-outlined" aria-label="logout"
+               onclick="delete_user()">
+                회원탈퇴&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="fa fa-times-circle"
+                                                                     aria-hidden="true"></i></span>
+            </a>
         </nav>
 
         <!-- Edit Modal -->
@@ -336,6 +330,9 @@
         </div>
     </div>
 </section>
+<div class="copyright">
+    &copy; Made By : <a href="https://github.com/0sunzero0/TDP-Spring"> CDP </a>.
+</div>
 <!-- toast -->
 <article class="message is-danger" id="toast">
     <div class="message-header">
