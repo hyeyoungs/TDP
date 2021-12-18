@@ -22,7 +22,6 @@
             crossorigin="anonymous"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet"
           id="bootstrap-css">
-    <link rel="stylesheet" href="./assets/css/create.css">
     <link rel="stylesheet" href="bootstrap-tagsinput.css">
     <script src="bootstrap-tagsinput.js"></script>
     <script src="assets/js/bootsnav.js"></script>
@@ -50,22 +49,12 @@
 
     <!-- Icon -->
     <link rel="shortcut icon" href="#">
+    <link rel="icon" type="image/png" href="favicon.ico">
 
 
     <style>
         body {
             background-color: white;
-        }
-
-        @media (min-width: 992px) {
-            .gedf-main {
-                padding-left: 4rem;
-                padding-right: 4rem;
-            }
-
-            .gedf-card {
-                margin-bottom: 2.77rem;
-            }
         }
 
         .navbar-brand{
@@ -90,45 +79,41 @@
             float: bottom;
         }
 
-        .til-title {
-            font-size: xx-large;
-            margin: 30px auto;
-        }
-
         .content-box {
             text-align: center;
             border-color: #37474F;
         }
 
-        .hr6 {
-            border: none;
-            border: 5px;
-            double: orange;
-        }
         .user-intro{
             color: white;
             text-align: center;
         }
+
         .social-icon{
             margin : 30px auto 50px 17px;
 
         }
+
         table { table-layout:fixed; }
 
         .comment-table tbody td{
             font-size: 13px;
             font-family: Arial;
         }
+
         .comment-table thead th {
             font-size: large;
         }
+
         #nav-bar{
             padding : 0px 0px 0px 0px;
         }
+
         .fa{
             color: #ba3925;
             font-size: large;
         }
+
         input[id="menuicon"] {
             display: none;
         }
@@ -162,7 +147,6 @@
             transform: translateY(-50%);
         }
 
-        /* ����ϰ� ����� �� �ִ� style top:calc(50% - 2.5px); margin-top:-2.5px;*/
         input[id="menuicon"] + label span:nth-child(3) {
             bottom: 0;
         }
@@ -203,23 +187,36 @@
         input[id="menuicon"]:checked + label + div {
             left: 0;
         }
+
         .navbar-nav{
             z-index: 0;
         }
+
         .sidebar{
             z-index: 0;
             width: 400px;
             position: relative;
             color: #d14149;
         }
+
         .til-section{
-            width:1000px;
+            width: 65%;
             margin-left: 100px;
         }
+
         .comment-section{
             margin-left: 400px;
             margin-right: 300px;
             padding-top: 100px;
+        }
+
+        .comment-table-wrapper{
+            min-width : 915px;
+            width: 100%;
+        }
+
+        .comment-table{
+            width: 100%;
         }
 
         .right{
@@ -239,7 +236,7 @@
 
         .resume-section-content{
             margin-bottom: 100px;
-            width: 1200px;
+            width: 100%;
         }
 
         .comment-button{
@@ -258,7 +255,6 @@
 
     $(document).ready(function () {
         idx = window.location.search.split("=")[1]
-        // $('#new-box').hide();
         read_writer();
         get_til();
         get_heart();
@@ -269,7 +265,6 @@
         login_check(options, originalOptions, jqXHR);
     });
 
-    let github_id
     function read_writer() {
         $.ajax({
             type: "GET",
@@ -289,6 +284,7 @@
                 }
                 if (github_id == null || github_id === ""){
                     $('.github_id_tag').hide();
+                    $('.social-icons').hide();
                 }
                 if (introduce == null || introduce === ""){
                     $('#introduce_tag').hide();
@@ -296,8 +292,10 @@
                 $('.writer_nickname_append').text(response['user']['nickname']);
                 //$('.writer_github_id_append').text(github_id);
                 $('#github-profile').attr('src', `https://github-readme-stats.vercel.app/api?username=${github_id}&show_icons=true&count_private=true&hide_border=true`);
+                $('.github-icon').attr('href', `https://github.com/${github_id}`)
                 $('.writer_profile_info_append').text(response['user']['introduce']);
                 $('.writer_profile_pic_real_append').attr('src', response['user']['picture_real']);
+
             }
         });
     }
@@ -335,7 +333,7 @@
                     let temp_html = `<i class="fa fa-heart" aria-hidden="true"></i>`
                     $('#now-heart').append(temp_html)
                 } else { //좋아요 안누른상태
-                    let temp_html = `<i class="fa fa-heart-o" aria-hidden="true"></i>`
+                    let temp_html = `<i class="fa fa-genderless"></i>`
                     $('#now-heart').append(temp_html)
                 }
             }
@@ -502,7 +500,7 @@
                 type: "DELETE",
                 url: `${domainURL}/til/dislike/${idx}`,
                 success: function (response) {
-                    $i_like.addClass("fa-heart-o").removeClass("fa-heart")
+                    $i_like.addClass("fa-genderless").removeClass("fa-heart")
                 }
             })
         } else {
@@ -514,7 +512,7 @@
                 contentType: "application/json",
                 data: JSON.stringify(info),
                 success: function (response) {
-                    $i_like.addClass("fa-heart").removeClass("fa-heart-o")
+                    $i_like.addClass("fa-heart").removeClass("fa-genderless")
 
                 }
             })
@@ -651,7 +649,7 @@
 
     <div class="social-icons">
         <a class="social-icon" href="#!"><i class="fab fa-linkedin-in"></i></a>
-        <a class="social-icon" href="https://github.com/{github_id}"><i class="fab fa-github"></i></a>
+        <a class="social-icon github-icon" href="#!"><i class="fab fa-github"></i></a>
         <a class="social-icon" href="#!"><i class="fab fa-facebook-f"></i></a>
     </div>
 
@@ -685,7 +683,7 @@
 
 <section class="comment-section" id="comment-list">
 
-    <div>
+    <div class="comment-table-wrapper">
 
         <table class="comment-table">
             <colgroup>
