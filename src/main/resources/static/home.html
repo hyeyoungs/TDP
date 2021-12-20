@@ -196,6 +196,7 @@
                 url: `${domainURL}/til/${username}`,
                 data: {},
                 success: function (response) {
+                    $('#til-box').empty();
                     let til_list = response;
                     for (let i = 0; i < til_list.length; i++) {
                         let tags = '';
@@ -209,7 +210,7 @@
                         if (til_view === true) {
                             let temp_html =
                                 `<tr>
-                                <td>${title}</td>
+                                <td><a href="./detail.html?idx=${til_list[i]['id']}">${title}</a></td>
                                 <td>${day}</td>
                                 <td>${tags}</td>
                                 </tr>`
@@ -261,6 +262,15 @@
         }
 
         .m-top-30 a {
+            color: #797979;
+            text-decoration : none;
+        }
+
+        td a:hover {
+            text-decoration: underline;
+        }
+
+        td a {
             color: #797979;
             text-decoration : none;
         }
@@ -518,7 +528,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">TILS</h5>
+                <h5 class="modal-title">Public TILS</h5>
                 <button onclick="close_modal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

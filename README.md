@@ -20,8 +20,8 @@
 
 
 ## How To Use
-<img width="700" src="https://user-images.githubusercontent.com/29566893/145568826-86a27353-991f-4758-9225-78b9417936fd.png">
-<img width="700" src="https://user-images.githubusercontent.com/29566893/145570158-58fd0c8f-49de-415f-9b2d-5fe170e0e51f.png">
+<img width="700" src="https://user-images.githubusercontent.com/29566893/146645122-c2fa30d7-1ef6-40c5-8783-08ab2b8d0a34.png">
+<img width="700" src="https://user-images.githubusercontent.com/29566893/146645166-bacdf406-9ed0-424a-8d96-028ecbc8d7e0.png">
 <img width="700" src="https://user-images.githubusercontent.com/29566893/145582138-0fe2faf4-ea75-413a-aac9-79041a5a03e2.png">
 
 더 많은 예시와 사용 예제는 [Wiki](https://github.com/0sunzero0/TDP-Spring/wiki)를 참고하세요 📚
