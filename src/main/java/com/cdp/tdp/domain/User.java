@@ -73,19 +73,19 @@ public class User extends Timestamped {
     private Long kakaoId;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Til> til_list;
 
     @JsonIgnore
-    @OneToMany(mappedBy="user", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Comment> comments;
 
     @JsonIgnore
-    @OneToMany(mappedBy="user", cascade = CascadeType.REMOVE)
-    private List<Likes> likes_list;
+    @OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Likes> likes;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REMOVE})
     private List<ChatRoom> chatRooms;
 
     public void updateUser(UserUpdateDto userUpdateDto){
