@@ -21,7 +21,7 @@ public class Comment extends Timestamped {
     private String til_comment;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.REMOVE})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST})
     @JoinColumn(name="til_id", nullable = false)
     private Til til;
 
