@@ -55,7 +55,6 @@
     <link rel="shortcut icon" href="#">
 
 
-
     <script>
         let roomId;
         let roomName;
@@ -87,8 +86,7 @@
                         str += "<div class='alert alert-secondary'>";
                         str += "<b>" + writer + " : " + content.message + "</b>";
                         str += "</div></div>";
-                    }
-                    else {
+                    } else {
                         str = "<div class='col-6'>";
                         str += "<div class='alert alert-warning'>";
                         str += "<b>" + writer + " : " + content.message + "</b>";
@@ -99,27 +97,28 @@
 
                 });
                 stomp.send("/pub/chat/enter", {}, JSON.stringify({
-                    roomId: roomId, writer: username, message:"enter"}))
+                    roomId: roomId, writer: username, message: "enter"
+                }))
 
                 read_room();
             });
 
-            $(document).keydown(function (event){
-                if(event.keyCode===13){
+            $(document).keydown(function (event) {
+                if (event.keyCode === 13) {
                     let msg = document.getElementById("msg");
-                    stomp.send('/pub/chat/message',{},JSON.stringify({
+                    stomp.send('/pub/chat/message', {}, JSON.stringify({
                         roomId: roomId,
                         message: msg.value,
                         writer: username
                     }));
-                    msg.value ='';
+                    msg.value = '';
                 }
             });
 
             $("#button-send").on("click", function (e) {
                 let msg = document.getElementById("msg");
                 console.log(msg)
-                if(msg.value !== "") {
+                if (msg.value !== "") {
                     stomp.send('/pub/chat/message', {}, JSON.stringify({
                         roomId: roomId,
                         message: msg.value,
@@ -128,8 +127,7 @@
                     }));
                     msg.value = '';
 
-                }
-                else{
+                } else {
                     alert("메시지를 입력해주세요!")
                 }
 
@@ -137,16 +135,16 @@
 
             $("#button-exit").on("click", function (e) {
 
-                stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message:"exit"}))
+                stomp.send('/pub/chat/exit', {}, JSON.stringify({roomId: roomId, writer: username, message: "exit"}))
                 if (stomp !== null) {
                     stomp.disconnect();
                 }
                 read_room();
-                window.location.href="./rooms.html"
+                window.location.href = "./rooms.html"
             });
         });
 
-        $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+        $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
             login_check(options, originalOptions, jqXHR);
         });
 
@@ -160,7 +158,7 @@
                     roomId = response['roomId'];
                     roomName = response['name'];
 
-                    let room_count= response['count'];
+                    let room_count = response['count'];
                     $('#room-name').text(roomName);
 
                     $('#user_count').text(room_count);
@@ -168,18 +166,17 @@
             });
         }
 
-        function  check_myroom() {
+        function check_myroom() {
             $.ajax({
                 type: "GET",
                 url: `${domainURL}/room/my/${id}`,
                 data: {},
                 success: function (response) {
                     console.log(response)
-                    if(response){
+                    if (response) {
                         console.log("네 빙")
                         $('#button-delete').show();
-                    }
-                    else{
+                    } else {
                         console.log("내 방 아님")
                         $('#button-delete').hide();
                     }
@@ -187,17 +184,16 @@
             });
         }
 
-        function delete_room(){
+        function delete_room() {
             $.ajax({
                 type: "DELETE",
                 url: `${domainURL}/room/${id}`,
-                success: function (response){
+                success: function (response) {
                     alert("삭제 완료!");
-                    window.location.href="./rooms.html"
+                    window.location.href = "./rooms.html"
                 }
             });
         }
-
 
 
     </script>
@@ -205,32 +201,26 @@
 
         .center {
             border-radius: 20%;
-            background-color: rgb(255,242,233);
-            width: 700px;
-            height: 800px;
-            position: relative;
-            left: 15%; //parent인 document기준으로 50% 이동
-            margin-left: -120px;
-            top: 50%; //parent인 documnet기준으로 50% 이동
-            margin-top: 100px;
+            background-color: rgb(255, 242, 233);
+            width: 900px;
+            min-height: 800px;
+            height: 100%;
             padding-top: 100px;
-
-            display: flex;
-            flex-direction: column-reverse;
-            overflow-y: auto;
+            margin: 200px auto;
         }
 
         .chat-room {
-            display:inline-block;
             width: 100%;
-            margin: 0 auto;
+            margin-left: 230px;
+            display: block;
             text-align: center;
-            padding-left: 210px;
         }
-        .bottom-margin{
+
+        .bottom-margin {
             margin-bottom: 100px;
         }
-        .chat-input{
+
+        .chat-input {
             margin-top: 100px;
         }
     </style>
@@ -344,15 +334,15 @@
     <div class="chat-room">
         <div class="col-6" style="margin-top: 20px; margin-bottom: 20px">
             <h5 id="room"><strong>Room : </strong><span id="room-name" style="color: #ff6863">name </span>
-                <span> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-check" viewBox="0 0 16 16">
-  <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
-  <path fill-rule="evenodd" d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
-</svg> </span>
-                <span id="user_count">   </span><span style="margin-left: 15px"><button class="btn btn-outline-danger" type="button"  id="button-delete" onclick="delete_room()">채팅방 삭제</button></span></h5>
-
-
-
-
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-check" viewBox="0 0 16 16">
+                        <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                        <path fill-rule="evenodd" d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                    </svg>
+                </span>
+                <span id="user_count">   </span>
+                <span style="margin-left: 15px"><button class="btn btn-outline-danger" type="button" id="button-delete" onclick="delete_room()">채팅방 삭제</button></span>
+            </h5>
         </div>
         <div>
             <div id="msgArea" class="col"></div>
@@ -361,7 +351,7 @@
                     <input type="text" id="msg" class="form-control">
                     <div class="input-group-append">
                         <button class="btn btn-outline-danger" type="button" id="button-send">전송</button>
-                        <span style="margin-left: 15px"><button class="btn btn-outline-danger" type="button"  id="button-exit" >채팅방 나가기</button></span>
+                        <span style="margin-left: 15px"><button class="btn btn-outline-danger" type="button" id="button-exit">채팅방 나가기</button></span>
                     </div>
                 </div>
             </div>
