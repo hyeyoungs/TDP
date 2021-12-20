@@ -60,6 +60,12 @@ public class TilService {
                 () -> new NullPointerException("해당 아이디가 존재하지 않습니다")
         );
     }
+    public List<Til> getTil_name(String username) {
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new NullPointerException("해당 유저가 존재하지 않습니다"));
+
+        return tilRepository.findByUser(user);
+    }
 
     public void deleteTil(Long id) {
         tilRepository.deleteById(id);

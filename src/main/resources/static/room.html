@@ -65,6 +65,7 @@
         $(document).ready(function () {
             id = window.location.search.split("=")[1]
             read_room();
+            check_myroom();
             user_info = chat_user();
             console.log(user_info);
             username = user_info['username']
@@ -167,29 +168,70 @@
             });
         }
 
+        function  check_myroom() {
+            $.ajax({
+                type: "GET",
+                url: `${domainURL}/room/my/${id}`,
+                data: {},
+                success: function (response) {
+                    console.log(response)
+                    if(response){
+                        console.log("네 빙")
+                        $('#button-delete').show();
+                    }
+                    else{
+                        console.log("내 방 아님")
+                        $('#button-delete').hide();
+                    }
+                }
+            });
+        }
+
+        function delete_room(){
+            $.ajax({
+                type: "DELETE",
+                url: `${domainURL}/room/${id}`,
+                success: function (response){
+                    alert("삭제 완료!");
+                    window.location.href="./rooms.html"
+                }
+            });
+        }
+
+
+
     </script>
     <style>
 
         .center {
             border-radius: 20%;
             background-color: rgb(255,242,233);
-            width: 800px;
+            width: 700px;
             height: 800px;
-            position: absolute;
+            position: relative;
             left: 15%; //parent인 document기준으로 50% 이동
             margin-left: -120px;
-            top: 20%; //parent인 documnet기준으로 50% 이동
-            margin-top: -120px;
+            top: 50%; //parent인 documnet기준으로 50% 이동
+            margin-top: 100px;
+            padding-top: 100px;
+
+            display: flex;
+            flex-direction: column-reverse;
+            overflow-y: auto;
         }
 
         .chat-room {
             display:inline-block;
-            width: 120%;
+            width: 100%;
             margin: 0 auto;
             text-align: center;
             padding-left: 210px;
-
-
+        }
+        .bottom-margin{
+            margin-bottom: 100px;
+        }
+        .chat-input{
+            margin-top: 100px;
         }
     </style>
 </head>
@@ -295,40 +337,40 @@
 </div>
 <!-- End Side Menu -->
 
-</nav>
+<div class="bottom-margin"></div>
 
 
-    <div class="center">
-        <div class="chat-room">
-            <div class="col-6" style="margin-top: 20px; margin-bottom: 20px">
-                <h5 id="room"><strong>Room : </strong><span id="room-name" style="color: #ff6863">name </span>
-                    <span> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-check" viewBox="0 0 16 16">
+<div class="center">
+    <div class="chat-room">
+        <div class="col-6" style="margin-top: 20px; margin-bottom: 20px">
+            <h5 id="room"><strong>Room : </strong><span id="room-name" style="color: #ff6863">name </span>
+                <span> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-check" viewBox="0 0 16 16">
   <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
   <path fill-rule="evenodd" d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
 </svg> </span>
-                    <span id="user_count">   </span></h5>
+                <span id="user_count">   </span><span style="margin-left: 15px"><button class="btn btn-outline-danger" type="button"  id="button-delete" onclick="delete_room()">채팅방 삭제</button></span></h5>
 
 
 
-            </div>
-            <div>
-                <div id="msgArea" class="col"></div>
-                <div class="col-6">
-                    <div class="input-group mb-3">
-                        <input type="text" id="msg" class="form-control">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-danger" type="button" id="button-send">전송</button>
-                            <span style="margin-left: 15px"><button class="btn btn-outline-danger" type="button"  id="button-exit" >채팅방 나가기</button></span>
-                        </div>
+        </div>
+        <div>
+            <div id="msgArea" class="col"></div>
+            <div class="col-6 chat-input">
+                <div class="input-group mb-3">
+                    <input type="text" id="msg" class="form-control">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-danger" type="button" id="button-send">전송</button>
+                        <span style="margin-left: 15px"><button class="btn btn-outline-danger" type="button"  id="button-exit" >채팅방 나가기</button></span>
                     </div>
                 </div>
             </div>
-            <div class="col-6"></div>
         </div>
-        <div class="copyright">
-            &copy; Made By : <a href="https://github.com/0sunzero0/TDP-Spring"> CDP </a>.
-        </div>
+        <div class="col-6"></div>
     </div>
+    <div class="copyright">
+        &copy; Made By : <a href="https://github.com/0sunzero0/TDP-Spring"> CDP </a>.
+    </div>
+</div>
 </body>
 
 </html>

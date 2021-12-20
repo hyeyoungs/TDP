@@ -66,6 +66,14 @@ public class TilController {
         return tilService.getTil(id);
     }
 
+
+    @GetMapping("/til/{username}")
+    public List<Til> getTil_name(@PathVariable String username){
+
+        return tilService.getTil_name(username);
+    }
+
+
     @PostMapping("/til")
     public Til createTil(@RequestBody TilRequestDto tilRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
         Til til = tilService.createTil(tilRequestDto, userDetails.getUser().getId());

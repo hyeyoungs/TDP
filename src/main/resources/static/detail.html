@@ -120,27 +120,35 @@
             border: 5px;
             double: orange;
         }
-        .user-intro{
+
+        .user-intro {
             color: white;
             text-align: center;
         }
-        .social-icon{
-            margin : 30px auto 50px 17px;
+
+        .social-icon {
+            margin: 30px auto 50px 17px;
 
         }
-        table { table-layout:fixed; }
 
-        .comment-table tbody td{
+        table {
+            table-layout: fixed;
+        }
+
+        .comment-table tbody td {
             font-size: 13px;
             font-family: Arial;
         }
+
         .comment-table thead th {
             font-size: large;
         }
-        #nav-bar{
-            padding : 0px 0px 0px 0px;
+
+        #nav-bar {
+            padding: 0px 0px 0px 0px;
         }
-        .fa{
+
+        .fa {
             color: #ba3925;
             font-size: large;
         }
@@ -161,10 +169,11 @@
         get_status();
     });
 
-    // $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
-    //     login_check(options, originalOptions, jqXHR);
-    // });
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+        login_check(options, originalOptions, jqXHR);
+    });
     let github_id
+
     function read_writer() {
         $.ajax({
             type: "GET",
@@ -212,10 +221,10 @@
             data: {},
             success: function (response) {
                 if (response) { //좋아요누른상태
-                    let temp_html = `<i class="fa fa-heart" aria-hidden="true"></i>`
+                    let temp_html = `<i class="fa fa-heart" style="font-size:48px;color:red" aria-hidden="true"></i>`
                     $('#now-heart').append(temp_html)
                 } else { //좋아요 안누른상태
-                    let temp_html = `<i class="fa fa-heart-o" aria-hidden="true"></i>`
+                    let temp_html = `<i class="fa fa-heart-o" style="font-size:48px;color:red" aria-hidden="true"></i>`
                     $('#now-heart').append(temp_html)
                 }
             }
@@ -237,7 +246,7 @@
                 $("#now-title").text(title);
                 $("#now-content").text(content);
                 $("#new-til-title").text(title);
-                $('#new-til-content').text(content)
+                $('#new-til-content').text(content);
                 $("#heart-count").text(num_heart);
 
             }
@@ -269,7 +278,6 @@
                                     <button type="button" onclick='delete_comment(${comment_idx})' class="btn btn-primary">삭제</button>
                                 </td>
                                 </tr>`
-
                         $('#comment-box').append(temp_html)
 
                     } else {
@@ -386,7 +394,7 @@
             })
         } else {
             // 좋아요
-            let info = {content: type};
+            let info = { content: type };
             $.ajax({
                 type: "POST",
                 url: `${domainURL}/til/like/${idx}`,
@@ -394,10 +402,8 @@
                 data: JSON.stringify(info),
                 success: function (response) {
                     $i_like.addClass("fa-heart").removeClass("fa-heart-o")
-
                 }
             })
-
         }
         window.location.reload();
     }
@@ -505,7 +511,6 @@
 <!-- End Side Menu -->
 
 
-
 <style>
     input[id="menuicon"] {
         display: none;
@@ -581,45 +586,58 @@
     input[id="menuicon"]:checked + label + div {
         left: 0;
     }
-    .navbar-nav{
+
+    .navbar-nav {
         z-index: 0;
     }
-    .sidebar{
+
+    .sidebar {
         z-index: 0;
         width: 400px;
         position: relative;
         color: #d14149;
     }
-    .til-section{
-        width:1000px;
+
+    .til-section {
+        width: 1000px;
         margin-left: 100px;
     }
-    .comment-section{
+
+    .comment-section {
         margin-left: 400px;
         margin-right: 300px;
         padding-top: 100px;
     }
-    .right{
+
+    .right {
         float: right;
     }
-    td{
+
+    td {
         height: 30px;
     }
-    .content-box{
+
+    .content-box {
         padding: 30px 0px 30px 0px;
         text-align: left;
         border-top: 2px solid black;
         border-bottom: 2px solid black;
     }
-    .resume-section-content{
+
+    .resume-section-content {
         margin-bottom: 100px;
         width: 1200px;
     }
-    .comment-button{
+
+    .comment-button {
         font-family: "Muli", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
         background-color: #ba3925;
         border-color: #ba3925;
         color: white;
+    }
+    .title-area{
+        margin-top: 30px;
+        margin-bottom: 30px;
     }
 </style>
 
@@ -654,21 +672,19 @@
 
 <div class="til-section" id="about" style="float: left">
     <div class="resume-section-content">
-        <h1 id="now-title" class="mb-0">
-            title
-        </h1><span id="mine"></span>
-        <nav class="level is-mobile">
-            <div>
-                <a class="level-item is-sparta" id="heart" aria-label="heart"
-                   onclick="toggle_like(idx, 'heart')">&nbsp
-                    <div id="now-heart"></div>
-                    &nbsp
-                    <div id="heart-count" class="like-num">count</div>
-                </a>
-            </div>
-        </nav>
-        <div class="subheading mb-5">
-            태그
+        <div class="title-area">
+            <h1 id="now-title" class="mb-0" style="float: left">title</h1>
+                &nbsp;&nbsp;&nbsp;
+            <nav class="level is-mobile">
+                <div>
+                    <a class="level-item is-sparta" id="heart" aria-label="heart"
+                       onclick="toggle_like(idx, 'heart')" style="float: left">
+                        <div id="now-heart"></div>
+                        &nbsp;
+                        <div id="heart-count" class="like-num">count</div>
+                    </a>
+                </div>
+            </nav>
         </div>
         <div id="now-content" class="lead mb-5 content-box">
             til_content
@@ -692,7 +708,7 @@
                 <th scope="col" class="subheading">Nickname</th>
                 <th scope="col" class="subheading">Comment</th>
                 <th scope="col" class="subheading">DAY</th>
-                <th scope="col"class="subheading">Setting</th>
+                <th scope="col" class="subheading">Setting</th>
             </tr>
             </thead>
             <tbody id="comment-box">
@@ -753,7 +769,6 @@
 <section class="section">
 
 </section>
-
 
 
 <div class="modal" id="modal-post">
@@ -828,7 +843,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="tags">Tag</label>
-                        <input type="text" class="form-control" id="tags" data-role="tagsinput" placeholder="TAGS" >
+                        <input type="text" class="form-control" id="tags" data-role="tagsinput" placeholder="TAGS">
                     </div>
                 </form>
             </div>
