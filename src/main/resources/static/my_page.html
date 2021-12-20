@@ -111,7 +111,11 @@
             }
         });
     }
-
+    function confirm_user_delete(){
+        if(confirm("탈퇴한 회원의 데이터는 복구 되지 않습니다. 그럼에도 탈퇴하시겠습니까?")){
+            delete_user();
+        }
+    }
 </script>
 <body>
 <!-- navigation -->
@@ -250,7 +254,7 @@
                                                                      aria-hidden="true"></i></span>
             </a>
             <a class="button level-item has-text-centered is-sparta is-outlined" aria-label="logout"
-               onclick="delete_user()">
+               onclick="confirm_user_delete()">
                 회원탈퇴&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="fa fa-times-circle"
                                                                      aria-hidden="true"></i></span>
             </a>

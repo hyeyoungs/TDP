@@ -1,5 +1,6 @@
 package com.cdp.tdp.domain;
 import com.cdp.tdp.dto.CommentRequestDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,10 +20,10 @@ public class Comment extends Timestamped {
     @Column // 컬럼 값이고 반드시 값이 존재해야 함을 나타냅니다.
     private String til_comment;
 
-    @ManyToOne
-    @JoinColumn(name = "til_id", nullable = false)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST})
+    @JoinColumn(name="til_id", nullable = false)
     private Til til;
-
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

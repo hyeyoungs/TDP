@@ -89,11 +89,12 @@
 
             if (room_name!== ""){
                 let info = {
-                    roomName : room_name
+                    roomName : room_name,
+                    count : 0,
+
                 }
 
                 $.ajax({
-
                     type: "POST",
                     url: `${domainURL}/room`,
                     contentType: "application/json",
@@ -108,6 +109,7 @@
             }
 
         }
+
         function read_all_rooms() {
             $.ajax({
                     type: "GET",
@@ -128,9 +130,6 @@
 
                                             </tr>`;
                             $('#room-box').append(temp_html)
-
-
-
                         }
                     }
                 }

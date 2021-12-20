@@ -1,9 +1,9 @@
-// let urlEndpoint = 'http://api.tildp.shop/subscribe';
-let urlEndpoint = 'http://localhost:8080/subscribe';
+let urlEndpoint = 'https://api.tildp.shop/subscribe';
+// let urlEndpoint = 'http://localhost:8080/subscribe';
 let eventSource = new EventSource(urlEndpoint);
 
-// let domainURL= 'http://api.tildp.shop';
-let domainURL= 'http://localhost:8080';
+ let domainURL= 'https://api.tildp.shop';
+// let domainURL= 'http://localhost:8080';
 
 eventSource.addEventListener("latestNews", function (event) {
     let articleData = JSON.parse(event.data);
@@ -28,16 +28,11 @@ function login_check(options, originalOptions, jqXHR){
     }
 }
 
-
 function sign_out() {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     alert('로그아웃!')
     window.location.href = "/"
-}
-
-function goback() {
-    window.history.back();
 }
 
 function read_user() {
@@ -53,6 +48,7 @@ function read_user() {
             $('.github_id_append').text(user_info['github_id']);
             $('.user_id_append').val(user_info['username']);
             $('.user_nickname_append').val(user_info['nickname']);
+
             $('.user_profile_info_append').val(user_info['introduce']);
             $('.user_profile_pic_append').val(user_info['picture']);
             $('.user_profile_pic_real_append').attr('src', user_info['picture_real']);

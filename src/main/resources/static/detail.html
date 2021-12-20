@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Title | TIL.D.P</title>
+    <title>TIL Management Service</title>
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -22,7 +22,6 @@
             crossorigin="anonymous"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet"
           id="bootstrap-css">
-    <link rel="stylesheet" href="./assets/css/create.css">
     <link rel="stylesheet" href="bootstrap-tagsinput.css">
     <script src="bootstrap-tagsinput.js"></script>
     <script src="assets/js/bootsnav.js"></script>
@@ -50,16 +49,22 @@
 
     <!-- Icon -->
     <link rel="shortcut icon" href="#">
+    <link rel="icon" type="image/png" href="favicon.ico">
+
 
     <style>
         body {
             background-color: white;
         }
 
-        .dropdown-toggle::after {
-            content: none;
-            display: none;
+        .navbar-brand{
+            margin-top: 16px;
         }
+
+        nav.navbar.bootsnav.navbar-fixed{
+            position : relative;
+        }
+
 
         .section {
             float: right;
@@ -69,45 +74,9 @@
             float: right;
         }
 
-        .like {
-            float: right;
-        }
-
-        .new-content {
-            border-style: solid;
-            border-width: 2px;
-            padding: 12px;
-            word-break: break-all;
-            border-color: LightGray;
-            background-color: rgba(211, 211, 211, 0.2)
-        }
-
-        .new-box {
-            border-color: DodgerBlue;
-            background-color: rgba(30, 144, 255, 0.2);
-        }
-
-        .center {
-            text-align: center;
-        }
-
-        .navbar-brand {
-            margin-left: 50px;
-        }
-
-        .nav-link {
-
-            margin-left: 100px;
-        }
-
         .level-left {
             padding-left: 400px;
             float: bottom;
-        }
-
-        .til-title {
-            font-size: xx-large;
-            margin: 30px auto;
         }
 
         .content-box {
@@ -115,27 +84,19 @@
             border-color: #37474F;
         }
 
-        .hr6 {
-            border: none;
-            border: 5px;
-            double: orange;
-        }
-
-        .user-intro {
+        .user-intro{
             color: white;
             text-align: center;
         }
 
-        .social-icon {
-            margin: 30px auto 50px 17px;
+        .social-icon{
+            margin : 30px auto 50px 17px;
 
         }
 
-        table {
-            table-layout: fixed;
-        }
+        table { table-layout:fixed; }
 
-        .comment-table tbody td {
+        .comment-table tbody td{
             font-size: 13px;
             font-family: Arial;
         }
@@ -144,74 +105,226 @@
             font-size: large;
         }
 
-        #nav-bar {
-            padding: 0px 0px 0px 0px;
+        #nav-bar{
+            padding : 0px 0px 0px 0px;
         }
 
-        .fa {
+        .fa{
             color: #ba3925;
             font-size: large;
         }
 
+        input[id="menuicon"] {
+            display: none;
+        }
+
+        input[id="menuicon"] + label {
+            display: block;
+            margin: 30px;
+            width: 60px;
+            height: 50px;
+            top: 300px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        input[id="menuicon"] + label span {
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 5px;
+            border-radius: 30px;
+            background: #000;
+            transition: all .35s;
+        }
+
+        input[id="menuicon"] + label span:nth-child(1) {
+            top: 0px;
+        }
+
+        input[id="menuicon"] + label span:nth-child(2) {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        input[id="menuicon"] + label span:nth-child(3) {
+            bottom: 0;
+        }
+
+        input[id="menuicon"]:checked + label {
+            z-index: 2;
+        }
+
+        input[id="menuicon"]:checked + label span {
+            background: #fff;
+        }
+
+        input[id="menuicon"]:checked + label span:nth-child(1) {
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+        }
+
+        input[id="menuicon"]:checked + label span:nth-child(2) {
+            opacity: 0;
+        }
+
+        input[id="menuicon"]:checked + label span:nth-child(3) {
+            bottom: 50%;
+            transform: translateY(50%) rotate(-45deg);
+        }
+
+        div[class="sidebar"] {
+            width: 300px;
+            height: 750px;
+            background: #222;
+            /*position: fixed;*/
+            top: 0px;
+            left: 0px;
+            transition: all .35s;
+
+        }
+
+        input[id="menuicon"]:checked + label + div {
+            left: 0;
+        }
+
+        .navbar-nav{
+            z-index: 0;
+        }
+
+        .sidebar{
+            z-index: 0;
+            width: 400px;
+            position: relative;
+            color: #d14149;
+        }
+
+        .til-section{
+            width: 65%;
+            margin-left: 100px;
+        }
+
+        .comment-section{
+            margin-left: 400px;
+            margin-right: 300px;
+            padding-top: 100px;
+        }
+
+        .comment-table-wrapper{
+            min-width : 915px;
+            width: 100%;
+        }
+
+        .comment-table{
+            width: 100%;
+        }
+
+        .right{
+            float: right;
+        }
+
+        td{
+            height: 30px;
+        }
+
+        .content-box{
+            padding: 30px 0px 30px 0px;
+            text-align: left;
+            border-top: 2px solid black;
+            border-bottom: 2px solid black;
+        }
+
+        .resume-section-content{
+            margin-bottom: 100px;
+            width: 100%;
+        }
+
+        .comment-button{
+            font-family: "Muli", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            background-color: #ba3925;
+            border-color: #ba3925;
+            color: white;
+        }
+
+        #input-post{
+            margin-top: 50px;
+        }
     </style>
 </head>
+<!-- detail markdown -->
+<!--<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>-->
 
 <script>
     let idx;
 
     $(document).ready(function () {
         idx = window.location.search.split("=")[1]
-        // $('#new-box').hide();
         read_writer();
         get_til();
         get_heart();
         get_comment();
-        get_status();
     });
 
     $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
         login_check(options, originalOptions, jqXHR);
     });
-    let github_id
 
     function read_writer() {
         $.ajax({
             type: "GET",
             url: `${domainURL}/til_board/${idx}`,
             success: function (response) {
-                github_id = response['user']['github_id'];
+                let github_id = response['user']['github_id'];
                 let introduce = response['user']['introduce'];
-                if (github_id == null || github_id === "") {
-                    $('.github_id_tag').hide();
+                let username = response['user']['username'];
+                let now_user_info = localStorage.getItem("username");
+                if(now_user_info===username){
+                    let temp_html =
+                        `<button type="button" onclick='confirm_delete()' class="btn btn-primary two-button">게시글삭제</button>`
+                    $('#mine').append(temp_html)
+
+                }else{
+                    console.log("다른아이디")
                 }
-                if (introduce == null || introduce === "") {
-                    $('.introduce_tag').hide();
+                if (github_id == null || github_id === ""){
+                    $('.github_id_tag').hide();
+                    $('.social-icons').hide();
+                }
+                if (introduce == null || introduce === ""){
+                    $('#introduce_tag').hide();
                 }
                 $('.writer_nickname_append').text(response['user']['nickname']);
-                $('.writer_github_id_append').text(github_id);
+                //$('.writer_github_id_append').text(github_id);
+                $('#github-profile').attr('src', `https://github-readme-stats.vercel.app/api?username=${github_id}&show_icons=true&count_private=true&hide_border=true`);
+                $('.github-icon').attr('href', `https://github.com/${github_id}`)
                 $('.writer_profile_info_append').text(response['user']['introduce']);
                 $('.writer_profile_pic_real_append').attr('src', response['user']['picture_real']);
+
             }
         });
     }
-
-    function get_status() {
-        $.ajax({
-            type: "GET",
-            url: `${domainURL}/status/${idx}`,
-            data: {},
-            success: function (response) {
-
-                let status = response['status']
-                if (status) {
-                    let temp_html =
-                        `<button type="button" onclick='new_box()' class="btn btn-primary two-button">수정</button>
-                            <button type="button" onclick='delete_til()' class="btn btn-primary two-button">삭제</button>`
-                    $('#mine').append(temp_html)
-                }
-            }
-        });
+    function confirm_delete(){
+      if(confirm("삭제하시겠습니까?")){
+          delete_til();
+          alert("삭제되었습니다.")
+      }
     }
+    // function get_status() {
+    //     $.ajax({
+    //         type: "GET",
+    //         url: `${domainURL}/status/${idx}`,
+    //         data: {},
+    //         success: function (response) {
+    //             let status = response['status']
+    //             if (status) {
+    //                 let temp_html =
+    //                     `<button type="button" onclick='new_box()' class="btn btn-primary two-button">수정</button>
+    //                         <button type="button" onclick='delete_til()' class="btn btn-primary two-button">삭제</button>`
+    //                 $('#mine').append(temp_html)
+    //             }
+    //         }
+    //     });
+    // }
 
     function get_heart() {
 
@@ -221,10 +334,10 @@
             data: {},
             success: function (response) {
                 if (response) { //좋아요누른상태
-                    let temp_html = `<i class="fa fa-heart" style="font-size:48px;color:red" aria-hidden="true"></i>`
+                    let temp_html = `<i class="fa fa-heart" aria-hidden="true"></i>`
                     $('#now-heart').append(temp_html)
                 } else { //좋아요 안누른상태
-                    let temp_html = `<i class="fa fa-heart-o" style="font-size:48px;color:red" aria-hidden="true"></i>`
+                    let temp_html = `<i class="fa fa-genderless"></i>`
                     $('#now-heart').append(temp_html)
                 }
             }
@@ -242,13 +355,15 @@
                 let title = response['tilTitle']
                 let content = response['tilContent']
                 let num_heart = response['tilLike']
-
                 $("#now-title").text(title);
                 $("#now-content").text(content);
                 $("#new-til-title").text(title);
-                $('#new-til-content').text(content);
+                $('#new-til-content').text(content)
                 $("#heart-count").text(num_heart);
 
+                <!-- detail markdown -->
+                // document.getElementById('now-content').innerHTML =
+                //     marked.parse($("#now-content").text());
             }
         });
     }
@@ -278,6 +393,7 @@
                                     <button type="button" onclick='delete_comment(${comment_idx})' class="btn btn-primary">삭제</button>
                                 </td>
                                 </tr>`
+
                         $('#comment-box').append(temp_html)
 
                     } else {
@@ -332,7 +448,6 @@
             type: "DELETE",
             url: `${domainURL}/til_board/${idx}`,
             success: function (response) {
-                alert(response["msg"]);
                 window.history.back();
             }
         });
@@ -381,29 +496,30 @@
     function toggle_like(idx, type) {
 
         let a_like = $('#heart')
-        let $i_like = a_like.find("i")
-        let like_num = $('#heart-count')
-        if ($i_like.hasClass("fa-heart")) { //좋아요 된 상태
+        let svg_like = a_like.find("svg")
+        if (svg_like.hasClass("fa-heart")) { //좋아요 된 상태
             // 좋아요 취소
             $.ajax({
                 type: "DELETE",
                 url: `${domainURL}/til/dislike/${idx}`,
                 success: function (response) {
-                    $i_like.addClass("fa-heart-o").removeClass("fa-heart")
+                    $i_like.addClass("fa-genderless").removeClass("fa-heart")
                 }
             })
         } else {
             // 좋아요
-            let info = { content: type };
+            let info = {content: type};
             $.ajax({
                 type: "POST",
                 url: `${domainURL}/til/like/${idx}`,
                 contentType: "application/json",
                 data: JSON.stringify(info),
                 success: function (response) {
-                    $i_like.addClass("fa-heart").removeClass("fa-heart-o")
+                    svg_like.addClass("fa-heart").removeClass("fa-genderless")
+
                 }
             })
+
         }
         window.location.reload();
     }
@@ -425,7 +541,6 @@
     </div>
 </div>
 <!--End off Preloader -->
-
 
 <div class="culmn">
     <!--Home page style-->
@@ -510,137 +625,6 @@
 <!--</div>-->
 <!-- End Side Menu -->
 
-
-<style>
-    input[id="menuicon"] {
-        display: none;
-    }
-
-    input[id="menuicon"] + label {
-        display: block;
-        margin: 30px;
-        width: 60px;
-        height: 50px;
-        top: 300px;
-        position: relative;
-        cursor: pointer;
-    }
-
-    input[id="menuicon"] + label span {
-        display: block;
-        position: absolute;
-        width: 100%;
-        height: 5px;
-        border-radius: 30px;
-        background: #000;
-        transition: all .35s;
-    }
-
-    input[id="menuicon"] + label span:nth-child(1) {
-        top: 0px;
-    }
-
-    input[id="menuicon"] + label span:nth-child(2) {
-        top: 50%;
-        transform: translateY(-50%);
-    }
-
-    /* ����ϰ� ����� �� �ִ� style top:calc(50% - 2.5px); margin-top:-2.5px;*/
-    input[id="menuicon"] + label span:nth-child(3) {
-        bottom: 0;
-    }
-
-    input[id="menuicon"]:checked + label {
-        z-index: 2;
-    }
-
-    input[id="menuicon"]:checked + label span {
-        background: #fff;
-    }
-
-    input[id="menuicon"]:checked + label span:nth-child(1) {
-        top: 50%;
-        transform: translateY(-50%) rotate(45deg);
-    }
-
-    input[id="menuicon"]:checked + label span:nth-child(2) {
-        opacity: 0;
-    }
-
-    input[id="menuicon"]:checked + label span:nth-child(3) {
-        bottom: 50%;
-        transform: translateY(50%) rotate(-45deg);
-    }
-
-    div[class="sidebar"] {
-        width: 300px;
-        height: 600px;
-        background: #222;
-        /*position: fixed;*/
-        top: 0px;
-        left: 0px;
-        transition: all .35s;
-
-    }
-
-    input[id="menuicon"]:checked + label + div {
-        left: 0;
-    }
-
-    .navbar-nav {
-        z-index: 0;
-    }
-
-    .sidebar {
-        z-index: 0;
-        width: 400px;
-        position: relative;
-        color: #d14149;
-    }
-
-    .til-section {
-        width: 1000px;
-        margin-left: 100px;
-    }
-
-    .comment-section {
-        margin-left: 400px;
-        margin-right: 300px;
-        padding-top: 100px;
-    }
-
-    .right {
-        float: right;
-    }
-
-    td {
-        height: 30px;
-    }
-
-    .content-box {
-        padding: 30px 0px 30px 0px;
-        text-align: left;
-        border-top: 2px solid black;
-        border-bottom: 2px solid black;
-    }
-
-    .resume-section-content {
-        margin-bottom: 100px;
-        width: 1200px;
-    }
-
-    .comment-button {
-        font-family: "Muli", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-        background-color: #ba3925;
-        border-color: #ba3925;
-        color: white;
-    }
-    .title-area{
-        margin-top: 30px;
-        margin-bottom: 30px;
-    }
-</style>
-
 <input type="checkbox" id="menuicon">
 <label for="menuicon">
     <span></span>
@@ -653,18 +637,22 @@
             <img class="is-rounded user_profile_pic_real_append" src="">
         </a>
     </figure>
+    <hr>
     <span class="subheading mb-5 nav-link">Nickname</span>
-    <div id="user-nickname" class="user-intro writer_nickname_append">닉네임</div>
-    <hr color="red">
+    <div id="user-nickname" class="user-intro"><span class="writer_nickname_append">닉네임</span></div>
+    <hr>
     <span class="subheading mb-5 nav-link">Introduce</span>
-    <div id="user-profile" class="user-intro writer_profile_info_append">소개글</div>
-    <hr color="red">
+    <div id="user-profile" class="user-intro"><span class="writer_profile_info_append">소개글</span></div>
+    <hr>
     <span class="subheading mb-5 nav-link">Github ID</span>
-    <div id="user-github_id" class="user-intro writer_github_id_append">깃허브 아이디</div>
+    <div class="user-intro github_id_tag">
+        <span class="writer_github_id_append"></span>
+        <img id="github-profile" src=""/>
+    </div>
 
     <div class="social-icons">
         <a class="social-icon" href="#!"><i class="fab fa-linkedin-in"></i></a>
-        <a class="social-icon" href=""><i class="fab fa-github"></i></a>
+        <a class="social-icon github-icon" href="#!"><i class="fab fa-github"></i></a>
         <a class="social-icon" href="#!"><i class="fab fa-facebook-f"></i></a>
     </div>
 
@@ -672,29 +660,33 @@
 
 <div class="til-section" id="about" style="float: left">
     <div class="resume-section-content">
-        <div class="title-area">
-            <h1 id="now-title" class="mb-0" style="float: left">title</h1>
-                &nbsp;&nbsp;&nbsp;
-            <nav class="level is-mobile">
-                <div>
-                    <a class="level-item is-sparta" id="heart" aria-label="heart"
-                       onclick="toggle_like(idx, 'heart')" style="float: left">
-                        <div id="now-heart"></div>
-                        &nbsp;
-                        <div id="heart-count" class="like-num">count</div>
-                    </a>
-                </div>
-            </nav>
+        <h1 id="now-title" class="mb-0">
+            title
+        </h1>
+        <nav class="level is-mobile">
+            <div>
+                <a class="level-item is-sparta" id="heart" aria-label="heart"
+                   onclick="toggle_like(idx, 'heart')">&nbsp
+                    <div id="now-heart"></div>
+                    &nbsp
+                    <div id="heart-count" class="like-num">count</div>
+                </a>
+            </div>
+        </nav>
+        <div class="subheading mb-5">
+            태그
         </div>
         <div id="now-content" class="lead mb-5 content-box">
             til_content
         </div>
+        <span id="mine"></span>
     </div>
 </div>
 
+
 <section class="comment-section" id="comment-list">
 
-    <div>
+    <div class="comment-table-wrapper">
 
         <table class="comment-table">
             <colgroup>
@@ -708,7 +700,7 @@
                 <th scope="col" class="subheading">Nickname</th>
                 <th scope="col" class="subheading">Comment</th>
                 <th scope="col" class="subheading">DAY</th>
-                <th scope="col" class="subheading">Setting</th>
+                <th scope="col"class="subheading">Setting</th>
             </tr>
             </thead>
             <tbody id="comment-box">
@@ -729,6 +721,16 @@
                             COMMENT
                         </button>
                 </div>
+
+                <section class="section">
+                    <article class="media">
+                        <div class="media-content">
+                            <div class="field">
+                                <p class="control">
+                            </div>
+                        </div>
+                    </article>
+                </section>
             </div>
         </article>
     </div>
@@ -769,6 +771,7 @@
 <section class="section">
 
 </section>
+
 
 
 <div class="modal" id="modal-post">
@@ -843,7 +846,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="tags">Tag</label>
-                        <input type="text" class="form-control" id="tags" data-role="tagsinput" placeholder="TAGS">
+                        <input type="text" class="form-control" id="tags" data-role="tagsinput" placeholder="TAGS" >
                     </div>
                 </form>
             </div>
