@@ -196,6 +196,7 @@
                 url: `${domainURL}/til/${username}`,
                 data: {},
                 success: function (response) {
+                    $('#til-box').empty();
                     let til_list = response;
                     for (let i = 0; i < til_list.length; i++) {
                         let tags = '';
