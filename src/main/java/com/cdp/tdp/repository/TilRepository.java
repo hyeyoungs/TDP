@@ -17,6 +17,7 @@ public interface TilRepository extends JpaRepository<Til, Long> {
     // get one til by id
     Optional<Til> findById(Long til_id);
 
+    List<Til> findByUser(User user);
     // get my til
     List<Til> findByUserOrderByIdDesc(User user);
 
