@@ -23,7 +23,7 @@ public class Likes extends Timestamped {
     private String content;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.REMOVE})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST})
     @JoinColumn(name="til_id", nullable = false)
     private Til til;
 
