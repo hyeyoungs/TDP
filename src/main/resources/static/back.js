@@ -28,16 +28,11 @@ function login_check(options, originalOptions, jqXHR){
     }
 }
 
-
 function sign_out() {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     alert('로그아웃!')
     window.location.href = "/"
-}
-
-function goback() {
-    window.history.back();
 }
 
 function read_user() {
