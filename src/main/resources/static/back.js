@@ -1,4 +1,4 @@
- let urlEndpoint = 'https://api.tildp.shop/subscribe';
+let urlEndpoint = 'https://api.tildp.shop/subscribe';
 // let urlEndpoint = 'http://localhost:8080/subscribe';
 let eventSource = new EventSource(urlEndpoint);
 
