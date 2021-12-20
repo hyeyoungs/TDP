@@ -72,7 +72,21 @@ public class TilService {
         Til til = tilRepository.findById(id).orElseThrow(
                 ()->new NullPointerException("해당 아이디가 존재하지 않습니다.")
         );
+
         til.updateMyTil(tilRequestDto);
+
+        if(!(tilRequestDto.getTags().isEmpty())) {
+            String[] tagArray = tilRequestDto.getTags().split("\\s*,\\s*");
+            List<Tag> tagList = new ArrayList<>();
+            for (String s : tagArray) {
+                if(tagRepository.findByNameAndTil(s,til).size()==0) {
+                    Tag tag = new Tag(s, til);
+                    tagList.add(tag);
+                }
+            }
+            tagRepository.saveAll(tagList);
+        }
+
     }
 
     public List<Til> getUserTil(User user){
