@@ -24,7 +24,5 @@ public interface TilRepository extends JpaRepository<Til, Long> {
     Page<Til> findByUserAndTilViewOrUserAndUserIdOrderByIdDesc(User user, boolean tilView, User user2, Long userId, Pageable pageable);
     Page<Til> findByTilTitleAndTilViewOrTilTitleAndUserIdOrderByIdDesc(String tilTitle, boolean tilView, String tilTitle2, Long userId, Pageable pageable);
     Page<Til> findByTagsNameAndTilViewOrTagsNameAndUserIdOrderByIdDesc(String keyword, boolean tilView, String keyword2, Long userId, Pageable pageable);
-    // get til by comment
-    Optional<Til> findByCommentsId(Long commentId);
 }
 
