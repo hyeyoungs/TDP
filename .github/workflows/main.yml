@@ -47,7 +47,7 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew clean build
 
-      # 현재 시간에 맞춤
+      # 현재 한국 시간에 맞춤
       - name: Get current time
         uses: 1466587594/get-current-time@v2
         id: current-time
