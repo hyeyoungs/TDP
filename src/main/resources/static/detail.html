@@ -493,13 +493,13 @@
 
         let a_like = $('#heart')
         let $i_like = a_like.find("i")
-        let like_num = $('#heart-count')
         if ($i_like.hasClass("fa-heart")) { //좋아요 된 상태
             // 좋아요 취소
             $.ajax({
                 type: "DELETE",
                 url: `${domainURL}/til/dislike/${idx}`,
                 success: function (response) {
+                    console.log('api 성공')
                     $i_like.addClass("fa-genderless").removeClass("fa-heart")
                 }
             })
