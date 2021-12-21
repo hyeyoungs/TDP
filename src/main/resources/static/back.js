@@ -1,4 +1,4 @@
- let urlEndpoint = 'https://api.tildp.shop/subscribe';
+let urlEndpoint = 'https://api.tildp.shop/subscribe';
 // let urlEndpoint = 'http://localhost:8080/subscribe';
 let eventSource = new EventSource(urlEndpoint);
 
@@ -28,16 +28,11 @@ function login_check(options, originalOptions, jqXHR){
     }
 }
 
-
 function sign_out() {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     alert('로그아웃!')
     window.location.href = "/"
-}
-
-function goback() {
-    window.history.back();
 }
 
 function read_user() {
