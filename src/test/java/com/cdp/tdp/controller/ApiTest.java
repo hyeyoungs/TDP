@@ -80,26 +80,26 @@ public class ApiTest {
                 ));
     }
 
-    @Test
-    @Order(2)
-    public void 로그인() throws Exception {
-        UserDto dto = new UserDto();
-        dto.setUsername("abc");
-        dto.setPassword("1234");
-        String jsonString = new GsonBuilder().setPrettyPrinting().create().toJson(dto);
-
-        mockMvc.perform(post("/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonString)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andDo(document("user/login",
-                        requestFields(
-                                fieldWithPath("username").description("유저명"),
-                                fieldWithPath("password").description("패스워드")
-                        )
-                ));
-    }
+//    @Test
+//    @Order(2)
+//    public void 로그인() throws Exception {
+//        UserDto dto = new UserDto();
+//        dto.setUsername("abc");
+//        dto.setPassword("1234");
+//        String jsonString = new GsonBuilder().setPrettyPrinting().create().toJson(dto);
+//
+//        mockMvc.perform(post("/login")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(jsonString)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andDo(document("user/login",
+//                        requestFields(
+//                                fieldWithPath("username").description("유저명"),
+//                                fieldWithPath("password").description("패스워드")
+//                        )
+//                ));
+//    }
 
 
 
