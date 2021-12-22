@@ -1,5 +1,5 @@
 
-name: TDP Build and Push file (main)
+name: TDP Build and Push Docker Image (main)
 on:
   push:
     branches:
