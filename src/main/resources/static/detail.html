@@ -8,7 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap tags -->
-
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
           crossorigin="anonymous">
@@ -26,10 +25,12 @@
     <script src="bootstrap-tagsinput.js"></script>
     <script src="assets/js/bootsnav.js"></script>
     <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
+
     <!-- Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet"
           type="text/css"/>
     <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css"/>
+
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="assets/css/styles.css" rel="stylesheet"/>
     <link rel="stylesheet" href="assets/css/bootsnav.css">
@@ -303,28 +304,13 @@
             }
         });
     }
+
     function confirm_delete(){
       if(confirm("삭제하시겠습니까?")){
           delete_til();
           alert("삭제되었습니다.")
       }
     }
-    // function get_status() {
-    //     $.ajax({
-    //         type: "GET",
-    //         url: `${domainURL}/status/${idx}`,
-    //         data: {},
-    //         success: function (response) {
-    //             let status = response['status']
-    //             if (status) {
-    //                 let temp_html =
-    //                     `<button type="button" onclick='new_box()' class="btn btn-primary two-button">수정</button>
-    //                         <button type="button" onclick='delete_til()' class="btn btn-primary two-button">삭제</button>`
-    //                 $('#mine').append(temp_html)
-    //             }
-    //         }
-    //     });
-    // }
 
     function get_heart() {
 
@@ -355,8 +341,15 @@
                 let title = response['tilTitle']
                 let content = response['tilContent']
                 let num_heart = response['tilLike']
+                let til_tags = response['tags'];
+                let tags = '';
+                for (let j = 0; j < til_tags.length; j++) {
+                    tags += " #" + til_tags[j]['name'];
+                }
+
                 $("#now-title").text(title);
                 $("#now-content").text(content);
+                $('#now-tag').text(tags)
                 $("#new-til-title").text(title);
                 $('#new-til-content').text(content)
                 $("#heart-count").text(num_heart);
@@ -676,7 +669,7 @@
                 </a>
             </div>
         </nav>
-        <div class="subheading mb-5">
+        <div id="now-tag" class="subheading mb-5">
             태그
         </div>
         <div id="now-content" class="lead mb-5 content-box">
