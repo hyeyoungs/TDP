@@ -52,6 +52,8 @@ public class TilService {
             }
             tagRepository.saveAll(tagList);
         }
+
+
         return til;
     }
 
@@ -59,6 +61,12 @@ public class TilService {
         return tilRepository.findById(id).orElseThrow(
                 () -> new NullPointerException("해당 아이디가 존재하지 않습니다")
         );
+    }
+    public List<Til> getTil_name(String username) {
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new NullPointerException("해당 유저가 존재하지 않습니다"));
+
+        return tilRepository.findByUser(user);
     }
 
     public void deleteTil(Long id) {
@@ -70,7 +78,21 @@ public class TilService {
         Til til = tilRepository.findById(id).orElseThrow(
                 ()->new NullPointerException("해당 아이디가 존재하지 않습니다.")
         );
+
         til.updateMyTil(tilRequestDto);
+
+        if(!(tilRequestDto.getTags().isEmpty())) {
+            String[] tagArray = tilRequestDto.getTags().split("\\s*,\\s*");
+            List<Tag> tagList = new ArrayList<>();
+            for (String s : tagArray) {
+                if(tagRepository.findByNameAndTil(s,til).size()==0) {
+                    Tag tag = new Tag(s, til);
+                    tagList.add(tag);
+                }
+            }
+            tagRepository.saveAll(tagList);
+        }
+
     }
 
     public List<Til> getUserTil(User user){

@@ -235,7 +235,7 @@
           <form action="#" method="post">
             <div class="field">
               <label for="title">Title</label>
-              <input name="title" id="title" type="text" placeholder="제목을 입력해주세요. ">
+              <input name="title" id="title" type="text" maxlength="100" placeholder="제목을 입력해주세요. ">
             </div>
             <div class="field half">
               <p><span> Writer : </span><label for="content" class="user_nickname_append" id="user_nickname_append"></label>
@@ -243,7 +243,7 @@
             </div>
             <div class="field half">
               <label for="tags">Tag</label>
-              <input type="text" value="" id="tags" data-role="tagsinput" placeholder="TAGS" >
+              <input type="text" maxlength="500" value="" id="tags" data-role="tagsinput" placeholder="TAGS" >
             </div>
             <div class="field">
               <label for="content">Content</label>
@@ -263,17 +263,6 @@
   </div>
 
 </footer>
-        
-<!-- toast -->
-<article class="message is-danger" id="toast">
-    <div class="message-header">
-        <strong class="me-auto" id="til_title"></strong>
-        <button class="delete" aria-label="delete" onclick="toast_close()"></button>
-    </div>
-    <div class="message-body" id="til_content">
-    </div>
-</article>
-<!-- toast end -->
 
 </div>
 

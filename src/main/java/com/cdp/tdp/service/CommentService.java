@@ -37,10 +37,19 @@ public class CommentService {
         // 요청받은 DTO 로 DB에 저장할 객체 만들기
         Comment comment = new Comment(requestDto, user, til);
         commentRepository.save(comment);
+        int comment_num=til.getNum_comment()+1;
+        til.setNum_comment(comment_num);
+        tilRepository.save(til);
         return comment;
     }
 
     public void deleteComment(Long id)  {
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("no such comment"));
+        Til til=comment.getTil();
+
+        int comment_num=til.getNum_comment()-1;
+        til.setNum_comment(comment_num);
+        tilRepository.save(til);
         commentRepository.deleteById(id);
     }
 
