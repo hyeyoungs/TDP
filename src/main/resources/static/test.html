@@ -1,0 +1,519 @@
+<!doctype html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+<!--Designerd by: https://bootstrapthemes.co-->
+
+<head>
+    <meta charset="utf-8">
+    <title>TIL Management Service</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="favicon.ico">
+
+    <!-- Toast Bulma -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="./back.css">
+
+    <!--Google Font link-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/slick.css">
+    <link rel="stylesheet" href="assets/css/slick-theme.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/fonticons.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/bootsnav.css">
+
+    <!--For Plugins external css-->
+    <!--<link rel="stylesheet" href="assets/css/plugins.css" />-->
+    <!--Theme custom css -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!--<link rel="stylesheet" href="assets/css/colors/maron.css">-->
+    <!--Theme Responsive css-->
+    <link rel="stylesheet" href="assets/css/responsive.css"/>
+    <!-- JS includes -->
+    <script src="assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="assets/js/vendor/jquery-1.11.2.min.js"></script>
+    <script src="assets/js/vendor/popper.min.js"></script>
+    <script src="assets/js/vendor/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.magnific-popup.js"></script>
+    <script src="assets/js/jquery.easing.1.3.js"></script>
+    <script src="assets/js/slick.min.js"></script>
+    <script src="assets/js/jquery.collapse.js"></script>
+    <script src="assets/js/bootsnav.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="./jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="./bootstrapt/css/bootstrap.min.css" />
+    <script src="./bootstrapt/js/bootstrap.min.js"></script>
+
+    <!-- paradise slider js -->
+    <script src="assets/js/plugins.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <!-- total js -->
+    <script src="back.js" rel="script"></script>
+
+
+
+    <!-- Icon -->
+    <link rel="shortcut icon" href="#">
+
+    <script>
+        let flag = 0;
+        let count;
+
+        $(document).ready(function () {
+            list_til();
+            read_flag();
+            rank_til();
+            get_ChatUsers();
+            sendMessage = setInterval(function () {
+                if ($(".test").css("background-color") === 'rgb(255, 0, 0)') {
+                    REST_Call('/message');
+                } else {
+                }
+            }, 86400000);
+
+        });
+
+        $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+            login_check(options, originalOptions, jqXHR);
+        });
+
+        function list_til() {
+            $.ajax({
+                type: "GET",
+                url: `${domainURL}/tils`,
+                data: {},
+                success: function (response) {
+                    let all_til = response;
+                    let max = 6;
+                    if (all_til.length < 6) {
+                        max = all_til.length;
+                    }
+                    for (let i = 0; i < max; i++) {
+                        let title = all_til[i]['tilTitle'];
+                        let user = all_til[i]['user']['nickname'];
+
+                        let tempHtml = `
+                                        <div class="col-md-4">
+                                          <div class="service_item">
+                                            <i class="icofont icofont-light-bulb"></i>
+                                            <h3 class="m-top-30">${title}</h3>
+                                            <div class="separator_small"></div>
+                                            <h5>${user}</h5>
+                                          </div>
+                                        </div>
+                                        `
+                        $('#board-main').append(tempHtml)
+                    }
+                }
+            })
+        }
+
+        function rank_til() {
+            $.ajax({
+                type: "GET",
+                url: `${domainURL}/til/ranker`,
+                data: {},
+                success: function (response) {
+                    let min = response.length;
+                    if (min > 3) {
+                        min = 3;
+                    }
+                    for (let i = 0; i < min; i++) {
+                        let nickname = response[i]['nickname'];
+                        let til = response[i]['tilCount'];
+                        let username = response[i]['username']
+                        if (til !== 0) {
+                            let temp_html = `<div class="col-md-4 col-sm-12" onClick="get_modal(${username})">
+                                                    <div class="pricing_item">
+                                                        <div class="pricing_head p-top-30 p-bottom-100 text-center">
+                                                            <h3 class="text-uppercase" ><strong>${nickname}</strong></h3>
+                                                        </div>
+                                                        <div class="pricing_price_border text-center " >
+                                                            <div class="pricing_price">
+                                                                <h3 class="text-white">${til}</h3>
+                                                                <p class="text-white"> 개</p>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="pricing_body bg-white p-top-80 p-bottom-60">
+
+                                                        </div>
+                                                    </div>
+                                                </div>`
+                            $('#rank_user').append(temp_html);
+                        }
+                    }
+
+                }
+            })
+        }
+
+        function REST_Call(path) {
+
+            let access_token = localStorage.getItem('access_token')
+            $.ajax({
+                type: "POST",
+                url: `${domainURL}/message`,
+                contentType: "application/json",
+                data: JSON.stringify({'token': access_token}),
+                success: (data) => {
+                    alert('메시지가 전송되었습니다!');
+                }
+            });
+        }
+
+        function get_ChatUsers() {
+            $.ajax({
+                type: "GET",
+                url: `${domainURL}/rooms/users`,
+                data: {},
+                success: function (response) {
+                    let all_users = response;
+                    console.log(all_users);
+                    $('#user-count').text(all_users)
+
+                }
+            })
+        }
+        function get_modal(username) {
+            $.ajax({
+                type: "GET",
+                url: `${domainURL}/til/${username}`,
+                data: {},
+                success: function (response) {
+
+                    let til_list = response['tils']['content'];
+                    let count = 0;
+                    for (let i = 0; i < til_list.length; i++) {
+                        let tags = '';
+                        let title = til_list[i]['tilTitle'];
+                        let user = til_list[i]['user']['nickname'];
+                        let day = til_list[i]['createdAt'];
+                        let til_idx = til_list[i]['id'];
+                        let til_tags = til_list[i]['tags'];
+                        let til_view = til_list[i]['tilView'];
+                        for (let j = 0; j < til_tags.length; j++) {
+                            tags += " #" + til_tags[j]['name'];
+                        }
+                        if (til_view === true) {
+                            let temp_html =
+                                `<tr>
+                                <td>${title}</td>
+                                <td>${day}</td>
+                                <td>${til_tags}</td>
+                                </tr>`
+                            $('#til-box').append(temp_html)
+                        }
+                    }
+                    $("#modal-post").addClass("is-active")
+                }
+            })
+        }
+
+    </script>
+    <style>
+
+        .test {
+
+            float: right;
+            width: 200px;
+            height: 200px;
+            background-color: yellow;
+            display: block;
+            margin-left: 50px;
+            margin-top: 0;
+        }
+
+        .page-header {
+            margin-top: 100px;
+        }
+
+        .home_btn_chatlist {
+            margin-top: 25px;
+            margin-bottom: 25px;
+        }
+
+    </style>
+</head>
+<body data-spy="scroll" data-target=".navbar-collapse">
+
+
+<!-- Preloader -->
+<div id="loading">
+    <div id="loading-center">
+        <div id="loading-center-absolute">
+            <div class="object" id="object_one"></div>
+            <div class="object" id="object_two"></div>
+            <div class="object" id="object_three"></div>
+            <div class="object" id="object_four"></div>
+        </div>
+    </div>
+</div>
+<!--End off Preloader -->
+
+
+<div class="culmn">
+    <!--Home page style-->
+
+
+    <nav class="navbar navbar-light navbar-expand-lg  navbar-fixed white no-background bootsnav">
+        <!-- Start Top Search -->
+        <div class="top-search">
+            <div class="container">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    <input type="text" class="form-control" placeholder="Search">
+                    <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>
+                </div>
+            </div>
+        </div>
+        <!-- End Top Search -->
+
+        <div class="container">
+            <!-- Start Atribute Navigation -->
+            <div class="attr-nav">
+                <ul>
+
+                    <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
+                    <li class="side-menu"><a href="#"><i class="fa fa-bars"></i></a></li>
+                </ul>
+            </div>
+            <!-- End Atribute Navigation -->
+
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <a class="navbar-brand" style="color: whitesmoke;font-size: x-large;"
+                   href="./home.html"><strong>TDP</strong></a>
+            </div>
+            <!-- End Header Navigation -->
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
+
+                    <li><a class="nav-link " href="./til_board.html">Write TIL</a></li>
+                    <li><a class="nav-link" href="./mytil_page.html">My TIL</a></li>
+                    <li><a class="nav-link" href="https://github.com/">Github</a></li>
+                    <li><a class="nav-link" href="./my_page.html">myPage</a></li>
+                    <li><a class="nav-link" onclick="sign_out()">logout</a></li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+    </nav>
+</div>
+
+<!-- Start Side Menu -->
+<div class="side">
+    <a href="#" class="close-side"><i class="fa fa-times"></i></a>
+    <div class="widget">
+        <h6 class="title">Custom Pages</h6>
+        <ul class="link">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Portfolio</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </div>
+    <div class="widget">
+        <h6 class="title">Additional Links</h6>
+        <ul class="link">
+            <li><a href="#">Retina Homepage</a></li>
+            <li><a href="#">New Page Examples</a></li>
+            <li><a href="#">Parallax Sections</a></li>
+            <li><a href="#">Shortcode Central</a></li>
+            <li><a href="#">Ultimate Font Collection</a></li>
+        </ul>
+    </div>
+</div>
+<!-- End Side Menu -->
+
+</nav>
+
+<!--Home Sections-->
+
+<section id="hello" class="home bg-mega">
+
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="main_home">
+                <div class="home_text">
+                    <h1 class="text-white">WE ’ RE <br/> TIL Management Service!
+                        <span>
+                            <div class="test rounded-circle"></div></span>
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End off row-->
+
+    <!--End off container -->
+</section>
+<!--End off Home Sections-->
+
+
+<!--채팅 section-->
+<div style="text-align: center" class="page-header">
+    <h2 class="user-count" style="display: inline" id="user-count"><strong>0</strong></h2>
+    <h2 style="display: inline"><strong> Chatting Users </strong></h2>
+    <p>
+        <button type="button" class="home_btn_chatlist btn-primary" onClick="location.href='./rooms.html'">채팅방 입장
+        </button>
+    </p>
+</div>
+<!--End off 채팅-->
+
+<!--Service Section-->
+<section id="service" class="service">
+    <div class="container">
+        <div class="row">
+            <div class="main_service roomy-100">
+                <div class="col-md-8 col-sm-10 mr-md-auto ml-md-auto mr-sm-auto ml-sm-auto">
+                    <div class="head_title text-center">
+                        <h2><strong>OUR TILS</strong></h2>
+                        <div class="separator_auto"></div>
+                        <p>사용자들이 작성한 TIL 입니다.</p>
+                    </div>
+                </div>
+                <div class="row" id="board-main">
+
+
+                </div>
+            </div>
+        </div>
+        <!--End off row -->
+    </div>
+    <!--End off container -->
+</section>
+<!--End off Featured section-->
+
+
+<!--RANK 부분 -->
+<section id="pricing" class="pricing lightbg">
+    <div class="container">
+        <div class="row">
+            <div class="main_pricing">
+                <div class="col-md-8 ml-md-auto mr-md-auto">
+                    <div class="head_title text-center">
+                        <h2><strong>RANK</strong></h2>
+                        <div class="separator_auto"></div>
+                        <p> 최다 TIL 보유자를 소개합니다. </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="rank_user">
+
+        </div>
+        <!--End off row-->
+    </div>
+    <!--End off container -->
+</section>
+<!--End off Pricing section -->
+
+<!-- toast -->
+<article class="message is-danger" id="toast">
+    <div class="message-header">
+        <strong class="me-auto" id="til_title"></strong>
+        <button class="delete" aria-label="delete" onclick="toast_close()"></button>
+    </div>
+    <div class="message-body" id="til_content">
+    </div>
+</article>
+<!-- toast end -->
+
+<!-- scroll up-->
+<div class="scrollup">
+    <a href="#"><i class="fa fa-chevron-up"></i></a>
+</div>
+<!-- End off scroll up -->
+
+
+<footer id="footer" class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="main_footer text-center p-top-40 p-bottom-30">
+                <p class="wow fadeInRight" data-wow-duration="1s">
+                    Made with
+                    <i class="fa fa-heart"></i> by
+                    <a target="_blank" href="https://github.com/0sunzero0/TDP-Spring">CDP</a> 2021. All Rights
+                    Reserved
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</div>
+
+<div id="modal-post" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">TILS</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="til-table">
+                    <colgroup>
+                        <col style="width:40%;">
+                        <col style="width:30%;">
+                        <col style="width:30%;">
+                    </colgroup>
+                    <thead>
+                    <tr class="subheading">
+                        <th scope="col" class="subheading">title</th>
+                        <th scope="col" class="subheading">day</th>
+                        <th scope="col" class="subheading">tags</th>
+                    </tr>
+                    </thead>
+                    <tbody id="til-box">
+                    <tr>
+                        <td>제목</td>
+                        <td>작성일</td>
+                        <td>태그</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+</body>
+
+</html>

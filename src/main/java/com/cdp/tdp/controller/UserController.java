@@ -35,7 +35,7 @@ public class UserController {
 
     @PostMapping(value = "/login")
     public ResponseEntity login(@RequestBody UserDto userDto) {
-
+        int i = 1/0;
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword())
