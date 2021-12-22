@@ -44,7 +44,9 @@ public class CommentService {
     }
 
     public void deleteComment(Long id)  {
-        Til til = tilRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("no such til"));
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("no such comment"));
+        Til til=comment.getTil();
+
         int comment_num=til.getNum_comment()-1;
         til.setNum_comment(comment_num);
         tilRepository.save(til);
