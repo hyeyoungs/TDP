@@ -1,7 +1,6 @@
 package com.cdp.tdp.controller;
 
 import com.cdp.tdp.domain.Til;
-import com.cdp.tdp.domain.User;
 import com.cdp.tdp.dto.TilListDto;
 import com.cdp.tdp.dto.TilRequestDto;
 import com.cdp.tdp.security.UserDetailsImpl;
@@ -69,6 +68,14 @@ public class TilController {
         String username = userDetails.getUsername();
         return tilService.getTil(id);
     }
+
+
+    @GetMapping("/til/{username}")
+    public List<Til> getTil_name(@PathVariable String username){
+
+        return tilService.getTil_name(username);
+    }
+
 
     @PostMapping("/til")
     public Til createTil(@RequestBody TilRequestDto tilRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {

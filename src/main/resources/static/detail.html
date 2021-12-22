@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Title | TIL.D.P</title>
+    <title>TIL Management Service</title>
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap tags -->
-
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
           crossorigin="anonymous">
@@ -22,15 +21,16 @@
             crossorigin="anonymous"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet"
           id="bootstrap-css">
-    <link rel="stylesheet" href="./assets/css/create.css">
     <link rel="stylesheet" href="bootstrap-tagsinput.css">
     <script src="bootstrap-tagsinput.js"></script>
     <script src="assets/js/bootsnav.js"></script>
     <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
+
     <!-- Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet"
           type="text/css"/>
     <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css"/>
+
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="assets/css/styles.css" rel="stylesheet"/>
     <link rel="stylesheet" href="assets/css/bootsnav.css">
@@ -50,22 +50,12 @@
 
     <!-- Icon -->
     <link rel="shortcut icon" href="#">
+    <link rel="icon" type="image/png" href="favicon.ico">
 
 
     <style>
         body {
             background-color: white;
-        }
-
-        @media (min-width: 992px) {
-            .gedf-main {
-                padding-left: 4rem;
-                padding-right: 4rem;
-            }
-
-            .gedf-card {
-                margin-bottom: 2.77rem;
-            }
         }
 
         .navbar-brand{
@@ -90,45 +80,41 @@
             float: bottom;
         }
 
-        .til-title {
-            font-size: xx-large;
-            margin: 30px auto;
-        }
-
         .content-box {
             text-align: center;
             border-color: #37474F;
         }
 
-        .hr6 {
-            border: none;
-            border: 5px;
-            double: orange;
-        }
         .user-intro{
             color: white;
             text-align: center;
         }
+
         .social-icon{
             margin : 30px auto 50px 17px;
 
         }
+
         table { table-layout:fixed; }
 
         .comment-table tbody td{
             font-size: 13px;
             font-family: Arial;
         }
+
         .comment-table thead th {
             font-size: large;
         }
+
         #nav-bar{
             padding : 0px 0px 0px 0px;
         }
+
         .fa{
             color: #ba3925;
             font-size: large;
         }
+
         input[id="menuicon"] {
             display: none;
         }
@@ -162,7 +148,6 @@
             transform: translateY(-50%);
         }
 
-        /* ����ϰ� ����� �� �ִ� style top:calc(50% - 2.5px); margin-top:-2.5px;*/
         input[id="menuicon"] + label span:nth-child(3) {
             bottom: 0;
         }
@@ -203,23 +188,36 @@
         input[id="menuicon"]:checked + label + div {
             left: 0;
         }
+
         .navbar-nav{
             z-index: 0;
         }
+
         .sidebar{
             z-index: 0;
             width: 400px;
             position: relative;
             color: #d14149;
         }
+
         .til-section{
-            width:1000px;
+            width: 65%;
             margin-left: 100px;
         }
+
         .comment-section{
             margin-left: 400px;
             margin-right: 300px;
             padding-top: 100px;
+        }
+
+        .comment-table-wrapper{
+            min-width : 915px;
+            width: 100%;
+        }
+
+        .comment-table{
+            width: 100%;
         }
 
         .right{
@@ -239,7 +237,7 @@
 
         .resume-section-content{
             margin-bottom: 100px;
-            width: 1200px;
+            width: 100%;
         }
 
         .comment-button{
@@ -247,6 +245,10 @@
             background-color: #ba3925;
             border-color: #ba3925;
             color: white;
+        }
+
+        #input-post{
+            margin-top: 50px;
         }
     </style>
 </head>
@@ -258,7 +260,6 @@
 
     $(document).ready(function () {
         idx = window.location.search.split("=")[1]
-        // $('#new-box').hide();
         read_writer();
         get_til();
         get_heart();
@@ -269,7 +270,6 @@
         login_check(options, originalOptions, jqXHR);
     });
 
-    let github_id
     function read_writer() {
         $.ajax({
             type: "GET",
@@ -289,6 +289,7 @@
                 }
                 if (github_id == null || github_id === ""){
                     $('.github_id_tag').hide();
+                    $('.social-icons').hide();
                 }
                 if (introduce == null || introduce === ""){
                     $('#introduce_tag').hide();
@@ -296,33 +297,20 @@
                 $('.writer_nickname_append').text(response['user']['nickname']);
                 //$('.writer_github_id_append').text(github_id);
                 $('#github-profile').attr('src', `https://github-readme-stats.vercel.app/api?username=${github_id}&show_icons=true&count_private=true&hide_border=true`);
+                $('.github-icon').attr('href', `https://github.com/${github_id}`)
                 $('.writer_profile_info_append').text(response['user']['introduce']);
                 $('.writer_profile_pic_real_append').attr('src', response['user']['picture_real']);
+
             }
         });
     }
+
     function confirm_delete(){
       if(confirm("삭제하시겠습니까?")){
           delete_til();
           alert("삭제되었습니다.")
       }
     }
-    // function get_status() {
-    //     $.ajax({
-    //         type: "GET",
-    //         url: `${domainURL}/status/${idx}`,
-    //         data: {},
-    //         success: function (response) {
-    //             let status = response['status']
-    //             if (status) {
-    //                 let temp_html =
-    //                     `<button type="button" onclick='new_box()' class="btn btn-primary two-button">수정</button>
-    //                         <button type="button" onclick='delete_til()' class="btn btn-primary two-button">삭제</button>`
-    //                 $('#mine').append(temp_html)
-    //             }
-    //         }
-    //     });
-    // }
 
     function get_heart() {
 
@@ -335,7 +323,7 @@
                     let temp_html = `<i class="fa fa-heart" aria-hidden="true"></i>`
                     $('#now-heart').append(temp_html)
                 } else { //좋아요 안누른상태
-                    let temp_html = `<i class="fa fa-heart-o" aria-hidden="true"></i>`
+                    let temp_html = `<i class="fa fa-genderless"></i>`
                     $('#now-heart').append(temp_html)
                 }
             }
@@ -353,8 +341,15 @@
                 let title = response['tilTitle']
                 let content = response['tilContent']
                 let num_heart = response['tilLike']
+                let til_tags = response['tags'];
+                let tags = '';
+                for (let j = 0; j < til_tags.length; j++) {
+                    tags += " #" + til_tags[j]['name'];
+                }
+
                 $("#now-title").text(title);
                 $("#now-content").text(content);
+                $('#now-tag').text(tags)
                 $("#new-til-title").text(title);
                 $('#new-til-content').text(content)
                 $("#heart-count").text(num_heart);
@@ -494,15 +489,17 @@
     function toggle_like(idx, type) {
 
         let a_like = $('#heart')
-        let $i_like = a_like.find("i")
-        let like_num = $('#heart-count')
-        if ($i_like.hasClass("fa-heart")) { //좋아요 된 상태
+
+        let svg_like = a_like.find("svg")
+        if (svg_like.hasClass("fa-heart")) { //좋아요 된 상태
+
             // 좋아요 취소
             $.ajax({
                 type: "DELETE",
                 url: `${domainURL}/til/dislike/${idx}`,
                 success: function (response) {
-                    $i_like.addClass("fa-heart-o").removeClass("fa-heart")
+                    console.log('api 성공')
+                    $i_like.addClass("fa-genderless").removeClass("fa-heart")
                 }
             })
         } else {
@@ -514,7 +511,7 @@
                 contentType: "application/json",
                 data: JSON.stringify(info),
                 success: function (response) {
-                    $i_like.addClass("fa-heart").removeClass("fa-heart-o")
+                    svg_like.addClass("fa-heart").removeClass("fa-genderless")
 
                 }
             })
@@ -651,7 +648,7 @@
 
     <div class="social-icons">
         <a class="social-icon" href="#!"><i class="fab fa-linkedin-in"></i></a>
-        <a class="social-icon" href="https://github.com/{github_id}"><i class="fab fa-github"></i></a>
+        <a class="social-icon github-icon" href="#!"><i class="fab fa-github"></i></a>
         <a class="social-icon" href="#!"><i class="fab fa-facebook-f"></i></a>
     </div>
 
@@ -672,7 +669,7 @@
                 </a>
             </div>
         </nav>
-        <div class="subheading mb-5">
+        <div id="now-tag" class="subheading mb-5">
             태그
         </div>
         <div id="now-content" class="lead mb-5 content-box">
@@ -685,7 +682,7 @@
 
 <section class="comment-section" id="comment-list">
 
-    <div>
+    <div class="comment-table-wrapper">
 
         <table class="comment-table">
             <colgroup>

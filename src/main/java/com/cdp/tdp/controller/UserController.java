@@ -83,6 +83,7 @@ public class UserController {
 
     @GetMapping("/til/ranker")
     public List<UserTilCountDto> getAllUser(){
+
         return userService.getAllUser();
     }
 

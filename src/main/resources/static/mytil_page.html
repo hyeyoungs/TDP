@@ -153,12 +153,14 @@
                     $("#modal-user").text(user);
                     $("#modal-save").attr("onclick", `update_til('${idx}');`);
                     let total_tag_value = "";
+                    console.log(tags);
                     for(let i = 0; i < tags.length; i++){
-                        let tag_value = tags[i]["name"] + "\\s";
+                        let tag_value = " #"+tags[i]["name"];
+                        console.log(tag_value)
                         total_tag_value += tag_value;
                     }
-                    console.log(total_tag_value);
-                    $("#tags").val(total_tag_value);
+                    $("#org_tags").text(total_tag_value);
+
                 }
             });
         }
@@ -169,7 +171,7 @@
                 tilContent : $('textarea#modal-content').val(),
                 tags: $("input#tags").val()
             }
-
+            console.log(info)
             $.ajax({
                 type: "PUT",
                 url: `${domainURL}/til_board/${idx}`,
@@ -377,7 +379,7 @@
                                           placeholder="내용을 입력해 주세요"></textarea>
                             </div>
                             <div class="mb-3">
-                                <label for="tags">Tag</label>
+                                <label for="tags">Tag : </label><span id="org_tags"></span>
                                 <input type="text" class="form-control" id="tags" data-role="tagsinput" placeholder="TAGS" >
                             </div>
                         </form>
