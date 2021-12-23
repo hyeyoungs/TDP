@@ -76,7 +76,6 @@ public class UserController {
 
     @GetMapping(value = "/user")
     public User readUser(@AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
-        int i = 1/0;
         User user = (User) userDetails.getUser();
         return user;
     }
