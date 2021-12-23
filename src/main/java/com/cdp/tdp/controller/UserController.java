@@ -35,7 +35,6 @@ public class UserController {
 
     @PostMapping(value = "/login")
     public ResponseEntity login(@RequestBody UserDto userDto) {
-        int i = 1/0;
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword())
@@ -77,6 +76,7 @@ public class UserController {
 
     @GetMapping(value = "/user")
     public User readUser(@AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
+        int i = 1/0;
         User user = (User) userDetails.getUser();
         return user;
     }
