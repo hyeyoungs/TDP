@@ -1,5 +1,5 @@
 
-name: TDP Build and Push file (main)
+name: TDP Build and Push Docker Image (main)
 on:
   push:
     branches:
@@ -74,7 +74,7 @@ jobs:
       - name: Generate deployment package
         run: |
           mkdir -p deploy
-          cp build/libs/*.jar deploy/application.jar
+          cp Dockerrun.aws.json deploy/Dockerrun.aws.json
           cd deploy && zip -r deploy.zip .
 
       - name: Beanstalk Deploy
@@ -82,9 +82,9 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: tdp
-          environment_name: Tdp-env
-          version_label: Github Action-${{steps.current-time.outputs.formattedTime}}
+          application_name: tdp-docker-1
+          environment_name: Tdpdocker1-env
+          version_label: earth-docker-${{steps.current-time.outputs.formattedTime}}
           region: ap-northeast-2
           deployment_package: deploy/deploy.zip
           wait_for_environment_recovery: 180
