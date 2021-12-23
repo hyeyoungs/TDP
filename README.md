@@ -1,6 +1,7 @@
 # 📝 TDP-Spring
 ## TDP란?
 
+
 - "Today I Learned Deserter Pursuit"의 약자로서, TIL(Today I Learned) 관리 시스템입니다.
 
 - TIL은 개발자의 성장에 있어 중요한 요소로 언급되고 있으며, <br>
