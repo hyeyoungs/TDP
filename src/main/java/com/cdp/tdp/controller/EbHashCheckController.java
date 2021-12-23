@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class EbHashCheckController {
-    @GetMapping( "/")
+    @GetMapping( "/Eb/check")
     public ResponseEntity<?> doHealthCheck() {
         return ResponseEntity.ok("HealthCheck OK");
     }
