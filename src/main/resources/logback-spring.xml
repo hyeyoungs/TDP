@@ -2,7 +2,7 @@
 <configuration>
     <springProperty name="SLACK_WEBHOOK_URI" source="logging.slack.webhook-uri"/>
     <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
-        <webhookUri>${SLACK_ACCESS_KEY}</webhookUri>
+        <webhookUri>${SLACK_WEBHOOK_URL}</webhookUri>
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %msg %n</pattern>
         </layout>
@@ -12,7 +12,7 @@
     </appender>
 
 
-    <!-- Consol appender 설정 -->
+    <!-- Console appender 설정 -->
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>[%d{yyyy-MM-dd HH:mm:ss}:%-3relative][%thread] %green(%-5level) %logger{35}  %cyan(%logger{15}) -  %msg  %n</pattern>
