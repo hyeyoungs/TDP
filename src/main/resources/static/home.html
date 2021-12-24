@@ -91,9 +91,9 @@
 
         });
 
-        $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
-            login_check(options, originalOptions, jqXHR);
-        });
+        // $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+        //     login_check(options, originalOptions, jqXHR);
+        // });
 
         function list_til() {
             $.ajax({
@@ -276,6 +276,11 @@
         td a {
             color: #797979;
             text-decoration : none;
+        }
+
+        .main_footer{
+            margin: auto;
+
         }
     </style>
 </head>
