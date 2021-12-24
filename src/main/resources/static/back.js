@@ -5,6 +5,10 @@ let eventSource = new EventSource(urlEndpoint);
 let domainURL= 'https://api.tildp.shop';
 // let domainURL= 'http://localhost:8080';
 
+$.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+    login_check(options, originalOptions, jqXHR);
+});
+
 eventSource.addEventListener("latestPosts", function (event) {
     let articleData = JSON.parse(event.data);
     let title = articleData.tilTitle;
