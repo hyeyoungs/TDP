@@ -5,10 +5,6 @@ let eventSource = new EventSource(urlEndpoint);
 let domainURL= 'https://api.tildp.shop';
 // let domainURL= 'http://localhost:8080';
 
-$.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
-    login_check(options, originalOptions, jqXHR);
-});
-
 eventSource.addEventListener("latestPosts", function (event) {
     let articleData = JSON.parse(event.data);
     let title = articleData.tilTitle;
@@ -25,10 +21,6 @@ function displayToast(position, title) {
         pauseOnHover: true,
         animate: { in: 'fadeIn', out: 'fadeOut' },
     })
-}
-
-function toast_close(){
-    $('#toast').css("display", "none");
 }
 
 function login_check(options, originalOptions, jqXHR){

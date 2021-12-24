@@ -74,6 +74,9 @@
         read_user();
     });
 
+    $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+        login_check(options, originalOptions, jqXHR);
+    });
 
     function update_profile() {
         let info = new FormData();

@@ -91,6 +91,9 @@
 
         });
 
+        $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+            login_check(options, originalOptions, jqXHR);
+        });
 
         function list_til() {
             $.ajax({

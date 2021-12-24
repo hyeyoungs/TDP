@@ -277,6 +277,10 @@
         get_comment();
     });
 
+    $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+        login_check(options, originalOptions, jqXHR);
+    });
+
     function read_writer() {
         $.ajax({
             type: "GET",
