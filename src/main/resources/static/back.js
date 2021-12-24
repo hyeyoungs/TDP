@@ -1,19 +1,27 @@
 let urlEndpoint = 'https://api.tildp.shop/subscribe';
-//let urlEndpoint = 'http://localhost:8080/subscribe';
+// let urlEndpoint = 'http://localhost:8080/subscribe';
 let eventSource = new EventSource(urlEndpoint);
 
 let domainURL= 'https://api.tildp.shop';
-//let domainURL= 'http://localhost:8080';
+// let domainURL= 'http://localhost:8080';
 
-eventSource.addEventListener("latestNews", function (event) {
+eventSource.addEventListener("latestPosts", function (event) {
     let articleData = JSON.parse(event.data);
     let title = articleData.tilTitle;
-    let content = articleData.tilContent;
-    $('#til_title').text(title);
-    $('#til_content').text(content);
-    $('#toast').css("display", "block");
+    displayToast('Bottom Right', title)
 });
 
+function displayToast(position, title) {
+    bulmaToast.toast({
+        message: '⏰ [ New Post! ] →  📝  ' + title ,
+        type: 'is-danger is-light',
+        position: position.toLowerCase().replace(' ', '-'),
+        dismissible: true,
+        duration: 4000,
+        pauseOnHover: true,
+        animate: { in: 'fadeIn', out: 'fadeOut' },
+    })
+}
 
 function toast_close(){
     $('#toast').css("display", "none");

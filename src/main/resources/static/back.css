@@ -1,14 +1,3 @@
-#toast {
-    display: none;
-    width: 500px;
-    height: 250px;
-    margin : 20px auto;
-}
-
-.modal-backdrop{
-    z-index : 10;
-}
-
 .copyright {
     color: #bbb;
     font-size: 0.9rem;
