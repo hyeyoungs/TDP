@@ -54,8 +54,6 @@
 
     <!-- Toast Bulma -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-    <link rel="stylesheet" href="./back.css">
-
 
     <!-- Icon -->
     <link rel="shortcut icon" href="#">
@@ -259,6 +257,10 @@
         #input-post{
             margin-top: 50px;
         }
+
+        #now-title{
+            font-size: 2.5em;
+        }
     </style>
 </head>
 <!-- detail markdown -->
@@ -275,9 +277,9 @@
         get_comment();
     });
 
-    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
-        login_check(options, originalOptions, jqXHR);
-    });
+    // $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+    //     login_check(options, originalOptions, jqXHR);
+    // });
 
     function read_writer() {
         $.ajax({
