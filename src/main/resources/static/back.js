@@ -23,10 +23,6 @@ function displayToast(position, title) {
     })
 }
 
-function toast_close(){
-    $('#toast').css("display", "none");
-}
-
 function login_check(options, originalOptions, jqXHR){
     if(localStorage.getItem('token')) {
         jqXHR.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));

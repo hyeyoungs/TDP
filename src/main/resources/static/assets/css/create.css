@@ -1844,17 +1844,10 @@
 		-webkit-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 		-ms-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 		transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-		border-radius: 4px;
 		border: 0;
 		cursor: pointer;
-		display: inline-block;
-		font-weight: 400;
-		height: 2.85rem;
-		line-height: 2.95rem;
-		padding: 0 1.5rem;
 		text-align: center;
 		text-decoration: none;
-		white-space: nowrap;
 		text-transform: uppercase;
 	}
 
@@ -1882,22 +1875,6 @@
 			display: block;
 			margin: 0 0 1rem 0;
 			width: 100%;
-		}
-
-		input[type="submit"].small,
-		input[type="reset"].small,
-		input[type="button"].small,
-		button.small,
-		.button.small {
-			font-size: 0.8rem;
-		}
-
-		input[type="submit"].big,
-		input[type="reset"].big,
-		input[type="button"].big,
-		button.big,
-		.button.big {
-			font-size: 1.35rem;
 		}
 
 		input[type="submit"].disabled, input[type="submit"]:disabled,

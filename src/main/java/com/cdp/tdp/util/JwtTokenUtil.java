@@ -73,10 +73,6 @@ public class JwtTokenUtil implements Serializable {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    public boolean validateToken2(String jwt) {
-        return this.getClaims(jwt) != null;
-    }
-
     private Jws<Claims> getClaims(String jwt) {
         try {
             return Jwts.parser().setSigningKey(secret).parseClaimsJws(jwt);

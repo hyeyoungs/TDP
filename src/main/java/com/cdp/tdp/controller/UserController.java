@@ -8,10 +8,8 @@ import com.cdp.tdp.service.UserService;
 import com.cdp.tdp.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -30,22 +28,11 @@ public class UserController {
 
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
-    private final AuthenticationManager authenticationManager;
     private final UserDetailsServiceImpl userDetailsService;
 
     @PostMapping(value = "/login")
-    public ResponseEntity login(@RequestBody UserDto userDto) {
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword())
-            );
-        } catch (BadCredentialsException e) {
-            throw new BadCredentialsException("로그인 실패");
-        }
-
-        UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(userDto.getUsername());
-        final String token = jwtTokenUtil.generateToken(userDetails);
-        return ResponseEntity.ok(new JwtResponse(token, userDetails.getUsername()));
+    public ResponseEntity<?> login(@RequestBody UserDto userDto) {
+        return userService.login(userDto);
     }
 
     @RequestMapping(value = "/login/kakao")
@@ -69,9 +56,16 @@ public class UserController {
     }
 
     @PostMapping(value = "/signup")
-    public ResponseEntity createUser(@RequestBody SignupRequestDto userDto) throws Exception {
-        userService.registerUser(userDto);
-        return ResponseEntity.ok("ok");
+    public String createUser(@RequestBody SignupRequestDto userDto) throws Exception {
+        JSONObject response = new JSONObject();
+        try {
+            userService.registerUser(userDto);
+        } catch (IllegalArgumentException e) {
+            response.put("exists", Boolean.TRUE);
+            return response.toString();
+        }
+        response.put("exists", Boolean.FALSE);
+        return response.toString();
     }
 
     @GetMapping(value = "/user")

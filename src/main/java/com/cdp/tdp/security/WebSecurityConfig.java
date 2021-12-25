@@ -1,6 +1,5 @@
 package com.cdp.tdp.security;
 
-import com.cdp.tdp.controller.JwtAuthenticationEntryPoint;
 import com.cdp.tdp.controller.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -28,8 +27,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/actuator/**").permitAll().anyRequest().permitAll();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 인증을 session으로 관리 안함. jwt token으로 인증
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-
-        
     }
     // 비밀번호 암호화
     @Bean
