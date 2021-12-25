@@ -87,8 +87,6 @@ public class UserService {
         return username;
     }
 
-    private final HttpSession httpSession;
-
     @Autowired
     public HttpCallService httpCallService;
 
