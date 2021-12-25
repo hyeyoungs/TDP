@@ -1,6 +1,6 @@
 #login-kakao-btn {
     border-width: 0;
-    margin: 40px 10px;
+    margin: 100px 10px;
     width: 180px;
     height: 62px;
     padding: 18px 12px;
@@ -17,7 +17,7 @@
 
 #login-naver-btn {
     border-width: 0;
-    margin: 40px 10px;
+    margin: 100px 10px;
     width: 180px;
     height: 62px;
     padding: 18px 12px;
@@ -34,7 +34,7 @@
 
 #login-google-btn {
     border-width: 0;
-    margin: 40px 10px;
+    margin: 100px 10px;
     width: 180px;
     height: 62px;
     padding: 18px 12px;
@@ -92,14 +92,14 @@
     height: 280px;
     overflow: hidden;
     background-color: #fff;
-    margin-top: 100px;
+    margin-top: 200px;
     box-shadow: 1px 10px 30px -10px rgba(0, 0, 0, 0.5);
 }
 
 .cont_forms {
     position: absolute;
     overflow: hidden;
-    top: 100px;
+    top: 200px;
     left: 0px;
     width: 320px;
     height: 280px;
@@ -114,7 +114,7 @@
 .cont_forms_active_login {
     box-shadow: 1px 10px 30px -10px rgba(0, 0, 0, 0.5);
     height: 420px;
-    top: 20px;
+    top: 120px;
     left: 0px;
     -webkit-transition: all 0.5s;
     -moz-transition: all 0.5s;
@@ -128,7 +128,7 @@
     box-shadow: 1px 10px 30px -10px rgba(0, 0, 0, 0.5);
     height: 665px;
     /* sign_up size */
-    top: 20px;
+    top: 120px;
     left: 320px;
     -webkit-transition: all 0.5s;
     -moz-transition: all 0.5s;
@@ -198,7 +198,7 @@
     position: absolute;
     width: 640px;
     height: 280px;
-    top: 100px;
+    top: 200px;
     z-index: 1;
 }
 
