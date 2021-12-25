@@ -91,6 +91,16 @@ function sign_up() {
     })
 }
 
+function is_id(asValue) {
+    const regExp = /^(?=.*[a-zA-Z])[-a-zA-Z0-9_.]{4,10}$/;
+    return regExp.test(asValue);
+}
+
+function is_password(asValue) {
+    const regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
+    return regExp.test(asValue);
+}
+
 function check_dup() {
     let user_id = $("#sign_id").val()
     let user_pw = $("#sign_pw").val()
@@ -106,6 +116,14 @@ function check_dup() {
     }
     if (user_nick === "") {
         alert("닉네임을 입력해주세요.")
+        return
+    }
+    if (!is_id(user_id)) {
+        alert("아이디는 4-10자의 영문과 숫자와 일부 특수문자(._-)만 입력 가능합니다.")
+        return
+    }
+    if (!is_password(user_pw)) {
+        alert("영문과 숫자 조합의 8-20자의 비밀번호를 설정해주세요. 특수문자(!@#$%^&*)도 사용 가능합니다.")
         return
     }
     if(user_pw===user_check_pw){
