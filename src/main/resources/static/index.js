@@ -55,15 +55,14 @@ function login() {
         url: `${domainURL}/login`,
         contentType: "application/json",
         data: JSON.stringify(info),
+        statusCode: {
+            403: () => alert('아이디/비밀번호를 확인해주세요.')
+        },
         success: function (response) {
-            if (response) {
-                localStorage.setItem('token', response['token']);
-                localStorage.setItem('username',response['username']);
-                alert('로그인 완료!');
-                window.location.href = '/home.html';
-            } else {
-                alert('error');
-            }
+            localStorage.setItem('token', response['token']);
+            localStorage.setItem('username', response['username']);
+            alert('로그인 완료!');
+            window.location.href = '/home.html';
         }
     })
 }
@@ -81,11 +80,12 @@ function sign_up() {
         contentType: "application/json",
         data: JSON.stringify(info),
         success: function (response) {
-            if (response) {
+            response = JSON.parse(response);
+            if (response["exists"] === true) {
+                alert("이미 존재하는 아이디입니다.");
+            } else {
                 alert('회원가입이 완료되었습니다.');
                 window.location.href = '/';
-            } else {
-                alert('error');
             }
         }
     })
@@ -126,33 +126,34 @@ function check_dup() {
         alert("영문과 숫자 조합의 8-20자의 비밀번호를 설정해주세요. 특수문자(!@#$%^&*)도 사용 가능합니다.")
         return
     }
-    if(user_pw===user_check_pw){
+    if (user_pw === user_check_pw) {
         sign_up()
-    }else{
+    } else {
         alert("비밀번호를 확인해주세요.")
     }
 }
 
 Kakao.init('0b012b5872605ba270c2c0573b61eb78');
+
 function kakao_login() {
     Kakao.Auth.login({
 
-        success: function(authObj) {
-            let access_token=authObj['access_token'];
+        success: function (authObj) {
+            let access_token = authObj['access_token'];
             $.ajax({
                 type: 'POST',
                 url: `${domainURL}/login/kakao`,
                 contentType: "application/json",
-                data: JSON.stringify({'token':access_token}),
+                data: JSON.stringify({'token': access_token}),
                 success: function (response) {
-                    localStorage.setItem("access_token",access_token);
+                    localStorage.setItem("access_token", access_token);
                     localStorage.setItem("token", response['token']);
                     localStorage.setItem("username", response['username']);
                     location.href = '/';
                 }
             })
         },
-        fail: function(err) {
+        fail: function (err) {
             alert(JSON.stringify(err))
         },
     })
