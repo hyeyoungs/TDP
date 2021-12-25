@@ -1,27 +1,53 @@
 #login-kakao-btn {
     border-width: 0;
-    margin: 50px 210px 40px;
-    width: 230px;
+    margin: 40px 10px;
+    width: 180px;
     height: 62px;
-    flex-grow: 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    /*margin: 0 0 8px;*/
     padding: 18px 12px;
     border-radius: 5px;
     background-color: #ffd43b;
 
     font-family: SpoqaHanSansNeo;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
     color: #414141;
 }
 
+#login-naver-btn {
+    border-width: 0;
+    margin: 40px 10px;
+    width: 180px;
+    height: 62px;
+    padding: 18px 12px;
+    border-radius: 5px;
+    background-color: #66bb6a;
+
+    font-family: SpoqaHanSansNeo;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    color: #414141;
+}
+
+#login-google-btn {
+    border-width: 0;
+    margin: 40px 10px;
+    width: 180px;
+    height: 62px;
+    padding: 18px 12px;
+    border-radius: 5px;
+    background-color: #e57373;
+
+    font-family: SpoqaHanSansNeo;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    color: #414141;
+}
 
 /* ------------------------------------ Click on login and Sign Up to  changue and view the effect --------------------------------------- */
 
