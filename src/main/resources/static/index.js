@@ -81,7 +81,7 @@ function sign_up() {
         data: JSON.stringify(info),
         success: function (response) {
             response = JSON.parse(response);
-            if (response["exists"] === true) {
+            if (response["IdExists"] === true) {
                 alert("이미 존재하는 아이디입니다.");
             } else {
                 alert('회원가입이 완료되었습니다.');
@@ -129,7 +129,7 @@ function check_dup() {
     if (user_pw === user_check_pw) {
         sign_up()
     } else {
-        alert("비밀번호를 확인해주세요.")
+        alert("비밀번호와 확인 비밀번호가 일치하지 않습니다.")
     }
 }
 
