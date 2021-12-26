@@ -61,10 +61,10 @@ public class UserController {
         try {
             userService.registerUser(userDto);
         } catch (IllegalArgumentException e) {
-            response.put("exists", Boolean.TRUE);
+            response.put("IdExists", Boolean.TRUE);
             return response.toString();
         }
-        response.put("exists", Boolean.FALSE);
+        response.put("IdExists", Boolean.FALSE);
         return response.toString();
     }
 
