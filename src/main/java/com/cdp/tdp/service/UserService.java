@@ -85,7 +85,7 @@ public class UserService {
         Long kakaoId = userInfo.getId();
         String nickname = userInfo.getNickname();
         // 우리 DB 에서 회원 Id 와 패스워드
-        // 회원 Id = 카카오 nickname
+        // 회원 Id = 카카오 email
         String username = userInfo.getEmail();
         // 패스워드 = 카카오 Id + ADMIN TOKEN
         String password = kakaoId + ADMIN_TOKEN;
