@@ -1,6 +1,7 @@
 # 📝 TDP-Spring
 ## TDP란?
 
+
 - "Today I Learned Deserter Pursuit"의 약자로서, TIL(Today I Learned) 관리 시스템입니다.
 
 - TIL은 개발자의 성장에 있어 중요한 요소로 언급되고 있으며, <br>
@@ -49,11 +50,12 @@
 |junit|테스트 프레임워크|
 |lombok|코드 작성 자동화|
 |h2|임시로 사용되는 db|
-|springboot-security|Auth|
-|Jwt|Authentication|
-|spring-boot-starter-websocket|Notification|
+|springboot-security|Authorization and Authentication|
+|jwt|Jwt Token Authentication|
+|spring-boot-starter-websocket|Chatting|
 |spring-boot-starter-actuator|AWS S3로 이미지 업로드|
-|spring-restdocs|API 문서 자동 생성 및 테스트 코드 작성|
+|spring-restdocs-mockmvc|API 문서 자동 생성 및 테스트 코드 작성|
+|logback-slack-appender|상태관리 시스템|
 
 
 ## Team Member

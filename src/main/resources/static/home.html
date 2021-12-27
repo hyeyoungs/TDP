@@ -19,6 +19,14 @@
 
     <!-- Toast Bulma -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.8.6/showdown.min.js"></script>
+    <script src="https://unpkg.com/bulma-toast"></script>
+
+    <!-- total js -->
+    <script src="back.js" rel="script"></script>
+
+    <!-- total css -->
     <link rel="stylesheet" href="./back.css">
 
     <!--Google Font link-->
@@ -61,11 +69,6 @@
     <!-- paradise slider js -->
     <script src="assets/js/plugins.js"></script>
     <script src="assets/js/main.js"></script>
-
-    <!-- total js -->
-    <script src="back.js" rel="script"></script>
-
-
 
     <!-- Icon -->
     <link rel="shortcut icon" href="#">
@@ -274,6 +277,10 @@
             color: #797979;
             text-decoration : none;
         }
+
+        .main_footer{
+            margin: auto;
+        }
     </style>
 </head>
 <body data-spy="scroll" data-target=".navbar-collapse">
@@ -329,7 +336,7 @@
                     <span></span>
                 </button>
 
-                <a class="navbar-brand" style="color: whitesmoke;font-size: x-large;"
+                <a class="navbar-brand" style="color: #E9DFC8; font-size: x-large;"
                    href="./home.html"><strong>TDP</strong></a>
             </div>
             <!-- End Header Navigation -->
@@ -415,14 +422,14 @@
                 </button>
             </div>
             <div class="modal-body">
-                <img src="./assets/tutorial/t1.png" class="img-fluid rounded">
-                <img src="./assets/tutorial/t2.png" class="img-fluid rounded">
-                <img src="./assets/tutorial/t3.png" class="img-fluid rounded">
-                <img src="./assets/tutorial/t4.png" class="img-fluid rounded">
-                <img src="./assets/tutorial/t5.png" class="img-fluid rounded">
-                <img src="./assets/tutorial/t6.png" class="img-fluid rounded">
-                <img src="./assets/tutorial/t7.png" class="img-fluid rounded">
-                <img src="./assets/tutorial/t8.png" class="img-fluid rounded">
+                <img src="./assets/tutorial/001.png" class="img-fluid rounded">
+                <img src="./assets/tutorial/002.png" class="img-fluid rounded">
+                <img src="./assets/tutorial/003.png" class="img-fluid rounded">
+                <img src="./assets/tutorial/004.png" class="img-fluid rounded">
+                <img src="./assets/tutorial/005.png" class="img-fluid rounded">
+                <img src="./assets/tutorial/006.png" class="img-fluid rounded">
+                <img src="./assets/tutorial/007.png" class="img-fluid rounded">
+                <img src="./assets/tutorial/008.png" class="img-fluid rounded">
             </div>
         </div>
     </div>
@@ -488,17 +495,6 @@
     <!--End off container -->
 </section>
 <!--End off Pricing section -->
-
-<!-- toast -->
-<article class="message is-danger" id="toast">
-    <div class="message-header">
-        <strong class="me-auto" id="til_title"></strong>
-        <button class="delete" aria-label="delete" onclick="toast_close()"></button>
-    </div>
-    <div class="message-body" id="til_content">
-    </div>
-</article>
-<!-- toast end -->
 
 <!-- scroll up-->
 <div class="scrollup">

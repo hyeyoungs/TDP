@@ -6,12 +6,17 @@ import com.cdp.tdp.domain.Trans;
 import com.cdp.tdp.domain.User;
 import com.cdp.tdp.dto.*;
 import com.cdp.tdp.repository.UserRepository;
+import com.cdp.tdp.security.UserDetailsImpl;
+import com.cdp.tdp.security.UserDetailsServiceImpl;
 import com.cdp.tdp.security.kakao.KakaoOAuth2;
 import com.cdp.tdp.security.kakao.KakaoUserInfo;
+import com.cdp.tdp.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +25,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
 
@@ -29,11 +33,13 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+    private final JwtTokenUtil jwtTokenUtil;
+    private final AuthenticationManager authenticationManager;
+    private final UserDetailsServiceImpl userDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final FileService fileService;
     private final KakaoOAuth2 kakaoOAuth2;
-    private final AuthenticationManager authenticationManager;
     private static final String ADMIN_TOKEN = "AAABnv/xRVklrnYxKZ0aHgTBcXukeZygoC";
 
 
@@ -58,13 +64,28 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public ResponseEntity<?> login(UserDto userDto) {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword())
+            );
+        } catch (BadCredentialsException e) {
+            throw new BadCredentialsException("로그인 실패");
+        }
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(userDto.getUsername());
+        final String token = jwtTokenUtil.generateToken(userDetails);
+
+        return ResponseEntity.ok(new JwtResponse(token, userDetails.getUsername()));
+    }
+
     public String kakaoLogin(String token) {
         // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
         KakaoUserInfo userInfo = kakaoOAuth2.getUserInfo(token);
         Long kakaoId = userInfo.getId();
         String nickname = userInfo.getNickname();
         // 우리 DB 에서 회원 Id 와 패스워드
-        // 회원 Id = 카카오 nickname
+        // 회원 Id = 카카오 email
         String username = userInfo.getEmail();
         // 패스워드 = 카카오 Id + ADMIN TOKEN
         String password = kakaoId + ADMIN_TOKEN;
@@ -86,8 +107,6 @@ public class UserService {
 
         return username;
     }
-
-    private final HttpSession httpSession;
 
     @Autowired
     public HttpCallService httpCallService;

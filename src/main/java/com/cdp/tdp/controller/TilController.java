@@ -82,7 +82,7 @@ public class TilController {
         Til til = tilService.createTil(tilRequestDto, userDetails.getUser().getId());
         for (SseEmitter emitter : emitters) {
             try {
-                emitter.send(SseEmitter.event().name("latestNews").data(til));
+                emitter.send(SseEmitter.event().name("latestPosts").data(til));
             } catch (IOException e) {
                 emitters.remove(emitter);
             }
