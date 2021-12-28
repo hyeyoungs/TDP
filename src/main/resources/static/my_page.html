@@ -91,12 +91,12 @@
             contentType: false,
             processData: false,
             data: info,
-            success: function (response) {
+            success: function () {
                 alert('업데이트 되었습니다!')
                 window.location.reload();
             },
-            fail: function (err) {
-                alert("fail");
+            fail: function () {
+                alert("프로필 수정 fail");
             }
         });
     }
