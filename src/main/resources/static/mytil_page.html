@@ -124,6 +124,8 @@
             let date = total_date[0].split('-');
             let month = month_arr[parseInt(date[1])-1];
             let detail_url = `/detail.html?idx=` + til['id'];
+            if(til['tilContent'].length > 250){   til['tilContent'] = til['tilContent'].substring(0, 250) + '...';    }
+
             let temp_html = `
                             <!-- Post -->
                             <li>
@@ -137,7 +139,7 @@
 
                                 </p>
                                 <h3>${til['tilTitle']}</h3>
-                                <p id="now-content" class="text"><a href=${detail_url}>${ til['tilContent']}</a></p>
+                                <p class="text"><a href=${detail_url}>${til['tilContent']}</a></p>
 
                             </li>
                             <!-- Post END -->
