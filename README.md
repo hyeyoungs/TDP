@@ -22,7 +22,7 @@
 
 ## How To Use
 <img width="700" src="https://user-images.githubusercontent.com/29566893/146645122-c2fa30d7-1ef6-40c5-8783-08ab2b8d0a34.png">
-<img width="700" src="https://user-images.githubusercontent.com/29566893/147592048-e9a7d8c1-e8a9-403d-841f-c53be96e2f27.png">
+<img width="700" src="https://user-images.githubusercontent.com/29566893/147628665-63b242d7-15fa-4074-b486-e62ff9af0915.png">
 <img width="700" src="https://user-images.githubusercontent.com/29566893/146645166-bacdf406-9ed0-424a-8d96-028ecbc8d7e0.png">
 <img width="700" src="https://user-images.githubusercontent.com/29566893/145582138-0fe2faf4-ea75-413a-aac9-79041a5a03e2.png">
 
@@ -32,7 +32,7 @@
 ## 아키텍처 및 기술 소개
 
 ### Architecture
-<img width="700" src="https://user-images.githubusercontent.com/29566893/145542395-c94baa9a-e730-42a3-ae6e-1fca70cd044e.png">
+<img width="700" src="https://user-images.githubusercontent.com/29566893/147628844-ab79d433-7283-4025-8743-0ad4ac488d06.png">
 
 ### 기술스택
 |종류|이름|
