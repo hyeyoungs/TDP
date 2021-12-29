@@ -42,7 +42,6 @@ public class TilController {
     }
 
     private final TilService tilService;
-    private final UserService userService;
 
     @GetMapping("/tils")
     public List<Til> getAllTil(){
@@ -65,7 +64,6 @@ public class TilController {
 
     @GetMapping("/til_board/{id}")
     public Til getTil(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        String username = userDetails.getUsername();
         return tilService.getTil(id);
     }
 
@@ -80,9 +78,12 @@ public class TilController {
     @PostMapping("/til")
     public Til createTil(@RequestBody TilRequestDto tilRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws SQLException {
         Til til = tilService.createTil(tilRequestDto, userDetails.getUser().getId());
+        String eventName;
+        if(tilRequestDto.isTilView() == true) {  eventName = "newPublicPost";    }
+        else {  eventName = "newPrivatePost";   }
         for (SseEmitter emitter : emitters) {
             try {
-                emitter.send(SseEmitter.event().name("latestPosts").data(til));
+                emitter.send(SseEmitter.event().name(eventName).data(til));
             } catch (IOException e) {
                 emitters.remove(emitter);
             }
