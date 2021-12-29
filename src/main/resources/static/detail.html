@@ -233,6 +233,7 @@
 
         td{
             height: 30px;
+            margin: 30px 0;
         }
 
         .content-box{
@@ -391,10 +392,10 @@
                         let temp_html =
                             `<tr>
                                 <td>${nickname}</td>
-                                <td>${comment}</td>
+                                <td class="now-comments">${comment}</td>
                                 <td>${day}</td>
                                 <td>
-                                    <button type="button" onclick='delete_comment(${comment_idx})' class="btn btn-primary">삭제</button>
+                                    <button style="margin: 0 0 10px 0;" type="button" onclick='delete_comment(${comment_idx})' class="btn btn-primary">삭제</button>
                                 </td>
                                 </tr>`
 
