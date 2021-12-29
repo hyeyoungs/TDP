@@ -88,6 +88,10 @@ public class User extends Timestamped {
     @OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REMOVE})
     private List<ChatRoom> chatRooms;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<ChatRoom> chatUser;
+
     public void updateUser(UserUpdateDto userUpdateDto){
         this.nickname = userUpdateDto.getNickname();
         this.github_id = userUpdateDto.getGithub_id();
