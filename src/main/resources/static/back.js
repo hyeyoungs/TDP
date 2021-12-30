@@ -99,6 +99,7 @@ function read_flag() {
         data: {},
         success: function (response) {
             let all_til = response;
+            console.log(all_til);
             if (all_til.length === 0) {
                 $(".test").css("background-color", 'red');
             }
