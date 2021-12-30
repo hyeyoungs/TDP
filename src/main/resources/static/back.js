@@ -99,13 +99,14 @@ function read_flag() {
         data: {},
         success: function (response) {
             let all_til = response;
-            console.log(all_til);
             if (all_til.length === 0) {
                 $(".test").css("background-color", 'red');
             }
             for (let i = 0; i < all_til.length; i++) {
                 let day = all_til[i]['createdAt'];
                 result_date = new Date(day);
+                console.log(today.toDateString())
+                console.log(result_date.toDateString())
                 if (today.toDateString() === result_date.toDateString()) {
                     $(".test").css("background-color", 'blue');
                 } else {
