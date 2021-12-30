@@ -5,15 +5,21 @@ let eventSource = new EventSource(urlEndpoint);
 let domainURL= 'https://api.tildp.shop';
 // let domainURL= 'http://localhost:8080';
 
-eventSource.addEventListener("latestPosts", function (event) {
+eventSource.addEventListener("newPublicPost", function (event) {
     let articleData = JSON.parse(event.data);
     let title = articleData.tilTitle;
-    displayToast('Bottom Right', title)
+    let message = '⏰ [ New Post! ] →  📝  ' + title;
+    displayToast('Bottom Right', message)
 });
 
-function displayToast(position, title) {
+eventSource.addEventListener("newPrivatePost", function (event) {
+    let message = '⏰ [ New Post! ] →  🔐  private TIL';
+    displayToast('Bottom Right', message)
+});
+
+function displayToast(position, message) {
     bulmaToast.toast({
-        message: '⏰ [ New Post! ] →  📝  ' + title ,
+        message: message,
         type: 'is-danger is-light',
         position: position.toLowerCase().replace(' ', '-'),
         dismissible: true,

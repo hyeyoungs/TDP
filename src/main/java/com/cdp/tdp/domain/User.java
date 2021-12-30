@@ -1,6 +1,7 @@
 package com.cdp.tdp.domain;
 
 import com.cdp.tdp.chat.domain.ChatRoom;
+import com.cdp.tdp.chat.domain.ChatUser;
 import com.cdp.tdp.dto.UserUpdateDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
@@ -87,6 +88,10 @@ public class User extends Timestamped {
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REMOVE})
     private List<ChatRoom> chatRooms;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REMOVE})
+    private ChatUser chatUser;
 
     public void updateUser(UserUpdateDto userUpdateDto){
         this.nickname = userUpdateDto.getNickname();

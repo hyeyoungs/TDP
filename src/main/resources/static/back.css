@@ -5,3 +5,7 @@
     padding: 0;
     text-align: center;
 }
+
+#now-content, .now-comments, .writer_profile_info_append, .user_profile_info_append{
+    white-space: pre;
+}

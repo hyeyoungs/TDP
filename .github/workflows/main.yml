@@ -63,14 +63,14 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-          
+        
       - name: Get current time
         uses: 1466587594/get-current-time@v2
         id: current-time
         with:
-          format: YYYY-MM-DDTHH-mm-ss
+          format: YYYYMMDD_HH-mm-ss
           utcOffset: "+09:00"
-
+    
       - name: Generate deployment package
         run: |
           mkdir -p deploy
