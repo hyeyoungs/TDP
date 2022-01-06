@@ -40,6 +40,7 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
+    // junit 을 이용한 단위테스트
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     // spring security
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -62,7 +63,9 @@ dependencies {
     implementation 'org.webjars:jquery:3.1.1-1'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation group: 'org.webjars', name: 'stomp-websocket', version: '2.3.3-1'
-}
+    //slack
+    implementation 'com.github.maricn:logback-slack-appender:1.4.0'
+    }
 
 jar {
     enabled = false
