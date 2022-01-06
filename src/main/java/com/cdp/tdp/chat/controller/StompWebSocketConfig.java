@@ -17,7 +17,7 @@ public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/stomp/chat")
-                .setAllowedOrigins("http://api.tildp.shop","http://www.tildp.shop","http://localhost:8080")
+                .setAllowedOrigins("https://api.tildp.shop","https://www.tildp.shop","http://localhost:8080", "http://api.tildp.shop", "http://www.tildp.shop")
                 .withSockJS();
     }
 

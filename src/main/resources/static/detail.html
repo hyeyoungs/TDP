@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Title | TIL.D.P</title>
+    <title>TIL Management Service</title>
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -244,6 +244,10 @@
             background-color: #ba3925;
             border-color: #ba3925;
             color: white;
+        }
+
+        #input-post{
+            margin-top: 50px;
         }
     </style>
 </head>
@@ -492,8 +496,10 @@
     function toggle_like(idx, type) {
 
         let a_like = $('#heart')
-        let $i_like = a_like.find("i")
-        if ($i_like.hasClass("fa-heart")) { //좋아요 된 상태
+
+        let svg_like = a_like.find("svg")
+        if (svg_like.hasClass("fa-heart")) { //좋아요 된 상태
+
             // 좋아요 취소
             $.ajax({
                 type: "DELETE",
@@ -512,7 +518,7 @@
                 contentType: "application/json",
                 data: JSON.stringify(info),
                 success: function (response) {
-                    $i_like.addClass("fa-heart").removeClass("fa-genderless")
+                    svg_like.addClass("fa-heart").removeClass("fa-genderless")
 
                 }
             })

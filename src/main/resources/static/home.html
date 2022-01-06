@@ -54,6 +54,9 @@
     <script src="assets/js/bootsnav.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="./jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="./bootstrapt/css/bootstrap.min.css" />
+    <script src="./bootstrapt/js/bootstrap.min.js"></script>
 
     <!-- paradise slider js -->
     <script src="assets/js/plugins.js"></script>
@@ -133,8 +136,9 @@
                     for (let i = 0; i < min; i++) {
                         let nickname = response[i]['nickname'];
                         let til = response[i]['tilCount'];
+                        let username = response[i]['username']
                         if (til !== 0) {
-                            let temp_html = `<div class="col-md-4 col-sm-12">
+                            let temp_html = `<div class="col-md-4 col-sm-12" onclick= "get_modal('${username}')" style="cursor: pointer">
                                                     <div class="pricing_item">
                                                         <div class="pricing_head p-top-30 p-bottom-100 text-center">
                                                             <h3 class="text-uppercase" ><strong>${nickname}</strong></h3>
@@ -186,6 +190,41 @@
                 }
             })
         }
+        function get_modal(username) {
+            $.ajax({
+                type: "GET",
+                url: `${domainURL}/til/${username}`,
+                data: {},
+                success: function (response) {
+                    $('#til-box').empty();
+                    let til_list = response;
+                    for (let i = 0; i < til_list.length; i++) {
+                        let tags = '';
+                        let title = til_list[i]['tilTitle'];
+                        let day = til_list[i]['createdAt'];
+                        let til_tags = til_list[i]['tags'];
+                        let til_view = til_list[i]['tilView'];
+                        for (let j = 0; j < til_tags.length; j++) {
+                            tags += " #" + til_tags[j]['name'];
+                        }
+                        if (til_view === true) {
+                            let temp_html =
+                                `<tr>
+                                <td><a href="./detail.html?idx=${til_list[i]['id']}">${title}</a></td>
+                                <td>${day}</td>
+                                <td>${tags}</td>
+                                </tr>`
+                            $('#til-box').append(temp_html)
+                        }
+                    }
+                    $("#modal-post").addClass("is-active")
+                }
+        })
+        }
+        function close_modal(){
+            $("til-box").empty();
+            $("#modal-post").removeClass("is-active");
+        }
 
     </script>
     <style>
@@ -223,6 +262,15 @@
         }
 
         .m-top-30 a {
+            color: #797979;
+            text-decoration : none;
+        }
+
+        td a:hover {
+            text-decoration: underline;
+        }
+
+        td a {
             color: #797979;
             text-decoration : none;
         }
@@ -475,6 +523,45 @@
 </footer>
 
 </div>
+
+<div id="modal-post" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Public TILS</h5>
+                <button onclick="close_modal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body modal-dialog-scrollable">
+                <table class="til-table">
+                    <colgroup>
+                        <col style="width:200px;">
+                        <col style="width:300px;">
+                        <col style="width:600px;">
+                    </colgroup>
+                    <thead>
+                    <tr class="subheading">
+                        <th scope="col" class="subheading">title</th>
+                        <th scope="col" class="subheading">day</th>
+                        <th scope="col" class="subheading">tags</th>
+                    </tr>
+                    </thead>
+                    <tbody id="til-box">
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button onclick="close_modal()" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 </body>
 
 </html>
