@@ -45,7 +45,7 @@
 ### 라이브러리
 |라이브러리|Appliance|
 |:---|:---|
-|spring-boot-starter-date-jap|데이터베이스|
+|spring-boot-starter-date-jpa|데이터베이스|
 |json|데이터 통신|
 |jetbrains:annotations|주석 집합|
 |junit|테스트 프레임워크|
