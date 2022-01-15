@@ -21,7 +21,7 @@ public class ChatUser extends Timestamped {
     private Long id;
 
     @JoinColumn(name = "USER_ID", nullable = false)
-    @OneToOne
+    @ManyToOne
     private User user;
 
     @JoinColumn(name = "ROOM_ID", nullable = false )

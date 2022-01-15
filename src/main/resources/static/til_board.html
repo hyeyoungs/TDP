@@ -3,6 +3,19 @@
 <head>
     <meta charset="utf-8">
     <title>TIL Management Service</title>
+
+    <!-- Toast Bulma -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.8.6/showdown.min.js"></script>
+    <script src="https://unpkg.com/bulma-toast"></script>
+
+    <!-- total js -->
+    <script src="back.js" rel="script"></script>
+
+    <!-- total css -->
+    <link rel="stylesheet" href="./back.css">
+
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="favicon.ico">
@@ -42,13 +55,6 @@
     <!-- paradise slider js -->
     <script src="assets/js/plugins.js"></script>
     <script src="assets/js/main.js"></script>
-
-    <!-- total js -->
-    <script src="back.js" rel="script"></script>
-
-    <!-- Toast Bulma -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-    <link rel="stylesheet" href="./back.css">
 
     <!-- Icon -->
     <link rel="shortcut icon" href="#">
@@ -107,7 +113,6 @@
         $(document).ready(function () {
             read_til_list(1, isSearch);
         });
-
 
         $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
             login_check(options, originalOptions, jqXHR);
@@ -168,7 +173,7 @@
                             } else {
                                 if (til_view == false) {  // lock
                                     let temp_html = `<tr onClick="detail(${til_idx})" style="cursor:pointer;">
-                                                <th class="cell100 column2" scope="row">${title}<img src="new.png" height="25" width="25"></th>
+                                                <th class="cell100 column2" scope="row">${title}<img src="lock.png" height="25" width="25"></th>
                                                 <td class="cell100 column3">${user}</td>
                                                 <td class="cell100 column4">${day}</td>
                                                 <td class="cell100 column5">${tags}</td>
@@ -176,9 +181,9 @@
                                                 <td class="cell100 column7">${comments}</td>
                                             </tr>`;
                                     $('#til-box').append(temp_html);
-                                } else {
+                                } else {    // none
                                     let temp_html = `<tr onClick="detail(${til_idx})" style="cursor:pointer;">
-                                                <th class="cell100 column2" scope="row">${title}<img src="new.png" height="25" width="25"></th>
+                                                <th class="cell100 column2" scope="row">${title}</th>
                                                 <td class="cell100 column3">${user}</td>
                                                 <td class="cell100 column4">${day}</td>
                                                 <td class="cell100 column5">${tags}</td>
@@ -320,7 +325,7 @@
                     <span></span>
                 </button>
 
-                <a class="navbar-brand" style="color: whitesmoke;font-size: x-large;"
+                <a class="navbar-brand" style="color: #E9DFC8; font-size: x-large;"
                    href="./home.html"><strong>TDP</strong></a>
             </div>
             <!-- End Header Navigation -->
@@ -467,6 +472,7 @@
 </div>
 <div class="copyright">
     &copy; Made By : <a href="https://github.com/0sunzero0/TDP-Spring"> CDP </a>.
+    <br><br><br>
 </div>
 
 </body>

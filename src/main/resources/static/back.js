@@ -2,21 +2,31 @@ let urlEndpoint = 'https://api.tildp.shop/subscribe';
 // let urlEndpoint = 'http://localhost:8080/subscribe';
 let eventSource = new EventSource(urlEndpoint);
 
- let domainURL= 'https://api.tildp.shop';
+let domainURL= 'https://api.tildp.shop';
 // let domainURL= 'http://localhost:8080';
 
-eventSource.addEventListener("latestNews", function (event) {
+eventSource.addEventListener("newPublicPost", function (event) {
     let articleData = JSON.parse(event.data);
     let title = articleData.tilTitle;
-    let content = articleData.tilContent;
-    $('#til_title').text(title);
-    $('#til_content').text(content);
-    $('#toast').css("display", "block");
+    let message = '⏰ [ New Post! ] →  📝  ' + title;
+    displayToast('Bottom Right', message)
 });
 
+eventSource.addEventListener("newPrivatePost", function (event) {
+    let message = '⏰ [ New Post! ] →  🔐  private TIL';
+    displayToast('Bottom Right', message)
+});
 
-function toast_close(){
-    $('#toast').css("display", "none");
+function displayToast(position, message) {
+    bulmaToast.toast({
+        message: message,
+        type: 'is-danger is-light',
+        position: position.toLowerCase().replace(' ', '-'),
+        dismissible: true,
+        duration: 4000,
+        pauseOnHover: true,
+        animate: { in: 'fadeIn', out: 'fadeOut' },
+    })
 }
 
 function login_check(options, originalOptions, jqXHR){
@@ -91,16 +101,11 @@ function read_flag() {
             let all_til = response;
             if (all_til.length === 0) {
                 $(".test").css("background-color", 'red');
+                return
             }
-            for (let i = 0; i < all_til.length; i++) {
-                let day = all_til[i]['createdAt'];
-                result_date = new Date(day);
-                if (today.toDateString() === result_date.toDateString()) {
-                    $(".test").css("background-color", 'blue');
-                } else {
-                    $(".test").css("background-color", 'red');// display 속성을 block 으로 바꾼다.
-                }
-            }
+            result_date = new Date(all_til[0]['createdAt']);
+            if (today.toDateString() === result_date.toDateString()) {$(".test").css("background-color", 'blue'); }
+            else{   $(".test").css("background-color", 'red')  }
         }
     });
 }

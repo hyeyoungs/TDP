@@ -18,6 +18,14 @@
 
     <!-- Toast Bulma -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.8.6/showdown.min.js"></script>
+    <script src="https://unpkg.com/bulma-toast"></script>
+
+    <!-- total js -->
+    <script src="back.js" rel="script"></script>
+
+    <!-- total css -->
     <link rel="stylesheet" href="./back.css">
 
     <link rel="icon" type="image/png" href="favicon.ico">
@@ -58,9 +66,6 @@
     <script src="assets/js/plugins.js"></script>
     <script src="assets/js/main.js"></script>
 
-    <!-- total js -->
-    <script src="back.js" rel="script"></script>
-
     <!-- Icon -->
     <link rel="shortcut icon" href="#">
 
@@ -70,7 +75,11 @@
     <!-- tag -->
     <link rel="stylesheet" href="bootstrap-tagsinput.css">
     <script src="bootstrap-tagsinput.js"></script>
-
+    <style>
+        .navbar-brand strong{
+            font-weight: bold;
+        }
+    </style>
     <script>
         $(document).ready(function () {
             read_flag();
@@ -115,6 +124,8 @@
             let date = total_date[0].split('-');
             let month = month_arr[parseInt(date[1])-1];
             let detail_url = `/detail.html?idx=` + til['id'];
+            if(til['tilContent'].length > 250){   til['tilContent'] = til['tilContent'].substring(0, 250) + '...';    }
+
             let temp_html = `
                             <!-- Post -->
                             <li>
@@ -128,7 +139,7 @@
 
                                 </p>
                                 <h3>${til['tilTitle']}</h3>
-                                <p class="text"><a href=${detail_url}>${ til['tilContent']}</a></p>
+                                <p class="text"><a href=${detail_url}>${til['tilContent']}</a></p>
 
                             </li>
                             <!-- Post END -->
@@ -262,8 +273,8 @@
                     <span></span>
                 </button>
 
-                <a class="navbar-brand" style="color: whitesmoke;font-size: x-large;"
-                   href="./home.html"><strong>TDP</strong></a>
+                <a class="navbar-brand" style="color: #E9DFC8; font-size: x-large;"
+                   href="./home.html"><strong style="font-weight: bold">TDP</strong></a>
             </div>
             <!-- End Header Navigation -->
 
