@@ -158,7 +158,7 @@
                             for (let j = 0; j < til_tags.length; j++) {
                                 tags += " #" + til_tags[j]['name'];
                             }
-                            if (count < 4 && til_view === true) { // new
+                            if (count < 4 && til_view === true && page == 1) { // new
                                 let temp_html = `<tr onClick="detail(${til_idx})" style="cursor:pointer;">
                                                 <th class="cell100 column2" scope="row">${title}<img src="new.png" height="25" width="25"></th>
                                                 <td class="cell100 column3">${user}</td>

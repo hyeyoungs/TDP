@@ -1,7 +1,7 @@
 #login-kakao-btn {
     border-width: 0;
-    margin: 100px 10px;
-    width: 180px;
+    margin: 50px 10px;
+    width: 190px;
     height: 62px;
     padding: 18px 12px;
     border-radius: 5px;
@@ -17,8 +17,8 @@
 
 #login-naver-btn {
     border-width: 0;
-    margin: 100px 10px;
-    width: 180px;
+    margin: 10px 10px;
+    width: 190px;
     height: 62px;
     padding: 18px 12px;
     border-radius: 5px;
@@ -34,8 +34,8 @@
 
 #login-google-btn {
     border-width: 0;
-    margin: 100px 10px;
-    width: 180px;
+    margin: 50px 10px;
+    width: 190px;
     height: 62px;
     padding: 18px 12px;
     border-radius: 5px;
