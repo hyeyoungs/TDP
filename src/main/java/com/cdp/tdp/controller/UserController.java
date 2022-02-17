@@ -5,7 +5,7 @@ import com.cdp.tdp.dto.*;
 import com.cdp.tdp.security.UserDetailsImpl;
 import com.cdp.tdp.security.UserDetailsServiceImpl;
 import com.cdp.tdp.service.UserService;
-import com.cdp.tdp.util.JwtTokenUtil;
+import com.cdp.tdp.security.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;

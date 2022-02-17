@@ -1,6 +1,5 @@
-package com.cdp.tdp.controller;
+package com.cdp.tdp.security;
 
-import com.cdp.tdp.util.JwtTokenUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import lombok.RequiredArgsConstructor;
