@@ -15,9 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RestController // JSON으로 데이터를 주고받음을 선언합니다.
+@RestController
 public class CommentController {
-    // 멤버 변수 선언
     private final CommentService commentService;
     private final UserService userService;
 
@@ -30,7 +29,6 @@ public class CommentController {
         list.add(user);
         list.addAll(comments);
 
-        // 응답 보내기
         return list;
     }
 
