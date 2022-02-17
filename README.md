@@ -22,7 +22,7 @@
 - 프라이빗한 TIL을 작성해요 🔐
 <br><br>
 
-## How To Use - [Wiki](https://github.com/0sunzero0/TDP-Spring/wiki/4.-TDP-%EC%82%AC%EC%9A%A9-%EB%B0%A9%EB%B2%95)
+## How To Use - [Wiki](https://github.com/0sunzero0/TDP-Spring/wiki/4.-TDP-%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%82%AC%EC%9A%A9-%EB%B0%A9%EB%B2%95)
 <img width="600" src="https://user-images.githubusercontent.com/29566893/146645122-c2fa30d7-1ef6-40c5-8783-08ab2b8d0a34.png">
 <img width="600" src="https://user-images.githubusercontent.com/29566893/147628665-63b242d7-15fa-4074-b486-e62ff9af0915.png">
 <img width="300" src="https://user-images.githubusercontent.com/29566893/145582138-0fe2faf4-ea75-413a-aac9-79041a5a03e2.png">
@@ -33,10 +33,10 @@
 ## 아키텍처 및 기술 소개 - [Wiki](https://github.com/0sunzero0/TDP-Spring/wiki/2.-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98-%EB%B0%8F-%EA%B8%B0%EC%88%A0-%EC%86%8C%EA%B0%9C)
 
 <img width="700" src="https://user-images.githubusercontent.com/29566893/150922081-12ee1304-2562-4db7-80c1-a96e120c3661.jpg">
-<br><br>
+<br>
 
 ## Team Member
-[김혜영](https://github.com/0sunzero0)
-[이호상](https://github.com/dpdtydz)
-[이수영](https://github.com/imdduoming)
+[김혜영](https://github.com/0sunzero0),
+[이호상](https://github.com/dpdtydz),
+[이수영](https://github.com/imdduoming),
 [이진권](https://github.com/dlwlsrnjs)
