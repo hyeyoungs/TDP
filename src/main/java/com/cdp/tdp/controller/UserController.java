@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -37,7 +38,6 @@ public class UserController {
 
     @RequestMapping(value = "/login/kakao")
     public ResponseEntity<?> createAuthenticationTokenByKakao(@RequestBody SocialLoginDto socialLoginDto) throws Exception {
-        //api 인증을 통해 얻어온 code값 받아오기
 
         String username = userService.kakaoLogin(socialLoginDto.getToken());
         final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -45,10 +45,9 @@ public class UserController {
         return ResponseEntity.ok(new JwtResponse(token, userDetails.getUsername()));
     }
 
-//    @Scheduled(fixedRate = 10000) // cron에 따라 실행 매월 매요일 13시 마다 실행
+    @Scheduled(fixedRate = 10000)
     @PostMapping("/message")
     public void message(@RequestBody SocialLoginDto socialLoginDto) {
-    //access 토큰을 발급받아야함
 
         String token = socialLoginDto.getToken();
         String message= userService.sendmessage(token);

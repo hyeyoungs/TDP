@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Getter
-@MappedSuperclass // Entity가 자동으로 컬럼으로 인식한다.
-@EntityListeners(AuditingEntityListener.class) // 생성/변경 시간을 자동으로 업데이트한다.
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
 public class Timestamped {
 
     @CreatedDate
