@@ -37,9 +37,6 @@ out/
 ### VS Code ###
 .vscode/
 
-
-### AWS ###
-
 ### macOS ###
 # General
 .DS_Store

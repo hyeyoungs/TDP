@@ -3,7 +3,7 @@ name: TDP Build and Push Docker Image (main)
 on:
   push:
     branches:
-      - main
+#      - main
 jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
