@@ -85,7 +85,7 @@ public class TilService {
             String[] tagArray = tilRequestDto.getTags().split("\\s*,\\s*");
             List<Tag> tagList = new ArrayList<>();
             for (String s : tagArray) {
-                if(tagRepository.findByNameAndTil(s,til).size()==0d) {
+                if(tagRepository.findByNameAndTil(s,til).size()==0) {
                     Tag tag = new Tag(s, til);
                     tagList.add(tag);
                 }

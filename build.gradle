@@ -31,7 +31,6 @@ repositories {
 }
 
 dependencies {
-
     //slack
     implementation 'com.github.maricn:logback-slack-appender:1.4.0'
 
@@ -44,8 +43,6 @@ dependencies {
 
     // aws s3
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.1.RELEASE'
-
-
 
     // spring security
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -74,10 +71,6 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-
-
-
 }
 
 

@@ -10,8 +10,8 @@ import java.util.List;
 
 @Setter
 @Getter
-@NoArgsConstructor // 기본 생성자 만든다.
-@Entity // DB 테이블 역할
+@NoArgsConstructor
+@Entity
 public class User extends Timestamped {
 
     public User(String signId, String signPassword, String nickname, String githubId, String introduce,String picture,String picture_real) {
