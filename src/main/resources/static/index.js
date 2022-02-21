@@ -56,7 +56,7 @@ function login() {
         contentType: "application/json",
         data: JSON.stringify(info),
         statusCode: {
-            403: () => alert('아이디/비밀번호를 확인해주세요.')
+            401: () => alert('아이디/비밀번호를 확인해주세요.')
         },
         success: function (response) {
             localStorage.setItem('token', response['token']);
