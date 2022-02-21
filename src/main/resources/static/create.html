@@ -84,7 +84,8 @@
 
     <script>
       $(document).ready(function () {
-        read_user();
+          tokenCheckRequest();
+          read_user();
       });
 
       $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
