@@ -109,3 +109,16 @@ function read_flag() {
         }
     });
 }
+
+function tokenCheckRequest() {
+    $.ajax({
+        type: "GET",
+        url: "${domainURL}/user",
+        error: function (response) {
+            alert(response.responseJSON.message);
+            localStorage.removeItem('token');
+            localStorage.removeItem('username');
+            location.href =  `/index.html`
+        }
+    })
+}
