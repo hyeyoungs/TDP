@@ -1,6 +1,8 @@
-package com.cdp.tdp.security;
+package com.cdp.tdp.filter;
 
+import com.cdp.tdp.security.JwtTokenUtil;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.SignatureException;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -41,10 +43,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 username = jwtTokenUtil.getUsernameFromToken(authToken);
             } catch (IllegalArgumentException e) {
                 logger.error("an error occured during getting username from token", e);
+                throw new JwtException("유효하지 않은 토큰");
             } catch (ExpiredJwtException e) {
                 logger.warn("the token is expired and not valid anymore", e);
+                throw new JwtException("만료된 토큰");
             } catch(SignatureException e){
                 logger.error("Authentication Failed. Username or Password not valid.");
+                throw new JwtException("유효하지 않은 토큰");
             }
         } else {
             logger.warn("couldn't find bearer string, will ignore the header");
