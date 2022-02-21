@@ -1,6 +1,5 @@
 package com.cdp.tdp.security;
 
-import com.cdp.tdp.controller.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @RequiredArgsConstructor
 @Configuration
-@EnableWebSecurity // 스프링 Security 지원을 가능하게 함
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtAuthenticationFilter jwtRequestFilter;
@@ -25,10 +24,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.headers().frameOptions().disable();
         http.authorizeRequests().antMatchers("/actuator/**").permitAll().anyRequest().permitAll();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 인증을 session으로 관리 안함. jwt token으로 인증
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
-    // 비밀번호 암호화
+
     @Bean
     public BCryptPasswordEncoder encodePassword() {
         return new BCryptPasswordEncoder();

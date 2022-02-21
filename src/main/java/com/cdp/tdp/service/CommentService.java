@@ -14,14 +14,12 @@ import java.util.List;
 
 @Service
 public class CommentService {
-    // 멤버 변수 선언
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
     private final TilRepository tilRepository;
-    // 생성자: ProductService() 가 생성될 때 호출됨
+
     @Autowired
     public CommentService(CommentRepository commentRepository, UserRepository userRepository, TilRepository tilRepository) {
-        // 멤버 변수 생성
         this.commentRepository = commentRepository;
         this.userRepository = userRepository;
         this.tilRepository = tilRepository;
@@ -34,7 +32,7 @@ public class CommentService {
     public Comment createComment(CommentRequestDto requestDto, Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("no such user"));
         Til til = tilRepository.findById(requestDto.getIdx()).orElseThrow(() -> new IllegalArgumentException("no such til"));
-        // 요청받은 DTO 로 DB에 저장할 객체 만들기
+
         Comment comment = new Comment(requestDto, user, til);
         commentRepository.save(comment);
         int comment_num=til.getNum_comment()+1;
