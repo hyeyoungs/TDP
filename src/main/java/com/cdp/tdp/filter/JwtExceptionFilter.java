@@ -1,5 +1,6 @@
 package com.cdp.tdp.filter;
 
+import com.cdp.tdp.dto.JwtExceptionResponse;
 import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
