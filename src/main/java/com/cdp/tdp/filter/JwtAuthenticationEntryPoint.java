@@ -1,4 +1,4 @@
-package com.cdp.tdp.controller;
+package com.cdp.tdp.filter;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

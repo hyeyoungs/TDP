@@ -20,7 +20,6 @@ public class S3Config {
     @Value("${cloud.aws.region.static}")
     private String region;
 
-    // config 값들을 읽어와 S3Client 객체를 만들어 Bean으로 주입
     @Bean
     public AmazonS3Client amazonS3Client() {
         BasicAWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);

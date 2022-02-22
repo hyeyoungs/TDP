@@ -1,4 +1,4 @@
-package com.cdp.tdp.util;
+package com.cdp.tdp.security;
 
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;

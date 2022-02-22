@@ -10,7 +10,7 @@ import com.cdp.tdp.security.UserDetailsImpl;
 import com.cdp.tdp.security.UserDetailsServiceImpl;
 import com.cdp.tdp.security.kakao.KakaoOAuth2;
 import com.cdp.tdp.security.kakao.KakaoUserInfo;
-import com.cdp.tdp.util.JwtTokenUtil;
+import com.cdp.tdp.security.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,6 @@ public class UserService {
     @Transactional
     public void registerUser(SignupRequestDto requestDto) {
         String signId = requestDto.getUsername();
-        // 회원 ID 중복 확인
         Optional<User> found = userRepository.findByUsername(signId);
         if (found.isPresent()) {
             throw new IllegalArgumentException("중복된 사용자 ID 가 존재합니다.");
@@ -80,27 +79,21 @@ public class UserService {
     }
 
     public String kakaoLogin(String token) {
-        // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
         KakaoUserInfo userInfo = kakaoOAuth2.getUserInfo(token);
         Long kakaoId = userInfo.getId();
         String nickname = userInfo.getNickname();
-        // 우리 DB 에서 회원 Id 와 패스워드
-        // 회원 Id = 카카오 email
         String username = userInfo.getEmail();
-        // 패스워드 = 카카오 Id + ADMIN TOKEN
         String password = kakaoId + ADMIN_TOKEN;
-        // DB 에 중복된 Kakao Id 가 있는지 확인
+
         User kakaoUser = userRepository.findByKakaoId(kakaoId)
                 .orElse(null);
-        // 카카오 정보로 회원가입
+
         if (kakaoUser == null) {
-            // 패스워드 인코딩
             String encodedPassword = passwordEncoder.encode(password);
-            // ROLE = 사용자
             kakaoUser = new User(username, encodedPassword, nickname, kakaoId);
             userRepository.save(kakaoUser);
         }
-        // 로그인 처리
+
         Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -118,12 +111,11 @@ public class UserService {
     }
 
     public List<UserTilCountDto> getAllUser() {
-        List<User> user_list = userRepository.findAll(); // 모든 user 를 리스트에 담음
+        List<User> user_list = userRepository.findAll();
         int tilCount;
         List<UserTilCountDto> CountTilList = new ArrayList<>();
 
-        for (User user : user_list) { //모든 user 조회
-            // user의 til갯수 가져오기
+        for (User user : user_list) {
             String nickname = user.getNickname();
             String username = user.getUsername();
             tilCount = TilCount(user);
@@ -150,7 +142,7 @@ public class UserService {
     }
 
     public int TilCount(User user) {
-        List<Til> user_tils = user.getTil_list();// 모든 user 를 리스트에 담음
+        List<Til> user_tils = user.getTil_list();
         return user_tils.size();
     }
 
