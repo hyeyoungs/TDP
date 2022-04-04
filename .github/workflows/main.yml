@@ -12,25 +12,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@main
 
-      - name: Deploy to S3
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: |
-          aws s3 cp  \
-            --recursive \
-            --region ap-northeast-2 \
-            src/main/resources/static s3://tdp-serverless
-
-      - name: invalidate
-        uses: chetan/invalidate-cloudfront-action@v2
-        env:
-          DISTRIBUTION: ${{ secrets.DISTRIBUTION }}
-          PATHS: '/*'
-          AWS_REGION: 'ap-northeast-2'
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
         with:
