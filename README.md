@@ -37,6 +37,6 @@
 
 ## Team Member
 [김혜영](https://github.com/hyeyoungs),
-[이호상](https://github.com/dpdtydz),
 [이수영](https://github.com/imdduoming),
-[이진권](https://github.com/dlwlsrnjs)
+[이진권](https://github.com/dlwlsrnjs),
+[이호상](https://github.com/dpdtydz)
